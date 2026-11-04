@@ -1,0 +1,10 @@
+.venv
+.cache
+.git
+.env
+__pycache__
+.pytest_cache
+runs
+baseline
+logs
+*.tmp.duckdb

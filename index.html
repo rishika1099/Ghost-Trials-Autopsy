@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost Trials Autopsy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f6f3ec; --card: #fffdf8; --ink: #1d1b18; --muted: #6b655b; --line: #ddd5c6;
+  --accent: #7a2e2e; --accent-soft: #f3e3df; --teal: #1f6f66; --teal-soft: #dcefeb;
+  --amber: #9a6a12; --amber-soft: #f6ead0; --blue: #2c4f7c; --blue-soft: #e1e9f4;
+  --violet: #5b3f86; --violet-soft: #ebe4f5; --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #151412; --card: #1d1b18; --ink: #ece7dd; --muted: #a39b8d; --line: #39352e;
+    --accent: #e38b7f; --accent-soft: #3a2421; --teal: #6cc4b6; --teal-soft: #1b322e;
+    --amber: #e0b562; --amber-soft: #352b17; --blue: #8fb1e0; --blue-soft: #1d2a3b;
+    --violet: #bba3e3; --violet-soft: #2a2336; --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #151412; --card: #1d1b18; --ink: #ece7dd; --muted: #a39b8d; --line: #39352e;
+  --accent: #e38b7f; --accent-soft: #3a2421; --teal: #6cc4b6; --teal-soft: #1b322e;
+  --amber: #e0b562; --amber-soft: #352b17; --blue: #8fb1e0; --blue-soft: #1d2a3b;
+  --violet: #bba3e3; --violet-soft: #2a2336; --shadow: none;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font: 15px/1.55 "IBM Plex Sans", system-ui, sans-serif; overflow-x: hidden; }
+a { color: var(--blue); }
+code, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .86em; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+
+header.top { border-bottom: 1px solid var(--line); padding: 28px 0 22px; }
+.brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.brand h1 { font: 700 34px/1.1 "Source Serif 4", Georgia, serif; margin: 0; letter-spacing: -.01em; }
+.tag { font: 500 11px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--accent);
+  border: 1px solid var(--accent); padding: 4px 7px; border-radius: 3px; }
+.lede { font: 400 19px/1.45 "Source Serif 4", Georgia, serif; max-width: 760px; margin: 12px 0 18px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.fact { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; box-shadow: var(--shadow); }
+.fact h3 { margin: 0 0 6px; font: 600 11px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.fact p, .fact ul { margin: 0; font-size: 14px; }
+.fact ul { padding-left: 18px; }
+.questions { counter-reset: q; list-style: none; padding: 0 !important; }
+.questions li { counter-increment: q; padding-left: 22px; position: relative; }
+.questions li::before { content: counter(q); position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent); font: 600 10px/16px "IBM Plex Mono", monospace; text-align: center; }
+
+.ask { margin: 22px 0 8px; }
+.askbox { display: flex; gap: 8px; background: var(--card); border: 1.5px solid var(--ink); border-radius: 10px; padding: 6px; }
+.askbox textarea { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); resize: none;
+  font: 16px/1.4 "IBM Plex Sans", sans-serif; padding: 8px; height: 46px; }
+.askbox button { border: 0; background: var(--ink); color: var(--paper); border-radius: 7px; padding: 0 18px;
+  font: 600 14px "IBM Plex Sans", sans-serif; cursor: pointer; }
+.askbox button:disabled { opacity: .45; cursor: wait; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+.chip { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 6px 12px;
+  font: 13px/1.3 "IBM Plex Sans", sans-serif; cursor: pointer; text-align: left; max-width: 100%; }
+.chip:hover { border-color: var(--ink); }
+.chip .k { font: 600 10px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 6px; }
+.chip.vague .k { color: var(--amber); }
+
+main.grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 22px; margin: 22px 0 60px; align-items: start; }
+@media (max-width: 960px) { main.grid { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); min-width: 0; }
+.panel > .hd { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); gap: 8px; }
+.panel > .hd h2 { margin: 0; font: 600 12px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; }
+.panel > .bd { padding: 16px; }
+.muted { color: var(--muted); }
+.empty { color: var(--muted); font-style: italic; padding: 30px 8px; text-align: center; }
+
+#report h3 { font: 600 20px/1.25 "Source Serif 4", Georgia, serif; margin: 22px 0 8px; }
+#report h3:first-child { margin-top: 0; }
+.answer { font: 400 18px/1.55 "Source Serif 4", Georgia, serif; }
+#report ul { padding-left: 20px; margin: 6px 0; }
+#report li { margin: 5px 0; }
+.cite { font: 600 11px/1 "IBM Plex Mono", monospace; color: var(--blue); background: var(--blue-soft); border: 0; border-radius: 3px;
+  padding: 2px 4px; margin: 0 1px; cursor: pointer; vertical-align: 2px; }
+.cite:hover { background: var(--blue); color: var(--card); }
+.differ { border-left: 3px solid var(--violet); background: var(--violet-soft); padding: 10px 14px; border-radius: 0 8px 8px 0; }
+.differ li { margin: 4px 0; }
+.canttell { border: 2px dashed var(--accent); background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; margin-top: 18px; }
+.canttell h3 { color: var(--accent); margin-top: 0 !important; display: flex; align-items: center; gap: 8px; }
+.canttell ul { margin: 0; }
+.sources ol { padding-left: 24px; margin: 6px 0; }
+.sources li { margin: 6px 0; padding: 4px 6px; border-radius: 6px; transition: background .3s; word-break: break-word; }
+.sources li.hit { background: var(--amber-soft); outline: 1.5px solid var(--amber); }
+.stype { font: 500 10px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.foot { margin-top: 14px; font-size: 12px; color: var(--muted); }
+.clarify { border: 1.5px solid var(--amber); background: var(--amber-soft); border-radius: 10px; padding: 14px 16px; }
+.clarify p { margin: 0 0 10px; font: 17px/1.5 "Source Serif 4", Georgia, serif; }
+.err { border: 1.5px solid var(--accent); background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; }
+
+/* timeline */
+.tl { margin: 10px 0 16px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px 4px; }
+.tl .meta { font-size: 13px; margin-bottom: 2px; }
+.tl .meta b { font-family: "IBM Plex Mono", monospace; font-weight: 500; }
+.tl .why { font-size: 12.5px; color: var(--muted); }
+.tl svg { width: 100%; height: auto; display: block; }
+.tl svg text { font: 10px "IBM Plex Mono", monospace; fill: var(--muted); }
+.tl svg .lbl { fill: var(--ink); font: 500 10.5px "IBM Plex Sans", sans-serif; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11.5px; color: var(--muted); margin: 4px 0 6px; }
+.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+
+/* trace */
+.agents { display: grid; gap: 6px; }
+.agent { display: grid; grid-template-columns: 14px 1fr auto; gap: 8px; align-items: center; font-size: 13.5px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.agent.run .dot { background: var(--amber); animation: pulse 1s infinite; }
+.agent.ok .dot { background: var(--teal); }
+@keyframes pulse { 50% { opacity: .3; } }
+.agent .t { font: 11px "IBM Plex Mono", monospace; color: var(--muted); }
+.gantt { margin-top: 14px; }
+.gantt h4, .calls h4 { font: 600 11px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 8px; }
+.bar-row { display: grid; grid-template-columns: 112px 1fr; gap: 8px; align-items: center; margin: 4px 0; font-size: 11.5px; }
+.bar-row .nm { font-family: "IBM Plex Mono", monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track { position: relative; height: 14px; background: var(--paper); border-radius: 3px; }
+.bar { position: absolute; top: 0; bottom: 0; border-radius: 3px; min-width: 3px; }
+.bar.trials { background: var(--teal); } .bar.disclosures { background: var(--amber); } .bar.publications { background: var(--blue); }
+.bar.live { opacity: .55; animation: pulse 1s infinite; }
+.calls { margin-top: 16px; }
+details.grp { border-top: 1px solid var(--line); padding: 6px 0; }
+details.grp summary { cursor: pointer; font: 500 13px "IBM Plex Mono", monospace; list-style: none; display: flex; justify-content: space-between; }
+details.grp summary::-webkit-details-marker { display: none; }
+.call { font-size: 12px; padding: 6px 0 6px 10px; border-left: 2px solid var(--line); margin: 6px 0 6px 4px; word-break: break-word; }
+.call .fn { font: 500 12px "IBM Plex Mono", monospace; }
+.call .args { color: var(--muted); font: 11px "IBM Plex Mono", monospace; max-height: 60px; overflow: hidden; }
+.call .res { margin-top: 2px; }
+.stat { display: inline-block; font: 500 11px "IBM Plex Mono", monospace; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 3px 6px; margin: 2px 4px 2px 0; }
+.stat.good { border-color: var(--teal); color: var(--teal); }
+footer { border-top: 1px solid var(--line); padding: 18px 0 30px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><h1>Ghost Trials Autopsy</h1><span class="tag">Deep research agent</span></div>
+    <p class="lede">When a drug company stops a clinical trial early, what did it tell the public registry, its investors, and the scientific record? This agent pulls all three and checks whether the stories match.</p>
+    <div class="facts">
+      <div class="fact"><h3>What it answers</h3>
+        <ul class="questions"><li>Why did the trial stop?</li><li>Were the results ever reported?</li><li>What did the sponsor tell investors?</li><li>Do those stories match?</li></ul></div>
+      <div class="fact"><h3>Who it's for</h3><p>Health reporters, patient advocates, and research-integrity people looking into a drug, a sponsor, a condition, or a trial ID (NCT number).</p></div>
+      <div class="fact"><h3>How to use it</h3><p>Name a sponsor, drug, condition or NCT ID and what you want to know. Vague questions get a follow-up question first. Click any <span class="cite">1</span> to see its source. A full answer takes 1 to 4 minutes.</p></div>
+      <div class="fact"><h3>Data</h3><p><span id="snap">Snapshot loading...</span><br>
+        <a href="https://clinicaltrials.gov/data-api/api" target="_blank" rel="noopener">ClinicalTrials.gov</a> ·
+        <a href="https://open.fda.gov/apis/drug/drugsfda/" target="_blank" rel="noopener">Drugs@FDA</a> ·
+        <a href="https://efts.sec.gov/LATEST/search-index" target="_blank" rel="noopener">SEC EDGAR</a> ·
+        <a href="https://www.ncbi.nlm.nih.gov/books/NBK25501/" target="_blank" rel="noopener">PubMed</a> ·
+        <a href="https://europepmc.org/RestfulWebService" target="_blank" rel="noopener">Europe PMC</a></p></div>
+    </div>
+    <div class="ask">
+      <form class="askbox" id="form">
+        <textarea id="q" placeholder="e.g. Did Acme Bio stop any phase 2 trials without posting results, and what did it tell investors?" aria-label="Your question"></textarea>
+        <button id="go" type="submit">Investigate</button>
+      </form>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<main class="grid">
+  <section class="panel">
+    <div class="hd"><h2>Report</h2><span class="muted mono" id="elapsed"></span></div>
+    <div class="bd" id="report"><div class="empty">Ask a question, or pick an example above.</div></div>
+  </section>
+  <aside class="panel">
+    <div class="hd"><h2>Agent trace</h2><span class="mono muted" id="round"></span></div>
+    <div class="bd">
+      <div class="agents" id="agents"></div>
+      <div class="gantt" id="gantt"></div>
+      <div id="checkstats"></div>
+      <div class="calls" id="calls"></div>
+    </div>
+  </aside>
+</main>
+</div>
+<footer><div class="wrap">Ghost Trials Autopsy reports only what sponsors registered, filed and published. A mismatch between sources is a discrepancy, not proof of intent, and a late or missing result is not proof of a legal violation. Not medical advice.</div></footer>
+
+<script>
+// The README's sample queries, plus one vague question that shows clarification.
+const EXAMPLES = [
+  {k: "discrepancy", q: "SAMPLE_1"},
+  {k: "never posted", q: "SAMPLE_2"},
+  {k: "sponsor", q: "SAMPLE_3"},
+  {k: "vague", q: "Why do Alzheimer's trials fail?", vague: true},
+];
+const LANES = ["trials", "disclosures", "publications"];
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+let sessionId = null, source = null, timer = null, started = 0;
+let state;
+
+function reset() {
+  state = {agents: {}, timings: {}, calls: [], now: 0};
+  $("agents").innerHTML = ""; $("gantt").innerHTML = ""; $("calls").innerHTML = ""; $("checkstats").innerHTML = ""; $("round").textContent = "";
+}
+
+fetch("/api/meta").then(r => r.json()).then(m => {
+  const trials = (m.tables || []).find(t => t.table_name === "trials");
+  $("snap").textContent = m.snapshot_date
+    ? `Snapshot ${m.snapshot_date}: ${trials ? trials.row_count.toLocaleString() : "?"} industry phase 2/3 trials, primary completion 2015 to 2023.`
+    : "Snapshot not built yet.";
+}).catch(() => { $("snap").textContent = "Snapshot date unavailable."; });
+
+$("chips").innerHTML = EXAMPLES.map((e, i) =>
+  `<button class="chip ${e.vague ? "vague" : ""}" data-i="${i}"><span class="k">${esc(e.k)}</span>${esc(e.q)}</button>`).join("");
+$("chips").addEventListener("click", (ev) => {
+  const b = ev.target.closest(".chip"); if (!b) return;
+  sessionId = null; $("q").value = EXAMPLES[b.dataset.i].q; ask();
+});
+$("form").addEventListener("submit", (ev) => { ev.preventDefault(); ask(); });
+$("q").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); ask(); } });
+
+function ask(text) {
+  const question = (text ?? $("q").value).trim();
+  if (!question) return;
+  if (source) source.close();
+  reset();
+  $("go").disabled = true;
+  $("report").innerHTML = `<div class="empty">The Lead is reading your question...</div>`;
+  started = performance.now();
+  clearInterval(timer);
+  timer = setInterval(() => { state.now = (performance.now() - started) / 1000; $("elapsed").textContent = state.now.toFixed(0) + " s"; drawGantt(); }, 500);
+  const params = new URLSearchParams({question}); if (sessionId) params.set("session_id", sessionId);
+  source = new EventSource("/run?" + params);
+  source.onmessage = (m) => handle(JSON.parse(m.data));
+  source.onerror = () => { finish(); if (!state.done) $("report").innerHTML = `<div class="err">The connection dropped. Try again.</div>`; };
+}
+
+function finish() { clearInterval(timer); $("go").disabled = false; if (source) source.close(); }
+
+function setAgent(key, label, status, extra = "") {
+  state.agents[key] = {label, status, extra};
+  $("agents").innerHTML = Object.entries(state.agents).map(([k, a]) =>
+    `<div class="agent ${a.status}"><span class="dot"></span><span>${esc(a.label)}</span><span class="t">${esc(a.extra)}</span></div>`).join("");
+}
+
+function handle(e) {
+  if (e.type === "start") { sessionId = e.session_id; return; }
+  if (e.type === "agent") {
+    if (e.agent.startsWith("researcher:")) {
+      const lane = e.agent.split(":")[1];
+      if (e.status === "start") {
+        state.timings[e.key] = {lane, round: e.round, start: e.t, end: null};
+        setAgent(e.key, `Researcher: ${lane} (round ${e.round})`, "run", "working");
+        $("report").innerHTML = `<div class="empty">Researchers are working in parallel...</div>`;
+      } else {
+        state.timings[e.key].end = e.t;
+        setAgent(e.key, `Researcher: ${lane} (round ${e.round})`, "ok", `${e.findings} findings, ${(e.t - state.timings[e.key].start).toFixed(0)} s`);
+      }
+      drawGantt();
+    } else {
+      const names = {lead: "Lead", writer: "Writer", checker: "Citation Checker"};
+      let extra = e.status === "start" ? "working" : "done";
+      if (e.agent === "lead" && e.decision) extra = e.decision;
+      if (e.agent === "checker" && e.status === "end") extra = `${e.citations_checked} checked, ${e.removed} removed`;
+      setAgent(e.agent, names[e.agent] || e.agent, e.status === "start" ? "run" : "ok", extra);
+      if (e.agent === "writer" && e.status === "start") $("report").innerHTML = `<div class="empty">The Writer is drafting the report...</div>`;
+      if (e.agent === "checker" && e.status === "start") $("report").innerHTML = `<div class="empty">The Citation Checker is verifying every citation...</div>`;
+    }
+  } else if (e.type === "round") {
+    $("round").textContent = `round ${e.round}`;
+  } else if (e.type === "tool") {
+    state.calls.push(e); drawCalls();
+  } else if (e.type === "done") {
+    state.done = true; finish(); sessionId = e.session_id;
+    state.calls = e.tool_calls || state.calls; drawCalls();
+    if (e.trace) { $("round").textContent = e.trace.rounds ? `${e.trace.rounds} of ${e.trace.max_rounds} rounds` : "no research"; }
+    if (e.kind === "report") drawReport(e); else drawClarify(e);
+  } else if (e.type === "error") {
+    state.done = true; finish();
+    $("report").innerHTML = `<div class="err"><b>Research failed.</b> ${esc(e.message)}</div>`;
+  }
+}
+
+function drawGantt() {
+  const rows = Object.entries(state.timings);
+  if (!rows.length) return;
+  const max = Math.max(state.now, ...rows.map(([, t]) => t.end || 0), 1);
+  $("gantt").innerHTML = `<h4>Researchers in parallel (seconds)</h4>` + rows.map(([k, t]) => {
+    const end = t.end ?? state.now, left = 100 * t.start / max, width = Math.max(.8, 100 * (end - t.start) / max);
+    return `<div class="bar-row"><span class="nm">r${t.round} ${esc(t.lane)}</span><div class="track" title="${t.start.toFixed(1)}s to ${end.toFixed(1)}s">
+      <div class="bar ${t.lane} ${t.end == null ? "live" : ""}" style="left:${left}%;width:${width}%"></div></div></div>`;
+  }).join("") + `<div class="muted" style="font-size:11px;text-align:right">0 to ${max.toFixed(0)} s</div>`;
+}
+
+function drawCalls() {
+  const groups = {};
+  for (const c of state.calls) (groups[c.agent] ||= []).push(c);
+  const order = ["lead", "researcher:trials", "researcher:disclosures", "researcher:publications", "writer", "checker"];
+  const keys = Object.keys(groups).sort((a, b) => order.indexOf(a) - order.indexOf(b));
+  const check = state.calls.find(c => c.name === "check_citations");
+  $("checkstats").innerHTML = check ? `<div style="margin-top:12px"><span class="stat good">${esc(check.result.split(" (")[0])}</span></div>` : "";
+  $("calls").innerHTML = keys.length ? `<h4>Tool calls by agent</h4>` + keys.map(k => `<details class="grp" ${k.startsWith("researcher") ? "" : ""}>
+    <summary><span>${esc(k)}</span><span class="muted">${groups[k].length}</span></summary>
+    ${groups[k].map(c => `<div class="call"><div class="fn">${esc(c.name)}</div><div class="args">${esc(JSON.stringify(c.args))}</div><div class="res">${esc(c.result)}</div></div>`).join("")}
+  </details>`).join("") : "";
+}
+
+function cites(text) {
+  return esc(text).replace(/\[(\d+)\]/g, (_, n) => `<button class="cite" data-n="${n}" title="Show source ${n}">${n}</button>`);
+}
+
+function drawClarify(e) {
+  const isRefuse = e.kind === "refuse";
+  const [msg, ...rest] = e.markdown.split("\n\nTry one of these:");
+  $("report").innerHTML = `<div class="clarify"><p>${esc(msg)}</p>
+    ${(e.options || []).length ? `<div class="muted" style="font-size:13px;margin-bottom:6px">${isRefuse ? "What I can look into instead:" : "Pick one, or type your own answer above:"}</div>
+    <div class="chips">${e.options.map((o, i) => `<button class="chip" data-o="${i}">${esc(o)}</button>`).join("")}</div>` : ""}</div>`;
+  $("report").querySelectorAll("[data-o]").forEach(b => b.onclick = () => {
+    const option = e.options[b.dataset.o];
+    if (isRefuse) sessionId = null;
+    $("q").value = option; ask(option);
+  });
+}
+
+const KIND = {start: "--ink", stop: "--muted", due: "--amber", posted: "--teal", never: "--accent", filing: "--violet", publication: "--blue", update: "--muted"};
+function drawTimeline(t) {
+  const dated = t.events.filter(e => e.date);
+  if (!dated.length) return "";
+  const ts = dated.map(e => Date.parse(e.date));
+  let min = Math.min(...ts), max = Math.max(...ts);
+  const never = t.events.find(e => e.kind === "never");
+  if (never) max = Math.max(max, Date.now());
+  const pad = (max - min) * .06 || 3e10; min -= pad; max += pad;
+  const W = 640, x = (d) => 20 + (W - 40) * (Date.parse(d) - min) / (max - min);
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const y0 = 64;
+  let years = "";
+  for (let y = new Date(min).getUTCFullYear() + 1; y <= new Date(max).getUTCFullYear(); y++) {
+    const xx = x(`${y}-01-01`); years += `<line x1="${xx}" x2="${xx}" y1="${y0 - 4}" y2="${y0 + 4}" stroke="${css("--line")}"/><text x="${xx}" y="${y0 + 18}" text-anchor="middle">${y}</text>`;
+  }
+  const marks = dated.map((e, i) => {
+    const xx = x(e.date), up = i % 2 === 0, ly = up ? y0 - 16 - (i % 4 === 0 ? 14 : 0) : y0 + 32 + (i % 4 === 1 ? 14 : 0);
+    const color = css(KIND[e.kind] || "--ink");
+    return `<g><title>${esc(e.label)}: ${esc(e.date)}</title><line x1="${xx}" x2="${xx}" y1="${y0}" y2="${up ? ly + 4 : ly - 10}" stroke="${color}" stroke-dasharray="2 2"/>
+      <circle cx="${xx}" cy="${y0}" r="5" fill="${color}" stroke="${css("--card")}" stroke-width="1.5"/>
+      <text class="lbl" x="${Math.min(Math.max(xx, 50), W - 50)}" y="${ly}" text-anchor="middle">${esc(e.label)}</text></g>`;
+  }).join("");
+  const nev = never ? (() => { const xx = W - 22; return `<g><title>Results never posted on ClinicalTrials.gov as of the snapshot</title>
+    <line x1="${xx - 7}" x2="${xx + 7}" y1="${y0 - 7}" y2="${y0 + 7}" stroke="${css("--accent")}" stroke-width="3"/><line x1="${xx - 7}" x2="${xx + 7}" y1="${y0 + 7}" y2="${y0 - 7}" stroke="${css("--accent")}" stroke-width="3"/>
+    <text class="lbl" x="${xx - 4}" y="${y0 - 34}" text-anchor="end" style="fill:${css("--accent")};font-weight:600">Results never posted</text></g>`; })() : "";
+  return `<div class="tl"><div class="meta"><b>${esc(t.nct_id)}</b> ${esc(t.title || "")} <span class="muted">(${esc(t.sponsor || "")}, ${esc(t.status || "")})</span></div>
+    ${t.why_stopped ? `<div class="why">Registry reason: "${esc(t.why_stopped)}"</div>` : ""}
+    <svg viewBox="0 0 ${W} 120" role="img" aria-label="Timeline for ${esc(t.nct_id)}">
+      <line x1="16" x2="${W - 16}" y1="${y0}" y2="${y0}" stroke="${css("--ink")}" stroke-width="1.5"/>${years}${marks}${nev}</svg></div>`;
+}
+
+function drawReport(e) {
+  const r = e.report;
+  const legend = `<div class="legend">${[["start", "start"], ["stop", "completion"], ["due", "results due"], ["posted", "results posted"], ["never", "never posted"], ["filing", "SEC filing"], ["publication", "publication"]]
+    .map(([k, l]) => `<span><i style="background:var(${KIND[k]})"></i>${l}</span>`).join("")}</div>`;
+  $("report").innerHTML = `
+    <h3>Answer</h3><div class="answer">${r.answer.map(cites).join(" ")}</div>
+    <h3>Timeline</h3>${(e.timeline || []).length ? legend + e.timeline.map(drawTimeline).join("") : ""}<p>${cites(r.timeline_text)}</p>
+    <h3>Evidence</h3><ul>${r.evidence.map(s => `<li>${cites(s)}</li>`).join("") || "<li>No claim survived the citation check.</li>"}</ul>
+    ${r.differences.length ? `<h3>Where the stories differ</h3><div class="differ"><ul>${r.differences.map(s => `<li>${cites(s)}</li>`).join("")}</ul></div>` : ""}
+    <div class="canttell"><h3>What the data can't tell us</h3><ul>${r.cant_tell.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
+    <div class="sources"><h3>Sources</h3><ol>${e.sources.map(s => `<li id="src-${s.n}"><span class="stype">${esc(s.source_type)}</span><br>
+      <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a> <span class="mono muted">${esc(s.evidence_id)}</span></li>`).join("")}</ol></div>
+    <div class="foot">Research rounds: ${e.trace.rounds} of ${e.trace.max_rounds}. Citations checked: ${e.checker.citations_checked}, removed: ${e.checker.removed}. ${esc((e.trace.notes || []).join(" "))}</div>`;
+  $("report").querySelectorAll(".cite").forEach(b => b.onclick = () => {
+    const li = $("src-" + b.dataset.n); if (!li) return;
+    document.querySelectorAll(".sources li.hit").forEach(x => x.classList.remove("hit"));
+    li.classList.add("hit"); li.scrollIntoView({behavior: "smooth", block: "center"});
+    const a = li.querySelector("a"); if (a) window.open(a.href, "_blank", "noopener");
+  });
+}
+reset();
+</script>
+</body>
+</html>

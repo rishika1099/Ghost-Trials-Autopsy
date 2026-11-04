@@ -6,3 +6,7 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 *.log
+.cache/
+*.tmp.duckdb
+*.tmp.duckdb.wal
+logs/
