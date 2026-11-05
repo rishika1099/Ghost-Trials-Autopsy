@@ -412,10 +412,13 @@ def search_sec_filings(ctx: RunContextWrapper[RunState], query: str, cik: str | 
         filings.append(record)
     total = hits.get("total", {}).get("value", len(filings))
     if not filings:
-        evidence_id = _nothing_found(ctx.context, "sec", json.dumps(params, sort_keys=True), f"EDGAR full-text search: no {params['forms']} filings for {query}",
-                                     f"https://efts.sec.gov/LATEST/search-index?{'&'.join(f'{k}={v}' for k, v in params.items())}", {"searched": params})
+        start, end = params.get("startdt", "2001-01-01"), params.get("enddt", dt.date.today().isoformat())
+        who = f"CIK {params['ciks']}" if cik else "any filer"
+        title = f"No {params['forms']} found from {start} to {end} for {who} matching {query}"
+        evidence_id = _nothing_found(ctx.context, "sec", json.dumps(params, sort_keys=True), title,
+                                     edgar_search_url(query, params.get("ciks", ""), start, end, params["forms"]), {"searched": params})
         return _json({"query": query, "total": 0, "filings": [], "evidence_id": evidence_id,
-                      "note": f"No filings matched. Cite {evidence_id} for that. Next, try the drug's code name, a wider date range, or 10-Q/10-K."})
+                      "note": f"{title}. Cite {evidence_id} for that exact statement. Next, try the drug's code name, a wider date range, or 10-Q/10-K."})
     return _json({"query": query, "total": total, "filings": filings})
 
 
