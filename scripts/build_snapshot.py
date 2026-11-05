@@ -17,6 +17,7 @@ Steps (each one is cached on disk under .cache/http, so a re-run is fast):
 
 import argparse
 import datetime as dt
+import html
 import json
 import re
 import shutil
@@ -222,55 +223,131 @@ def sponsor_ciks(sponsors: set[str], lookup_delisted: set[str] = frozenset()) ->
 
 # --- 4. Filings ---
 
+# Intervention names that are not the sponsor's drug, or too vague to search EDGAR with.
+NOT_A_DRUG = re.compile(
+    r"^(placebo|matching placebo|saline|vehicle|standard of care|soc|best supportive care|chemotherapy|"
+    r"investigator'?s? choice|non-steroidal ai|steroidal ai|aromatase inhibitor|combo|combination|"
+    r"control|sham|observation|usual care|treatment)$")
+# Words near a drug name that make a passage about a trial's fate rather than a sales table or pipeline chart.
+STOP_WORDS = re.compile(
+    r"\b(terminat\w*|discontinu\w*|halt\w*|stop(?:ped|ping|s)?|suspen\w*|paus\w*|wind(?:ing)? down|futility|"
+    r"did not (?:meet|achieve|reach)|failed to|primary (?:efficacy )?end ?point|top-?line|deprioriti[sz]\w*|"
+    r"no longer|enrol+ment)\b", re.I)
+RELEVANCE = ("nct_id", "drug_and_stop", "drug_and_condition", "drug_only")
+MAX_CANDIDATES_PER_TRIAL = 6  # documents read per trial before keeping the best MAX_FILINGS_PER_TRIAL
 
-def _paragraph(text: str, keywords: list[str], width: int = 600) -> str | None:
-    """The first stretch of text around any keyword, tags stripped."""
-    plain = re.sub(r"<[^>]+>", " ", text)
-    plain = re.sub(r"&nbsp;|&#160;", " ", plain)
-    plain = re.sub(r"\s+", " ", plain)
-    for keyword in keywords:
-        at = plain.lower().find(keyword.lower())
-        if at >= 0:
-            start = max(0, at - width // 3)
-            return plain[start : start + width].strip()
-    return None
+
+def filing_windows(t: dict) -> list[tuple[dt.date, dt.date]]:
+    """FILING_WINDOW_DAYS either side of each anchor date (primary completion, completion, last update),
+    merged where they overlap. One window from the earliest to the latest date spanned years when a registry
+    record was updated long after the trial stopped."""
+    anchors = sorted({d for d in (t["primary_completion_date"], t["completion_date"], t["last_update_date"]) if d})
+    pad = dt.timedelta(days=FILING_WINDOW_DAYS)
+    windows: list[list[dt.date]] = []
+    for anchor in anchors:
+        if windows and anchor - pad <= windows[-1][1]:
+            windows[-1][1] = anchor + pad
+        else:
+            windows.append([anchor - pad, anchor + pad])
+    return [(start, end) for start, end in windows]
+
+
+def drug_terms(drug_names: list[str], limit: int = 3) -> list[str]:
+    """Searchable drug names: 'Enobosarm & Abemaciclib Combo' -> ['Enobosarm', 'Abemaciclib'].
+    Splits combinations, drops doses and words like placebo, keeps the registry's order."""
+    terms: list[str] = []
+    for name in drug_names:
+        name = re.sub(r"\([^)]*\)", lambda m: " , " + m.group(0)[1:-1] + " , ", name)  # '(exemestane ...)' is its own part
+        for part in re.split(r"\s*(?:&|\+|/|,|;|\bwith or without\b|\bwith\b|\bplus\b|\band\b|\bor\b|\bcombo\b)\s*", name, flags=re.I):
+            part = re.sub(r"\b\d+(\.\d+)?\s*(mg|mcg|µg|ug|g|ml|mg/kg|iu|%)\b.*$", "", part, flags=re.I).strip(" .-")
+            part = re.sub(r"\b(prefilled syringe|tablets?|capsules?|injection|oral|iv|sc|low dose|high dose)\b", "", part, flags=re.I).strip(" .-")
+            if len(part) >= 4 and not NOT_A_DRUG.match(part.lower()) and part.lower() not in (x.lower() for x in terms):
+                terms.append(part)
+    return terms[:limit]
+
+
+def plain_text(document: str) -> str:
+    """Filing HTML to plain text: tags dropped, entities decoded ('&#8226;' -> '•'), whitespace collapsed."""
+    text = re.sub(r"<[^>]+>", " ", document)
+    text = html.unescape(text).replace("\xa0", " ")
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def condition_words(conditions: list[str]) -> list[str]:
+    return [w for c in conditions[:3] for w in re.findall(r"[A-Za-z][A-Za-z-]{4,}", c)]
+
+
+def best_snippet(document: str, nct_id: str, terms: list[str], conditions: list[str], width: int = 600) -> tuple[str | None, str | None]:
+    """The most relevant passage of a filing for this trial, and how relevant it is (one of RELEVANCE).
+
+    Prefers a passage naming the NCT ID; then one where a drug name sits near stop or outcome language;
+    then near the trial's condition; then the first mention of the drug."""
+    text = plain_text(document)
+    lower = text.lower()
+
+    def window(at: int) -> str:
+        start = max(0, at - width // 3)
+        return text[start : start + width].strip()
+
+    at = lower.find(nct_id.lower())
+    if at >= 0:
+        return window(at), "nct_id"
+    disease = [w.lower() for w in condition_words(conditions)]
+    fallback = None
+    for tier in ("drug_and_stop", "drug_and_condition"):
+        for term in terms:
+            for match in re.finditer(re.escape(term.lower()), lower):
+                passage = window(match.start())
+                if tier == "drug_and_stop" and STOP_WORDS.search(passage):
+                    return passage, tier
+                if tier == "drug_and_condition" and any(w in passage.lower() for w in disease):
+                    return passage, tier
+                fallback = fallback or passage
+    return (fallback, "drug_only") if fallback else (None, None)
 
 
 def fetch_filings(trials: list[dict], cik_by_sponsor: dict[str, str]) -> list[dict]:
-    rows, seen = [], set()
+    """8-Ks from the sponsor's CIK within FILING_WINDOW_DAYS of a stopped trial's dates that name its NCT ID or
+    one of its drugs. Reads up to MAX_CANDIDATES_PER_TRIAL documents and keeps the MAX_FILINGS_PER_TRIAL most
+    relevant, closest to the trial's dates first. Only the snippet is stored, never the whole document."""
+    rows = []
     stopped = [t for t in trials if t["overall_status"] in STOPPED and t["sponsor"] in cik_by_sponsor]
     log(f"filings: searching EDGAR for {len(stopped)} stopped trials with a public sponsor")
     for n, t in enumerate(stopped, 1):
-        anchors = [d for d in (t["completion_date"], t["primary_completion_date"], t["last_update_date"]) if d]
-        if not anchors:
-            continue
-        start = min(anchors) - dt.timedelta(days=FILING_WINDOW_DAYS)
-        end = max(anchors) + dt.timedelta(days=FILING_WINDOW_DAYS)
-        terms = [t["nct_id"]] + [d for d in t["drug_names"][:2] if len(d) >= 4]
-        query = " OR ".join(f'"{term}"' for term in terms)
         cik = cik_by_sponsor[t["sponsor"]]
-        try:
-            result = http.get(EFTS, {"q": query, "forms": "8-K", "ciks": cik, "dateRange": "custom",
-                                     "startdt": start.isoformat(), "enddt": end.isoformat()})
-        except http.SourceError as e:
-            log(f"filings: {t['nct_id']} search failed: {e}")
-            continue
-        hits = (result or {}).get("hits", {}).get("hits", [])[:MAX_FILINGS_PER_TRIAL]
-        for hit in hits:
-            source = hit.get("_source", {})
-            accession, _, filename = hit.get("_id", "").partition(":")
-            if not accession or (t["nct_id"], accession) in seen:
-                continue
-            seen.add((t["nct_id"], accession))
-            url = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accession.replace('-', '')}/{filename}"
+        terms = [t["nct_id"]] + drug_terms(t["drug_names"])
+        query = " OR ".join(f'"{term}"' for term in terms)
+        anchors = [d for d in (t["primary_completion_date"], t["completion_date"], t["last_update_date"]) if d]
+        candidates: dict[str, dict] = {}
+        for start, end in filing_windows(t):
             try:
-                snippet = _paragraph(http.get(url, as_json=False), terms)
+                result = http.get(EFTS, {"q": query, "forms": "8-K", "ciks": cik, "dateRange": "custom",
+                                         "startdt": start.isoformat(), "enddt": end.isoformat()})
+            except http.SourceError as e:
+                log(f"filings: {t['nct_id']} search failed: {e}")
+                continue
+            for hit in (result or {}).get("hits", {}).get("hits", []):
+                accession, _, filename = hit.get("_id", "").partition(":")
+                source = hit.get("_source", {})
+                if accession and accession not in candidates and len(candidates) < MAX_CANDIDATES_PER_TRIAL:
+                    candidates[accession] = {"filename": filename, "source": source}
+        found = []
+        for accession, hit in candidates.items():
+            url = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accession.replace('-', '')}/{hit['filename']}"
+            try:
+                snippet, relevance = best_snippet(http.get(url, as_json=False), t["nct_id"], terms[1:], t.get("conditions") or [])
             except http.SourceError:
-                snippet = None
-            rows.append({
-                "nct_id": t["nct_id"], "cik": cik, "accession": accession, "form": source.get("form") or source.get("root_form"),
-                "filed_date": to_date(source.get("file_date")), "url": url, "matched_terms": terms, "snippet": snippet,
+                snippet, relevance = None, None
+            filed = to_date(hit["source"].get("file_date"))
+            found.append({
+                "nct_id": t["nct_id"], "cik": cik, "accession": accession, "form": hit["source"].get("form") or "8-K",
+                "filed_date": filed, "url": url, "matched_terms": terms, "snippet": snippet, "relevance": relevance,
+                "_rank": (RELEVANCE.index(relevance) if relevance else len(RELEVANCE),
+                          min((abs((filed - a).days) for a in anchors), default=0) if filed else 10**6),
             })
+        for row in sorted(found, key=lambda r: r["_rank"])[:MAX_FILINGS_PER_TRIAL]:
+            row.pop("_rank")
+            rows.append(row)
         if n % 100 == 0:
             log(f"filings: {n}/{len(stopped)} trials searched, {len(rows)} filings")
     return rows
@@ -382,7 +459,7 @@ DESCRIPTIONS = {
         "files_8k": "TRUE if the filer files 8-Ks. FALSE for foreign private issuers, which report on 6-K instead, so an empty filings result for them is expected.",
     },
     "filings": {
-        "_table": "SEC 8-K filings from a matched sponsor within 120 days of a stopped trial's dates that mention its NCT ID or drug name.",
+        "_table": "SEC 8-K filings from a matched sponsor within 120 days of a stopped trial's primary completion, completion or last update date that mention its NCT ID or drug name. Up to 3 per trial, most relevant first.",
         "nct_id": "Trial the filing was matched to.",
         "cik": "Filer's CIK.",
         "accession": "SEC accession number, e.g. 0001193125-21-123456.",
@@ -390,7 +467,8 @@ DESCRIPTIONS = {
         "filed_date": "Date filed with the SEC.",
         "url": "URL of the matching document in the EDGAR archive.",
         "matched_terms": "Search terms used (NCT ID and drug names).",
-        "snippet": "About 600 characters of the filing around the first matching term. NULL if the document could not be read.",
+        "snippet": "About 600 characters of plain text from the filing: the most relevant passage for this trial (see relevance). NULL if the document could not be read.",
+        "relevance": "How closely the snippet is tied to this trial: nct_id (names the NCT ID), drug_and_stop (drug name near stop or outcome language such as terminated, discontinued, primary endpoint, topline), drug_and_condition (drug name near the trial's condition), drug_only (drug name only, often a sales table or pipeline chart: weakest).",
     },
     "publications": {
         "_table": "PubMed articles linked to a trial.",
@@ -443,10 +521,10 @@ def write_sec_tables(db: duckdb.DuckDBPyConnection, ciks: list[dict], filings: l
         db.executemany("INSERT INTO sponsor_cik VALUES (?,?,?,?,?,?,?,?)", [[c.get(k) for k in columns] for c in ciks])
     db.execute("DROP TABLE IF EXISTS filings")
     db.execute("""CREATE TABLE filings (nct_id VARCHAR, cik VARCHAR, accession VARCHAR, form VARCHAR, filed_date DATE,
-        url VARCHAR, matched_terms VARCHAR[], snippet VARCHAR)""")
+        url VARCHAR, matched_terms VARCHAR[], snippet VARCHAR, relevance VARCHAR)""")
     if filings:
-        db.executemany("INSERT INTO filings VALUES (?,?,?,?,?,?,?,?)",
-                       [[f[k] for k in ("nct_id", "cik", "accession", "form", "filed_date", "url", "matched_terms", "snippet")] for f in filings])
+        columns = ("nct_id", "cik", "accession", "form", "filed_date", "url", "matched_terms", "snippet", "relevance")
+        db.executemany("INSERT INTO filings VALUES (?,?,?,?,?,?,?,?,?)", [[f.get(k) for k in columns] for f in filings])
 
 
 def write_snapshot_meta(db: duckdb.DuckDBPyConnection, built_at: dict[str, dt.date]) -> None:
@@ -463,9 +541,10 @@ def write_snapshot_meta(db: duckdb.DuckDBPyConnection, built_at: dict[str, dt.da
 
 def load_trials(db: duckdb.DuckDBPyConnection) -> list[dict]:
     """The columns sponsor_cik and fetch_filings need, read from the existing trials table."""
-    columns = ["nct_id", "sponsor", "overall_status", "drug_names", "primary_completion_date", "completion_date", "last_update_date"]
+    columns = ["nct_id", "sponsor", "overall_status", "drug_names", "conditions", "primary_completion_date", "completion_date",
+               "last_update_date"]
     rows = db.execute(f"SELECT {', '.join(columns)} FROM trials ORDER BY nct_id").fetchall()
-    return [{**dict(zip(columns, row)), "drug_names": list(row[3] or [])} for row in rows]
+    return [{**dict(zip(columns, row)), "drug_names": list(row[3] or []), "conditions": list(row[4] or [])} for row in rows]
 
 
 def build_sec_only(today: dt.date) -> None:
