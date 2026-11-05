@@ -53,3 +53,20 @@ def test_best_snippet_labels_a_bare_mention_as_weakest():
 
 def test_best_snippet_with_no_mention():
     assert build_snapshot.best_snippet("<p>Nothing here.</p>", "NCT01234567", ["drugx"], []) == (None, None)
+
+
+def test_best_snippet_ignores_safe_harbor_boilerplate():
+    # Veru's forward-looking statements list "enrollment, timing ... whether any of such studies will meet any of
+    # its primary endpoints" for every program; that is not news about this trial.
+    doc = ("<p>Forward-looking statements include the timing of the study of enobosarm and whether any of such "
+           "studies will meet any of its primary endpoints.</p>" + "filler " * 200 +
+           "<p>Enobosarm sales guidance for breast cancer.</p>")
+    snippet, relevance = build_snapshot.best_snippet(doc, "NCT05065411", ["Enobosarm"], ["Breast Cancer"])
+    assert relevance == "drug_and_condition" and "sales guidance" in snippet
+
+
+def test_best_snippet_prefers_the_passage_naming_both_drugs_of_a_combination():
+    doc = ("<p>The company discontinued the ARTEST trial of enobosarm monotherapy.</p>" + "filler " * 200 +
+           "<p>The ENABLAR-2 trial of enobosarm and abemaciclib was stopped subject to funding.</p>")
+    snippet, relevance = build_snapshot.best_snippet(doc, "NCT05065411", ["Enobosarm", "Abemaciclib"], [])
+    assert relevance == "drug_and_stop" and "ENABLAR-2" in snippet
