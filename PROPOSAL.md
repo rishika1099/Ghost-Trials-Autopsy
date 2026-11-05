@@ -50,13 +50,13 @@ The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need t
 - [x] Stop-reason labels spot-checked; fixed negations ("not due to safety"), "before enrollment" and "administrative" (`tests/test_classify.py`)
 - [x] `get_fda_approvals` finds withdrawn and biologic drugs (Aduhelm, Leqembi)
 - [x] Empty searches return a citable "nothing found" record instead of the model inventing an id
-- [ ] Trials researcher on 10 more briefs after the fixes
+- [x] Trials researcher on 10 more briefs after the fixes (`scripts/run_trials.py`, outputs in `runs/trials_*.json`, 0 problems). Fixes it led to: withdrawn and zero-enrollment trials no longer get a results due date; researchers can't cite ids no tool returned; month-only registry dates stay month-only; list questions answer from SQL instead of one live lookup per trial
 
 **Agent shape: the Lead** (`ghost/pipeline.py`, `prompts/lead.md`, `prompts/lead_review.md`)
 - [x] `uv run python scripts/run_samples.py` on all 5 samples: each under 240 s, none crash (97 to 140 s; vague 8 s)
-- [ ] `LIVE=1 uv run pytest` passes (clarify, refuse, can't-answer)
+- [x] `LIVE=1 uv run pytest` passes (clarify, refuse, can't-answer): 80 passed on 2026-11-05
 - [x] At least one run shows a second research round, for the README (the never-posted sample ran 2 rounds)
-- [ ] Tune the gate and the gap review where real runs go wrong
+- [x] Tune the gate and the gap review where real runs go wrong (never-posted rerun: 2 rounds, 0 citations removed)
 
 **Ties it together:** the sample runs in `runs/` and the final submission (checklist below).
 

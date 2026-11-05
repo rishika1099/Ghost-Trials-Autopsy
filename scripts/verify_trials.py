@@ -51,6 +51,8 @@ def main(n: int, seed: int) -> None:
         if snap["has_results"] != bool(live.get("hasResults")):
             mismatches.append((row["nct_id"], "has_results", snap["has_results"], live.get("hasResults")))
         due = snap["primary_completion_date"] + dt.timedelta(days=365) if snap["primary_completion_date"] else None
+        if snap["overall_status"] == "WITHDRAWN" or snap["enrollment"] == 0:
+            due = None  # never enrolled anyone, so there are no results to post
         if due != snap["results_due_date"]:
             mismatches.append((row["nct_id"], "results_due_date (derived)", snap["results_due_date"], due))
         if classify_why_stopped(snap["why_stopped"])[0] != snap["why_stopped_category"] and snap["why_stopped_method"] == "keyword":

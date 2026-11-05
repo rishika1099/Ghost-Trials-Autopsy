@@ -26,9 +26,9 @@ Working notes for the team: how the three course starters were combined, where w
 | README and valid `submission.json` | in progress | `README.md`, `submission.json` (deploy_url to fill after deploy) |
 | Deployed and reachable | to do | `/health`; `bash tests/test_deploy.sh <url>` |
 | Clear purpose | done | page header; README intro |
-| Answers its research questions correctly | in progress | `samples.json`, `runs/*_latest.md`, hand checks in README |
+| Answers its research questions correctly | in progress | `samples.json`, `runs/*_latest.md`; never-posted sample (NCT04903327) hand-checked in README; `scripts/run_trials.py`: 10 trials briefs, 0 problems; discrepancy and sponsor samples still to write up |
 | Unique dataset or problem | done | joined trials + 8-K + publications snapshot (`data/autopsy.duckdb`); sign-up sheet entry |
-| Data the model doesn't know | in progress | `baseline/` vs `runs/` in README |
+| Data the model doesn't know | in progress | `baseline/` vs `runs/` in README: for NCT04903327 the no-tools model gives the wrong registry reason ("Sponsor decision") and blames a bankruptcy that came after the trial ended; other two samples still to write up |
 | Admits what the data can't answer | done | "What the data can't tell us" in every report (`ghost/report.py`); `tests/test_cant_answer.py` |
 | 3+ agent shapes | done | lead, researcher (3 lane configs), writer, checker in `ghost/pipeline.py` |
 | Parallel fan-out in fresh contexts | done | `tests/test_parallel.py`; timing bars in the trace panel |

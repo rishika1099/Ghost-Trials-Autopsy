@@ -1,7 +1,7 @@
 """Run the agent on the README's sample queries and keep the outputs in runs/.
 
     uv run python scripts/run_samples.py            # every query in samples.json
-    uv run python scripts/run_samples.py s1 vague   # some of them, by id
+    uv run python scripts/run_samples.py s1 vague   # some of them, by id or id prefix
 """
 
 import asyncio
@@ -23,7 +23,7 @@ async def main() -> None:
     out.mkdir(exist_ok=True)
     stamp = dt.datetime.now().strftime("%Y%m%d-%H%M")
     for sample in samples:
-        if wanted and sample["id"] not in wanted:
+        if wanted and not any(sample["id"].startswith(w) for w in wanted):
             continue
         started = time.monotonic()
         result = await investigate(sample["query"])

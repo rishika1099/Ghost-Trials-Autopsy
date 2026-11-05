@@ -1,0 +1,93 @@
+{
+  "brief": "Trial NCT01010373 (BioMAS). What is its status and stated reason? Put the trial in context with snapshot base rates.",
+  "findings": {
+    "findings": [
+      {
+        "claim": "Trial NCT01010373 has an overall status of SUSPENDED.",
+        "evidence_ids": [
+          "ctgov:NCT01010373"
+        ],
+        "confidence": "high",
+        "notes": "Confirmed via snapshot and live record."
+      },
+      {
+        "claim": "Trial NCT01010373 has the stated why_stopped text: \"The sponsor is currently focusing on different indications\", categorized as business/strategic.",
+        "evidence_ids": [
+          "ctgov:NCT01010373"
+        ],
+        "confidence": "high",
+        "notes": "Exact quote from ClinicalTrials.gov record."
+      },
+      {
+        "claim": "Trial NCT01010373 start date is January 2015, primary completion date is January 2016, and completion date is January 2016.",
+        "evidence_ids": [
+          "ctgov:NCT01010373"
+        ],
+        "confidence": "high",
+        "notes": "Precision is month."
+      },
+      {
+        "claim": "Trial NCT01010373 enrollment is 12 participants.",
+        "evidence_ids": [
+          "ctgov:NCT01010373"
+        ],
+        "confidence": "high",
+        "notes": "Enrolled patients."
+      },
+      {
+        "claim": "Trial NCT01010373 results are not posted on ClinicalTrials.gov. Results due date was December 31, 2016, and it is 3,596 days late.",
+        "evidence_ids": [
+          "ctgov:NCT01010373"
+        ],
+        "confidence": "high",
+        "notes": "Results posted status is false."
+      },
+      {
+        "claim": "Across the snapshot, business/strategic is the most common stop category, accounting for 1,485 out of 3,739 stopped trials (39.7%).",
+        "evidence_ids": [
+          "snapshot:stats",
+          "sql:a8336dd6"
+        ],
+        "confidence": "high",
+        "notes": "Snapshot base rates."
+      }
+    ],
+    "gaps": []
+  },
+  "problems": [],
+  "tool_calls": [
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.acronym, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_posted, t.results_first_post_date, d.results_due_date, d.days_late FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT01010373'"
+      },
+      "result": "error: Binder Error: Table \"t\" does not have a column named \"acronym\"\n\nCandidate bindings: : \"completion_date\"\n\nLINE 1: SELECT * FROM (SELECT t.nct_id, t.title, t.acronym, t.phase, t.over"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_posted, t.results_first_post_date, d.results_due_date, d.days_late FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT01010373'"
+      },
+      "result": "1 rows, 1 evidence ids"
+    },
+    {
+      "name": "get_snapshot_stats",
+      "args": {},
+      "result": "snapshot stats: {\"trials\": 16473, \"stopped\": 3739, \"pct_stopped_blank_reason\": 9.7, \"stopped_never_enrolled\": 834, \"pct_stopped_no_results\": 30.9, \"pct_completed_no_results\": 31.7, \"pct_stopped_with_publication\": 81."
+    },
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT01010373"
+      },
+      "result": "NCT01010373: SUSPENDED, why_stopped='The sponsor is currently focusing on different indications'"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT count(*) AS total_stopped, sum(case when why_stopped_category = 'business/strategic' then 1 else 0 end) AS business_count FROM trial_derived WHERE stopped = true"
+      },
+      "result": "1 rows, 1 evidence ids"
+    }
+  ]
+}

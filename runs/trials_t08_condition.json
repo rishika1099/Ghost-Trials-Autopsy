@@ -1,0 +1,46 @@
+{
+  "brief": "Industry phase 2 Alzheimer's disease trials that stopped (terminated, withdrawn or suspended) in the snapshot: how many, and how do they break down by why_stopped_category?",
+  "findings": {
+    "findings": [
+      {
+        "claim": "There are 27 stopped (terminated, withdrawn, or suspended) industry-sponsored phase 2 Alzheimer's disease trials in the snapshot.",
+        "evidence_ids": [
+          "sql:f01b0ef5"
+        ],
+        "confidence": "high",
+        "notes": "Based on filtered query over trials and trial_derived tables in the snapshot."
+      },
+      {
+        "claim": "The breakdown of these 27 stopped industry phase 2 Alzheimer's disease trials by why_stopped_category is: 7 efficacy, 5 blank, 5 business/strategic, 4 enrollment, 3 other, and 3 safety.",
+        "evidence_ids": [
+          "sql:793dbccc"
+        ],
+        "confidence": "high",
+        "notes": "Derived from SQL grouping of why_stopped_category in the snapshot."
+      }
+    ],
+    "gaps": []
+  },
+  "problems": [],
+  "tool_calls": [
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT count(*) as total_stopped FROM trials t JOIN trial_derived d USING (nct_id) WHERE d.stopped AND t.phase = 'PHASE2' AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' AND t.sponsor_class = 'INDUSTRY';"
+      },
+      "result": "1 rows, 1 evidence ids"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT d.why_stopped_category, count(*) AS n FROM trials t JOIN trial_derived d USING (nct_id) WHERE d.stopped AND t.phase = 'PHASE2' AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' AND t.sponsor_class = 'INDUSTRY' GROUP BY 1 ORDER BY n DESC;"
+      },
+      "result": "6 rows, 1 evidence ids"
+    },
+    {
+      "name": "get_snapshot_stats",
+      "args": {},
+      "result": "snapshot stats: {\"trials\": 16473, \"stopped\": 3739, \"pct_stopped_blank_reason\": 9.7, \"stopped_never_enrolled\": 834, \"pct_stopped_no_results\": 30.9, \"pct_completed_no_results\": 31.7, \"pct_stopped_with_publication\": 81."
+    }
+  ]
+}

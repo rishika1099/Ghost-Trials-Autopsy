@@ -116,3 +116,18 @@ def test_rules_flag_sentences_about_our_own_tables():
                            [{"title": "No 8-K found from 2023-06-21 to 2024-06-25 for CIK 0000863894", "data": {}}])
     assert not check_claim("The trial enrolled zero participants.", [])
     assert not check_claim("The snapshot shows no results posted for NCT04903327.", [])
+
+
+def test_researcher_ids_no_tool_returned_are_dropped():
+    from ghost.pipeline import Finding, Findings, drop_unknown_ids
+    from ghost.state import RunState
+
+    state = RunState("q")
+    state.store.add("ctgov:NCT01010373", "A trial", "https://clinicaltrials.gov/study/NCT01010373", {})
+    out = drop_unknown_ids(state, Findings(findings=[
+        Finding(claim="Status is SUSPENDED.", evidence_ids=["ctgov:NCT01010373", "sql:1a2b3c4d"], confidence="high"),
+        Finding(claim="Made up.", evidence_ids=["sql:deadbeef"], confidence="high"),
+    ], gaps=[]))
+    first, second = out.findings
+    assert first.evidence_ids == ["ctgov:NCT01010373"] and first.confidence == "high" and "sql:1a2b3c4d" in first.notes
+    assert second.evidence_ids == [] and second.confidence == "low"

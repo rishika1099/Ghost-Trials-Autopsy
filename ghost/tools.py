@@ -178,6 +178,14 @@ def get_trial_live(ctx: RunContextWrapper[RunState], nct_id: str) -> str:
     if live is None:
         return _error(f"{nct_id} is not on ClinicalTrials.gov.")
     record = {**(in_snapshot or {}), **live}
+    # The registry gives some dates to the month only ('2015-01'); the snapshot stores them as the 1st. Keep one
+    # value per field so a cited date matches the record, and mark it so the Writer says 'January 2015'.
+    for key in ("start_date", "primary_completion_date", "completion_date"):
+        live_value, snap_value = live.get(key), (in_snapshot or {}).get(key)
+        if isinstance(live_value, str) and len(live_value) == 7:
+            if snap_value is not None and str(snap_value).startswith(live_value):
+                record[key] = snap_value
+            record[f"{key}_precision"] = "month"
     evidence_id = _add_trial(ctx.context, record, live=True)
     return _json({"record": record, "in_snapshot": bool(in_snapshot), "evidence_id": evidence_id, "source_url": ctgov_url(nct_id)})
 
@@ -555,7 +563,8 @@ SELECT
   count(*) AS trials,
   count(*) FILTER (WHERE d.stopped) AS stopped,
   round(100.0 * count(*) FILTER (WHERE d.stopped AND d.why_stopped_category = 'blank') / nullif(count(*) FILTER (WHERE d.stopped), 0), 1) AS pct_stopped_blank_reason,
-  round(100.0 * count(*) FILTER (WHERE d.stopped AND NOT d.results_posted) / nullif(count(*) FILTER (WHERE d.stopped), 0), 1) AS pct_stopped_no_results,
+  count(*) FILTER (WHERE d.stopped AND d.results_due_date IS NULL) AS stopped_never_enrolled,
+  round(100.0 * count(*) FILTER (WHERE d.stopped AND d.results_due_date IS NOT NULL AND NOT d.results_posted) / nullif(count(*) FILTER (WHERE d.stopped AND d.results_due_date IS NOT NULL), 0), 1) AS pct_stopped_no_results,
   round(100.0 * count(*) FILTER (WHERE NOT d.stopped AND NOT d.results_posted) / nullif(count(*) FILTER (WHERE NOT d.stopped), 0), 1) AS pct_completed_no_results,
   round(100.0 * count(*) FILTER (WHERE d.stopped AND EXISTS (SELECT 1 FROM publications p WHERE p.nct_id = t.nct_id)) / nullif(count(*) FILTER (WHERE d.stopped), 0), 1) AS pct_stopped_with_publication,
   median(d.days_late) FILTER (WHERE d.results_posted) AS median_days_late_when_posted
@@ -567,7 +576,8 @@ FROM trials t JOIN trial_derived d USING (nct_id)
 def get_snapshot_stats(ctx: RunContextWrapper[RunState]) -> str:
     """Base rates across the whole snapshot, to put one trial or sponsor in context: how many trials stopped,
     the share of stopped trials with a blank reason, with no posted results, with a publication, the reasons
-    by category, and the snapshot date and scope."""
+    by category, and the snapshot date and scope. pct_stopped_no_results counts only stopped trials that enrolled
+    patients; withdrawn trials never enrolled anyone and have no results to post (stopped_never_enrolled)."""
     try:
         overall = db.run_select(STATS_SQL)["rows"][0]
         by_reason = db.run_select("""SELECT why_stopped_category, count(*) AS n FROM trial_derived WHERE stopped

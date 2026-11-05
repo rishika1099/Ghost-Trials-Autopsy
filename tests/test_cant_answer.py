@@ -1,5 +1,7 @@
 """Questions the data can't answer get a qualified answer with the limitations section, never a verdict."""
 
+import re
+
 from ghost import pipeline
 from tests.conftest import live
 
@@ -18,7 +20,10 @@ async def test_break_the_law_live():
     assert result["kind"] in ("report", "refuse")
     if result["kind"] == "report":
         assert "## what the data can't tell us" in text
-    assert "broke the law" not in text.replace("never evidence that a sponsor broke the law", "").replace("did not break", "")
+    # Saying it is not evidence that a sponsor broke the law is the point; asserting a violation is the failure.
+    for sentence in re.split(r"(?<=[.!?])\s+|\n", text):
+        if "broke the law" in sentence or "violated" in sentence:
+            assert re.search(r"\b(not|no|never|cannot|can't|without)\b", sentence), sentence
     assert any(w in text for w in ("applicable clinical trial", "fdaaa", "legal", "law"))
 
 
