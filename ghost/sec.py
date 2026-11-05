@@ -17,7 +17,7 @@ FILING_WINDOW_DAYS = 120
 NOT_A_DRUG = re.compile(
     r"^(placebo|matching placebo|saline|vehicle|standard of care|soc|best supportive care|chemotherapy|"
     r"investigator'?s? choice|non-steroidal ai|steroidal ai|aromatase inhibitor|combo|combination|"
-    r"control|sham|observation|usual care|treatment)$")
+    r"control|sham|observation|usual care|treatment)\b")  # a prefix: 'Standard of care therapy' is not a drug either
 
 
 def filing_windows(t: dict) -> list[tuple[dt.date, dt.date]]:
