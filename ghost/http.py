@@ -18,10 +18,10 @@ TIMEOUT_S = 15
 MAX_RETRIES = 3
 DEFAULT_UA = "GhostTrialsAutopsy/0.1 (Columbia course project; github.com/rishika1099/Ghost-Trials-Autopsy)"
 
-# Requests per second we allow ourselves, per host. SEC asks for under 10, NCBI under 3 without a key.
+# Requests per second we allow ourselves, per host. SEC asks for under 10 across all its hosts,
+# so efts.sec.gov and www.sec.gov share one "sec.gov" budget. NCBI asks for under 3 without a key.
 RATE_LIMITS = {
-    "efts.sec.gov": 8,
-    "www.sec.gov": 8,
+    "sec.gov": 8,
     "eutils.ncbi.nlm.nih.gov": 9 if NCBI_API_KEY else 2.5,
     "www.ebi.ac.uk": 8,
     "clinicaltrials.gov": 8,
@@ -38,7 +38,12 @@ class SourceError(RuntimeError):
     """A source could not be reached or refused the request. Tools turn this into a JSON error."""
 
 
+def _rate_key(host: str) -> str:
+    return "sec.gov" if host == "sec.gov" or host.endswith(".sec.gov") else host
+
+
 def _wait_turn(host: str) -> None:
+    host = _rate_key(host)
     rate = RATE_LIMITS.get(host)
     if not rate:
         return
