@@ -9,10 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --paper: #fbf8ef; --card: #fffefa; --ink: #1f2a44; --ink2: #3c4660; --pencil: #6f7380; --rule: #c9d7ea; --margin: #e59a9a;
-  --red: #c0392b; --red-soft: #fbe3df; --blue: #2456a6; --sticky: #fff1a8; --sticky-edge: #e8d46a; --hl: rgba(255, 226, 64, .65);
-  --tape: rgba(222, 208, 170, .7); --grid: #e3e9f2; --shadow: 0 1px 2px rgba(40, 40, 60, .12), 0 6px 14px rgba(40, 40, 60, .06);
-  --lane-t: #2456a6; --lane-d: #6f7380; --lane-p: #c0392b;
+  --paper: #f7f2e7; --card: #fcf8ef; --ink: #38352f; --ink2: #514d44; --pencil: #7a7466; --rule: #ddd6c6; --margin: #d9a79f;
+  --red: #9e3a2e; --red-soft: #f3e1da; --blue: #344c69; --sticky: #f5e7a8; --sticky-edge: #d9c57a; --hl: #f0dfa0;
+  --tape: rgba(214, 200, 160, .62); --grid: #ebe4d5; --shadow: 2px 3px 0 rgba(56, 53, 47, .14);
+  --lane-t: #344c69; --lane-d: #9a9384; --lane-p: #9e3a2e;
+  --radius-control: 9px 4px 17px 5px / 4px 12px 5px 9px; --stroke: 1.5px; --motion: 100ms;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -65,6 +66,7 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 .qcard { background: var(--card); box-shadow: var(--shadow); padding: 22px 22px 12px; transform: rotate(.8deg); position: relative; align-self: start; }
 .qcard::before, .ask-card::before, .sticky::before, .file::before {
   content: ""; position: absolute; top: -11px; left: 50%; width: 96px; height: 24px; margin-left: -48px; background: var(--tape); transform: rotate(-3deg);
+  clip-path: polygon(0 8%, 4% 0, 9% 10%, 14% 2%, 86% 0, 91% 9%, 96% 1%, 100% 10%, 100% 92%, 95% 100%, 90% 90%, 85% 99%, 13% 100%, 8% 91%, 3% 100%, 0 90%);
 }
 .qcard h2 { font: 700 26px "Caveat", cursive; margin: 0 0 4px; color: var(--blue); }
 .qcard ol { margin: 0; padding: 0; list-style: none; }
@@ -82,22 +84,25 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 .bar textarea { flex: 1 1 280px; min-width: 0; border: 0; border-bottom: 2px solid var(--ink); outline: 0; background: transparent; color: var(--ink); resize: none;
   font: 23px/1.3 "Kalam", cursive; padding: 6px 2px; height: 50px; }
 .bar textarea::placeholder { color: var(--pencil); opacity: .8; }
-.bar button { border: 2px solid var(--red); color: var(--red); background: transparent; padding: 4px 18px; font: 700 24px "Caveat", cursive; cursor: pointer; border-radius: 40% 6% 38% 8% / 10% 40% 8% 36%; transform: rotate(-1.5deg); }
-.bar button:hover { background: var(--red-soft); }
+.bar button { border: var(--stroke) solid var(--red); color: var(--red); background: var(--card); padding: 4px 20px; font: 700 25px "Caveat", cursive; cursor: pointer;
+  border-radius: var(--radius-control); transform: rotate(-1.5deg); box-shadow: 3px 3px 0 var(--red); transition: transform var(--motion), box-shadow var(--motion); }
+.bar button:hover { transform: rotate(0); box-shadow: 1.5px 1.5px 0 var(--red); }
+.bar button:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--red); }
 .bar button:disabled { opacity: .5; cursor: progress; }
 .hint { font-size: 13px; color: var(--pencil); margin: 10px 0 0; }
 
 .cases h2 { font: 700 30px "Caveat", cursive; margin: 0 0 10px; }
 #chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
-.case { position: relative; text-align: left; background: var(--card); border: 0; box-shadow: var(--shadow); padding: 14px 16px 14px; cursor: pointer;
-  display: flex; flex-direction: column; gap: 6px; transition: transform .15s; border-top: 4px solid var(--blue); }
+.case { position: relative; text-align: left; background: var(--card); border: var(--stroke) solid var(--ink); border-radius: var(--radius-control); box-shadow: 3px 3px 0 var(--ink); padding: 14px 16px 14px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 6px; transition: transform var(--motion), box-shadow var(--motion); border-top: 4px solid var(--blue); }
 .case:nth-child(odd) { transform: rotate(-.7deg); } .case:nth-child(even) { transform: rotate(.6deg); }
-.case:hover { transform: rotate(0) translateY(-2px); }
+.case:hover { transform: rotate(0); box-shadow: 1.5px 1.5px 0 var(--ink); }
+.case:active { transform: translate(3px, 3px); box-shadow: none; }
 .case .no { font: 700 20px "Caveat", cursive; color: var(--pencil); }
 .case .tag { font: 700 22px/1.1 "Caveat", cursive; }
 .case .tag.red { color: var(--red); }
 .case .tag .mono { display: block; font: 12px "Courier Prime", monospace; color: var(--pencil); margin-top: 2px; }
-.case .q { font-size: 13.5px; line-height: 1.5; color: var(--ink2); }
+.case .q { font: 16px/1.5 "Kalam", cursive; color: var(--ink2); }
 .case .go { font: 700 20px "Caveat", cursive; color: var(--blue); align-self: flex-end; }
 .case.red-top { border-top-color: var(--red); }
 
@@ -114,9 +119,9 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 #report h3 { font: 700 27px/1.1 "Caveat", cursive; color: var(--red); margin: 28px 0 8px; display: inline-block;
   background: linear-gradient(transparent 70%, var(--red-soft) 70%); padding-right: 6px; }
 .answer { font: 400 19px/1.55 "Kalam", cursive; margin: 0; }
-.prose { font-size: 15px; }
+.prose { font: 18px/1.65 "Kalam", cursive; }
 .claims { list-style: none; padding: 0; margin: 0; counter-reset: c; }
-.claims li { padding: 6px 0 6px 34px; position: relative; counter-increment: c; border-bottom: 1px dashed var(--rule); }
+.claims li { font: 18px/1.6 "Kalam", cursive; padding: 8px 0 8px 34px; position: relative; counter-increment: c; border-bottom: 1px dashed var(--rule); }
 .claims li::before { content: counter(c) "."; position: absolute; left: 4px; top: 3px; font: 700 21px "Caveat", cursive; color: var(--blue); }
 .cite { font: 700 12px/1 "Courier Prime", monospace; border: 0; background: var(--hl); color: var(--ink); padding: 1px 4px; margin: 0 1px; cursor: pointer; vertical-align: 2px; border-radius: 2px; }
 .cite:hover, .cite:focus-visible { outline: 1.5px solid var(--red); }
@@ -175,14 +180,27 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 .axis { display: flex; justify-content: space-between; font: 11px "Courier Prime", monospace; color: var(--pencil); margin-left: 118px; }
 .checked { font: 18px "Caveat", cursive; color: var(--red); border: 2px solid var(--red); border-radius: 50% 40% 45% 55% / 60% 50% 55% 45%; padding: 8px 14px; margin: 0 0 16px; text-align: center; transform: rotate(-2deg); background: var(--card); }
 details.grp { border-top: 1px dashed var(--pencil); background: var(--card); }
-details.grp summary { cursor: pointer; padding: 6px 2px; font: 13px "Courier Prime", monospace; display: flex; justify-content: space-between; list-style: none; }
+details.grp summary { cursor: pointer; padding: 6px 2px; font: 13px "Courier Prime", monospace; display: flex; gap: 8px; list-style: none; }
+details.grp summary > span:first-child { flex: 1; }
+details.grp summary::before { content: "+"; font: 700 20px/14px "Caveat", cursive; color: var(--blue); width: 12px; transition: transform var(--motion); }
+details.grp[open] summary::before { transform: rotate(45deg); color: var(--red); }
 details.grp summary::-webkit-details-marker { display: none; }
 .call { font-size: 12.5px; padding: 4px 0 4px 10px; border-left: 2px solid var(--rule); margin: 0 0 6px 2px; word-break: break-word; }
 .call .fn { font-weight: 700; }
 .call .args { color: var(--pencil); font-size: 11.5px; max-height: 48px; overflow: hidden; }
 .empty-log { font: 18px/1.4 "Caveat", cursive; color: var(--ink2); background: var(--card); margin: 0; }
 
-footer { padding: 20px 0 40px; font-size: 13px; color: var(--ink2); }
+.closing { font: 700 clamp(34px, 6vw, 60px)/1 "Caveat", cursive; color: var(--red); margin: 10px 0 18px; transform: rotate(-1deg); }
+footer { padding: 18px 0 40px; font-size: 13px; color: var(--ink2); border-top: var(--stroke) dashed var(--rule); }
+:focus-visible { outline: 2px dashed var(--blue); outline-offset: 3px; }
+.bar textarea:focus-visible { outline: 2px dashed var(--blue); outline-offset: 4px; }
+.arrow { position: absolute; right: 18px; top: -44px; width: 120px; height: 52px; color: var(--blue); pointer-events: none; }
+.arrow-note { position: absolute; right: 140px; top: -46px; font: 700 21px "Caveat", cursive; color: var(--blue); transform: rotate(-3deg); white-space: nowrap; }
+@media (max-width: 640px) { .arrow, .arrow-note { display: none; } .case, .qcard, .sticky, .log, .bar button, h1 .circled, .closing { transform: none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .case, .qcard, .sticky, .log, .bar button, .stamp, .checked, .closing, .case:active, .bar button:active { transform: none !important; }
+}
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 30px; }
 footer p { margin: 0; max-width: 48em; }
 footer .sig { font: 700 22px "Caveat", cursive; color: var(--pencil); }
@@ -221,6 +239,8 @@ footer .sig { font: 700 22px "Caveat", cursive; color: var(--pencil); }
 
   <section class="ask">
     <form id="form" class="ask-card">
+      <span class="arrow-note" aria-hidden="true">start here</span>
+      <svg class="arrow" viewBox="0 0 120 52" aria-hidden="true"><path d="M4 8 C 40 2, 78 10, 92 40 M80 34 L93 42 L98 27" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <label for="q">Open a new case</label>
       <div class="bar">
         <textarea id="q" placeholder="a sponsor, drug, condition or NCT number..."></textarea>
@@ -249,6 +269,7 @@ footer .sig { font: 700 22px "Caveat", cursive; color: var(--pencil); }
   </main>
 </div>
 
+<div class="wrap"><p class="closing">Patients took the risk. The results should exist.</p></div>
 <footer><div class="wrap">
   <p>This reports only what sponsors registered, filed and published. A mismatch between sources is a discrepancy, not proof of intent. A late or missing result is not proof that a law was broken. Not medical advice.</p>
   <span class="sig">Rishika, Shreya &amp; Kshamaa</span>
