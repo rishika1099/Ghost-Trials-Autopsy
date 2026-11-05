@@ -3,20 +3,20 @@
   "findings": {
     "findings": [
       {
-        "claim": "There are 27 stopped (terminated, withdrawn, or suspended) industry-sponsored phase 2 Alzheimer's disease trials in the snapshot.",
+        "claim": "There are 27 stopped industry Phase 2 Alzheimer's disease trials in the snapshot.",
         "evidence_ids": [
-          "sql:f01b0ef5"
+          "sql:749048b6"
         ],
         "confidence": "high",
-        "notes": "Based on filtered query over trials and trial_derived tables in the snapshot."
+        "notes": "Includes terminated, withdrawn, or suspended industry trials with Alzheimer's disease in conditions."
       },
       {
-        "claim": "The breakdown of these 27 stopped industry phase 2 Alzheimer's disease trials by why_stopped_category is: 7 efficacy, 5 blank, 5 business/strategic, 4 enrollment, 3 other, and 3 safety.",
+        "claim": "Breakdown of stopped industry Phase 2 Alzheimer's disease trials by why_stopped_category: 7 efficacy, 5 blank, 5 business/strategic, 4 enrollment, 3 other, 3 safety.",
         "evidence_ids": [
-          "sql:793dbccc"
+          "sql:9f4d3194"
         ],
         "confidence": "high",
-        "notes": "Derived from SQL grouping of why_stopped_category in the snapshot."
+        "notes": "Snapshot scope covers industry-sponsored interventional phase 2/3 trials with primary completion between 2015 and 2023."
       }
     ],
     "gaps": []
@@ -26,14 +26,14 @@
     {
       "name": "query_trials_sql",
       "args": {
-        "sql": "SELECT count(*) as total_stopped FROM trials t JOIN trial_derived d USING (nct_id) WHERE d.stopped AND t.phase = 'PHASE2' AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' AND t.sponsor_class = 'INDUSTRY';"
+        "sql": "SELECT count(*) AS total_stopped, count(CASE WHEN d.why_stopped_category IS NULL THEN 1 END) AS blank_reason FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'"
       },
       "result": "1 rows, 1 evidence ids"
     },
     {
       "name": "query_trials_sql",
       "args": {
-        "sql": "SELECT d.why_stopped_category, count(*) AS n FROM trials t JOIN trial_derived d USING (nct_id) WHERE d.stopped AND t.phase = 'PHASE2' AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' AND t.sponsor_class = 'INDUSTRY' GROUP BY 1 ORDER BY n DESC;"
+        "sql": "SELECT d.why_stopped_category, count(*) AS count FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' GROUP BY 1 ORDER BY count DESC"
       },
       "result": "6 rows, 1 evidence ids"
     },

@@ -3,84 +3,76 @@
   "findings": {
     "findings": [
       {
-        "claim": "Ultragenyx Pharmaceutical has 9 stopped trials in the snapshot.",
-        "evidence_ids": [
-          "sql:003efbce"
-        ],
-        "confidence": "high",
-        "notes": "Count of stopped trials matching the sponsor string."
-      },
-      {
-        "claim": "Trial NCT02618915 is Phase Phase 1/Phase 2, overall status TERMINATED, results posted: true, and why_stopped: \"Sponsor decision; not due to any safety concerns related to DTX101.\"",
+        "claim": "NCT02618915 is a Phase 1/Phase 2 terminated trial with stated why_stopped \"Sponsor decision; not due to any safety concerns related to DTX101.\" (category business/strategic), and results were posted.",
         "evidence_ids": [
           "ctgov:NCT02618915"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT02618915."
+        "notes": "Snapshot data"
       },
       {
-        "claim": "Trial NCT02736188 is Phase Phase 3, overall status TERMINATED, results posted: true, and why_stopped is blank (NULL).",
+        "claim": "NCT02736188 is a Phase 3 terminated trial with a blank why_stopped category, and results were posted.",
         "evidence_ids": [
           "ctgov:NCT02736188"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT02736188."
+        "notes": "Snapshot data"
       },
       {
-        "claim": "Trial NCT02731690 is Phase Phase 2, overall status TERMINATED, results posted: true, and why_stopped is blank (NULL).",
+        "claim": "NCT02731690 is a Phase 2 terminated trial with a blank why_stopped category, and results were posted.",
         "evidence_ids": [
           "ctgov:NCT02731690"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT02731690."
+        "notes": "Snapshot data"
       },
       {
-        "claim": "Trial NCT03216486 is Phase Phase 2, overall status WITHDRAWN, results posted: false, and why_stopped: \"Administrative Reason\".",
+        "claim": "NCT03216486 is a Phase 2 withdrawn trial with stated why_stopped \"Administrative Reason\" (category business/strategic), and results were not posted.",
         "evidence_ids": [
           "ctgov:NCT03216486"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT03216486."
+        "notes": "Snapshot data"
       },
       {
-        "claim": "Trial NCT02960217 is Phase Phase 3, overall status TERMINATED, results posted: true, and why_stopped: \"Study was halted prematurely due to lack of efficacy.\"",
+        "claim": "NCT02960217 is a Phase 3 terminated trial with stated why_stopped \"Study was halted prematurely due to lack of efficacy.\" (category efficacy), and results were posted.",
         "evidence_ids": [
           "ctgov:NCT02960217"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT02960217."
+        "notes": "Snapshot data"
       },
       {
-        "claim": "Trial NCT02599961 is Phase Phase 2, overall status TERMINATED, results posted: true, and why_stopped: \"Study was halted prematurely due to lack of efficacy\".",
+        "claim": "NCT02599961 is a Phase 2 terminated trial with stated why_stopped \"Study was halted prematurely due to lack of efficacy\" (category efficacy), and results were posted.",
         "evidence_ids": [
           "ctgov:NCT02599961"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT02599961."
+        "notes": "Snapshot data"
       },
       {
-        "claim": "Trial NCT04088734 is Phase Phase 1/Phase 2, overall status TERMINATED, results posted: true, and why_stopped: \"Terminated due to lack of efficacy seen in patients with advanced MPS IIIA disease. The patients will be followed up annually for safety until five years post dosing\".",
+        "claim": "NCT04088734 is a Phase 1/Phase 2 terminated trial with stated why_stopped \"Terminated due to lack of efficacy seen in patients with advanced MPS IIIA disease. The patients will be followed up annually for safety until five years post dosing\" (category safety), and results were posted.",
         "evidence_ids": [
           "ctgov:NCT04088734"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT04088734."
+        "notes": "Snapshot data"
       },
       {
-        "claim": "Trial NCT05312697 is Phase Phase 2, overall status TERMINATED, results posted: true, and why_stopped: \"Sponsor decision not related to safety concerns\".",
+        "claim": "NCT05312697 is a Phase 2 terminated trial with stated why_stopped \"Sponsor decision not related to safety concerns\" (category business/strategic), and results were posted.",
         "evidence_ids": [
           "ctgov:NCT05312697"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT05312697."
+        "notes": "Snapshot data"
       },
       {
-        "claim": "Trial NCT04990388 is Phase Phase 1/Phase 2, overall status TERMINATED, results posted: true, and why_stopped: \"Sponsor decision not related to safety concerns\".",
+        "claim": "NCT04990388 is a Phase 1/Phase 2 terminated trial with stated why_stopped \"Sponsor decision not related to safety concerns\" (category business/strategic), and results were posted.",
         "evidence_ids": [
           "ctgov:NCT04990388"
         ],
         "confidence": "high",
-        "notes": "Snapshot data for NCT04990388."
+        "notes": "Snapshot data"
       }
     ],
     "gaps": []
@@ -93,13 +85,6 @@
         "sql": "SELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_posted, t.results_first_post_date, d.results_due_date, d.days_late FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.sponsor ILIKE '%Ultragenyx Pharmaceutical%' AND d.stopped ORDER BY t.primary_completion_date"
       },
       "result": "9 rows, 9 evidence ids"
-    },
-    {
-      "name": "query_trials_sql",
-      "args": {
-        "sql": "SELECT count(*) AS total_stopped FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.sponsor ILIKE '%Ultragenyx Pharmaceutical%' AND d.stopped"
-      },
-      "result": "1 rows, 1 evidence ids"
     }
   ]
 }

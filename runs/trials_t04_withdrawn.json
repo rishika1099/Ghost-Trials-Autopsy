@@ -3,36 +3,36 @@
   "findings": {
     "findings": [
       {
-        "claim": "Trial NCT02406508 had an overall status of WITHDRAWN.",
+        "claim": "Trial NCT02406508 has an overall status of WITHDRAWN.",
         "evidence_ids": [
           "ctgov:NCT02406508"
         ],
         "confidence": "high",
-        "notes": "Live record matches the snapshot."
+        "notes": "Live record matches snapshot."
       },
       {
-        "claim": "The stated why_stopped reason for trial NCT02406508 is \"No enrollment in the study\", categorized as enrollment.",
+        "claim": "The stated why_stopped reason for trial NCT02406508 is \"No enrollment in the study\", categorized under enrollment.",
         "evidence_ids": [
           "ctgov:NCT02406508"
         ],
         "confidence": "high",
-        "notes": "Live record matches the snapshot."
+        "notes": "Snapshot and live record both confirm this reason."
       },
       {
-        "claim": "Trial NCT02406508 started in October 2014, with a primary completion date and completion date of December 2017.",
+        "claim": "Trial NCT02406508 started in October 2014 and had a primary completion date and completion date of December 2017.",
         "evidence_ids": [
           "ctgov:NCT02406508"
         ],
         "confidence": "high",
-        "notes": "Dates have precision set to month."
+        "notes": "Dates have month precision."
       },
       {
-        "claim": "Trial NCT02406508 enrolled 0 patients.",
+        "claim": "Enrollment for trial NCT02406508 was 0 people.",
         "evidence_ids": [
           "ctgov:NCT02406508"
         ],
         "confidence": "high",
-        "notes": "Never enrolled anyone."
+        "notes": "Withdrawn before enrolling any participants."
       },
       {
         "claim": "Trial NCT02406508 does not owe results and has no results posted on ClinicalTrials.gov.",
@@ -40,7 +40,7 @@
           "ctgov:NCT02406508"
         ],
         "confidence": "high",
-        "notes": "Withdrawn trials that never enrolled patients are not required to post results."
+        "notes": "Results are not due because the trial never enrolled participants (stopped_never_enrolled)."
       }
     ],
     "gaps": []
@@ -48,18 +48,18 @@
   "problems": [],
   "tool_calls": [
     {
-      "name": "query_trials_sql",
-      "args": {
-        "sql": "SELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT02406508'"
-      },
-      "result": "1 rows, 1 evidence ids"
-    },
-    {
       "name": "get_trial_live",
       "args": {
         "nct_id": "NCT02406508"
       },
       "result": "NCT02406508: WITHDRAWN, why_stopped='No enrollment in the study'"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, t.results_first_post_date, d.results_due_date, d.results_posted, d.days_late, d.stopped FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT02406508'"
+      },
+      "result": "1 rows, 1 evidence ids"
     },
     {
       "name": "get_snapshot_stats",

@@ -8,7 +8,7 @@
           "ctgov:NCT03738423"
         ],
         "confidence": "high",
-        "notes": "Confirmed in both snapshot and live record."
+        "notes": "Confirmed in snapshot and live record."
       },
       {
         "claim": "Trial NCT03738423 stated reason for stopping is \"Lack of efficacy\", categorized under efficacy.",
@@ -16,7 +16,7 @@
           "ctgov:NCT03738423"
         ],
         "confidence": "high",
-        "notes": ""
+        "notes": "Exact quote from registry record."
       },
       {
         "claim": "Trial NCT03738423 enrollment is 129 patients.",
@@ -24,23 +24,15 @@
           "ctgov:NCT03738423"
         ],
         "confidence": "high",
-        "notes": ""
+        "notes": "Snapshot and live match."
       },
       {
-        "claim": "Trial NCT03738423 primary completion date was March 13, 2020, making the approximate results due date March 13, 2021.",
+        "claim": "Trial NCT03738423 results were first posted on June 10, 2022, which is 454 days late relative to the approximate due date of March 13, 2021.",
         "evidence_ids": [
           "ctgov:NCT03738423"
         ],
         "confidence": "high",
-        "notes": ""
-      },
-      {
-        "claim": "Trial NCT03738423 posted results on June 10, 2022, which is 454 days late relative to the approximate due date.",
-        "evidence_ids": [
-          "ctgov:NCT03738423"
-        ],
-        "confidence": "high",
-        "notes": ""
+        "notes": "Primary completion date was March 13, 2020, making the results due date March 13, 2021."
       }
     ],
     "gaps": []
@@ -50,7 +42,7 @@
     {
       "name": "query_trials_sql",
       "args": {
-        "sql": "SELECT t.nct_id, t.title, t.sponsor, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, t.results_first_post_date, d.results_posted, d.results_due_date, d.days_late FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT03738423'"
+        "sql": "SELECT t.nct_id, t.title, t.sponsor, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT03738423';"
       },
       "result": "1 rows, 1 evidence ids"
     },
@@ -60,11 +52,6 @@
         "nct_id": "NCT03738423"
       },
       "result": "NCT03738423: TERMINATED, why_stopped='Lack of efficacy'"
-    },
-    {
-      "name": "get_snapshot_stats",
-      "args": {},
-      "result": "snapshot stats: {\"trials\": 16473, \"stopped\": 3739, \"pct_stopped_blank_reason\": 9.7, \"stopped_never_enrolled\": 834, \"pct_stopped_no_results\": 30.9, \"pct_completed_no_results\": 31.7, \"pct_stopped_with_publication\": 81."
     }
   ]
 }

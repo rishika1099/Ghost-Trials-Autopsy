@@ -8,48 +8,36 @@
           "ctgov:NCT05824559"
         ],
         "confidence": "high",
-        "notes": "Trial is outside the snapshot scope, live record retrieved."
+        "notes": "Trial is outside snapshot scope, retrieved live."
       },
       {
-        "claim": "Trial NCT05824559 stopped due to the exact stated reason: \"Company decision to wind down operations, close all clinical programs and evaluate strategic options\".",
+        "claim": "Trial NCT05824559 why_stopped text is: \"Company decision to wind down operations, close all clinical programs and evaluate strategic options\"",
         "evidence_ids": [
           "ctgov:NCT05824559"
         ],
         "confidence": "high",
-        "notes": "Live record retrieved."
+        "notes": "Live record from ClinicalTrials.gov."
       },
       {
-        "claim": "Results were posted for trial NCT05824559 on ClinicalTrials.gov with results first post date of 2024-11-21.",
+        "claim": "Results were posted for trial NCT05824559 on ClinicalTrials.gov with results_first_post_date November 21, 2024.",
         "evidence_ids": [
           "ctgov:NCT05824559"
         ],
         "confidence": "high",
-        "notes": "Live record retrieved."
+        "notes": "Live record from ClinicalTrials.gov."
       },
       {
-        "claim": "Trial NCT05824559 start date was 2023-08-07, primary completion date was 2024-07-09, and completion date was 2024-07-23 with an enrollment of 23.",
+        "claim": "Trial NCT05824559 start date was August 7, 2023, primary completion date was July 9, 2024, and completion date was July 23, 2024, with an enrollment of 23.",
         "evidence_ids": [
           "ctgov:NCT05824559"
         ],
         "confidence": "high",
-        "notes": "Live record retrieved."
+        "notes": "Live record from ClinicalTrials.gov."
       },
       {
-        "claim": "ME-344 has no FDA approval application on Drugs@FDA.",
+        "claim": "ME-344 has no FDA approvals found in Drugs@FDA.",
         "evidence_ids": [
           "fda:none:me-344"
-        ],
-        "confidence": "high",
-        "notes": "Checked via get_fda_approvals."
-      },
-      {
-        "claim": "Bevacizumab has multiple FDA-approved applications on Drugs@FDA.",
-        "evidence_ids": [
-          "fda:BLA761175",
-          "fda:BLA761198",
-          "fda:BLA761231",
-          "fda:BLA761268",
-          "fda:BLA761320"
         ],
         "confidence": "high",
         "notes": "Checked via get_fda_approvals."
@@ -72,13 +60,6 @@
         "drug_name": "ME-344"
       },
       "result": "0 applications (No Drugs@FDA application found for this name. Cite fda:none:me-344 for that.)"
-    },
-    {
-      "name": "get_fda_approvals",
-      "args": {
-        "drug_name": "Bevacizumab"
-      },
-      "result": "5 applications"
     }
   ]
 }
