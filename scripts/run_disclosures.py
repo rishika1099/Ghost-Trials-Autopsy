@@ -1,11 +1,11 @@
 """Run only the disclosures researcher on the three sample queries, and check its quotes.
 
     uv run python scripts/run_disclosures.py          # s1, s2, s3
-    uv run python scripts/run_disclosures.py s1       # one of them
+    uv run python scripts/run_disclosures.py s1       # one of them (s1 is vTv NCT03980730, per samples.json)
 
 Each brief is what the Lead would send for that sample. For every finding, every "quoted phrase" must appear
-character for character in an evidence record the finding cites (a filing snippet or excerpt), and every
-cited evidence_id must exist. Outputs go to runs/disclosures_<id>.json.
+word for word in a record the finding cites (a filing snippet or excerpt, or a registry field such as why_stopped),
+normalized as ghost/citecheck.py does (case, spacing, curly quotes), and every cited evidence_id must exist. Outputs go to runs/disclosures_<id>.json.
 """
 
 import asyncio
@@ -15,14 +15,16 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from ghost.citecheck import _norm  # noqa: E402
 from ghost.config import ROOT  # noqa: E402
 from ghost.pipeline import Brief, run_researcher  # noqa: E402
 from ghost.state import RunState  # noqa: E402
 
 BRIEFS = {
-    "s1_discrepancy": "Disclosures for Veru Inc. trial NCT05065411 (enobosarm with abemaciclib, phase 3, terminated; registry "
-                      "reason 'Business decision'; primary completion 2023-10-19, completion 2024-01-09). Find what Veru told "
-                      "investors in 8-Ks about this trial near when it stopped. Quote the 8-K language exactly and say whether it gives a reason.",
+    "s1_discrepancy": "Disclosures for vTv Therapeutics trial NCT03980730 (Elevage, azeliragon in mild Alzheimer's disease with "
+                      "impaired glucose tolerance, phase 2, terminated; registry reason 'for business reasons'; primary completion "
+                      "2020-12-01, completion 2021-01-29). Find what vTv told investors in 8-Ks about this trial near when it stopped. "
+                      "Quote the 8-K language exactly and say whether it gives a reason.",
     "s2_never_posted": "Disclosures for Sorrento Therapeutics, Inc. trial NCT04903327 (COVI-MSC, phase 2, terminated; primary "
                        "completion 2022-08-29, completion 2022-11-23). Find what Sorrento told investors in 8-Ks about this trial "
                        "or COVI-MSC near when it stopped. Quote the 8-K language exactly and say whether it gives a reason.",
@@ -34,13 +36,19 @@ BRIEFS = {
 QUOTE = re.compile(r"[\"“]([^\"”]{8,})[\"”]")
 
 
-def squash(text: str) -> str:
-    return re.sub(r"\s+", " ", text).strip()
+def strings(value) -> list[str]:
+    """Every text value in a record: snippets, excerpts, and registry fields such as why_stopped."""
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        return [s for v in value.values() for s in strings(v)]
+    if isinstance(value, (list, tuple)):
+        return [s for v in value for s in strings(v)]
+    return []
 
 
 def evidence_text(record) -> str:
-    data = record.data
-    return squash(" ".join([record.title, str(data.get("snippet") or ""), " ".join(data.get("excerpts") or [])]))
+    return _norm(" ".join([record.title, *strings(record.data)]))
 
 
 def check_quotes(state: RunState, findings: dict) -> list[dict]:
@@ -51,7 +59,7 @@ def check_quotes(state: RunState, findings: dict) -> list[dict]:
         pool = " ".join(evidence_text(r) for r in cited if r)
         for text in (finding["claim"], finding.get("notes") or ""):
             for quote in QUOTE.findall(text):
-                results.append({"quote": quote, "exact": squash(quote) in pool, "cited": finding["evidence_ids"]})
+                results.append({"quote": quote, "exact": _norm(quote) in pool, "cited": finding["evidence_ids"]})
         if missing:
             results.append({"quote": None, "exact": False, "cited": finding["evidence_ids"], "missing_ids": missing})
     return results
