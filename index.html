@@ -6,7 +6,7 @@
 <title>Ghost Trials Autopsy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --paper: #f7f2e7; --card: #fcf8ef; --ink: #38352f; --ink2: #514d44; --pencil: #7a7466; --rule: #ddd6c6; --margin: #d9a79f;
@@ -31,34 +31,35 @@
 }
 * { box-sizing: border-box; }
 html { background: var(--paper); }
+body { font-synthesis: none; }
+b, strong { font-weight: 400; color: var(--ink); }
 body {
   margin: 0; color: var(--ink); overflow-x: hidden;
-  font: 15px/1.6 "Shantell Sans", system-ui, sans-serif;
+  font: 17px/1.6 "Patrick Hand", system-ui, sans-serif;
   background-color: var(--paper);
   background-image: linear-gradient(to bottom, transparent 27px, var(--rule) 27px, var(--rule) 28px);
   background-size: 100% 28px;
 }
 a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 button { font: inherit; color: inherit; }
-.hand { font-family: "Shantell Sans", cursive; }
+.hand { font-family: "Patrick Hand", cursive; }
 .mono { font-family: "DM Mono", ui-monospace, monospace; font-size: .82em; }
 .wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px 0 56px; position: relative; }
-.wrap::before { content: ""; position: absolute; top: 0; bottom: 0; left: 36px; border-left: 2px solid var(--margin); pointer-events: none; }
-@media (max-width: 640px) { .wrap { padding-left: 30px; } .wrap::before { left: 16px; } }
+@media (max-width: 640px) { .wrap { padding-left: 30px; } }
 
 /* header */
 .mast { padding-top: 18px; }
 .mast .row { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 20px; flex-wrap: wrap; }
-.mast .no { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
+.mast .no { font: 19px "Patrick Hand", cursive; color: var(--pencil); }
 .mast nav { display: flex; gap: 4px 14px; flex-wrap: wrap; font-size: 13px; }
 .mast nav span { color: var(--pencil); }
 
 .intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; padding: 20px 0 30px; }
 @media (max-width: 880px) { .intro { grid-template-columns: minmax(0, 1fr); gap: 26px; } }
-h1 { font: 700 clamp(38px, 6.4vw, 68px)/1.05 "Shantell Sans", cursive; margin: 6px 0 16px; letter-spacing: -.01em; }
+h1 { font: clamp(44px, 7.4vw, 80px)/1 "Patrick Hand", cursive; margin: 6px 0 16px; letter-spacing: -.01em; }
 h1 .circled { position: relative; color: var(--red); white-space: nowrap; display: inline-block; }
 h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 122%; overflow: visible; pointer-events: none; }
-.dek { font: 400 17px/1.55 "Shantell Sans", cursive; margin: 0 0 14px; max-width: 32em; }
+.dek { font: 19.5px/1.55 "Patrick Hand", cursive; margin: 0 0 14px; max-width: 32em; }
 .who { font-size: 13.5px; color: var(--ink2); margin: 0; }
 .who b { background: var(--hl); font-weight: 400; padding: 0 2px; }
 #snap { display: block; margin-top: 6px; color: var(--pencil); }
@@ -68,42 +69,42 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
   content: ""; position: absolute; top: -11px; left: 50%; width: 96px; height: 24px; margin-left: -48px; background: var(--tape); transform: rotate(-3deg);
   clip-path: polygon(0 8%, 4% 0, 9% 10%, 14% 2%, 86% 0, 91% 9%, 96% 1%, 100% 10%, 100% 92%, 95% 100%, 90% 90%, 85% 99%, 13% 100%, 8% 91%, 3% 100%, 0 90%);
 }
-.qcard h2 { font: 700 19px "Shantell Sans", cursive; margin: 0 0 4px; color: var(--blue); }
+.qcard h2 { font: 22px "Patrick Hand", cursive; margin: 0 0 4px; color: var(--blue); }
 .qcard ol { margin: 0; padding: 0; list-style: none; }
 .qcard li { display: grid; grid-template-columns: 26px 1fr; gap: 4px; padding: 7px 0; border-bottom: 1px dashed var(--rule); }
 .qcard li:last-child { border-bottom: 0; }
 .qcard .box { width: 15px; height: 15px; border: 1.5px solid var(--ink); border-radius: 2px; margin-top: 4px; position: relative; }
-.qcard .box::after { content: "✓"; position: absolute; left: 1px; top: -9px; font: 700 16.5px "Shantell Sans", cursive; color: var(--red); }
-.qcard b { font: 700 15.5px/1.2 "Shantell Sans", cursive; display: block; }
+.qcard .box::after { content: "✓"; position: absolute; left: 1px; top: -9px; font: 19px "Patrick Hand", cursive; color: var(--red); }
+.qcard b { font: 18px/1.2 "Patrick Hand", cursive; display: block; }
 .qcard small { color: var(--ink2); font-size: 13px; display: block; line-height: 1.45; }
 
 /* ask */
 .ask-card { position: relative; background: var(--card); box-shadow: var(--shadow); padding: 20px 22px 16px; margin: 4px 0 26px; }
-.ask-card label { display: block; font: 700 20.5px "Shantell Sans", cursive; margin-bottom: 4px; }
+.ask-card label { display: block; font: 23.5px "Patrick Hand", cursive; margin-bottom: 4px; }
 .bar { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
 .bar textarea { flex: 1 1 280px; min-width: 0; border: 0; border-bottom: 2px solid var(--ink); outline: 0; background: transparent; color: var(--ink); resize: none;
-  font: 20.5px/1.3 "Shantell Sans", cursive; padding: 6px 2px; height: 50px; }
+  font: 23.5px/1.3 "Patrick Hand", cursive; padding: 6px 2px; height: 50px; }
 .bar textarea::placeholder { color: var(--pencil); opacity: .8; }
-.bar button { border: var(--stroke) solid var(--red); color: var(--red); background: var(--card); padding: 4px 20px; font: 700 18.5px "Shantell Sans", cursive; cursor: pointer;
+.bar button { border: var(--stroke) solid var(--red); color: var(--red); background: var(--card); padding: 4px 20px; font: 21.5px "Patrick Hand", cursive; cursor: pointer;
   border-radius: var(--radius-control); transform: rotate(-1.5deg); box-shadow: 3px 3px 0 var(--red); transition: transform var(--motion), box-shadow var(--motion); }
 .bar button:hover { transform: rotate(0); box-shadow: 1.5px 1.5px 0 var(--red); }
 .bar button:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--red); }
 .bar button:disabled { opacity: .5; cursor: progress; }
 .hint { font-size: 13px; color: var(--pencil); margin: 10px 0 0; }
 
-.cases h2 { font: 700 22px "Shantell Sans", cursive; margin: 0 0 10px; }
+.cases h2 { font: 25.5px "Patrick Hand", cursive; margin: 0 0 10px; }
 #chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
 .case { position: relative; text-align: left; background: var(--card); border: var(--stroke) solid var(--ink); border-radius: var(--radius-control); box-shadow: 3px 3px 0 var(--ink); padding: 14px 16px 14px; cursor: pointer;
   display: flex; flex-direction: column; gap: 6px; transition: transform var(--motion), box-shadow var(--motion); border-top: 4px solid var(--blue); }
 .case:nth-child(odd) { transform: rotate(-.7deg); } .case:nth-child(even) { transform: rotate(.6deg); }
 .case:hover { transform: rotate(0); box-shadow: 1.5px 1.5px 0 var(--ink); }
 .case:active { transform: translate(3px, 3px); box-shadow: none; }
-.case .no { font: 700 15px "Shantell Sans", cursive; color: var(--pencil); }
-.case .tag { font: 700 16.5px/1.1 "Shantell Sans", cursive; }
+.case .no { font: 17px "Patrick Hand", cursive; color: var(--pencil); }
+.case .tag { font: 19px/1.1 "Patrick Hand", cursive; }
 .case .tag.red { color: var(--red); }
 .case .tag .mono { display: block; font: 11.5px "DM Mono", monospace; color: var(--pencil); margin-top: 2px; }
-.case .q { font: 14.5px/1.5 "Shantell Sans", cursive; color: var(--ink2); }
-.case .go { font: 700 15px "Shantell Sans", cursive; color: var(--blue); align-self: flex-end; }
+.case .q { font: 16.5px/1.5 "Patrick Hand", cursive; color: var(--ink2); }
+.case .go { font: 17px "Patrick Hand", cursive; color: var(--blue); align-self: flex-end; }
 .case.red-top { border-top-color: var(--red); }
 
 /* desk */
@@ -112,18 +113,18 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 .file { position: relative; background: var(--card); box-shadow: var(--shadow); padding: 26px 28px 30px; min-width: 0; }
 @media (max-width: 640px) { .file { padding: 22px 16px 24px; } }
 .filehead { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-bottom: 2px solid var(--ink); margin-bottom: 18px; padding-bottom: 2px; }
-.sect { font: 700 22px/1.1 "Shantell Sans", cursive; }
-.waiting { font: 17px/1.6 "Shantell Sans", cursive; color: var(--pencil); padding: 24px 0; margin: 0; }
+.sect { font: 25.5px/1.1 "Patrick Hand", cursive; }
+.waiting { font: 19.5px/1.6 "Patrick Hand", cursive; color: var(--pencil); padding: 24px 0; margin: 0; }
 .waiting b { color: var(--ink); font-weight: 700; }
 
-#report h3 { font: 700 20px/1.1 "Shantell Sans", cursive; color: var(--red); margin: 28px 0 8px; display: inline-block;
+#report h3 { font: 23px/1.1 "Patrick Hand", cursive; color: var(--red); margin: 28px 0 8px; display: inline-block;
   background: linear-gradient(transparent 70%, var(--red-soft) 70%); padding-right: 6px; }
-.answer { font: 400 17px/1.55 "Shantell Sans", cursive; margin: 0; }
-.prose { font: 16px/1.65 "Shantell Sans", cursive; }
+.answer { font: 19.5px/1.55 "Patrick Hand", cursive; margin: 0; }
+.prose { font: 18.5px/1.65 "Patrick Hand", cursive; }
 .claims { list-style: none; padding: 0; margin: 0; counter-reset: c; }
-.claims li { font: 16px/1.6 "Shantell Sans", cursive; padding: 8px 0 8px 34px; position: relative; counter-increment: c; border-bottom: 1px dashed var(--rule); }
-.claims li::before { content: counter(c) "."; position: absolute; left: 4px; top: 9px; font: 700 15.5px "Shantell Sans", cursive; color: var(--blue); }
-.cite { font: 700 12px/1 "Shantell Sans", sans-serif; border: 0; background: var(--hl); color: var(--ink); padding: 1px 4px; margin: 0 1px; cursor: pointer; vertical-align: 2px; border-radius: 2px; }
+.claims li { font: 18.5px/1.6 "Patrick Hand", cursive; padding: 8px 0 8px 34px; position: relative; counter-increment: c; border-bottom: 1px dashed var(--rule); }
+.claims li::before { content: counter(c) "."; position: absolute; left: 4px; top: 9px; font: 18px "Patrick Hand", cursive; color: var(--blue); }
+.cite { font: 14px/1 "Patrick Hand", sans-serif; border: 0; background: var(--hl); color: var(--ink); padding: 1px 4px; margin: 0 1px; cursor: pointer; vertical-align: 2px; border-radius: 2px; }
 .cite:hover, .cite:focus-visible { outline: 1.5px solid var(--red); }
 .differ { border-left: 3px solid var(--red); padding: 2px 0 2px 14px; }
 .differ .claims li::before { color: var(--red); }
@@ -131,19 +132,19 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
   box-shadow: 0 10px 18px -12px rgba(0, 0, 0, .35); border-bottom: 1px solid var(--sticky-edge); }
 #report .sticky h3 { color: var(--ink); background: none; margin-top: 0; font-size: 28px; }
 .sticky ul { margin: 0; padding-left: 0; list-style: none; }
-.sticky li { font: 15.5px/1.5 "Shantell Sans", cursive; padding: 0 0 8px 22px; position: relative; }
-.sticky li::before { content: "!"; position: absolute; left: 4px; top: -2px; font: 700 16.5px "Shantell Sans", cursive; color: var(--red); }
+.sticky li { font: 18px/1.5 "Patrick Hand", cursive; padding: 0 0 8px 22px; position: relative; }
+.sticky li::before { content: "!"; position: absolute; left: 4px; top: -2px; font: 19px "Patrick Hand", cursive; color: var(--red); }
 .sources ol { padding: 0; margin: 0; list-style: none; }
 .sources li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px; padding: 6px 4px; border-bottom: 1px dashed var(--rule); word-break: break-word; transition: background .4s; }
 .sources li.hit { background: var(--hl); }
-.sources .sn { font: 700 15px/1.2 "Shantell Sans", cursive; color: var(--blue); }
+.sources .sn { font: 17px/1.2 "Patrick Hand", cursive; color: var(--blue); }
 .sources .st { display: block; font-size: 12px; color: var(--pencil); }
 .sources a { font-size: 15px; }
-.stamp { display: inline-block; font: 700 13px "Shantell Sans", sans-serif; text-transform: uppercase; letter-spacing: .06em; padding: 4px 10px;
+.stamp { display: inline-block; font: 15px "Patrick Hand", sans-serif; text-transform: uppercase; letter-spacing: .06em; padding: 4px 10px;
   border: 3px double var(--ink); color: var(--ink); transform: rotate(-3deg); opacity: .9; }
 .stamp.red { color: var(--red); border-color: var(--red); }
-.foot { margin-top: 20px; font: 13.5px "Shantell Sans", cursive; color: var(--pencil); }
-.clarify .q { font: 400 19px/1.5 "Shantell Sans", cursive; margin: 14px 0 16px; }
+.foot { margin-top: 20px; font: 15.5px "Patrick Hand", cursive; color: var(--pencil); }
+.clarify .q { font: 22px/1.5 "Patrick Hand", cursive; margin: 14px 0 16px; }
 .clarify .case { margin: 0 0 12px; }
 .err { border: 2px dashed var(--red); padding: 12px 14px; color: var(--red); background: var(--red-soft); word-break: break-word; }
 
@@ -151,10 +152,10 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 .tl { margin: 6px 0 16px; }
 .tl .meta { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; font-size: 14px; }
 .tl .meta .id { font-weight: 700; background: var(--hl); padding: 0 3px; }
-.tl .why { font: 15.5px "Shantell Sans", cursive; color: var(--ink2); margin: 2px 0 0; }
+.tl .why { font: 18px "Patrick Hand", cursive; color: var(--ink2); margin: 2px 0 0; }
 .tl svg { width: 100%; height: auto; display: block; margin-top: 4px; }
-.tl svg text { font: 11px "Shantell Sans", sans-serif; fill: var(--pencil); }
-.tl svg .lbl { fill: var(--ink); font: 700 11px "Shantell Sans", cursive; }
+.tl svg text { font: 12.5px "Patrick Hand", sans-serif; fill: var(--pencil); }
+.tl svg .lbl { fill: var(--ink); font: 12.5px "Patrick Hand", cursive; }
 .tl svg .lbl.red { fill: var(--red); font-size: 16px; }
 
 /* log: graph paper */
@@ -164,38 +165,38 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 @media (max-width: 980px) { .log { transform: none; position: static; max-height: none; } }
 .log .sect { font-size: 27px; }
 .steps { list-style: none; margin: 0 0 16px; padding: 0; }
-.steps li { display: grid; grid-template-columns: 18px 1fr auto; gap: 6px; align-items: baseline; padding: 3px 0; font: 14px/1.3 "Shantell Sans", cursive; }
+.steps li { display: grid; grid-template-columns: 18px 1fr auto; gap: 6px; align-items: baseline; padding: 3px 0; font: 16px/1.3 "Patrick Hand", cursive; }
 .steps .mk { width: 12px; height: 12px; border: 1.5px solid var(--ink); border-radius: 50%; display: inline-block; position: relative; top: 1px; }
 .steps .run .mk { border-style: dashed; animation: spin 2s linear infinite; }
 .steps .ok .mk { background: var(--ink); }
-.steps .t { font: 12px "Shantell Sans", sans-serif; color: var(--pencil); text-align: right; }
+.steps .t { font: 14px "Patrick Hand", sans-serif; color: var(--pencil); text-align: right; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .gantt { margin: 0 0 16px; }
 .gantt .sect { font-size: 22px !important; }
-.row { display: grid; grid-template-columns: 112px 1fr; white-space: nowrap; gap: 6px; align-items: center; margin: 4px 0; font: 12px "Shantell Sans", sans-serif; }
+.row { display: grid; grid-template-columns: 112px 1fr; white-space: nowrap; gap: 6px; align-items: center; margin: 4px 0; font: 14px "Patrick Hand", sans-serif; }
 .track { position: relative; height: 12px; }
 .bar2 { position: absolute; top: 1px; bottom: 1px; min-width: 3px; border-radius: 3px 8px 4px 9px; opacity: .85; }
 .bar2.trials { background: var(--lane-t); } .bar2.disclosures { background: var(--lane-d); } .bar2.publications { background: var(--lane-p); }
 .bar2.live { opacity: .4; }
-.axis { display: flex; justify-content: space-between; font: 11px "Shantell Sans", sans-serif; color: var(--pencil); margin-left: 118px; }
-.checked { font: 13.5px "Shantell Sans", cursive; color: var(--red); border: 2px solid var(--red); border-radius: 50% 40% 45% 55% / 60% 50% 55% 45%; padding: 8px 14px; margin: 0 0 16px; text-align: center; transform: rotate(-2deg); background: var(--card); }
+.axis { display: flex; justify-content: space-between; font: 12.5px "Patrick Hand", sans-serif; color: var(--pencil); margin-left: 118px; }
+.checked { font: 15.5px "Patrick Hand", cursive; color: var(--red); border: 2px solid var(--red); border-radius: 50% 40% 45% 55% / 60% 50% 55% 45%; padding: 8px 14px; margin: 0 0 16px; text-align: center; transform: rotate(-2deg); background: var(--card); }
 details.grp { border-top: 1px dashed var(--pencil); background: var(--card); }
-details.grp summary { cursor: pointer; padding: 6px 2px; font: 13px "Shantell Sans", sans-serif; display: flex; gap: 8px; list-style: none; }
+details.grp summary { cursor: pointer; padding: 6px 2px; font: 15px "Patrick Hand", sans-serif; display: flex; gap: 8px; list-style: none; }
 details.grp summary > span:first-child { flex: 1; }
-details.grp summary::before { content: "+"; font: 700 15px/14px "Shantell Sans", cursive; color: var(--blue); width: 12px; transition: transform var(--motion); }
+details.grp summary::before { content: "+"; font: 17px/14px "Patrick Hand", cursive; color: var(--blue); width: 12px; transition: transform var(--motion); }
 details.grp[open] summary::before { transform: rotate(45deg); color: var(--red); }
 details.grp summary::-webkit-details-marker { display: none; }
 .call { font-size: 12.5px; padding: 4px 0 4px 10px; border-left: 2px solid var(--rule); margin: 0 0 6px 2px; word-break: break-word; }
 .call .fn { font-weight: 700; }
 .call .args { color: var(--pencil); font-size: 11.5px; max-height: 48px; overflow: hidden; }
-.empty-log { font: 13.5px/1.4 "Shantell Sans", cursive; color: var(--ink2); background: var(--card); margin: 0; }
+.empty-log { font: 15.5px/1.4 "Patrick Hand", cursive; color: var(--ink2); background: var(--card); margin: 0; }
 
-.closing { font: 700 clamp(26px, 4.4vw, 44px)/1.15 "Shantell Sans", cursive; color: var(--red); margin: 10px 0 18px; transform: rotate(-1deg); }
+.closing { font: clamp(30px, 5vw, 52px)/1.1 "Patrick Hand", cursive; color: var(--red); margin: 10px 0 18px; transform: rotate(-1deg); }
 footer { padding: 18px 0 40px; font-size: 13px; color: var(--ink2); border-top: var(--stroke) dashed var(--rule); }
 :focus-visible { outline: 2px dashed var(--blue); outline-offset: 3px; }
 .bar textarea:focus-visible { outline: 2px dashed var(--blue); outline-offset: 4px; }
 .arrow { position: absolute; right: 18px; top: -44px; width: 120px; height: 52px; color: var(--blue); pointer-events: none; }
-.arrow-note { position: absolute; right: 140px; top: -46px; font: 700 15.5px "Shantell Sans", cursive; color: var(--blue); transform: rotate(-3deg); white-space: nowrap; }
+.arrow-note { position: absolute; right: 140px; top: -46px; font: 18px "Patrick Hand", cursive; color: var(--blue); transform: rotate(-3deg); white-space: nowrap; }
 @media (max-width: 640px) { .arrow, .arrow-note { display: none; } .case, .qcard, .sticky, .log, .bar button, h1 .circled, .closing { transform: none !important; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -203,10 +204,51 @@ footer { padding: 18px 0 40px; font-size: 13px; color: var(--ink2); border-top: 
 }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 30px; }
 footer p { margin: 0; max-width: 48em; }
-footer .sig { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
+footer .sig { font: 19px "Patrick Hand", cursive; color: var(--pencil); }
+
+/* continuous margin line down the whole page */
+body { position: relative; }
+body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(max(0px, (100% - 1160px) / 2) + 36px); border-left: 2px solid var(--margin); pointer-events: none; z-index: 0; }
+@media (max-width: 640px) { body::before { left: 16px; } }
+
+/* numbered step notes */
+.step { display: flex; align-items: flex-start; gap: 8px; color: var(--blue); font: 18.5px/1.3 "Patrick Hand", cursive; margin: 0 0 4px 6px; transform: rotate(-1.2deg); }
+.step .num { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border: var(--stroke) solid var(--blue); border-radius: 52% 48% 55% 45% / 48% 55% 45% 52%; font-size: 17px; }
+.step .txt { padding-top: 4px; }
+.step svg { flex: none; width: 58px; height: 40px; margin-top: 8px; }
+.step path { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.desk-steps { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 30px; margin-top: 40px; }
+.desk-steps + .desk { margin-top: 6px; }
+@media (max-width: 980px) { .desk-steps { grid-template-columns: minmax(0, 1fr); } .desk-steps .step:last-child { display: none; } }
+
+/* doodles */
+.dd { display: block; color: var(--pencil); opacity: .75; }
+.dd use, .dd path, .dd circle, .dd rect { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.dd.blue { color: var(--blue); } .dd.red { color: var(--red); }
+.doodle-row { display: flex; justify-content: space-around; align-items: center; margin-top: 26px; gap: 10px; }
+.doodle-row .dd { width: 62px; height: 62px; }
+.doodle-row .dd:nth-child(odd) { transform: rotate(-8deg); } .doodle-row .dd:nth-child(even) { transform: rotate(6deg) translateY(8px); }
+.cases-head { display: flex; align-items: flex-end; gap: 14px; }
+.cases-head .dd { width: 44px; height: 44px; }
+.margin-dd { position: absolute; left: 4px; width: 26px; height: 26px; }
+.ecg { display: block; width: min(560px, 100%); height: 46px; color: var(--red); opacity: .8; margin: -4px 0 14px; }
+.waiting .dd { width: 54px; height: 54px; margin-bottom: 8px; }
+.sig-wrap { display: flex; align-items: center; gap: 10px; }
+.sig-wrap .dd { width: 38px; height: 38px; }
+@media (max-width: 640px) { .margin-dd, .cases-head .dd { display: none; } .doodle-row .dd { width: 48px; height: 48px; } .step { transform: none; } }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="d-pill" viewBox="0 0 64 64"><g transform="rotate(-35 32 32)"><rect x="8" y="22" width="48" height="20" rx="10"/><path d="M32 22v20M14 28c2-2 4-3 7-3"/></g></symbol>
+  <symbol id="d-syringe" viewBox="0 0 64 64"><g transform="rotate(-40 32 32)"><rect x="16" y="26" width="28" height="12" rx="2"/><path d="M44 32h14M4 32h12M4 25v14M22 26v5M28 26v5M34 26v5M40 26v5M16 23v18M44 29v6"/></g></symbol>
+  <symbol id="d-flask" viewBox="0 0 64 64"><path d="M24 6h16M27 6v18L12 52c-2 4 0 7 4 7h32c4 0 6-3 4-7L37 24V6M17 44h30"/><circle cx="28" cy="50" r="2"/><circle cx="36" cy="47" r="1.5"/><circle cx="33" cy="53" r="1"/></symbol>
+  <symbol id="d-dna" viewBox="0 0 64 64"><path d="M20 4C20 14 44 14 44 24S20 34 20 44S44 54 44 60M44 4C44 14 20 14 20 24S44 34 44 44S20 54 20 60M23 8h18M23 20h18M21 24h22M23 28h18M23 40h18M21 44h22M23 48h18"/></symbol>
+  <symbol id="d-clip" viewBox="0 0 64 64"><rect x="13" y="10" width="38" height="50" rx="3"/><rect x="23" y="5" width="18" height="10" rx="2"/><path d="M21 28l3 3 6-6M34 28h10M21 40l3 3 6-6M34 40h10M21 52h23"/></symbol>
+  <symbol id="d-tube" viewBox="0 0 64 64"><g transform="rotate(25 32 32)"><path d="M24 4h16M26 4v46a6 6 0 0 0 12 0V4M26 30h12"/></g></symbol>
+  <symbol id="d-mag" viewBox="0 0 64 64"><circle cx="26" cy="26" r="16"/><path d="M38 38l18 18M18 22c2-4 5-6 9-6"/></symbol>
+  <symbol id="d-plus" viewBox="0 0 64 64"><path d="M32 10v44M10 32h44"/></symbol>
+</defs></svg>
 <div class="mast"><div class="wrap"><div class="row">
   <span class="no">Lab notebook · IEOR 4570 · Project 2</span>
   <nav>
@@ -226,6 +268,7 @@ footer .sig { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
       <p class="dek">Drug companies end trials early all the time. Afterwards, the public registry, the investor filings and the medical journals can tell three different stories, or say nothing at all. Name a sponsor, a drug or a trial, and a team of research agents pulls all three records and lays them side by side.</p>
       <p class="who">For <b>health reporters</b>, <b>patient advocates</b> and <b>research-integrity</b> work.<span id="snap" class="mono"></span></p>
     </div>
+    <div>
     <div class="qcard">
       <h2>What we check, every case</h2>
       <ol>
@@ -235,12 +278,13 @@ footer .sig { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
         <li><span class="box"></span><div><b>Do the stories match?</b><small>Where the registry, the filings and the papers disagree</small></div></li>
       </ol>
     </div>
+    <div class="doodle-row"><svg class="dd red" aria-hidden="true"><use href="#d-pill"/></svg><svg class="dd " aria-hidden="true"><use href="#d-syringe"/></svg><svg class="dd blue" aria-hidden="true"><use href="#d-flask"/></svg><svg class="dd " aria-hidden="true"><use href="#d-dna"/></svg><svg class="dd blue" aria-hidden="true"><use href="#d-mag"/></svg></div>
+    </div>
   </section>
 
-  <section class="ask">
+  <section class="ask" style="position:relative">
+    <div class="step" aria-hidden="true"><span class="num">1</span><span class="txt">start here: name a sponsor, a drug or a trial</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div>
     <form id="form" class="ask-card">
-      <span class="arrow-note" aria-hidden="true">start here</span>
-      <svg class="arrow" viewBox="0 0 120 52" aria-hidden="true"><path d="M4 8 C 40 2, 78 10, 92 40 M80 34 L93 42 L98 27" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <label for="q">Open a new case</label>
       <div class="bar">
         <textarea id="q" placeholder="a sponsor, drug, condition or NCT number..."></textarea>
@@ -249,15 +293,17 @@ footer .sig { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
       <p class="hint">A full investigation takes one to four minutes. A question with no target gets a follow-up question first.</p>
     </form>
     <div class="cases">
-      <h2>Or pick up an old case:</h2>
+      <div class="cases-head"><h2>Or pick up an old case:</h2><svg class="dd blue" aria-hidden="true"><use href="#d-tube"/></svg><svg class="dd " aria-hidden="true"><use href="#d-clip"/></svg></div>
+      <div class="step" aria-hidden="true"><span class="num">2</span><span class="txt">no question in mind? open one of these</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div>
       <div id="chips"></div>
     </div>
   </section>
 
-  <main class="desk">
+  <div class="desk-steps"><div class="step" aria-hidden="true"><span class="num">3</span><span class="txt">the case notes land here, every claim cited</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div><div class="step" aria-hidden="true"><span class="num">4</span><span class="txt">watch the agents work, side by side</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div></div>
+  <main class="desk" style="position:relative">
     <section class="file">
       <div class="filehead"><span class="sect">Case notes</span><span class="mono" id="elapsed"></span></div>
-      <div id="report"><p class="waiting">Nothing open yet. Pick a case card above, or write your own question.</p></div>
+      <div id="report"><p class="waiting"><svg class="dd " aria-hidden="true"><use href="#d-clip"/></svg>Nothing open yet. Pick a case card above, or write your own question.</p></div>
     </section>
     <aside class="log">
       <div class="filehead"><span class="sect">Research log</span><span class="mono" id="round"></span></div>
@@ -269,10 +315,10 @@ footer .sig { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
   </main>
 </div>
 
-<div class="wrap"><p class="closing">Patients took the risk. The results should exist.</p></div>
+<div class="wrap"><p class="closing">Patients took the risk. The results should exist.</p><svg class="ecg" viewBox="0 0 560 46" preserveAspectRatio="none" aria-hidden="true"><path d="M2 26h70l8-14 10 26 12-34 9 22h40l6-8 8 8h60l8-14 10 26 12-34 9 22H558" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 <footer><div class="wrap">
   <p>This reports only what sponsors registered, filed and published. A mismatch between sources is a discrepancy, not proof of intent. A late or missing result is not proof that a law was broken. Not medical advice.</p>
-  <span class="sig">Rishika, Shreya &amp; Kshamaa</span>
+  <span class="sig-wrap"><svg class="dd red" aria-hidden="true"><use href="#d-pill"/></svg><span class="sig">Rishika, Shreya &amp; Kshamaa</span></span>
 </div></footer>
 
 <script>
