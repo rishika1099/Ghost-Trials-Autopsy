@@ -10,3 +10,4 @@ __pycache__/
 *.tmp.duckdb
 *.tmp.duckdb.wal
 logs/
+runs/*.log

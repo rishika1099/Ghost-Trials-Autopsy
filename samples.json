@@ -1,0 +1,12 @@
+[
+  {"id": "s1_discrepancy", "label": "discrepancy",
+   "query": "Veru terminated its phase 3 trial of enobosarm with abemaciclib (NCT05065411). What reason did it give the registry, what did it tell investors, and do the two match?"},
+  {"id": "s2_never_posted", "label": "never posted",
+   "query": "Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?"},
+  {"id": "s3_sponsor", "label": "sponsor",
+   "query": "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"},
+  {"id": "vague", "label": "vague",
+   "query": "Why do Alzheimer's trials fail?"},
+  {"id": "cant_answer", "label": "can't answer",
+   "query": "Did Sorrento Therapeutics break the law by not posting results for its terminated COVID-19 trials?"}
+]

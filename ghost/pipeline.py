@@ -132,8 +132,18 @@ checker = Agent(name="checker", instructions=prompt("checker"), model=model(conf
 
 
 async def run_lead_plan(state: RunState) -> LeadPlan:
-    result = await Runner.run(lead, state.question, context=state, hooks=TraceHooks(state, "lead"), max_turns=config.LEAD_MAX_TURNS)
-    return result.final_output
+    try:
+        result = await Runner.run(lead, state.question, context=state, hooks=TraceHooks(state, "lead"), max_turns=config.LEAD_MAX_TURNS)
+        return result.final_output
+    except MaxTurnsExceeded:
+        # The Lead kept looking things up. Plan now, with no tools, from what its lookups found.
+        state.notes.append("The Lead hit its lookup cap and planned from what it had found.")
+        lookups = "\n".join(f"- {c['name']}({json.dumps(c['args'], default=str)[:300]}) -> {c['result']}"
+                            for c in state.tool_calls if c["agent"] == "lead")
+        planner = lead.clone(tools=[])
+        prompt_text = f"{state.question}\n\nYour lookups so far:\n{lookups or '- none'}\n\nDecide and plan now. No more lookups."
+        result = await Runner.run(planner, prompt_text, context=state, hooks=TraceHooks(state, "lead"), max_turns=2)
+        return result.final_output
 
 
 async def run_lead_review(state: RunState, plan: LeadPlan, findings: list[dict]) -> LeadReview:

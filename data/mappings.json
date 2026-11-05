@@ -1,0 +1,343 @@
+{
+  "tables": [
+    {
+      "table": "trials",
+      "description": "One row per trial from ClinicalTrials.gov: industry-sponsored, interventional, phase 2 or 3, primary completion 2015 to 2023.",
+      "columns": [
+        {
+          "name": "nct_id",
+          "type": "VARCHAR",
+          "description": "ClinicalTrials.gov ID, e.g. NCT01234567. Primary key; joins every other table."
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR",
+          "description": "Brief title of the trial."
+        },
+        {
+          "name": "sponsor",
+          "type": "VARCHAR",
+          "description": "Lead sponsor name exactly as registered. Use ILIKE '%name%' to match: spelling varies."
+        },
+        {
+          "name": "sponsor_class",
+          "type": "VARCHAR",
+          "description": "Lead sponsor class. Always INDUSTRY in this snapshot.",
+          "enum_values": [
+            "INDUSTRY"
+          ]
+        },
+        {
+          "name": "phase",
+          "type": "VARCHAR",
+          "description": "Phase, e.g. PHASE2, PHASE3, or PHASE2/PHASE3 for combined trials.",
+          "enum_values": [
+            "PHASE1/PHASE2",
+            "PHASE2",
+            "PHASE2/PHASE3",
+            "PHASE3"
+          ]
+        },
+        {
+          "name": "conditions",
+          "type": "VARCHAR[]",
+          "description": "List of conditions studied (VARCHAR[]). Search with list_contains or array_to_string(conditions, ' ') ILIKE."
+        },
+        {
+          "name": "interventions",
+          "type": "VARCHAR[]",
+          "description": "List of intervention names (VARCHAR[]), including placebo and devices."
+        },
+        {
+          "name": "drug_names",
+          "type": "VARCHAR[]",
+          "description": "Drug and biologic intervention names without placebo (VARCHAR[]). Use these to search filings."
+        },
+        {
+          "name": "overall_status",
+          "type": "VARCHAR",
+          "description": "Registry status: TERMINATED, WITHDRAWN, SUSPENDED or COMPLETED.",
+          "enum_values": [
+            "COMPLETED",
+            "SUSPENDED",
+            "TERMINATED",
+            "WITHDRAWN"
+          ]
+        },
+        {
+          "name": "why_stopped",
+          "type": "VARCHAR",
+          "description": "The sponsor's free-text reason for stopping, as registered. NULL when completed or left blank."
+        },
+        {
+          "name": "start_date",
+          "type": "DATE",
+          "description": "Trial start date (month-only dates become the 1st)."
+        },
+        {
+          "name": "primary_completion_date",
+          "type": "DATE",
+          "description": "Date the last participant was examined for the primary outcome."
+        },
+        {
+          "name": "completion_date",
+          "type": "DATE",
+          "description": "Date the whole trial ended."
+        },
+        {
+          "name": "enrollment",
+          "type": "INTEGER",
+          "description": "Number of participants enrolled (actual for stopped trials)."
+        },
+        {
+          "name": "has_results",
+          "type": "BOOLEAN",
+          "description": "TRUE if summary results are posted on ClinicalTrials.gov.",
+          "enum_values": [
+            "False",
+            "True"
+          ]
+        },
+        {
+          "name": "results_first_post_date",
+          "type": "DATE",
+          "description": "Date results were first posted. NULL if never posted."
+        },
+        {
+          "name": "last_update_date",
+          "type": "DATE",
+          "description": "Date the registry record was last updated."
+        }
+      ]
+    },
+    {
+      "table": "trial_derived",
+      "description": "Derived columns per trial, built by scripts/build_snapshot.py. Join on nct_id.",
+      "columns": [
+        {
+          "name": "nct_id",
+          "type": "VARCHAR",
+          "description": "Trial ID; joins trials.nct_id."
+        },
+        {
+          "name": "results_due_date",
+          "type": "DATE",
+          "description": "Approximate results deadline: primary completion + 365 days. An approximation, not a legal deadline."
+        },
+        {
+          "name": "results_posted",
+          "type": "BOOLEAN",
+          "description": "TRUE if results are posted on ClinicalTrials.gov.",
+          "enum_values": [
+            "False",
+            "True"
+          ]
+        },
+        {
+          "name": "days_late",
+          "type": "INTEGER",
+          "description": "If posted: days after results_due_date it was posted (0 = on time). If not posted and past due: days overdue as of the snapshot date. NULL otherwise."
+        },
+        {
+          "name": "stopped",
+          "type": "BOOLEAN",
+          "description": "TRUE if status is TERMINATED, WITHDRAWN or SUSPENDED.",
+          "enum_values": [
+            "False",
+            "True"
+          ]
+        },
+        {
+          "name": "why_stopped_category",
+          "type": "VARCHAR",
+          "description": "Category of the stated reason: safety, efficacy, business/strategic, enrollment, other, or blank.",
+          "enum_values": [
+            "blank",
+            "business/strategic",
+            "efficacy",
+            "enrollment",
+            "other",
+            "safety"
+          ]
+        },
+        {
+          "name": "why_stopped_method",
+          "type": "VARCHAR",
+          "description": "How the category was assigned: keyword, llm, blank, or default.",
+          "enum_values": [
+            "blank",
+            "keyword",
+            "llm"
+          ]
+        }
+      ]
+    },
+    {
+      "table": "sponsor_cik",
+      "description": "Sponsor name to SEC CIK for publicly listed sponsors. Private sponsors have no row.",
+      "columns": [
+        {
+          "name": "sponsor",
+          "type": "VARCHAR",
+          "description": "Sponsor name as in trials.sponsor.",
+          "enum_values": []
+        },
+        {
+          "name": "cik",
+          "type": "VARCHAR",
+          "description": "SEC Central Index Key, 10 digits zero-padded.",
+          "enum_values": []
+        },
+        {
+          "name": "ticker",
+          "type": "VARCHAR",
+          "description": "Stock ticker.",
+          "enum_values": []
+        },
+        {
+          "name": "company",
+          "type": "VARCHAR",
+          "description": "Company name in SEC's list.",
+          "enum_values": []
+        },
+        {
+          "name": "match_score",
+          "type": "DOUBLE",
+          "description": "Fuzzy match score 0 to 100 between the normalized names. Only rows >= the threshold are kept."
+        }
+      ]
+    },
+    {
+      "table": "filings",
+      "description": "SEC 8-K filings from a matched sponsor within 120 days of a stopped trial's dates that mention its NCT ID or drug name.",
+      "columns": [
+        {
+          "name": "nct_id",
+          "type": "VARCHAR",
+          "description": "Trial the filing was matched to."
+        },
+        {
+          "name": "cik",
+          "type": "VARCHAR",
+          "description": "Filer's CIK.",
+          "enum_values": []
+        },
+        {
+          "name": "accession",
+          "type": "VARCHAR",
+          "description": "SEC accession number, e.g. 0001193125-21-123456.",
+          "enum_values": []
+        },
+        {
+          "name": "form",
+          "type": "VARCHAR",
+          "description": "Form type, e.g. 8-K.",
+          "enum_values": []
+        },
+        {
+          "name": "filed_date",
+          "type": "DATE",
+          "description": "Date filed with the SEC."
+        },
+        {
+          "name": "url",
+          "type": "VARCHAR",
+          "description": "URL of the matching document in the EDGAR archive."
+        },
+        {
+          "name": "matched_terms",
+          "type": "VARCHAR[]",
+          "description": "Search terms used (NCT ID and drug names)."
+        },
+        {
+          "name": "snippet",
+          "type": "VARCHAR",
+          "description": "About 600 characters of the filing around the first matching term. NULL if the document could not be read."
+        }
+      ]
+    },
+    {
+      "table": "publications",
+      "description": "PubMed articles linked to a trial.",
+      "columns": [
+        {
+          "name": "nct_id",
+          "type": "VARCHAR",
+          "description": "Trial ID."
+        },
+        {
+          "name": "pmid",
+          "type": "VARCHAR",
+          "description": "PubMed ID."
+        },
+        {
+          "name": "link_type",
+          "type": "VARCHAR",
+          "description": "How it was linked: ctgov_result (sponsor listed it as a results paper), ctgov_derived or pubmed_si (the article lists the NCT ID), europepmc_mention (text mentions the NCT ID).",
+          "enum_values": [
+            "ctgov_derived",
+            "ctgov_result",
+            "europepmc_mention",
+            "pubmed_si"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR",
+          "description": "Article title."
+        },
+        {
+          "name": "journal",
+          "type": "VARCHAR",
+          "description": "Journal name."
+        },
+        {
+          "name": "pub_date",
+          "type": "DATE",
+          "description": "Publication date."
+        },
+        {
+          "name": "url",
+          "type": "VARCHAR",
+          "description": "PubMed URL."
+        }
+      ]
+    },
+    {
+      "table": "snapshot_meta",
+      "description": "One row per table: when the snapshot was built and how many rows each table has.",
+      "columns": [
+        {
+          "name": "table_name",
+          "type": "VARCHAR",
+          "description": "Table name.",
+          "enum_values": [
+            "filings",
+            "publications",
+            "sponsor_cik",
+            "trial_derived",
+            "trials"
+          ]
+        },
+        {
+          "name": "row_count",
+          "type": "INTEGER",
+          "description": "Rows in that table."
+        },
+        {
+          "name": "built_at",
+          "type": "DATE",
+          "description": "Snapshot build date (UTC)."
+        },
+        {
+          "name": "scope",
+          "type": "VARCHAR",
+          "description": "What the snapshot covers.",
+          "enum_values": [
+            "ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -22,12 +22,23 @@ RULES = [
 RULES = [(category, re.compile(pattern, re.IGNORECASE)) for category, pattern in RULES]
 
 
+# "Not due to safety or efficacy concerns" must not count as safety, and a "Data Safety Monitoring Board"
+# is a committee, not a reason. Remove both before matching.
+NEGATED = re.compile(r"\b(not|no|nor|non|without|unrelated to|neither|rather than)\b[^.;]{0,80}?\b(safety|efficacy|feasibility|futility|tolerability)\b[^.;]*", re.IGNORECASE)
+BOARDS = re.compile(r"\b(data (and )?safety monitoring (board|committee)|safety (review|monitoring) (board|committee)|dsmb|idmc|dmc)\b", re.IGNORECASE)
+
+
+def _clean(reason: str) -> str:
+    return NEGATED.sub(" ", BOARDS.sub(" monitoring board ", reason))
+
+
 def classify_why_stopped(reason: str | None) -> tuple[str, str]:
     """-> (category, method). method is keyword, blank, or unmatched (left for the LLM pass)."""
     if not reason or not reason.strip():
         return "blank", "blank"
+    text = _clean(reason)
     for category, pattern in RULES:
-        if pattern.search(reason):
+        if pattern.search(text):
             return category, "keyword"
     return "other", "unmatched"
 
