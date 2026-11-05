@@ -5,6 +5,8 @@ misquote, overreaching word, wrong status) and 10 correct controls, all citing r
     uv run python evals/planted_claims.py           # score the deterministic rules (offline)
     uv run python evals/planted_claims.py --model   # score the full Checker: rules + Gemini (needs Vertex credentials)
 
+Each scoring run saves its result to runs/planted_claims_rules.json or runs/planted_claims_model.json.
+
 A planted claim is caught when the Checker removes it or fixes it into text that no longer has the error. A control
 is a false positive when the Checker removes or changes it.
 """
@@ -127,6 +129,8 @@ def main() -> None:
         build()
         return
     result = asyncio.run(score("--model" in sys.argv))
+    out = ROOT / "runs" / f"planted_claims_{'model' if '--model' in sys.argv else 'rules'}.json"
+    out.write_text(json.dumps(result, indent=2, ensure_ascii=False))
     print(f"{result['mode']}: caught {result['caught']}/{result['planted']} planted errors, "
           f"{result['false_positives']}/{result['controls']} controls wrongly changed (model pass ran: {result['model_pass']})")
     for r in result["rows"]:
