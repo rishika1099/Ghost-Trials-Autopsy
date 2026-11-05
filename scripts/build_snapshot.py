@@ -3,16 +3,18 @@
     uv run python scripts/build_snapshot.py            # everything
     uv run python scripts/build_snapshot.py --skip-sec # no SEC_USER_AGENT yet
     uv run python scripts/build_snapshot.py --skip-llm # keyword rules only for why_stopped
-    uv run python scripts/build_snapshot.py --sec-only # only sponsor_cik and filings, on the existing snapshot
+    uv run python scripts/build_snapshot.py --sec-only # only sponsor_cik, filings and discrepancies, on the existing snapshot
+    uv run python scripts/build_snapshot.py --discrepancies-only  # only discrepancies, from the snapshot, no network
 
 Steps (each one is cached on disk under .cache/http, so a re-run is fast):
  1. trials          ClinicalTrials.gov API v2: industry, interventional, phase 2/3, primary completion 2015 to 2023
  2. trial_derived   results due date, posted or not, days late, stopped, why_stopped category
- 3. sponsor_cik     sponsor name -> SEC CIK, fuzzy matched against company_tickers.json
+ 3. sponsor_cik     sponsor name -> SEC CIK: core-name match with SIC check (ghost/names.py), EDGAR name search for delisted filers
  4. filings         8-Ks from matched sponsors near each stopped trial's dates that mention the drug or NCT ID
  5. publications    PMIDs from the registry's own references, PubMed [si] links, Europe PMC fallback
- 6. snapshot_meta   build date and row counts
- 7. mappings.json   every column's type, description and valid values (the Text2SQL context layer)
+ 6. discrepancies   registry reason vs. 8-K language per stopped trial and filing (ghost/discrepancy.py)
+ 7. snapshot_meta   build date and row counts
+ 8. mappings.json   every column's type, description and valid values (the Text2SQL context layer)
 """
 
 import argparse
@@ -29,7 +31,7 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from ghost import http  # noqa: E402
+from ghost import discrepancy, http  # noqa: E402
 from ghost.config import DATA_DIR, DB_PATH, MAPPINGS_PATH, SEC_USER_AGENT  # noqa: E402
 from ghost.classify import classify_why_stopped, llm_classify  # noqa: E402
 from ghost.names import match_sponsors  # noqa: E402
@@ -423,6 +425,27 @@ DESCRIPTIONS = {
         "pub_date": "Publication date.",
         "url": "PubMed URL.",
     },
+    "discrepancies": {
+        "_table": "Registry reason vs. 8-K language, one row per stopped trial and linked 8-K (drug_only snippets skipped). Built by keyword rules in ghost/discrepancy.py from the filings snippet. A discrepancy is a difference between two public statements, not evidence of intent.",
+        "nct_id": "Trial ID.",
+        "sponsor": "Sponsor as registered.",
+        "registry_reason": "why_stopped text from the registry, exactly as registered.",
+        "registry_category": "trial_derived.why_stopped_category for the trial.",
+        "registry_evidence_id": "Evidence id of the registry side, e.g. ctgov:NCT01234567.",
+        "accession": "SEC accession number of the 8-K.",
+        "filed_date": "Date the 8-K was filed.",
+        "filing_url": "URL of the 8-K document.",
+        "sec_evidence_id": "Evidence id of the 8-K side, e.g. sec:0001193125-23-231951.",
+        "sec_quote": "The 8-K sentence the label rests on, an exact substring of the filing text. NULL when no sentence gives a reason.",
+        "sec_categories": "Reasons the quote states: efficacy (a failure such as 'did not meet the primary endpoint'), safety (a concern such as 'clinical hold'), business/strategic, enrollment, positive (a success such as 'met its primary endpoint').",
+        "scope": "What the quote is about: this_trial (names the NCT ID or the trial's acronym), drug_program (names only the drug), other_trial (names a different trial).",
+        "relevance": "The filing's relevance label from the filings table.",
+        "label": "discrepancy (8-K gives efficacy or safety where the registry gives another reason, or the reverse), consistent, registry_blank_8k_reason, different_reason, no_reason_in_8k, about_another_trial.",
+        "rule": "The rule that set the label, e.g. 'registry business/strategic; 8-K efficacy'.",
+        "decided_by": "How the label was decided: keyword_rules_v1 (deterministic rules), or hand_checked after a person read the filing.",
+        "strength": "0 to 10, discrepancies only: higher when the 8-K names this trial, gives efficacy or safety, the registry explicitly rules that reason out, and the 8-K is close to the stop date.",
+        "days_from_stop": "Days between the 8-K and the nearest of the trial's primary completion, completion or last update date.",
+    },
     "snapshot_meta": {
         "_table": "One row per table: when the snapshot was built and how many rows each table has.",
         "table_name": "Table name.", "row_count": "Rows in that table.", "built_at": "Snapshot build date (UTC).",
@@ -449,7 +472,7 @@ def write_mappings(db: duckdb.DuckDBPyConnection) -> None:
 
 # --- Writing tables ---
 
-SNAPSHOT_TABLES = ("trials", "trial_derived", "sponsor_cik", "filings", "publications")
+SNAPSHOT_TABLES = ("trials", "trial_derived", "sponsor_cik", "filings", "publications", "discrepancies")
 SCOPE = ("ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to "
          "2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED")
 
@@ -468,6 +491,78 @@ def write_sec_tables(db: duckdb.DuckDBPyConnection, ciks: list[dict], filings: l
     if filings:
         columns = ("nct_id", "cik", "accession", "form", "filed_date", "url", "matched_terms", "snippet", "relevance")
         db.executemany("INSERT INTO filings VALUES (?,?,?,?,?,?,?,?,?)", [[f.get(k) for k in columns] for f in filings])
+
+
+DISCREPANCY_COLUMNS = ("nct_id", "sponsor", "registry_reason", "registry_category", "registry_evidence_id", "accession", "filed_date",
+                       "filing_url", "sec_evidence_id", "sec_quote", "sec_categories", "scope", "relevance", "label", "rule",
+                       "decided_by", "strength", "days_from_stop")
+SCOPE_RANK = {"this_trial": 0, "drug_program": 1, "other_trial": 2}
+
+
+def find_discrepancies(db: duckdb.DuckDBPyConnection) -> list[dict]:
+    """Compare each stopped trial's registry reason with the 8-K snippets linked to it. Reads the snapshot only."""
+    rows = db.execute("""
+        SELECT f.nct_id, t.sponsor, t.title, t.why_stopped, d.why_stopped_category, f.accession, f.filed_date, f.url,
+               f.snippet, f.matched_terms, f.relevance, t.primary_completion_date, t.completion_date, t.last_update_date
+        FROM filings f JOIN trials t USING (nct_id) JOIN trial_derived d USING (nct_id)
+        WHERE d.stopped AND f.snippet IS NOT NULL AND f.relevance <> 'drug_only'
+        ORDER BY f.nct_id, f.filed_date""").fetchall()
+    out = []
+    for (nct, sponsor, title, reason, category, accession, filed, url, snippet, terms, relevance, pcd, cd, lud) in rows:
+        anchors = [d for d in (pcd, cd, lud) if d]
+        days = min((abs((filed - a).days) for a in anchors), default=None) if filed else None
+        candidates = []
+        for found in discrepancy.reason_sentences(snippet, nct, title or "", list(terms or [])[1:]):
+            cats = set(found["categories"])
+            lbl, rule = discrepancy.label(category, cats)
+            if found["scope"] == "other_trial":
+                lbl, rule = "about_another_trial", f"8-K sentence names another trial; {rule}"
+            score = discrepancy.strength(lbl, rule, found["scope"], relevance, reason or "", days)
+            main = next((c for c in ("efficacy", "safety", "positive", "business/strategic", "enrollment") if c in cats), found["categories"][0])
+            candidates.append(((-score, SCOPE_RANK[found["scope"]], lbl != "consistent"), {
+                "sec_quote": discrepancy.quote_of(found["sentence"], main), "sec_categories": sorted(cats),
+                "scope": found["scope"], "label": lbl, "rule": rule, "strength": score}))
+        best = min(candidates, key=lambda c: c[0])[1] if candidates else {
+            "sec_quote": None, "sec_categories": [], "scope": None, "label": "no_reason_in_8k",
+            "rule": "no sentence near the trial or drug gives a reason", "strength": 0}
+        out.append({"nct_id": nct, "sponsor": sponsor, "registry_reason": reason, "registry_category": category,
+                    "registry_evidence_id": f"ctgov:{nct}", "accession": accession, "filed_date": filed, "filing_url": url,
+                    "sec_evidence_id": f"sec:{accession}", "relevance": relevance, "decided_by": discrepancy.METHOD,
+                    "days_from_stop": days, **best})
+    return apply_hand_checks(db, out)
+
+
+def apply_hand_checks(db: duckdb.DuckDBPyConnection, rows: list[dict]) -> list[dict]:
+    """Replace keyword rows with the rows a person checked by reading the filing (ghost/discrepancy.HAND_CHECKED)."""
+    checked = {(h["nct_id"], h["accession"]): h for h in discrepancy.HAND_CHECKED}
+    kept = [r for r in rows if (r["nct_id"], r["accession"]) not in checked]
+    for (nct, accession), h in checked.items():
+        trial = db.execute("""SELECT t.sponsor, t.why_stopped, d.why_stopped_category FROM trials t JOIN trial_derived d USING (nct_id)
+                              WHERE nct_id = ?""", [nct]).fetchone()
+        if not trial:
+            continue
+        relevance = db.execute("SELECT relevance FROM filings WHERE nct_id = ? AND accession = ?", [nct, accession]).fetchone()
+        filed = dt.date.fromisoformat(h["filed_date"])
+        kept.append({"nct_id": nct, "sponsor": trial[0], "registry_reason": trial[1], "registry_category": trial[2],
+                     "registry_evidence_id": f"ctgov:{nct}", "accession": accession, "filed_date": filed,
+                     "filing_url": h["filing_url"], "sec_evidence_id": f"sec:{accession}", "sec_quote": h["sec_quote"],
+                     "sec_categories": h["sec_categories"], "scope": h["scope"], "relevance": relevance[0] if relevance else "hand_checked",
+                     "label": h["label"], "rule": h["rule"], "decided_by": "hand_checked", "strength": h["strength"], "days_from_stop": None})
+    return kept
+
+
+def write_discrepancies(db: duckdb.DuckDBPyConnection) -> list[dict]:
+    """(Re)create the discrepancies table from the trials, trial_derived and filings tables already in db."""
+    rows = find_discrepancies(db)
+    db.execute("DROP TABLE IF EXISTS discrepancies")
+    db.execute("""CREATE TABLE discrepancies (nct_id VARCHAR, sponsor VARCHAR, registry_reason VARCHAR, registry_category VARCHAR,
+        registry_evidence_id VARCHAR, accession VARCHAR, filed_date DATE, filing_url VARCHAR, sec_evidence_id VARCHAR, sec_quote VARCHAR,
+        sec_categories VARCHAR[], scope VARCHAR, relevance VARCHAR, label VARCHAR, rule VARCHAR, decided_by VARCHAR, strength INTEGER,
+        days_from_stop INTEGER)""")
+    if rows:
+        db.executemany(f"INSERT INTO discrepancies VALUES ({','.join('?' * len(DISCREPANCY_COLUMNS))})",
+                       [[r[k] for k in DISCREPANCY_COLUMNS] for r in rows])
+    return rows
 
 
 def write_snapshot_meta(db: duckdb.DuckDBPyConnection, built_at: dict[str, dt.date]) -> None:
@@ -513,7 +608,32 @@ def build_sec_only(today: dt.date) -> None:
         log(f"sponsor_cik: {len(ciks)} sponsors matched to a CIK")
         filings = fetch_filings(trials, {c["sponsor"]: c["cik"] for c in ciks})
         write_sec_tables(db, ciks, filings)
-        write_snapshot_meta(db, {**{t: built_at.get(t, today) for t in SNAPSHOT_TABLES}, "sponsor_cik": today, "filings": today})
+        write_discrepancies(db)
+        write_snapshot_meta(db, {**{t: built_at.get(t, today) for t in SNAPSHOT_TABLES},
+                                 "sponsor_cik": today, "filings": today, "discrepancies": today})
+        write_mappings(db)
+    finally:
+        db.close()
+    tmp.replace(DB_PATH)
+    log(f"built {DB_PATH} ({DB_PATH.stat().st_size / 1e6:.1f} MB) and {MAPPINGS_PATH.name}")
+
+
+def build_discrepancies_only(today: dt.date) -> None:
+    """Rebuild only the discrepancies table from the snapshot's trials and filings. No network calls."""
+    if not DB_PATH.exists():
+        sys.exit(f"--discrepancies-only needs an existing snapshot at {DB_PATH}")
+    tmp = DB_PATH.with_suffix(".tmp.duckdb")
+    tmp.unlink(missing_ok=True)
+    shutil.copyfile(DB_PATH, tmp)
+    db = duckdb.connect(str(tmp))
+    try:
+        built_at = dict(db.execute("SELECT table_name, built_at FROM snapshot_meta").fetchall())
+        rows = write_discrepancies(db)
+        labels = {}
+        for r in rows:
+            labels[r["label"]] = labels.get(r["label"], 0) + 1
+        log(f"discrepancies: {len(rows)} rows, {labels}")
+        write_snapshot_meta(db, {**{t: built_at.get(t, today) for t in SNAPSHOT_TABLES}, "discrepancies": today})
         write_mappings(db)
     finally:
         db.close()
@@ -531,10 +651,15 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--skip-europepmc", action="store_true", help="skip the Europe PMC fallback")
     parser.add_argument("--sec-only", action="store_true",
                         help="rebuild only sponsor_cik and filings from the existing snapshot (no CT.gov, PubMed or LLM calls)")
+    parser.add_argument("--discrepancies-only", action="store_true",
+                        help="rebuild only the discrepancies table from the existing snapshot (no network calls)")
     args = parser.parse_args(argv)
     today = dt.datetime.now(dt.timezone.utc).date()
     if args.sec_only:
         build_sec_only(today)
+        return
+    if args.discrepancies_only:
+        build_discrepancies_only(today)
         return
 
     trials, references = fetch_trials()
@@ -584,6 +709,7 @@ def main(argv: list[str] | None = None) -> None:
         journal VARCHAR, pub_date DATE, url VARCHAR)""")
     db.executemany("INSERT INTO publications VALUES (?,?,?,?,?,?,?)",
                    [[p[k] for k in ("nct_id", "pmid", "link_type", "title", "journal", "pub_date", "url")] for p in publications])
+    write_discrepancies(db)
     write_snapshot_meta(db, {table: today for table in SNAPSHOT_TABLES})
     write_mappings(db)
     db.close()
