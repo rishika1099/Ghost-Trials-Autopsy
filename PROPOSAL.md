@@ -23,11 +23,11 @@ Due **Wed Nov 11, 11:59pm**. Team: Rishika (rishika1099), Shreya (shreyashetty2)
 | Researchers in parallel, fresh contexts, three lane configs | done |
 | Writer with evidence-id citations, numbered by code | done, tuning |
 | Citation Checker (evidence-id check, then a model check) | done, tuning |
-| Discrepancy finder: registry reason vs. 8-K language | to do |
+| Discrepancy finder: registry reason vs. 8-K language | done (PR 14: `discrepancies` table, 43 trials labelled, 7 hand-checked) |
 | `/chat` in the Project 1 shape, with an `agent` field on every tool call | done |
 | Frontend: live trace with parallel timing bars, trial timeline, clickable citations, "can't tell us" box | first pass done |
 | Offline tests (`uv run pytest`) and live tests (`LIVE=1`) | done |
-| Inspect evals: the Lead's gate, and full runs against gold SQL answers | built, not run yet |
+| Inspect evals: the Lead's gate, and full runs against gold SQL answers | done (gate 28/30, facts 10/10; `evals/RESULTS.md`) |
 | Deploy to Cloud Run on Kshamaa's GCP project | to do |
 | README with sample queries and no-tools baselines | in progress |
 
@@ -65,17 +65,17 @@ The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need t
 - [ ] Agree on a team contact string and put it in `.env` as `SEC_USER_AGENT="Ghost Trials Autopsy name@columbia.edu"` (never in the repo)
 - [x] Rebuild: `uv run python scripts/build_snapshot.py` (other sources are cached, so only the SEC steps are new)
 - [x] Check 20 sponsor matches (`ghost/names.py`, threshold 92) and 10 rows of `filings`: right company, right trial, relevant `snippet`
-- [ ] Run the disclosures researcher on the three samples in `samples.json`; it should quote 8-K language exactly
+- [x] Run the disclosures researcher on the three samples in `samples.json`; it should quote 8-K language exactly (6/6 quotes exact, `runs/disclosures_*.json`)
 
 **Agent shape: the Citation Checker** (`check_citations` in `ghost/pipeline.py`, `prompts/checker.md`)
-- [ ] On 3 real reports, read what the Checker kept, fixed or removed. Does it catch a wrong date, a misquote, an overreaching word ("hid")?
-- [x] 10 claims with planted errors against real records: how many does it catch? (9 of 10, no false positives)
+- [x] On 3 real reports, read what the Checker kept, fixed or removed. Does it catch a wrong date, a misquote, an overreaching word ("hid")? (yes: it fixed an unsupported date and an unsupported "foreign entity" claim in facts eval reports)
+- [x] 10 claims with planted errors against real records: how many does it catch? (rules 9 of 10, rules + model 10 of 10, no false positives)
 - [x] Tune `prompts/checker.md`; `tests/test_citations.py` must still pass
 
 **Ties it together: the discrepancy finder** (the headline feature)
 - [x] Find stopped trials where `why_stopped_category` differs from what the 8-K `snippet` says; add a `discrepancies` table to `scripts/build_snapshot.py`
 - [x] Pick the README's discrepancy sample from it and hand-check it: vTv NCT03980730 (Veru turned out to be consistent: its 8-Ks also give funding as the reason)
-- [ ] Bonus: `uv run python evals/build_dataset.py`, then `uv run inspect eval evals/task.py@gate` and `@facts --limit 10`; scores in the README
+- [x] Bonus: `uv run python evals/build_dataset.py`, then `uv run inspect eval evals/task.py@gate` and `@facts --limit 10`; scores in the README (gate 28/30, facts 10/10)
 
 ### Kshamaa: publications + the Writer + GCP
 **Data lane C: PubMed and Europe PMC** (`find_publications`, `get_abstract`; `prompts/lane_publications.md`)
