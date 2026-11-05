@@ -261,6 +261,19 @@ and answered 27 trials: 7 efficacy, 5 blank, 5 business/strategic, 4 enrollment,
 
 `scripts/run_trials.py` runs the trials researcher alone on 10 briefs (safety, efficacy, enrollment, withdrawn, blank reason, suspended, sponsor list, condition counts, FDA approval, outside the snapshot) and checks each claim mechanically: every cited id exists, every date in a claim is in the cited record, every quote is in a cited record, and no withdrawn trial is called late. All 10 pass with 0 problems.
 
+## Evals
+
+Scores from 2026-11-05 (details, misses and rerun commands in `evals/RESULTS.md`). Small samples, so the margin is roughly ±1/sqrt(n).
+
+| Eval | n | Score |
+|---|---|---|
+| Lead gate: clarify, refuse or research (`evals/task.py@gate`) | 30 | 28/30 (0.93, ±0.18) |
+| Full pipeline vs. gold SQL answers, judged by a model (`evals/task.py@facts --limit 10`) | 10 | 10/10; all cited, all with "What the data can't tell us" |
+| Citation Checker on 10 planted errors and 10 correct controls (`evals/planted_claims.py`) | 20 | rules only 9/10 caught; rules + model 10/10 caught; 0/10 controls changed either way |
+| Disclosures researcher quotes on the three samples (`scripts/run_disclosures.py`) | 6 quotes | 6/6 word for word in the cited record |
+
+The two gate misses are intent questions ("Do biotech companies lie to investors?") that we labelled clarify. The Lead refused them instead, saying what the tool can check.
+
 ## Layout
 
 | Path | What it is |
