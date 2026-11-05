@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import litellm
 
-from ghost.config import CACHE_DIR, RESEARCHER_MODEL as LABEL_MODEL, VERTEX_LOCATION
+from ghost.config import CACHE_DIR, RESEARCHER_MODEL as LABEL_MODEL, VERTEX_ARGS
 
 LABEL_CACHE = CACHE_DIR.parent / "why_stopped_llm.json"
 
@@ -16,7 +16,7 @@ CATEGORIES = ("safety", "efficacy", "business/strategic", "enrollment", "other",
 RULES = [
     ("safety", r"safety|adverse|toxicit|death|serious|side effect|hepat|risk.benefit|benefit.risk|dsmb.*(safety|concern)|clinical hold"),
     ("efficacy", r"efficacy|futility|futile|lack of (effect|benefit|response)|primary endpoint|interim analys|did not meet (its |the )?(primary )?(endpoint|objective)|ineffective|no benefit|insufficient (effect|activity)"),
-    ("business/strategic", r"business|strateg|commercial|portfolio|priorit|funding|financ|sponsor decision|company decision|acquisition|merger|resource|development program|program (was )?(discontinued|terminated)|decision of the sponsor|sponsor('s)? decision"),
+    ("business/strategic", r"business|strateg|commercial|portfolio|priorit|funding|financ|sponsor decision|company decision|acquisition|merger|resource|development program|program (was )?(discontinued|terminated)|decision (of|by) the (sponsor|company)|sponsor('s)? decision|administrative|management decision"),
     ("enrollment", r"enrol|recruit|accrual|accru|participants? (were|was) not|slow|feasib"),
 ]
 RULES = [(category, re.compile(pattern, re.IGNORECASE)) for category, pattern in RULES]
@@ -28,8 +28,12 @@ NEGATED = re.compile(r"\b(not|no|nor|non|without|unrelated to|neither|rather tha
 BOARDS = re.compile(r"\b(data (and )?safety monitoring (board|committee)|safety (review|monitoring) (board|committee)|dsmb|idmc|dmc)\b", re.IGNORECASE)
 
 
+# "Canceled before enrollment" says when it stopped, not why.
+BEFORE_ENROLLING = re.compile(r"\b(before|prior to)\s+(any\s+)?(participants?|patients?|subjects?)?\s*(were\s+|was\s+)?(enrol\w*|recruit\w*|dosed|randomi[sz]ed)", re.IGNORECASE)
+
+
 def _clean(reason: str) -> str:
-    return NEGATED.sub(" ", BOARDS.sub(" monitoring board ", reason))
+    return NEGATED.sub(" ", BEFORE_ENROLLING.sub(" ", BOARDS.sub(" monitoring board ", reason)))
 
 
 def classify_why_stopped(reason: str | None) -> tuple[str, str]:
@@ -50,7 +54,7 @@ def _label_batch(batch: dict[str, str], allowed: list[str]) -> dict[str, str]:
         "Return a JSON object mapping each key to its label.\n\n" + json.dumps(batch)
     )
     response = litellm.completion(
-        model=LABEL_MODEL, vertex_location=VERTEX_LOCATION, timeout=60, num_retries=1,
+        model=LABEL_MODEL, **VERTEX_ARGS, timeout=60, num_retries=1,
         messages=[{"role": "user", "content": prompt}], response_format={"type": "json_object"},
     )
     parsed = json.loads(response.choices[0].message.content)

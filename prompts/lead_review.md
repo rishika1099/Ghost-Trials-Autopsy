@@ -7,7 +7,7 @@ Decide whether a gap is worth another round. A gap is worth it only if a specifi
 - "trial has results but no PMID": try Europe PMC with the drug name.
 - "registry says terminated but no reason captured": get the live record.
 - "trial named in a filing was not looked up in the registry".
-Not worth it: anything the data can never answer (the true reason behind the stated one, intent, legality), private sponsors (no SEC filings exist), or repeating a search that already came back empty with the same terms.
+Not worth it: anything the data can never answer (the true reason behind the stated one, intent, legality), private sponsors (no SEC filings exist), or repeating a search that already came back empty with the same terms, or a source that returned an error saying it is not configured (for example SEC_USER_AGENT is not set): another round will get the same error.
 
 Return done = true when nothing worth chasing is left. Otherwise return done = false and one gap per item, each with the lane that should handle it and a self-contained brief (the Researcher sees only that brief): name the NCT IDs, sponsor, CIK, drug names, dates and exactly what to try.
 

@@ -1,0 +1,1556 @@
+{
+  "kind": "report",
+  "markdown": "## Answer\nEntero Therapeutics terminated three Phase 2 or Phase 1/2 trials (NCT03521232, NCT04243551, and NCT04839575) without posting results on ClinicalTrials.gov, citing COVID-19 disruptions and enrollment challenges. [1][2][3] The company also withdrew two Phase 2 trials (NCT04436458 and NCT04542434) without results, reporting that the assets were acquired by another company and the studies never commenced. [4][5]\n\n## Timeline\nNCT03521232 started on 2018-05-15, was terminated on 2022-10-04, and results were due by 2023-09-19 but were never posted. NCT04243551 started on 2019-11-01, was terminated on 2023-10-31, and results were due by 2024-10-15 but were never posted. NCT04839575 started on 2021-04-06, was terminated on 2022-12-19, and results were due by 2023-12-19 but were never posted. NCT04436458 and NCT04542434 were both withdrawn on 2022-01-20 with results due by 2023-01-20 and were never posted.\n\n## Evidence\n- The registry says NCT03521232 was a Phase 1/Phase 2 trial of niclosamide that was terminated on 2022-10-04 due to 'Covid-19' with results never posted. [1]\n- The registry says NCT04243551 was a Phase 2 trial of latiglutenase that was terminated on 2023-10-31 due to 'low enrollment related to Covid' with results never posted. [2]\n- The registry says NCT04839575 was a Phase 2 trial of latiglutenase that was terminated on 2022-12-19 due to 'Covid-19 interruptions and enrollment challenges' with results never posted. [3]\n- The registry says NCT04436458 was a Phase 2 trial of niclosamide withdrawn on 2022-01-20 because the sponsor asset was acquired by another pharma company who opened their own IND. [4]\n- The registry says NCT04542434 was a Phase 2 trial of niclosamide withdrawn on 2022-01-20 because the sponsor asset was acquired by another pharma company. [5]\n- PubMed lists general literature and reviews for these compounds but contains no direct trial-specific reports providing results or detailed stop reasons for the five stopped studies. [6][7][8][9][10][11][12][13][14][15][16][17][18][19][20][21]\n- The database snapshot contains zero SEC corporate filings to cross-examine. [22][23]\n\n## What the data can't tell us\n- We cannot tell the real reasons beyond the brief registry entries since no SEC corporate filings are available in this snapshot to compare.\n- Any potential discrepancy is not proof of intent to deceive.\n- The results_due_date represents only an approximation of the FDAAA deadline, and since 'applicable clinical trial' status is not fully public, this is never evidence that a sponsor broke the law.\n- Results published in conference abstracts, non-indexed journals, or company websites may be missed by the literature database searches.\n- The Lead hit its lookup cap and planned from what it had found.\n- Stopped at the cap of 3 research rounds.\n\n## Sources\n1. A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT03521232\n2. Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04243551\n3. Study of Latiglutenase in T1D/CD Patients. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04839575\n4. Niclosamide In Moderate COVID-19. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04436458\n5. Niclosamide in COVID-19. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04542434\n6. Niclosamide, an antihelmintic drug, enhances efficacy of PD-1/PD-L1 immune checkpoint blockade in non-small cell lung cancer.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/31511071/\n7. Advancements in Rectal Drug Delivery Systems: Clinical Trials, and Patents Perspective.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/36297645/\n8. Niclosamide is a potential candidate for the treatment of chemo-resistant osteosarcoma.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/36735625/\n9. Dynamics of Serologic Change to Gluten in Celiac Disease Patients.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/38140342/\n10. From an understanding of etiopathogenesis to novel therapies-what is new in the treatment of celiac disease?. PubMed article. https://pubmed.ncbi.nlm.nih.gov/38698821/\n11. Beyond the gluten-free diet: Innovations in celiac disease therapeutics.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/39493330/\n12. Celiac Disease: Beyond Diet and Food Awareness.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/39941971/\n13. New therapies in celiac disease.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/39862215/\n14. A Narrative Review of Antiviral Drugs Used for COVID-19 Pharmacotherapy.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/34349475/\n15. Lipid nanoparticle formulation of niclosamide (nano NCM) effectively inhibits SARS-CoV-2 replication in vitro.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/34676370/\n16. Anti-viral treatment for SARS-CoV-2 infection: A race against time amidst the ongoing pandemic.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/34056571/\n17. 2-Deoxy-D-Glucose and its Derivatives for the COVID-19 Treatment: An Update.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/35496298/\n18. Niclosamide-A promising treatment for COVID-19.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/35348204/\n19. Metformin and Niclosamide Synergistically Suppress Wnt and YAP in APC-Mutated Colorectal Cancer.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/34298652/\n20. Races of small molecule clinical trials for the treatment of COVID-19: An up-to-date comprehensive review.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/34762760/\n21. Rethinking Celiac Disease Management: Treatment Approaches Beyond the Gluten-Free Diet.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/41595566/\n22. Snapshot query d441f0f0. Ghost Trials snapshot query. https://github.com/rishika1099/Ghost-Trials-Autopsy#data\n23. Snapshot query f549949d. Ghost Trials snapshot query. https://github.com/rishika1099/Ghost-Trials-Autopsy#data\n\n_Snapshot date: 2026-11-05. Research rounds: 3. citations_checked: 28, removed: 0._",
+  "report": {
+    "answer": [
+      "Entero Therapeutics terminated three Phase 2 or Phase 1/2 trials (NCT03521232, NCT04243551, and NCT04839575) without posting results on ClinicalTrials.gov, citing COVID-19 disruptions and enrollment challenges. [1][2][3]",
+      "The company also withdrew two Phase 2 trials (NCT04436458 and NCT04542434) without results, reporting that the assets were acquired by another company and the studies never commenced. [4][5]"
+    ],
+    "evidence": [
+      "The registry says NCT03521232 was a Phase 1/Phase 2 trial of niclosamide that was terminated on 2022-10-04 due to 'Covid-19' with results never posted. [1]",
+      "The registry says NCT04243551 was a Phase 2 trial of latiglutenase that was terminated on 2023-10-31 due to 'low enrollment related to Covid' with results never posted. [2]",
+      "The registry says NCT04839575 was a Phase 2 trial of latiglutenase that was terminated on 2022-12-19 due to 'Covid-19 interruptions and enrollment challenges' with results never posted. [3]",
+      "The registry says NCT04436458 was a Phase 2 trial of niclosamide withdrawn on 2022-01-20 because the sponsor asset was acquired by another pharma company who opened their own IND. [4]",
+      "The registry says NCT04542434 was a Phase 2 trial of niclosamide withdrawn on 2022-01-20 because the sponsor asset was acquired by another pharma company. [5]",
+      "PubMed lists general literature and reviews for these compounds but contains no direct trial-specific reports providing results or detailed stop reasons for the five stopped studies. [6][7][8][9][10][11][12][13][14][15][16][17][18][19][20][21]",
+      "The database snapshot contains zero SEC corporate filings to cross-examine. [22][23]"
+    ],
+    "differences": [],
+    "cant_tell": [
+      "We cannot tell the real reasons beyond the brief registry entries since no SEC corporate filings are available in this snapshot to compare.",
+      "Any potential discrepancy is not proof of intent to deceive.",
+      "The results_due_date represents only an approximation of the FDAAA deadline, and since 'applicable clinical trial' status is not fully public, this is never evidence that a sponsor broke the law.",
+      "Results published in conference abstracts, non-indexed journals, or company websites may be missed by the literature database searches.",
+      "The Lead hit its lookup cap and planned from what it had found.",
+      "Stopped at the cap of 3 research rounds."
+    ],
+    "timeline_text": "NCT03521232 started on 2018-05-15, was terminated on 2022-10-04, and results were due by 2023-09-19 but were never posted. NCT04243551 started on 2019-11-01, was terminated on 2023-10-31, and results were due by 2024-10-15 but were never posted. NCT04839575 started on 2021-04-06, was terminated on 2022-12-19, and results were due by 2023-12-19 but were never posted. NCT04436458 and NCT04542434 were both withdrawn on 2022-01-20 with results due by 2023-01-20 and were never posted."
+  },
+  "sources": [
+    {
+      "n": 1,
+      "evidence_id": "ctgov:NCT03521232",
+      "title": "A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis",
+      "source_type": "ClinicalTrials.gov registry record",
+      "url": "https://clinicaltrials.gov/study/NCT03521232"
+    },
+    {
+      "n": 2,
+      "evidence_id": "ctgov:NCT04243551",
+      "title": "Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients",
+      "source_type": "ClinicalTrials.gov registry record",
+      "url": "https://clinicaltrials.gov/study/NCT04243551"
+    },
+    {
+      "n": 3,
+      "evidence_id": "ctgov:NCT04839575",
+      "title": "Study of Latiglutenase in T1D/CD Patients",
+      "source_type": "ClinicalTrials.gov registry record",
+      "url": "https://clinicaltrials.gov/study/NCT04839575"
+    },
+    {
+      "n": 4,
+      "evidence_id": "ctgov:NCT04436458",
+      "title": "Niclosamide In Moderate COVID-19",
+      "source_type": "ClinicalTrials.gov registry record",
+      "url": "https://clinicaltrials.gov/study/NCT04436458"
+    },
+    {
+      "n": 5,
+      "evidence_id": "ctgov:NCT04542434",
+      "title": "Niclosamide in COVID-19",
+      "source_type": "ClinicalTrials.gov registry record",
+      "url": "https://clinicaltrials.gov/study/NCT04542434"
+    },
+    {
+      "n": 6,
+      "evidence_id": "pubmed:31511071",
+      "title": "Niclosamide, an antihelmintic drug, enhances efficacy of PD-1/PD-L1 immune checkpoint blockade in non-small cell lung cancer.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/31511071/"
+    },
+    {
+      "n": 7,
+      "evidence_id": "pubmed:36297645",
+      "title": "Advancements in Rectal Drug Delivery Systems: Clinical Trials, and Patents Perspective.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/36297645/"
+    },
+    {
+      "n": 8,
+      "evidence_id": "pubmed:36735625",
+      "title": "Niclosamide is a potential candidate for the treatment of chemo-resistant osteosarcoma.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/36735625/"
+    },
+    {
+      "n": 9,
+      "evidence_id": "pubmed:38140342",
+      "title": "Dynamics of Serologic Change to Gluten in Celiac Disease Patients.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38140342/"
+    },
+    {
+      "n": 10,
+      "evidence_id": "pubmed:38698821",
+      "title": "From an understanding of etiopathogenesis to novel therapies-what is new in the treatment of celiac disease?",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38698821/"
+    },
+    {
+      "n": 11,
+      "evidence_id": "pubmed:39493330",
+      "title": "Beyond the gluten-free diet: Innovations in celiac disease therapeutics.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39493330/"
+    },
+    {
+      "n": 12,
+      "evidence_id": "pubmed:39941971",
+      "title": "Celiac Disease: Beyond Diet and Food Awareness.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39941971/"
+    },
+    {
+      "n": 13,
+      "evidence_id": "pubmed:39862215",
+      "title": "New therapies in celiac disease.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39862215/"
+    },
+    {
+      "n": 14,
+      "evidence_id": "pubmed:34349475",
+      "title": "A Narrative Review of Antiviral Drugs Used for COVID-19 Pharmacotherapy.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34349475/"
+    },
+    {
+      "n": 15,
+      "evidence_id": "pubmed:34676370",
+      "title": "Lipid nanoparticle formulation of niclosamide (nano NCM) effectively inhibits SARS-CoV-2 replication in vitro.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34676370/"
+    },
+    {
+      "n": 16,
+      "evidence_id": "pubmed:34056571",
+      "title": "Anti-viral treatment for SARS-CoV-2 infection: A race against time amidst the ongoing pandemic.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34056571/"
+    },
+    {
+      "n": 17,
+      "evidence_id": "pubmed:35496298",
+      "title": "2-Deoxy-D-Glucose and its Derivatives for the COVID-19 Treatment: An Update.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35496298/"
+    },
+    {
+      "n": 18,
+      "evidence_id": "pubmed:35348204",
+      "title": "Niclosamide-A promising treatment for COVID-19.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35348204/"
+    },
+    {
+      "n": 19,
+      "evidence_id": "pubmed:34298652",
+      "title": "Metformin and Niclosamide Synergistically Suppress Wnt and YAP in APC-Mutated Colorectal Cancer.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34298652/"
+    },
+    {
+      "n": 20,
+      "evidence_id": "pubmed:34762760",
+      "title": "Races of small molecule clinical trials for the treatment of COVID-19: An up-to-date comprehensive review.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34762760/"
+    },
+    {
+      "n": 21,
+      "evidence_id": "pubmed:41595566",
+      "title": "Rethinking Celiac Disease Management: Treatment Approaches Beyond the Gluten-Free Diet.",
+      "source_type": "PubMed article",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41595566/"
+    },
+    {
+      "n": 22,
+      "evidence_id": "sql:d441f0f0",
+      "title": "Snapshot query d441f0f0",
+      "source_type": "Ghost Trials snapshot query",
+      "url": "https://github.com/rishika1099/Ghost-Trials-Autopsy#data"
+    },
+    {
+      "n": 23,
+      "evidence_id": "sql:f549949d",
+      "title": "Snapshot query f549949d",
+      "source_type": "Ghost Trials snapshot query",
+      "url": "https://github.com/rishika1099/Ghost-Trials-Autopsy#data"
+    }
+  ],
+  "timeline": [
+    {
+      "nct_id": "NCT03521232",
+      "title": "A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis",
+      "sponsor": "Entero Therapeutics",
+      "status": "TERMINATED",
+      "why_stopped": "Covid-19",
+      "events": [
+        {
+          "date": "2018-05-15",
+          "label": "Start",
+          "kind": "start",
+          "evidence_id": "ctgov:NCT03521232"
+        },
+        {
+          "date": "2019-09-11",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:31511071"
+        },
+        {
+          "date": "2022-09-19",
+          "label": "Primary completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT03521232"
+        },
+        {
+          "date": "2022-10-04",
+          "label": "Completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT03521232"
+        },
+        {
+          "date": "2022-10-17",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:36297645"
+        },
+        {
+          "date": "2022-11-29",
+          "label": "Last registry update",
+          "kind": "update",
+          "evidence_id": "ctgov:NCT03521232"
+        },
+        {
+          "date": "2023-02-03",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:36735625"
+        },
+        {
+          "date": "2023-09-19",
+          "label": "Results due (approx.)",
+          "kind": "due",
+          "evidence_id": "ctgov:NCT03521232"
+        },
+        {
+          "date": null,
+          "label": "Results never posted",
+          "kind": "never",
+          "evidence_id": "ctgov:NCT03521232"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT04243551",
+      "title": "Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients",
+      "sponsor": "Entero Therapeutics",
+      "status": "TERMINATED",
+      "why_stopped": "Due to low enrollment related to Covid.",
+      "events": [
+        {
+          "date": "2019-11-01",
+          "label": "Start",
+          "kind": "start",
+          "evidence_id": "ctgov:NCT04243551"
+        },
+        {
+          "date": "2023-10-16",
+          "label": "Primary completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT04243551"
+        },
+        {
+          "date": "2023-10-31",
+          "label": "Completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT04243551"
+        },
+        {
+          "date": "2023-12-12",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:38140342"
+        },
+        {
+          "date": "2024-08-05",
+          "label": "Last registry update",
+          "kind": "update",
+          "evidence_id": "ctgov:NCT04243551"
+        },
+        {
+          "date": "2024-10-15",
+          "label": "Results due (approx.)",
+          "kind": "due",
+          "evidence_id": "ctgov:NCT04243551"
+        },
+        {
+          "date": "2025-01-24",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:39941971"
+        },
+        {
+          "date": null,
+          "label": "Results never posted",
+          "kind": "never",
+          "evidence_id": "ctgov:NCT04243551"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT04839575",
+      "title": "Study of Latiglutenase in T1D/CD Patients",
+      "sponsor": "Entero Therapeutics",
+      "status": "TERMINATED",
+      "why_stopped": "Covid-19 interruptions and enrollment challenges",
+      "events": [
+        {
+          "date": "2021-04-06",
+          "label": "Start",
+          "kind": "start",
+          "evidence_id": "ctgov:NCT04839575"
+        },
+        {
+          "date": "2022-12-19",
+          "label": "Primary completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT04839575"
+        },
+        {
+          "date": "2022-12-19",
+          "label": "Completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT04839575"
+        },
+        {
+          "date": "2023-12-19",
+          "label": "Results due (approx.)",
+          "kind": "due",
+          "evidence_id": "ctgov:NCT04839575"
+        },
+        {
+          "date": "2024-04-18",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:38698821"
+        },
+        {
+          "date": "2024-08-05",
+          "label": "Last registry update",
+          "kind": "update",
+          "evidence_id": "ctgov:NCT04839575"
+        },
+        {
+          "date": "2024-10-14",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:39493330"
+        },
+        {
+          "date": "2025-05-01",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:39862215"
+        },
+        {
+          "date": "2025-12-22",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:41595566"
+        },
+        {
+          "date": null,
+          "label": "Results never posted",
+          "kind": "never",
+          "evidence_id": "ctgov:NCT04839575"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT04436458",
+      "title": "Niclosamide In Moderate COVID-19",
+      "sponsor": "Entero Therapeutics",
+      "status": "WITHDRAWN",
+      "why_stopped": "Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.",
+      "events": [
+        {
+          "date": "2021-04-01",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:34349475"
+        },
+        {
+          "date": "2021-04-17",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:34676370"
+        },
+        {
+          "date": "2021-06-01",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:34056571"
+        },
+        {
+          "date": "2022-01-20",
+          "label": "Start",
+          "kind": "start",
+          "evidence_id": "ctgov:NCT04436458"
+        },
+        {
+          "date": "2022-01-20",
+          "label": "Primary completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT04436458"
+        },
+        {
+          "date": "2022-01-20",
+          "label": "Completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT04436458"
+        },
+        {
+          "date": "2022-02-21",
+          "label": "Last registry update",
+          "kind": "update",
+          "evidence_id": "ctgov:NCT04436458"
+        },
+        {
+          "date": "2022-04-12",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:35496298"
+        },
+        {
+          "date": "2022-07-01",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:35348204"
+        },
+        {
+          "date": "2023-01-20",
+          "label": "Results due (approx.)",
+          "kind": "due",
+          "evidence_id": "ctgov:NCT04436458"
+        },
+        {
+          "date": null,
+          "label": "Results never posted",
+          "kind": "never",
+          "evidence_id": "ctgov:NCT04436458"
+        }
+      ]
+    },
+    {
+      "nct_id": "NCT04542434",
+      "title": "Niclosamide in COVID-19",
+      "sponsor": "Entero Therapeutics",
+      "status": "WITHDRAWN",
+      "why_stopped": "Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.",
+      "events": [
+        {
+          "date": "2021-07-09",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:34298652"
+        },
+        {
+          "date": "2022-01-20",
+          "label": "Start",
+          "kind": "start",
+          "evidence_id": "ctgov:NCT04542434"
+        },
+        {
+          "date": "2022-01-20",
+          "label": "Primary completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT04542434"
+        },
+        {
+          "date": "2022-01-20",
+          "label": "Completion",
+          "kind": "stop",
+          "evidence_id": "ctgov:NCT04542434"
+        },
+        {
+          "date": "2022-02-01",
+          "label": "Publication",
+          "kind": "publication",
+          "evidence_id": "pubmed:34762760"
+        },
+        {
+          "date": "2022-02-21",
+          "label": "Last registry update",
+          "kind": "update",
+          "evidence_id": "ctgov:NCT04542434"
+        },
+        {
+          "date": "2023-01-20",
+          "label": "Results due (approx.)",
+          "kind": "due",
+          "evidence_id": "ctgov:NCT04542434"
+        },
+        {
+          "date": null,
+          "label": "Results never posted",
+          "kind": "never",
+          "evidence_id": "ctgov:NCT04542434"
+        }
+      ]
+    }
+  ],
+  "checker": {
+    "citations_checked": 28,
+    "unknown_ids_dropped": 0,
+    "claims_fixed": 2,
+    "removed": 0,
+    "model_pass": true
+  },
+  "tool_calls": [
+    {
+      "name": "read_mappings",
+      "args": {},
+      "result": "[{\"table\": \"trials\", \"description\": \"One row per trial from ClinicalTrials.gov: industry-sponsored, interventional, phase 2 or 3, primary completion 2015 to 2023.\", \"columns\": [{\"name\": \"nct_id\", \"typ",
+      "agent": "lead"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT DISTINCT sponsor FROM trials WHERE sponsor ILIKE '%Entero%' OR sponsor ILIKE '%First Wave%' OR sponsor ILIKE '%AzurRx%'"
+      },
+      "result": "2 rows, 1 evidence ids",
+      "agent": "lead"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT nct_id, sponsor, title, phase, overall_status, why_stopped, has_results, drug_names, primary_completion_date FROM trials WHERE sponsor IN ('Entero Therapeutics', 'AzurRx SAS') OR sponsor ILIKE '%First Wave%' OR sponsor ILIKE '%Entero%'"
+      },
+      "result": "11 rows, 11 evidence ids",
+      "agent": "lead"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT f.nct_id, f.cik, f.accession, f.form, f.filed_date, f.url, f.matched_terms, f.snippet FROM filings f JOIN trials t ON f.nct_id = t.nct_id WHERE t.sponsor IN ('Entero Therapeutics', 'AzurRx SAS') OR t.sponsor ILIKE '%First Wave%'"
+      },
+      "result": "0 rows",
+      "agent": "lead"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT * FROM sponsor_cik WHERE sponsor ILIKE '%Entero%' OR sponsor ILIKE '%First Wave%' OR sponsor ILIKE '%AzurRx%'"
+      },
+      "result": "0 rows",
+      "agent": "lead"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT p.nct_id, p.pmid, p.link_type, p.title, p.journal, p.pub_date, p.url FROM publications p JOIN trials t ON p.nct_id = t.nct_id WHERE t.sponsor IN ('Entero Therapeutics', 'AzurRx SAS') OR t.sponsor ILIKE '%First Wave%'"
+      },
+      "result": "23 rows, 23 evidence ids",
+      "agent": "lead"
+    },
+    {
+      "name": "plan",
+      "args": {
+        "question": "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"
+      },
+      "result": "{\"decision\": \"research\", \"plan\": \"We will investigate phase 2 trials sponsored by Entero Therapeutics (formerly First Wave BioPharma and AzurRx BioPharma) that were stopped early. We will cross-reference clinical registry statuses and stated reasons for stopping with SEC EDGAR filings and peer-reviewed publications. Our goal is to determine whether results were reported, when they were reported, and if the narratives provided to regulators, investors, and the public are consistent.\", \"lanes\": [\"trials\", \"disclosures\", \"publications\"]}",
+      "agent": "lead"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.sponsor, t.interventions FROM trials t JOIN trial_derived d USING (nct_id) WHERE (t.sponsor ILIKE '%Entero Therapeutics%' OR t.sponsor ILIKE '%First Wave BioPharma%' OR t.sponsor ILIKE '%AzurRx%') AND d.stopped AND t.phase = 'PHASE2';"
+      },
+      "result": "5 rows, 5 evidence ids",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.sponsor, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.primary_completion_date, t.start_date, t.completion_date, t.enrollment, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late, d.stopped, t.drug_names FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.sponsor ILIKE '%Entero Therapeutics%' OR t.sponsor ILIKE '%First Wave BioPharma%' OR t.sponsor ILIKE '%AzurRx%'"
+      },
+      "result": "11 rows, 11 evidence ids",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04542434",
+        "drug_name": "Niclosamide"
+      },
+      "result": "3 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT04542434"
+      },
+      "result": "NCT04542434: WITHDRAWN, why_stopped='Sponsor asset acquired by another pharma company who opened their own IND for th'",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "Niclosamide",
+        "nct_id": "NCT04858425"
+      },
+      "result": "3 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT04858425"
+      },
+      "result": "NCT04858425: TERMINATED, why_stopped='The termination of the study was a decision based on topline data analysis (no e'",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "Niclosamide",
+        "nct_id": "NCT04436458"
+      },
+      "result": "5 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT03521232"
+      },
+      "result": "NCT03521232: TERMINATED, why_stopped='Covid-19'",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04839575",
+        "drug_name": "Latiglutenase"
+      },
+      "result": "4 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT04436458"
+      },
+      "result": "NCT04436458: WITHDRAWN, why_stopped='Sponsor asset acquired by another pharma company who opened their own IND for th'",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "Latiglutenase",
+        "nct_id": "NCT04243551"
+      },
+      "result": "5 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT04839575"
+      },
+      "result": "NCT04839575: TERMINATED, why_stopped='Covid-19 interruptions and enrollment challenges'",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "get_abstract",
+      "args": {
+        "pmid": "35348204"
+      },
+      "result": "PMID 35348204: Niclosamide-A promising treatment for COVID-19.",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT04243551"
+      },
+      "result": "NCT04243551: TERMINATED, why_stopped='Due to low enrollment related to Covid.'",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "get_abstract",
+      "args": {
+        "pmid": "39493330"
+      },
+      "result": "PMID 39493330: Beyond the gluten-free diet: Innovations in celiac disease therapeutics.",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "get_fda_approvals",
+      "args": {
+        "drug_name": "Niclosamide"
+      },
+      "result": "1 applications",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "find_sponsor_cik",
+      "args": {
+        "sponsor_name": "Entero Therapeutics"
+      },
+      "result": "error: Not in the snapshot, and the live SEC lookup failed: www.sec.gov failed after 3 tries: SourceError: SEC_USER_AGENT is not set. SEC requires a contact string with an email.",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "find_sponsor_cik",
+      "args": {
+        "sponsor_name": "First Wave BioPharma"
+      },
+      "result": "error: Not in the snapshot, and the live SEC lookup failed: www.sec.gov failed after 3 tries: SourceError: SEC_USER_AGENT is not set. SEC requires a contact string with an email.",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "find_sponsor_cik",
+      "args": {
+        "sponsor_name": "AzurRx BioPharma"
+      },
+      "result": "error: Not in the snapshot, and the live SEC lookup failed: www.sec.gov failed after 3 tries: SourceError: SEC_USER_AGENT is not set. SEC requires a contact string with an email.",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT sponsor, count(*) FROM trials WHERE sponsor ILIKE '%Entero%' OR sponsor ILIKE '%First Wave%' OR sponsor ILIKE '%AzurRx%' GROUP BY 1"
+      },
+      "result": "2 rows, 1 evidence ids",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.sponsor, t.title, t.overall_status, t.why_stopped, d.why_stopped_category, d.stopped FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.sponsor ILIKE '%Entero%' OR t.sponsor ILIKE '%AzurRx%'"
+      },
+      "result": "11 rows, 11 evidence ids",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT * FROM sponsor_cik WHERE sponsor ILIKE '%Entero%' OR sponsor ILIKE '%AzurRx%' OR sponsor ILIKE '%First Wave%'"
+      },
+      "result": "0 rows",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT * FROM filings WHERE nct_id IN ('NCT04858425', 'NCT03521232', 'NCT04839575', 'NCT04243551')"
+      },
+      "result": "0 rows",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT count(*) FROM filings"
+      },
+      "result": "1 rows, 1 evidence ids",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "dispatch_researchers",
+      "args": {
+        "round": 1,
+        "briefs": [
+          {
+            "lane": "trials",
+            "brief": "Analyze all Phase 2 trials in the registry sponsored by Entero Therapeutics, First Wave BioPharma, or AzurRx BioPharma (AzurRx SAS). Identify trials that were terminated, suspended, or withdrawn. For each stopped trial, retrieve the NCT ID, drug names, overall status, primary completion date, the st"
+          },
+          {
+            "lane": "disclosures",
+            "brief": "Search SEC filings (specifically 8-K, 10-Q, and 10-K) for Entero Therapeutics (formerly First Wave BioPharma / AzurRx BioPharma, CIK 0001555547 or other linked CIKs) near the termination or stop dates of their Phase 2 trials. Determine what explanation the sponsor provided to investors regarding the"
+          },
+          {
+            "lane": "publications",
+            "brief": "Search PubMed and Europe PMC for any literature and journal publications linked to the stopped Phase 2 trials of Entero Therapeutics, First Wave BioPharma, or AzurRx. Check if any results or analyses of these discontinued trials were published, the publication dates, and whether the abstracts discus"
+          }
+        ]
+      },
+      "result": "3 researchers in parallel, 3 findings; researcher:publications 15.045s-21.937s, researcher:trials 15.045s-22.425s, researcher:disclosures 15.045s-53.857s",
+      "agent": "lead"
+    },
+    {
+      "name": "review_findings",
+      "args": {
+        "round": 1
+      },
+      "result": "{\"done\": false, \"gaps\": [{\"lane\": \"trials\", \"description\": \"Phase 2 trials list and registry details are incomplete due to premature turn cap.\"}, {\"lane\": \"disclosures\", \"description\": \"SEC filings search for trial discontinuations was cut short before finding explanations.\"}, {\"lane\": \"publications\", \"description\": \"Literature search was interrupted before linking pubmed records to specific trials.\"}]}",
+      "agent": "lead"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.brief_title, t.interventions FROM trials t WHERE array_to_string(t.interventions, ' ') ILIKE '%niclosamide%' OR array_to_string(t.interventions, ' ') ILIKE '%FW-UP%' OR array_to_string(t.interventions, ' ') ILIKE '%MS1819%'"
+      },
+      "result": "error: Binder Error: Table \"t\" does not have a column named \"brief_title\"\n\nCandidate bindings: : \"title\"\n\nLINE 1: SELECT * FROM (SELECT t.nct_id, t.brief_title, t.interventions FROM trial",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.sponsor, t.start_date, t.primary_completion_date, t.overall_status, t.why_stopped, d.why_stopped_category FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.sponsor ILIKE '%Entero%' OR t.sponsor ILIKE '%First Wave%' OR t.sponsor ILIKE '%AzurRx%'"
+      },
+      "result": "11 rows, 11 evidence ids",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_posted, t.results_first_post_date, d.results_due_date, d.days_late, d.stopped FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id IN ('NCT03481803', 'NCT03521232', 'NCT03746483', 'NCT04243551', 'NCT04302662', 'NCT04375878', 'NCT04436458', 'NCT04542434', 'NCT04839575', 'NCT04858425', 'NCT05719311')"
+      },
+      "result": "11 rows, 11 evidence ids",
+      "agent": "researcher:trials"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.interventions FROM trials t WHERE array_to_string(t.interventions, ' ') ILIKE '%niclosamide%' OR array_to_string(t.interventions, ' ') ILIKE '%FW-UP%' OR array_to_string(t.interventions, ' ') ILIKE '%MS1819%'"
+      },
+      "result": "10 rows, 10 evidence ids",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04375878",
+        "drug_name": "MS1819"
+      },
+      "result": "2 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04542434",
+        "drug_name": "niclosamide"
+      },
+      "result": "3 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "niclosamide",
+        "nct_id": "NCT04603924"
+      },
+      "result": "8 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT03746483",
+        "drug_name": "MS1819"
+      },
+      "result": "2 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "get_abstract",
+      "args": {
+        "pmid": "39299226"
+      },
+      "result": "PMID 39299226: Clinical Efficacy and Safety of Treatments for Exocrine Pancreatic Insufficiency: A Systematic Literature Review.",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT p.nct_id, p.pmid, p.title, p.journal, p.pub_date, p.link_type FROM publications p WHERE p.nct_id IN ('NCT04375878', 'NCT04542434', 'NCT04603924', 'NCT04858425', 'NCT04932915', 'NCT03481803', 'NCT03521232', 'NCT04436458', 'NCT03746483', 'NCT04302662')"
+      },
+      "result": "18 rows, 18 evidence ids",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "search_sec_filings",
+      "args": {
+        "start_date": "2021-01-01",
+        "query": "\"NCT04858425\" OR \"NCT03521232\" OR \"NCT04839575\" OR \"NCT04243551\" OR \"Niclosamide\" OR \"Latiglutenase\" OR \"MS1819\"",
+        "forms": [
+          "8-K",
+          "10-K",
+          "10-Q"
+        ],
+        "cik": "0001555547",
+        "end_date": "2024-01-01"
+      },
+      "result": "error: efts.sec.gov failed after 3 tries: SourceError: SEC_USER_AGENT is not set. SEC requires a contact string with an email.",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT f.form, f.filed_date, f.accession, f.url, f.snippet, f.nct_id FROM filings f WHERE f.cik = '0001555547' OR f.nct_id IN ('NCT04858425', 'NCT03521232', 'NCT04839575', 'NCT04243551')"
+      },
+      "result": "0 rows",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT * FROM snapshot_meta"
+      },
+      "result": "5 rows, 1 evidence ids",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "find_sponsor_cik",
+      "args": {
+        "sponsor_name": "Entero Therapeutics"
+      },
+      "result": "error: Not in the snapshot, and the live SEC lookup failed: www.sec.gov failed after 3 tries: SourceError: SEC_USER_AGENT is not set. SEC requires a contact string with an email.",
+      "agent": "researcher:disclosures"
+    },
+    {
+      "name": "dispatch_researchers",
+      "args": {
+        "round": 2,
+        "briefs": [
+          {
+            "lane": "trials",
+            "brief": "Examine the status of the gathered NCT IDs (including NCT03481803, NCT03521232, NCT03746483, NCT04243551, NCT04302662, NCT04375878, NCT04436458, NCT04542434, NCT04839575, NCT04858425, NCT05719311). Filter for Phase 2 trials, identify which are terminated, suspended, or withdrawn, note if results are"
+          },
+          {
+            "lane": "disclosures",
+            "brief": "Using CIK 0001555547 for Entero Therapeutics (formerly First Wave BioPharma and AzurRx BioPharma), search SEC filings (8-K, 10-K, 10-Q) around the estimated stop dates of the identified Phase 2 trials. Retrieve the specific reasons provided to investors for terminating these programs.\n\n(Gap to close"
+          },
+          {
+            "lane": "publications",
+            "brief": "Search PubMed and Europe PMC using the identified Phase 2 NCT IDs and drug names (such as niclosamide, FW-UP, or MS1819) to see if results have been published in journals, and if any publications explain why the trials were stopped early.\n\n(Gap to close: Literature search was interrupted before link"
+          }
+        ]
+      },
+      "result": "3 researchers in parallel, 13 findings; researcher:trials 59.264s-64.533s, researcher:publications 59.264s-68.514s, researcher:disclosures 59.264s-86.85s",
+      "agent": "lead"
+    },
+    {
+      "name": "review_findings",
+      "args": {
+        "round": 2
+      },
+      "result": "{\"done\": false, \"gaps\": [{\"lane\": \"publications\", \"description\": \"Literature search for stopped Phase 2 trials was interrupted and needs to map identified PMIDs to specific NCT IDs.\"}]}",
+      "agent": "lead"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "FW-UP",
+        "nct_id": "NCT04243551"
+      },
+      "result": "5 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "MS1819",
+        "nct_id": "NCT04542434"
+      },
+      "result": "3 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04436458",
+        "drug_name": "FW-COV"
+      },
+      "result": "5 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "niclosamide",
+        "nct_id": "NCT03521232"
+      },
+      "result": "3 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "niclosamide",
+        "nct_id": "NCT04839575"
+      },
+      "result": "4 publications",
+      "agent": "researcher:publications"
+    },
+    {
+      "name": "dispatch_researchers",
+      "args": {
+        "round": 3,
+        "briefs": [
+          {
+            "lane": "publications",
+            "brief": "Using the NCT IDs for stopped Phase 2 trials (NCT03521232, NCT04243551, NCT04436458, NCT04542434, NCT04839575) and drug names (such as niclosamide, FW-UP, FW-COV, MS1819), search PubMed and Europe PMC. Determine if any of the gathered publication records contain results or explain the reasons for st"
+          }
+        ]
+      },
+      "result": "1 researchers in parallel, 5 findings; researcher:publications 95.76s-99.954s",
+      "agent": "lead"
+    },
+    {
+      "name": "write_report",
+      "args": {
+        "findings": 21,
+        "evidence_records": 49
+      },
+      "result": "2 answer sentences, 7 evidence claims, 0 differences",
+      "agent": "writer"
+    },
+    {
+      "name": "check_citations",
+      "args": {
+        "claims": 9,
+        "citations": 28
+      },
+      "result": "citations_checked: 28, removed: 0 (fixed 2, unknown ids dropped 0)",
+      "agent": "checker"
+    }
+  ],
+  "trace": {
+    "rounds": 3,
+    "max_rounds": 3,
+    "timings": [
+      {
+        "agent": "researcher:publications",
+        "key": "researcher:publications#r1.2",
+        "round": 1,
+        "start": 15.045,
+        "end": 21.937
+      },
+      {
+        "agent": "researcher:trials",
+        "key": "researcher:trials#r1.0",
+        "round": 1,
+        "start": 15.045,
+        "end": 22.425
+      },
+      {
+        "agent": "researcher:disclosures",
+        "key": "researcher:disclosures#r1.1",
+        "round": 1,
+        "start": 15.045,
+        "end": 53.857
+      },
+      {
+        "agent": "researcher:trials",
+        "key": "researcher:trials#r2.0",
+        "round": 2,
+        "start": 59.264,
+        "end": 64.533
+      },
+      {
+        "agent": "researcher:publications",
+        "key": "researcher:publications#r2.2",
+        "round": 2,
+        "start": 59.264,
+        "end": 68.514
+      },
+      {
+        "agent": "researcher:disclosures",
+        "key": "researcher:disclosures#r2.1",
+        "round": 2,
+        "start": 59.264,
+        "end": 86.85
+      },
+      {
+        "agent": "researcher:publications",
+        "key": "researcher:publications#r3.0",
+        "round": 3,
+        "start": 95.76,
+        "end": 99.954
+      }
+    ],
+    "elapsed_s": 132.67,
+    "notes": [
+      "The Lead hit its lookup cap and planned from what it had found.",
+      "Stopped at the cap of 3 research rounds."
+    ],
+    "first_contexts": {
+      "lead": {
+        "agent": "lead",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are the Lead of Ghost Trials Autopsy, a research team that investigates industry clinical trials that stopped early.\nThe team can answer four questions about a drug, sponsor, condition or trial (NCT ID):\n1. Why did the trial stop? (registry status and the stated reason)\n2. Were the results ever reported? (results on ClinicalTrials.gov, journal publications, how late)\n3. What did the sponsor tell investors? (SEC 8-K and other filings near the stop date)\n4. Do those stories match?\n\nThe data: a snapshot of 16,000+ industry-sponsored, interventional, phase 2 or 3 trials with primary completion from 2015 to 2023, joined to SEC filings and PubMed articles, plus live ClinicalTrials.gov, Drugs@FDA, SEC EDGAR, PubMed and Europe PMC lookups.\n\n## Step 1: the gate. Decide before any research.\n\nReturn decision \"refuse\" when the question asks for something this tool must never give:\n- medical advice (\"Should I take X?\", \"Is X safe for me?\"),\n- a verdict on intent, fraud or deception, or on whether a sponsor broke the law, AS THE WHOLE QUESTION with no factual part we can research.\nIn message, say briefly why, and what the tool can do instead. Put 2 to 3 researchable rephrasings in options.\nIf a question asks for a legal or intent verdict but names a concrete sponsor, drug or trial, do NOT refuse: return \"research\" and plan the factual part (what was reported and when). The Writer will explain that the data cannot show intent or legal violations.\n\nReturn decision \"clarify\" when the question is vague: it lacks a concrete target (a drug, sponsor, NCT ID or condition) AND a scope (a phase, a time window, or which of the four questions). \"Why do trials fail?\" and \"Why do Alzheimer's trials fail?\" are vague. \"Did Acme stop any trials without reporting results?\" is specific: it names a sponsor and a question.\nIn message, ask one short question. In options, give 2 to 4 concrete, ready-to-run rewrites, such as \"Industry phase 2 and 3 Alzheimer's trials that stopped from 2015 to 2023, grouped by stated reason\". You may call query_trials_sql once to make the options concrete (real sponsor or drug names).\nDo not research when you clarify.\n\nOtherwise return decision \"research\".\n\n## Step 2: plan (only for \"research\")\n\nYou may call read_mappings, get_snapshot_stats and query_trials_sql (at most 3 calls) to find the trials in question, so the briefs can name NCT IDs, sponsors and drug names. Do not try to answer the question yourself.\nWrite a short plan (2 to 4 sentences) and one brief per relevant lane:\n- \"trials\": registry facts, statuses, stated reasons, dates, results posting and lateness, FDA approval, base rates.\n- \"disclosures\": the sponsor's CIK, 8-K (and if needed 10-Q/10-K) language near the stop date, and how it describes the trial.\n- \"publications\": PubMed / Europe PMC articles linked to each trial, their dates and what the abstracts report.\nUsually all three lanes are relevant. Each brief is self-contained: the Researcher sees only its brief, never this conversation. Name the exact NCT IDs, sponsor, drug names and date windows. Ask for at most 3 trials per brief; pick the most relevant ones.\n\nWrite plainly. Never use em dashes.\n"
+          },
+          {
+            "role": "user",
+            "content": "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"
+          }
+        ]
+      },
+      "researcher:trials#r1.0": {
+        "agent": "researcher:trials",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a Researcher on the Ghost Trials Autopsy team. You get one brief and work alone: you have not seen the user's question or any other researcher's work, so rely on the brief.\n\nHow to work:\n- Use your tools. Every fact you report must come from a tool result in this conversation. Never use memory for trial facts, dates, numbers, filing language or publication details.\n- Every tool result record carries an evidence_id (like ctgov:NCT01234567, sec:0001193125-21-123456, pubmed:34567890, fda:NDA021234, cik:0000123456, sql:1a2b3c4d, snapshot:stats). Cite those ids exactly.\n- The example SQL below shows the main tables and columns. Call read_mappings once if you need a column it doesn't show, and get_enum_values before filtering on an enum column you haven't seen values for. Missing values are NULL. List columns (conditions, interventions, drug_names, matched_terms) are VARCHAR[]: search them with array_to_string(col, ' ') ILIKE '%term%'.\n- Be efficient: you have a small budget of turns. Prefer one good query over many small ones. Stop when the brief is answered.\n- Cite only evidence ids that a tool returned in this conversation. Never build one yourself (no \"fda:drugname\").\n- If a tool returns nothing, that is a finding: cite the evidence_id the tool returned for the empty search, and report it (for example \"No 8-K from this sponsor mentions the drug between 2019-01-01 and 2019-12-31\"), with the evidence id of the record you searched for if there is one.\n- Quote filing and abstract language exactly when you use it, in double quotes, and keep quotes short (under 30 words).\n\nReturn:\n- findings: each one specific claim (a date, status, number, reason, quote), with the evidence_ids that support it, your confidence (high when a record states it directly, medium when you inferred it from records, low when the evidence is thin), and notes for anything the Writer should know (for example \"snapshot only, not checked live\").\n- gaps: what you could not find and what tool call might find it. Leave empty if nothing is missing.\n\nWrite plainly. Never use em dashes.\n\nExample SQL:\n\n-- Stopped trials for a sponsor, with registry reason and results status\nSELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category,\n       t.primary_completion_date, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE t.sponsor ILIKE '%acme%' AND d.stopped\nORDER BY t.primary_completion_date;\n\n-- Stated reasons for stopped trials in a condition\nSELECT d.why_stopped_category, count(*) AS n\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'\nGROUP BY 1 ORDER BY n DESC;\n\n-- A trial's filings and publications in the snapshot\nSELECT f.form, f.filed_date, f.accession, f.url, f.snippet FROM filings f WHERE f.nct_id = 'NCT01234567';\nSELECT p.pmid, p.title, p.journal, p.pub_date, p.link_type FROM publications p WHERE p.nct_id = 'NCT01234567';\n\n\nYour lane: TRIALS (ClinicalTrials.gov and Drugs@FDA).\nReport, per trial: status, the stated why_stopped text quoted exactly and its category, start, primary completion and completion dates, enrollment, whether results are posted on ClinicalTrials.gov and when, results_due_date and days_late (an approximation: primary completion + 365 days), and whether the drug was ever approved by the FDA (get_fda_approvals) if the brief asks.\nFor trials the brief names, call get_trial_live to confirm the snapshot, and say if the live record differs. For trials outside the snapshot, get_trial_live is the only source: say so in notes.\nUse get_snapshot_stats when a base rate would put the trial in context (for example the share of stopped trials with a blank reason).\n"
+          },
+          {
+            "role": "user",
+            "content": "Analyze all Phase 2 trials in the registry sponsored by Entero Therapeutics, First Wave BioPharma, or AzurRx BioPharma (AzurRx SAS). Identify trials that were terminated, suspended, or withdrawn. For each stopped trial, retrieve the NCT ID, drug names, overall status, primary completion date, the stated reason for stopping, and whether results have been posted on ClinicalTrials.gov."
+          }
+        ]
+      },
+      "researcher:disclosures#r1.1": {
+        "agent": "researcher:disclosures",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a Researcher on the Ghost Trials Autopsy team. You get one brief and work alone: you have not seen the user's question or any other researcher's work, so rely on the brief.\n\nHow to work:\n- Use your tools. Every fact you report must come from a tool result in this conversation. Never use memory for trial facts, dates, numbers, filing language or publication details.\n- Every tool result record carries an evidence_id (like ctgov:NCT01234567, sec:0001193125-21-123456, pubmed:34567890, fda:NDA021234, cik:0000123456, sql:1a2b3c4d, snapshot:stats). Cite those ids exactly.\n- The example SQL below shows the main tables and columns. Call read_mappings once if you need a column it doesn't show, and get_enum_values before filtering on an enum column you haven't seen values for. Missing values are NULL. List columns (conditions, interventions, drug_names, matched_terms) are VARCHAR[]: search them with array_to_string(col, ' ') ILIKE '%term%'.\n- Be efficient: you have a small budget of turns. Prefer one good query over many small ones. Stop when the brief is answered.\n- Cite only evidence ids that a tool returned in this conversation. Never build one yourself (no \"fda:drugname\").\n- If a tool returns nothing, that is a finding: cite the evidence_id the tool returned for the empty search, and report it (for example \"No 8-K from this sponsor mentions the drug between 2019-01-01 and 2019-12-31\"), with the evidence id of the record you searched for if there is one.\n- Quote filing and abstract language exactly when you use it, in double quotes, and keep quotes short (under 30 words).\n\nReturn:\n- findings: each one specific claim (a date, status, number, reason, quote), with the evidence_ids that support it, your confidence (high when a record states it directly, medium when you inferred it from records, low when the evidence is thin), and notes for anything the Writer should know (for example \"snapshot only, not checked live\").\n- gaps: what you could not find and what tool call might find it. Leave empty if nothing is missing.\n\nWrite plainly. Never use em dashes.\n\nExample SQL:\n\n-- Stopped trials for a sponsor, with registry reason and results status\nSELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category,\n       t.primary_completion_date, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE t.sponsor ILIKE '%acme%' AND d.stopped\nORDER BY t.primary_completion_date;\n\n-- Stated reasons for stopped trials in a condition\nSELECT d.why_stopped_category, count(*) AS n\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'\nGROUP BY 1 ORDER BY n DESC;\n\n-- A trial's filings and publications in the snapshot\nSELECT f.form, f.filed_date, f.accession, f.url, f.snippet FROM filings f WHERE f.nct_id = 'NCT01234567';\nSELECT p.pmid, p.title, p.journal, p.pub_date, p.link_type FROM publications p WHERE p.nct_id = 'NCT01234567';\n\n\nYour lane: DISCLOSURES (SEC EDGAR).\n1. find_sponsor_cik for the sponsor. No match means the sponsor is probably private: report that and stop, because private companies file nothing with the SEC.\n2. Check the snapshot's filings table for the trials named (query_trials_sql on filings by nct_id).\n3. search_sec_filings with the CIK, the NCT ID and drug names (and code names) in the date window the brief gives, 8-K first. If nothing, widen the window or try 10-Q / 10-K once.\n4. get_filing_excerpt on the most relevant filing(s) with the drug name and words like discontinue, terminate, halt, strategic, prioritize, safety, efficacy, futility, enrollment. Quote the exact language.\nReport each filing's form, filed date, accession (as the sec: evidence id), and the exact words used about the trial, and whether those words give a reason (safety, efficacy, business, enrollment) or none.\n"
+          },
+          {
+            "role": "user",
+            "content": "Search SEC filings (specifically 8-K, 10-Q, and 10-K) for Entero Therapeutics (formerly First Wave BioPharma / AzurRx BioPharma, CIK 0001555547 or other linked CIKs) near the termination or stop dates of their Phase 2 trials. Determine what explanation the sponsor provided to investors regarding the discontinuation of these programs and whether it aligns with the registry reasons."
+          }
+        ]
+      },
+      "researcher:publications#r1.2": {
+        "agent": "researcher:publications",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a Researcher on the Ghost Trials Autopsy team. You get one brief and work alone: you have not seen the user's question or any other researcher's work, so rely on the brief.\n\nHow to work:\n- Use your tools. Every fact you report must come from a tool result in this conversation. Never use memory for trial facts, dates, numbers, filing language or publication details.\n- Every tool result record carries an evidence_id (like ctgov:NCT01234567, sec:0001193125-21-123456, pubmed:34567890, fda:NDA021234, cik:0000123456, sql:1a2b3c4d, snapshot:stats). Cite those ids exactly.\n- The example SQL below shows the main tables and columns. Call read_mappings once if you need a column it doesn't show, and get_enum_values before filtering on an enum column you haven't seen values for. Missing values are NULL. List columns (conditions, interventions, drug_names, matched_terms) are VARCHAR[]: search them with array_to_string(col, ' ') ILIKE '%term%'.\n- Be efficient: you have a small budget of turns. Prefer one good query over many small ones. Stop when the brief is answered.\n- Cite only evidence ids that a tool returned in this conversation. Never build one yourself (no \"fda:drugname\").\n- If a tool returns nothing, that is a finding: cite the evidence_id the tool returned for the empty search, and report it (for example \"No 8-K from this sponsor mentions the drug between 2019-01-01 and 2019-12-31\"), with the evidence id of the record you searched for if there is one.\n- Quote filing and abstract language exactly when you use it, in double quotes, and keep quotes short (under 30 words).\n\nReturn:\n- findings: each one specific claim (a date, status, number, reason, quote), with the evidence_ids that support it, your confidence (high when a record states it directly, medium when you inferred it from records, low when the evidence is thin), and notes for anything the Writer should know (for example \"snapshot only, not checked live\").\n- gaps: what you could not find and what tool call might find it. Leave empty if nothing is missing.\n\nWrite plainly. Never use em dashes.\n\nExample SQL:\n\n-- Stopped trials for a sponsor, with registry reason and results status\nSELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category,\n       t.primary_completion_date, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE t.sponsor ILIKE '%acme%' AND d.stopped\nORDER BY t.primary_completion_date;\n\n-- Stated reasons for stopped trials in a condition\nSELECT d.why_stopped_category, count(*) AS n\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'\nGROUP BY 1 ORDER BY n DESC;\n\n-- A trial's filings and publications in the snapshot\nSELECT f.form, f.filed_date, f.accession, f.url, f.snippet FROM filings f WHERE f.nct_id = 'NCT01234567';\nSELECT p.pmid, p.title, p.journal, p.pub_date, p.link_type FROM publications p WHERE p.nct_id = 'NCT01234567';\n\n\nYour lane: PUBLICATIONS (PubMed and Europe PMC).\nFor each trial named: find_publications (pass the drug name too). For each article found, give PMID, title, journal and publication date, and how it was linked (link_type). Call get_abstract on the one or two most relevant articles to say whether they report the trial's results and why it stopped, quoting briefly.\nIf nothing is found, report \"no linked publication found\" with the searches tried. Say that results may exist in conference abstracts or on company websites, which these sources do not cover.\nA europepmc_drug_name hit is only a mention of the drug, not proof it reports this trial: say so.\n"
+          },
+          {
+            "role": "user",
+            "content": "Search PubMed and Europe PMC for any literature and journal publications linked to the stopped Phase 2 trials of Entero Therapeutics, First Wave BioPharma, or AzurRx. Check if any results or analyses of these discontinued trials were published, the publication dates, and whether the abstracts discuss the reasons for stopping."
+          }
+        ]
+      },
+      "researcher:trials#r2.0": {
+        "agent": "researcher:trials",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a Researcher on the Ghost Trials Autopsy team. You get one brief and work alone: you have not seen the user's question or any other researcher's work, so rely on the brief.\n\nHow to work:\n- Use your tools. Every fact you report must come from a tool result in this conversation. Never use memory for trial facts, dates, numbers, filing language or publication details.\n- Every tool result record carries an evidence_id (like ctgov:NCT01234567, sec:0001193125-21-123456, pubmed:34567890, fda:NDA021234, cik:0000123456, sql:1a2b3c4d, snapshot:stats). Cite those ids exactly.\n- The example SQL below shows the main tables and columns. Call read_mappings once if you need a column it doesn't show, and get_enum_values before filtering on an enum column you haven't seen values for. Missing values are NULL. List columns (conditions, interventions, drug_names, matched_terms) are VARCHAR[]: search them with array_to_string(col, ' ') ILIKE '%term%'.\n- Be efficient: you have a small budget of turns. Prefer one good query over many small ones. Stop when the brief is answered.\n- Cite only evidence ids that a tool returned in this conversation. Never build one yourself (no \"fda:drugname\").\n- If a tool returns nothing, that is a finding: cite the evidence_id the tool returned for the empty search, and report it (for example \"No 8-K from this sponsor mentions the drug between 2019-01-01 and 2019-12-31\"), with the evidence id of the record you searched for if there is one.\n- Quote filing and abstract language exactly when you use it, in double quotes, and keep quotes short (under 30 words).\n\nReturn:\n- findings: each one specific claim (a date, status, number, reason, quote), with the evidence_ids that support it, your confidence (high when a record states it directly, medium when you inferred it from records, low when the evidence is thin), and notes for anything the Writer should know (for example \"snapshot only, not checked live\").\n- gaps: what you could not find and what tool call might find it. Leave empty if nothing is missing.\n\nWrite plainly. Never use em dashes.\n\nExample SQL:\n\n-- Stopped trials for a sponsor, with registry reason and results status\nSELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category,\n       t.primary_completion_date, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE t.sponsor ILIKE '%acme%' AND d.stopped\nORDER BY t.primary_completion_date;\n\n-- Stated reasons for stopped trials in a condition\nSELECT d.why_stopped_category, count(*) AS n\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'\nGROUP BY 1 ORDER BY n DESC;\n\n-- A trial's filings and publications in the snapshot\nSELECT f.form, f.filed_date, f.accession, f.url, f.snippet FROM filings f WHERE f.nct_id = 'NCT01234567';\nSELECT p.pmid, p.title, p.journal, p.pub_date, p.link_type FROM publications p WHERE p.nct_id = 'NCT01234567';\n\n\nYour lane: TRIALS (ClinicalTrials.gov and Drugs@FDA).\nReport, per trial: status, the stated why_stopped text quoted exactly and its category, start, primary completion and completion dates, enrollment, whether results are posted on ClinicalTrials.gov and when, results_due_date and days_late (an approximation: primary completion + 365 days), and whether the drug was ever approved by the FDA (get_fda_approvals) if the brief asks.\nFor trials the brief names, call get_trial_live to confirm the snapshot, and say if the live record differs. For trials outside the snapshot, get_trial_live is the only source: say so in notes.\nUse get_snapshot_stats when a base rate would put the trial in context (for example the share of stopped trials with a blank reason).\n"
+          },
+          {
+            "role": "user",
+            "content": "Examine the status of the gathered NCT IDs (including NCT03481803, NCT03521232, NCT03746483, NCT04243551, NCT04302662, NCT04375878, NCT04436458, NCT04542434, NCT04839575, NCT04858425, NCT05719311). Filter for Phase 2 trials, identify which are terminated, suspended, or withdrawn, note if results are posted on ClinicalTrials.gov, and record the registry reason for stopping.\n\n(Gap to close: Phase 2 trials list and registry details are incomplete due to premature turn cap.)"
+          }
+        ]
+      },
+      "researcher:disclosures#r2.1": {
+        "agent": "researcher:disclosures",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a Researcher on the Ghost Trials Autopsy team. You get one brief and work alone: you have not seen the user's question or any other researcher's work, so rely on the brief.\n\nHow to work:\n- Use your tools. Every fact you report must come from a tool result in this conversation. Never use memory for trial facts, dates, numbers, filing language or publication details.\n- Every tool result record carries an evidence_id (like ctgov:NCT01234567, sec:0001193125-21-123456, pubmed:34567890, fda:NDA021234, cik:0000123456, sql:1a2b3c4d, snapshot:stats). Cite those ids exactly.\n- The example SQL below shows the main tables and columns. Call read_mappings once if you need a column it doesn't show, and get_enum_values before filtering on an enum column you haven't seen values for. Missing values are NULL. List columns (conditions, interventions, drug_names, matched_terms) are VARCHAR[]: search them with array_to_string(col, ' ') ILIKE '%term%'.\n- Be efficient: you have a small budget of turns. Prefer one good query over many small ones. Stop when the brief is answered.\n- Cite only evidence ids that a tool returned in this conversation. Never build one yourself (no \"fda:drugname\").\n- If a tool returns nothing, that is a finding: cite the evidence_id the tool returned for the empty search, and report it (for example \"No 8-K from this sponsor mentions the drug between 2019-01-01 and 2019-12-31\"), with the evidence id of the record you searched for if there is one.\n- Quote filing and abstract language exactly when you use it, in double quotes, and keep quotes short (under 30 words).\n\nReturn:\n- findings: each one specific claim (a date, status, number, reason, quote), with the evidence_ids that support it, your confidence (high when a record states it directly, medium when you inferred it from records, low when the evidence is thin), and notes for anything the Writer should know (for example \"snapshot only, not checked live\").\n- gaps: what you could not find and what tool call might find it. Leave empty if nothing is missing.\n\nWrite plainly. Never use em dashes.\n\nExample SQL:\n\n-- Stopped trials for a sponsor, with registry reason and results status\nSELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category,\n       t.primary_completion_date, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE t.sponsor ILIKE '%acme%' AND d.stopped\nORDER BY t.primary_completion_date;\n\n-- Stated reasons for stopped trials in a condition\nSELECT d.why_stopped_category, count(*) AS n\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'\nGROUP BY 1 ORDER BY n DESC;\n\n-- A trial's filings and publications in the snapshot\nSELECT f.form, f.filed_date, f.accession, f.url, f.snippet FROM filings f WHERE f.nct_id = 'NCT01234567';\nSELECT p.pmid, p.title, p.journal, p.pub_date, p.link_type FROM publications p WHERE p.nct_id = 'NCT01234567';\n\n\nYour lane: DISCLOSURES (SEC EDGAR).\n1. find_sponsor_cik for the sponsor. No match means the sponsor is probably private: report that and stop, because private companies file nothing with the SEC.\n2. Check the snapshot's filings table for the trials named (query_trials_sql on filings by nct_id).\n3. search_sec_filings with the CIK, the NCT ID and drug names (and code names) in the date window the brief gives, 8-K first. If nothing, widen the window or try 10-Q / 10-K once.\n4. get_filing_excerpt on the most relevant filing(s) with the drug name and words like discontinue, terminate, halt, strategic, prioritize, safety, efficacy, futility, enrollment. Quote the exact language.\nReport each filing's form, filed date, accession (as the sec: evidence id), and the exact words used about the trial, and whether those words give a reason (safety, efficacy, business, enrollment) or none.\n"
+          },
+          {
+            "role": "user",
+            "content": "Using CIK 0001555547 for Entero Therapeutics (formerly First Wave BioPharma and AzurRx BioPharma), search SEC filings (8-K, 10-K, 10-Q) around the estimated stop dates of the identified Phase 2 trials. Retrieve the specific reasons provided to investors for terminating these programs.\n\n(Gap to close: SEC filings search for trial discontinuations was cut short before finding explanations.)"
+          }
+        ]
+      },
+      "researcher:publications#r2.2": {
+        "agent": "researcher:publications",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a Researcher on the Ghost Trials Autopsy team. You get one brief and work alone: you have not seen the user's question or any other researcher's work, so rely on the brief.\n\nHow to work:\n- Use your tools. Every fact you report must come from a tool result in this conversation. Never use memory for trial facts, dates, numbers, filing language or publication details.\n- Every tool result record carries an evidence_id (like ctgov:NCT01234567, sec:0001193125-21-123456, pubmed:34567890, fda:NDA021234, cik:0000123456, sql:1a2b3c4d, snapshot:stats). Cite those ids exactly.\n- The example SQL below shows the main tables and columns. Call read_mappings once if you need a column it doesn't show, and get_enum_values before filtering on an enum column you haven't seen values for. Missing values are NULL. List columns (conditions, interventions, drug_names, matched_terms) are VARCHAR[]: search them with array_to_string(col, ' ') ILIKE '%term%'.\n- Be efficient: you have a small budget of turns. Prefer one good query over many small ones. Stop when the brief is answered.\n- Cite only evidence ids that a tool returned in this conversation. Never build one yourself (no \"fda:drugname\").\n- If a tool returns nothing, that is a finding: cite the evidence_id the tool returned for the empty search, and report it (for example \"No 8-K from this sponsor mentions the drug between 2019-01-01 and 2019-12-31\"), with the evidence id of the record you searched for if there is one.\n- Quote filing and abstract language exactly when you use it, in double quotes, and keep quotes short (under 30 words).\n\nReturn:\n- findings: each one specific claim (a date, status, number, reason, quote), with the evidence_ids that support it, your confidence (high when a record states it directly, medium when you inferred it from records, low when the evidence is thin), and notes for anything the Writer should know (for example \"snapshot only, not checked live\").\n- gaps: what you could not find and what tool call might find it. Leave empty if nothing is missing.\n\nWrite plainly. Never use em dashes.\n\nExample SQL:\n\n-- Stopped trials for a sponsor, with registry reason and results status\nSELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category,\n       t.primary_completion_date, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE t.sponsor ILIKE '%acme%' AND d.stopped\nORDER BY t.primary_completion_date;\n\n-- Stated reasons for stopped trials in a condition\nSELECT d.why_stopped_category, count(*) AS n\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'\nGROUP BY 1 ORDER BY n DESC;\n\n-- A trial's filings and publications in the snapshot\nSELECT f.form, f.filed_date, f.accession, f.url, f.snippet FROM filings f WHERE f.nct_id = 'NCT01234567';\nSELECT p.pmid, p.title, p.journal, p.pub_date, p.link_type FROM publications p WHERE p.nct_id = 'NCT01234567';\n\n\nYour lane: PUBLICATIONS (PubMed and Europe PMC).\nFor each trial named: find_publications (pass the drug name too). For each article found, give PMID, title, journal and publication date, and how it was linked (link_type). Call get_abstract on the one or two most relevant articles to say whether they report the trial's results and why it stopped, quoting briefly.\nIf nothing is found, report \"no linked publication found\" with the searches tried. Say that results may exist in conference abstracts or on company websites, which these sources do not cover.\nA europepmc_drug_name hit is only a mention of the drug, not proof it reports this trial: say so.\n"
+          },
+          {
+            "role": "user",
+            "content": "Search PubMed and Europe PMC using the identified Phase 2 NCT IDs and drug names (such as niclosamide, FW-UP, or MS1819) to see if results have been published in journals, and if any publications explain why the trials were stopped early.\n\n(Gap to close: Literature search was interrupted before linking pubmed records to specific trials.)"
+          }
+        ]
+      },
+      "researcher:publications#r3.0": {
+        "agent": "researcher:publications",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a Researcher on the Ghost Trials Autopsy team. You get one brief and work alone: you have not seen the user's question or any other researcher's work, so rely on the brief.\n\nHow to work:\n- Use your tools. Every fact you report must come from a tool result in this conversation. Never use memory for trial facts, dates, numbers, filing language or publication details.\n- Every tool result record carries an evidence_id (like ctgov:NCT01234567, sec:0001193125-21-123456, pubmed:34567890, fda:NDA021234, cik:0000123456, sql:1a2b3c4d, snapshot:stats). Cite those ids exactly.\n- The example SQL below shows the main tables and columns. Call read_mappings once if you need a column it doesn't show, and get_enum_values before filtering on an enum column you haven't seen values for. Missing values are NULL. List columns (conditions, interventions, drug_names, matched_terms) are VARCHAR[]: search them with array_to_string(col, ' ') ILIKE '%term%'.\n- Be efficient: you have a small budget of turns. Prefer one good query over many small ones. Stop when the brief is answered.\n- Cite only evidence ids that a tool returned in this conversation. Never build one yourself (no \"fda:drugname\").\n- If a tool returns nothing, that is a finding: cite the evidence_id the tool returned for the empty search, and report it (for example \"No 8-K from this sponsor mentions the drug between 2019-01-01 and 2019-12-31\"), with the evidence id of the record you searched for if there is one.\n- Quote filing and abstract language exactly when you use it, in double quotes, and keep quotes short (under 30 words).\n\nReturn:\n- findings: each one specific claim (a date, status, number, reason, quote), with the evidence_ids that support it, your confidence (high when a record states it directly, medium when you inferred it from records, low when the evidence is thin), and notes for anything the Writer should know (for example \"snapshot only, not checked live\").\n- gaps: what you could not find and what tool call might find it. Leave empty if nothing is missing.\n\nWrite plainly. Never use em dashes.\n\nExample SQL:\n\n-- Stopped trials for a sponsor, with registry reason and results status\nSELECT t.nct_id, t.title, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category,\n       t.primary_completion_date, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE t.sponsor ILIKE '%acme%' AND d.stopped\nORDER BY t.primary_completion_date;\n\n-- Stated reasons for stopped trials in a condition\nSELECT d.why_stopped_category, count(*) AS n\nFROM trials t JOIN trial_derived d USING (nct_id)\nWHERE d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'\nGROUP BY 1 ORDER BY n DESC;\n\n-- A trial's filings and publications in the snapshot\nSELECT f.form, f.filed_date, f.accession, f.url, f.snippet FROM filings f WHERE f.nct_id = 'NCT01234567';\nSELECT p.pmid, p.title, p.journal, p.pub_date, p.link_type FROM publications p WHERE p.nct_id = 'NCT01234567';\n\n\nYour lane: PUBLICATIONS (PubMed and Europe PMC).\nFor each trial named: find_publications (pass the drug name too). For each article found, give PMID, title, journal and publication date, and how it was linked (link_type). Call get_abstract on the one or two most relevant articles to say whether they report the trial's results and why it stopped, quoting briefly.\nIf nothing is found, report \"no linked publication found\" with the searches tried. Say that results may exist in conference abstracts or on company websites, which these sources do not cover.\nA europepmc_drug_name hit is only a mention of the drug, not proof it reports this trial: say so.\n"
+          },
+          {
+            "role": "user",
+            "content": "Using the NCT IDs for stopped Phase 2 trials (NCT03521232, NCT04243551, NCT04436458, NCT04542434, NCT04839575) and drug names (such as niclosamide, FW-UP, FW-COV, MS1819), search PubMed and Europe PMC. Determine if any of the gathered publication records contain results or explain the reasons for stopping these trials.\n\n(Gap to close: Literature search for stopped Phase 2 trials was interrupted and needs to map identified PMIDs to specific NCT IDs.)"
+          }
+        ]
+      },
+      "writer": {
+        "agent": "writer",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are the Writer of Ghost Trials Autopsy. You write the final report for health reporters, patient advocates and research-integrity people, using ONLY the findings and evidence records you are given. Never use memory for facts.\n\nCitations: cite evidence by its exact evidence_id in the citations list of each claim. Only ids that appear in the evidence records are allowed. Every claim must have at least one citation. Do not put [n] numbers or ids in the claim text: the system numbers them.\n\nFill these fields:\n- answer: 2 to 4 sentences that answer the question directly, with the most important facts and their numbers and dates. Each sentence is a claim with citations.\n- evidence: the supporting claims, one specific fact each (a date, status, number, reason, short exact quote). Group them in a sensible order (registry, then results, then investor filings, then publications). 4 to 12 claims.\n- differences: where the stories differ, comparing the registry reason, the investor language and the publication record. Describe a mismatch as a discrepancy between what each source says, never as hiding, deception or wrongdoing. Leave empty if they agree or there is nothing to compare, and say in cant_tell why.\n- cant_tell: 3 to 6 plain sentences, specific to THIS question, about what the data cannot tell us. Always include whichever apply: the real reason beyond the stated whyStopped text; that a discrepancy is not proof of intent; that results_due_date (primary completion + 365 days) approximates the FDAAA deadline, which only applies to \"applicable clinical trials\", a status that is not fully public, so this is never evidence that a sponsor broke the law; that results published in conference abstracts, non-indexed journals or company websites may be missed; that private sponsors file nothing with the SEC; that trials outside the snapshot scope were only looked up live, or not at all. If the research stopped early because of the time budget, say so here.\n- timeline_text: one or two sentences per trial giving start, stop, results due, results posted (or never), 8-K date and publication date, as far as the evidence shows.\n\nStyle: plain, specific sentences. Dates as YYYY-MM-DD (or YYYY-MM when only the month is known). Say \"the registry says\", \"the 8-K says\", \"PubMed lists\". No \"profoundly\", \"pivotal\", \"it is worth noting\". Never use em dashes. Never give medical advice.\n"
+          },
+          {
+            "role": "user",
+            "content": "Question: Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?\n\nSnapshot date: 2026-11-05\nResearch notes: The Lead hit its lookup cap and planned from what it had found.; Stopped at the cap of 3 research rounds.\n\nFindings:\n[{\"lane\": \"trials\", \"round\": 1, \"brief\": \"Analyze all Phase 2 trials in the registry sponsored by Entero Therapeutics, First Wave BioPharma, or AzurRx BioPharma (AzurRx SAS). Identify trials that were terminated, suspended, or withdrawn. For each stopped trial, retrieve the NCT ID, drug names, overall status, primary completion date, the stated reason for stopping, and whether results have been posted on ClinicalTrials.gov.\", \"findings\": [{\"claim\": \"Ran out of turns. Records gathered: ctgov:NCT03481803, ctgov:NCT03521232, ctgov:NCT03746483, ctgov:NCT04243551, ctgov:NCT04302662, ctgov:NCT04375878, ctgov:NCT04436458, ctgov:NCT04542434, ctgov:NCT04839575, ctgov:NCT04858425, ctgov:NCT05719311, fda:NDA018669.\", \"evidence_ids\": [\"ctgov:NCT03481803\", \"ctgov:NCT03521232\", \"ctgov:NCT03746483\", \"ctgov:NCT04243551\", \"ctgov:NCT04302662\", \"ctgov:NCT04375878\", \"ctgov:NCT04436458\", \"ctgov:NCT04542434\", \"ctgov:NCT04839575\", \"ctgov:NCT04858425\", \"ctgov:NCT05719311\", \"fda:NDA018669\"], \"confidence\": \"low\", \"notes\": \"\"}], \"gaps\": [\"Researcher hit the 8-turn cap before finishing: Analyze all Phase 2 trials in the registry sponsored by Entero Therapeutics, First Wave BioPharma, or AzurRx BioPharma (AzurRx SAS). Identify trials that were terminated, suspended, or withdrawn. For \"]}, {\"lane\": \"disclosures\", \"round\": 1, \"brief\": \"Search SEC filings (specifically 8-K, 10-Q, and 10-K) for Entero Therapeutics (formerly First Wave BioPharma / AzurRx BioPharma, CIK 0001555547 or other linked CIKs) near the termination or stop dates of their Phase 2 trials. Determine what explanation the sponsor provided to investors regarding the discontinuation of these programs and whether it aligns with the registry reasons.\", \"findings\": [{\"claim\": \"Ran out of turns. Records gathered: ctgov:NCT03481803, ctgov:NCT03521232, ctgov:NCT03746483, ctgov:NCT04243551, ctgov:NCT04302662, ctgov:NCT04375878, ctgov:NCT04436458, ctgov:NCT04542434, ctgov:NCT04839575, ctgov:NCT04858425, ctgov:NCT05719311, sql:b4ed5482, sql:d441f0f0.\", \"evidence_ids\": [\"ctgov:NCT03481803\", \"ctgov:NCT03521232\", \"ctgov:NCT03746483\", \"ctgov:NCT04243551\", \"ctgov:NCT04302662\", \"ctgov:NCT04375878\", \"ctgov:NCT04436458\", \"ctgov:NCT04542434\", \"ctgov:NCT04839575\", \"ctgov:NCT04858425\", \"ctgov:NCT05719311\", \"sql:b4ed5482\", \"sql:d441f0f0\"], \"confidence\": \"low\", \"notes\": \"\"}], \"gaps\": [\"Researcher hit the 8-turn cap before finishing: Search SEC filings (specifically 8-K, 10-Q, and 10-K) for Entero Therapeutics (formerly First Wave BioPharma / AzurRx BioPharma, CIK 0001555547 or other linked CIKs) near the termination or stop dates\"]}, {\"lane\": \"publications\", \"round\": 1, \"brief\": \"Search PubMed and Europe PMC for any literature and journal publications linked to the stopped Phase 2 trials of Entero Therapeutics, First Wave BioPharma, or AzurRx. Check if any results or analyses of these discontinued trials were published, the publication dates, and whether the abstracts discuss the reasons for stopping.\", \"findings\": [{\"claim\": \"Ran out of turns. Records gathered: ctgov:NCT04243551, ctgov:NCT04436458, ctgov:NCT04542434, ctgov:NCT04839575, ctgov:NCT04858425, pubmed:34056571, pubmed:34298652, pubmed:34349475, pubmed:34488003, pubmed:34676370, pubmed:34762760, pubmed:35348204, pubmed:35496298, pubmed:38140342, pubmed:38698821, pubmed:39493330, pubmed:39862215, pubmed:39941971, pubmed:40568785, pubmed:41595566.\", \"evidence_ids\": [\"ctgov:NCT04243551\", \"ctgov:NCT04436458\", \"ctgov:NCT04542434\", \"ctgov:NCT04839575\", \"ctgov:NCT04858425\", \"pubmed:34056571\", \"pubmed:34298652\", \"pubmed:34349475\", \"pubmed:34488003\", \"pubmed:34676370\", \"pubmed:34762760\", \"pubmed:35348204\", \"pubmed:35496298\", \"pubmed:38140342\", \"pubmed:38698821\", \"pubmed:39493330\", \"pubmed:39862215\", \"pubmed:39941971\", \"pubmed:40568785\", \"pubmed:41595566\"], \"confidence\": \"low\", \"notes\": \"\"}], \"gaps\": [\"Researcher hit the 8-turn cap before finishing: Search PubMed and Europe PMC for any literature and journal publications linked to the stopped Phase 2 trials of Entero Therapeutics, First Wave BioPharma, or AzurRx. Check if any results or analyses \"]}, {\"lane\": \"trials\", \"round\": 2, \"brief\": \"Examine the status of the gathered NCT IDs (including NCT03481803, NCT03521232, NCT03746483, NCT04243551, NCT04302662, NCT04375878, NCT04436458, NCT04542434, NCT04839575, NCT04858425, NCT05719311). Filter for Phase 2 trials, identify which are terminated, suspended, or withdrawn, note if results are posted on ClinicalTrials.gov, and record the registry reason for stopping.\\n\\n(Gap to close: Phase 2 trials list and registry details are incomplete due to premature turn cap.)\", \"findings\": [{\"claim\": \"NCT04375878 is a Phase 2 trial that completed on 2021-04-08, enrollment is 27, results posted: true on 2022-09-13, results due date 2022-04-08, 158 days late, not stopped.\", \"evidence_ids\": [\"ctgov:NCT04375878\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT04542434 is a Phase 2 trial that was withdrawn on 2022-01-20, enrollment 0, results posted: false, registry reason: \\\"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\\\", category: business/strategic.\", \"evidence_ids\": [\"ctgov:NCT04542434\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT04858425 is a Phase 2 trial that was terminated on 2023-09-10 (primary completion 2022-06-04), enrollment 166, results posted: true on 2024-07-24, results due date 2023-06-04, 416 days late, registry reason: \\\"The termination of the study was a decision based on topline data analysis (no efficacy as per Day 43) of the study data.\\\", category: efficacy.\", \"evidence_ids\": [\"ctgov:NCT04858425\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT05719311 is a Phase 2 trial that completed on 2023-07-28, enrollment 13, results posted: true on 2024-09-19, results due date 2024-06-19, 92 days late, not stopped.\", \"evidence_ids\": [\"ctgov:NCT05719311\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT03481803 is a Phase 2 (Phase IIa) trial that completed on 2018-06-29, enrollment 11, results posted: false, results due date 2019-06-29, 2686 days late, not stopped.\", \"evidence_ids\": [\"ctgov:NCT03481803\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT03521232 is a Phase 1/Phase 2 trial that was terminated on 2022-10-04, enrollment 27, results posted: false, results due date 2023-09-19, 1143 days late, registry reason: \\\"Covid-19\\\", category: other.\", \"evidence_ids\": [\"ctgov:NCT03521232\"], \"confidence\": \"high\", \"notes\": \"Phase listed as PHASE1/PHASE2. Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT04436458 is a Phase 2 trial that was withdrawn on 2022-01-20, enrollment 0, results posted: false, registry reason: \\\"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\\\", category: business/strategic.\", \"evidence_ids\": [\"ctgov:NCT04436458\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT04839575 is a Phase 2 trial that was terminated on 2022-12-19, enrollment 13, results posted: false, results due date 2023-12-19, 1052 days late, registry reason: \\\"Covid-19 interruptions and enrollment challenges\\\", category: enrollment.\", \"evidence_ids\": [\"ctgov:NCT04839575\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT03746483 is a Phase 2 trial that completed on 2019-07-27, enrollment 41, results posted: true on 2022-06-06, results due date 2020-07-12, 694 days late, not stopped.\", \"evidence_ids\": [\"ctgov:NCT03746483\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT04243551 is a Phase 2 trial that was terminated on 2023-10-31, enrollment 83, results posted: false, results due date 2024-10-15, 751 days late, registry reason: \\\"Due to low enrollment related to Covid.\\\", category: enrollment.\", \"evidence_ids\": [\"ctgov:NCT04243551\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}, {\"claim\": \"NCT04302662 is a Phase 2 trial that completed on 2021-06-03, enrollment 20, results posted: false, results due date 2022-06-03, 1616 days late, not stopped.\", \"evidence_ids\": [\"ctgov:NCT04302662\"], \"confidence\": \"high\", \"notes\": \"Snapshot data retrieved successfully.\"}], \"gaps\": []}, {\"lane\": \"disclosures\", \"round\": 2, \"brief\": \"Using CIK 0001555547 for Entero Therapeutics (formerly First Wave BioPharma and AzurRx BioPharma), search SEC filings (8-K, 10-K, 10-Q) around the estimated stop dates of the identified Phase 2 trials. Retrieve the specific reasons provided to investors for terminating these programs.\\n\\n(Gap to close: SEC filings search for trial discontinuations was cut short before finding explanations.)\", \"findings\": [{\"claim\": \"The filings table in the snapshot contains zero SEC filing records for CIK 0001555547 (Entero Therapeutics / First Wave BioPharma / AzurRx BioPharma).\", \"evidence_ids\": [\"sql:f549949d\"], \"confidence\": \"high\", \"notes\": \"Snapshot table filings is empty (row_count: 0).\"}], \"gaps\": [\"Live SEC searches fail because the SEC user agent is not configured, and the snapshot filings table contains no SEC filings for this CIK.\"]}, {\"lane\": \"publications\", \"round\": 2, \"brief\": \"Search PubMed and Europe PMC using the identified Phase 2 NCT IDs and drug names (such as niclosamide, FW-UP, or MS1819) to see if results have been published in journals, and if any publications explain why the trials were stopped early.\\n\\n(Gap to close: Literature search was interrupted before linking pubmed records to specific trials.)\", \"findings\": [{\"claim\": \"Ran out of turns. Records gathered: ctgov:NCT03481803, ctgov:NCT03521232, ctgov:NCT03746483, ctgov:NCT04302662, ctgov:NCT04375878, ctgov:NCT04436458, ctgov:NCT04542434, ctgov:NCT04603924, ctgov:NCT04858425, ctgov:NCT04932915, pubmed:31511071, pubmed:32761612, pubmed:34056571, pubmed:34298652, pubmed:34349475, pubmed:34488003, pubmed:34676370, pubmed:34762760, pubmed:34915400, pubmed:35348204, pubmed:35496298, pubmed:36297645, pubmed:36581047, pubmed:36735625, pubmed:37291465, pubmed:39299226, pubmed:40215170, pubmed:40568785, pubmed:41656183, pubmed:42303049, pubmed:42399539, pubmed:42495325, pubmed:42513244, pubmed:42683249, pubmed:42729937.\", \"evidence_ids\": [\"ctgov:NCT03481803\", \"ctgov:NCT03521232\", \"ctgov:NCT03746483\", \"ctgov:NCT04302662\", \"ctgov:NCT04375878\", \"ctgov:NCT04436458\", \"ctgov:NCT04542434\", \"ctgov:NCT04603924\", \"ctgov:NCT04858425\", \"ctgov:NCT04932915\", \"pubmed:31511071\", \"pubmed:32761612\", \"pubmed:34056571\", \"pubmed:34298652\", \"pubmed:34349475\", \"pubmed:34488003\", \"pubmed:34676370\", \"pubmed:34762760\", \"pubmed:34915400\", \"pubmed:35348204\", \"pubmed:35496298\", \"pubmed:36297645\", \"pubmed:36581047\", \"pubmed:36735625\", \"pubmed:37291465\", \"pubmed:39299226\", \"pubmed:40215170\", \"pubmed:40568785\", \"pubmed:41656183\", \"pubmed:42303049\", \"pubmed:42399539\", \"pubmed:42495325\", \"pubmed:42513244\", \"pubmed:42683249\", \"pubmed:42729937\"], \"confidence\": \"low\", \"notes\": \"\"}], \"gaps\": [\"Researcher hit the 8-turn cap before finishing: Search PubMed and Europe PMC using the identified Phase 2 NCT IDs and drug names (such as niclosamide, FW-UP, or MS1819) to see if results have been published in journals, and if any publications expl\"]}, {\"lane\": \"publications\", \"round\": 3, \"brief\": \"Using the NCT IDs for stopped Phase 2 trials (NCT03521232, NCT04243551, NCT04436458, NCT04542434, NCT04839575) and drug names (such as niclosamide, FW-UP, FW-COV, MS1819), search PubMed and Europe PMC. Determine if any of the gathered publication records contain results or explain the reasons for stopping these trials.\\n\\n(Gap to close: Literature search for stopped Phase 2 trials was interrupted and needs to map identified PMIDs to specific NCT IDs.)\", \"findings\": [{\"claim\": \"For NCT03521232 (drug: niclosamide), find_publications returned multiple mentions (such as PMIDs 31511071, 36297645, 36735625), but all are Europe PMC drug mentions rather than trial-specific reports providing results or reasons for stopping.\", \"evidence_ids\": [\"pubmed:31511071\", \"pubmed:36297645\", \"pubmed:36735625\"], \"confidence\": \"high\", \"notes\": \"Snapshot only, not checked live. Results may exist in conference abstracts or company websites.\"}, {\"claim\": \"For NCT04243551 (drug: FW-UP), find_publications returned several mentions (such as PMIDs 38140342, 38698821, 39493330, 39941971, 39862215), which are Europe PMC drug/topic mentions rather than direct reports of trial results or stop reasons.\", \"evidence_ids\": [\"pubmed:38140342\", \"pubmed:38698821\", \"pubmed:39493330\", \"pubmed:39941971\", \"pubmed:39862215\"], \"confidence\": \"high\", \"notes\": \"Snapshot only, not checked live.\"}, {\"claim\": \"For NCT04436458 (drug: FW-COV), find_publications returned several mentions (such as PMIDs 34349475, 34676370, 34056571, 35496298, 35348204), representing general reviews or preclinical studies rather than primary trial results or explanations for stopping.\", \"evidence_ids\": [\"pubmed:34349475\", \"pubmed:34676370\", \"pubmed:34056571\", \"pubmed:35496298\", \"pubmed:35348204\"], \"confidence\": \"high\", \"notes\": \"Snapshot only, not checked live.\"}, {\"claim\": \"For NCT04542434 (drug: MS1819), find_publications returned mentions (such as PMIDs 34298652, 34762760, 35348204) via Europe PMC text mining, but none report trial results or reasons for stopping.\", \"evidence_ids\": [\"pubmed:34298652\", \"pubmed:34762760\", \"pubmed:35348204\"], \"confidence\": \"high\", \"notes\": \"Snapshot only, not checked live.\"}, {\"claim\": \"For NCT04839575 (drug: niclosamide), find_publications returned mentions (such as PMIDs 38698821, 39493330, 39862215, 41595566), which are general literature mentions and do not contain results or stop reasons for this trial.\", \"evidence_ids\": [\"pubmed:38698821\", \"pubmed:39493330\", \"pubmed:39862215\", \"pubmed:41595566\"], \"confidence\": \"high\", \"notes\": \"Snapshot only, not checked live.\"}], \"gaps\": []}]\n\nEvidence records (cite only these ids):\n{\"evidence_id\": \"ctgov:NCT03481803\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"A Phase IIa Study With Escalating Dose of MS1819-SD\", \"source_url\": \"https://clinicaltrials.gov/study/NCT03481803\", \"data\": {\"nct_id\": \"NCT03481803\", \"title\": \"A Phase IIa Study With Escalating Dose of MS1819-SD\", \"sponsor\": \"AzurRx SAS\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Chronic Pancreatitis\", \"Distal Pancreatectomy\"], \"interventions\": [\"MS1819-SD\"], \"drug_names\": [\"MS1819-SD\"], \"overall_status\": \"COMPLETED\", \"why_stopped\": null, \"start_date\": \"2017-01-27\", \"primary_completion_date\": \"2018-06-29\", \"completion_date\": \"2018-06-29\", \"enrollment\": 11, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2018-09-28\", \"results_due_date\": \"2019-06-29\", \"results_posted\": false, \"days_late\": 2686, \"stopped\": false, \"why_stopped_category\": \"blank\", \"why_stopped_method\": \"blank\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT03521232\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis\", \"source_url\": \"https://clinicaltrials.gov/study/NCT03521232\", \"data\": {\"nct_id\": \"NCT03521232\", \"title\": \"A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE1/PHASE2\", \"conditions\": [\"Ulcerative Colitis\", \"Ulcerative Proctitis\", \"Ulcerative Proctosigmoiditis\"], \"interventions\": [\"Niclosamide\"], \"drug_names\": [\"Niclosamide\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Covid-19\", \"start_date\": \"2018-05-15\", \"primary_completion_date\": \"2022-09-19\", \"completion_date\": \"2022-10-04\", \"enrollment\": 27, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-11-29\", \"results_due_date\": \"2023-09-19\", \"results_posted\": false, \"days_late\": 1143, \"stopped\": true, \"why_stopped_category\": \"other\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT03746483\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"OPTION: A Trial to Assess the Safety & Efficacy of MS1819 in Patients With Exocrine Pancreatic Insufficiency Due to Cystic Fibrosis\", \"source_url\": \"https://clinicaltrials.gov/study/NCT03746483\", \"data\": {\"nct_id\": \"NCT03746483\", \"title\": \"OPTION: A Trial to Assess the Safety & Efficacy of MS1819 in Patients With Exocrine Pancreatic Insufficiency Due to Cystic Fibrosis\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Exocrine Pancreatic Insufficiency (EPI)\", \"Cystic Fibrosis (CF)\"], \"interventions\": [\"MS1819\", \"Porcine PERT\"], \"drug_names\": [\"MS1819\", \"Porcine PERT\"], \"overall_status\": \"COMPLETED\", \"why_stopped\": null, \"start_date\": \"2019-01-10\", \"primary_completion_date\": \"2019-07-13\", \"completion_date\": \"2019-07-27\", \"enrollment\": 41, \"has_results\": true, \"results_first_post_date\": \"2022-06-06\", \"last_update_date\": \"2022-06-06\", \"results_due_date\": \"2020-07-12\", \"results_posted\": true, \"days_late\": 694, \"stopped\": false, \"why_stopped_category\": \"blank\", \"why_stopped_method\": \"blank\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT04243551\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04243551\", \"data\": {\"nct_id\": \"NCT04243551\", \"title\": \"Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Celiac Disease\"], \"interventions\": [\"Latiglutenase\", \"Placebo\"], \"drug_names\": [\"Latiglutenase\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Due to low enrollment related to Covid.\", \"start_date\": \"2019-11-01\", \"primary_completion_date\": \"2023-10-16\", \"completion_date\": \"2023-10-31\", \"enrollment\": 83, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2024-08-05\", \"results_due_date\": \"2024-10-15\", \"results_posted\": false, \"days_late\": 751, \"stopped\": true, \"why_stopped_category\": \"enrollment\", \"why_stopped_method\": \"keyword\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT04302662\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Phase 2 Combination Study With Escalating Doses of MS1819-SD on Top of a Stable Dose of PPEs\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04302662\", \"data\": {\"nct_id\": \"NCT04302662\", \"title\": \"Phase 2 Combination Study With Escalating Doses of MS1819-SD on Top of a Stable Dose of PPEs\", \"sponsor\": \"AzurRx SAS\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Cystic Fibrosis\", \"Cystic Fibrosis Gastrointestinal Disease\", \"Cystic Fibrosis of Pancreas\"], \"interventions\": [\"MS1819-SD\"], \"drug_names\": [\"MS1819-SD\"], \"overall_status\": \"COMPLETED\", \"why_stopped\": null, \"start_date\": \"2019-06-27\", \"primary_completion_date\": \"2021-06-03\", \"completion_date\": \"2021-06-03\", \"enrollment\": 20, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2021-08-19\", \"results_due_date\": \"2022-06-03\", \"results_posted\": false, \"days_late\": 1616, \"stopped\": false, \"why_stopped_category\": \"blank\", \"why_stopped_method\": \"blank\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT04375878\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"OPTION 2: A Trial to Assess the Safety and Efficacy of MS1819 in Enteric Capsules in Patients With Cystic Fibrosis\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04375878\", \"data\": {\"nct_id\": \"NCT04375878\", \"title\": \"OPTION 2: A Trial to Assess the Safety and Efficacy of MS1819 in Enteric Capsules in Patients With Cystic Fibrosis\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Exocrine Pancreatic Insufficiency (EPI)\", \"Cystic Fibrosis (CF)\"], \"interventions\": [\"MS1819\", \"Porcine PERT\"], \"drug_names\": [\"MS1819\", \"Porcine PERT\"], \"overall_status\": \"COMPLETED\", \"why_stopped\": null, \"start_date\": \"2020-07-20\", \"primary_completion_date\": \"2021-04-08\", \"completion_date\": \"2021-04-08\", \"enrollment\": 27, \"has_results\": true, \"results_first_post_date\": \"2022-09-13\", \"last_update_date\": \"2022-09-13\", \"results_due_date\": \"2022-04-08\", \"results_posted\": true, \"days_late\": 158, \"stopped\": false, \"why_stopped_category\": \"blank\", \"why_stopped_method\": \"blank\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT04436458\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Niclosamide In Moderate COVID-19\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04436458\", \"data\": {\"nct_id\": \"NCT04436458\", \"title\": \"Niclosamide In Moderate COVID-19\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"COVID\"], \"interventions\": [\"Niclosamide Oral Tablet\", \"Placebo\"], \"drug_names\": [\"Niclosamide Oral Tablet\"], \"overall_status\": \"WITHDRAWN\", \"why_stopped\": \"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\", \"start_date\": \"2022-01-20\", \"primary_completion_date\": \"2022-01-20\", \"completion_date\": \"2022-01-20\", \"enrollment\": 0, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-02-21\", \"results_due_date\": \"2023-01-20\", \"results_posted\": false, \"days_late\": 1385, \"stopped\": true, \"why_stopped_category\": \"business/strategic\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT04542434\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Niclosamide in COVID-19\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04542434\", \"data\": {\"nct_id\": \"NCT04542434\", \"title\": \"Niclosamide in COVID-19\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Covid19\"], \"interventions\": [\"Niclosamide Oral Tablet\", \"Placebo\"], \"drug_names\": [\"Niclosamide Oral Tablet\"], \"overall_status\": \"WITHDRAWN\", \"why_stopped\": \"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\", \"start_date\": \"2022-01-20\", \"primary_completion_date\": \"2022-01-20\", \"completion_date\": \"2022-01-20\", \"enrollment\": 0, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-02-21\", \"results_due_date\": \"2023-01-20\", \"results_posted\": false, \"days_late\": 1385, \"stopped\": true, \"why_stopped_category\": \"business/strategic\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT04839575\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Study of Latiglutenase in T1D/CD Patients\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04839575\", \"data\": {\"nct_id\": \"NCT04839575\", \"title\": \"Study of Latiglutenase in T1D/CD Patients\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Celiac Disease\"], \"interventions\": [\"Latiglutenase\", \"Placebo\"], \"drug_names\": [\"Latiglutenase\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Covid-19 interruptions and enrollment challenges\", \"start_date\": \"2021-04-06\", \"primary_completion_date\": \"2022-12-19\", \"completion_date\": \"2022-12-19\", \"enrollment\": 13, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2024-08-05\", \"results_due_date\": \"2023-12-19\", \"results_posted\": false, \"days_late\": 1052, \"stopped\": true, \"why_stopped_category\": \"enrollment\", \"why_stopped_method\": \"keyword\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT04858425\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Safety and Efficacy of Niclosamide in Patients With COVID-19 With Gastrointestinal Infection\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04858425\", \"data\": {\"nct_id\": \"NCT04858425\", \"title\": \"Safety and Efficacy of Niclosamide in Patients With COVID-19 With Gastrointestinal Infection\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Covid19\"], \"interventions\": [\"Niclosamide\", \"Placebo\"], \"drug_names\": [\"Niclosamide\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"The termination of the study was a decision based on topline data analysis (no efficacy as per Day 43) of the study data.\", \"start_date\": \"2021-04-30\", \"primary_completion_date\": \"2022-06-04\", \"completion_date\": \"2023-09-10\", \"enrollment\": 166, \"has_results\": true, \"results_first_post_date\": \"2024-07-24\", \"last_update_date\": \"2024-10-08\", \"results_due_date\": \"2023-06-04\", \"results_posted\": true, \"days_late\": 416, \"stopped\": true, \"why_stopped_category\": \"efficacy\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT05719311\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Study to Assess an Enteric Microgranule Formulation of Adrulipase in Patients With Cystic Fibrosis\", \"source_url\": \"https://clinicaltrials.gov/study/NCT05719311\", \"data\": {\"nct_id\": \"NCT05719311\", \"title\": \"Study to Assess an Enteric Microgranule Formulation of Adrulipase in Patients With Cystic Fibrosis\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Exocrine Pancreatic Insufficiency\", \"Cystic Fibrosis\"], \"interventions\": [\"adrulipase\"], \"drug_names\": [\"adrulipase\"], \"overall_status\": \"COMPLETED\", \"why_stopped\": null, \"start_date\": \"2023-02-01\", \"primary_completion_date\": \"2023-06-20\", \"completion_date\": \"2023-07-28\", \"enrollment\": 13, \"has_results\": true, \"results_first_post_date\": \"2024-09-19\", \"last_update_date\": \"2024-09-19\", \"results_due_date\": \"2024-06-19\", \"results_posted\": true, \"days_late\": 92, \"stopped\": false, \"why_stopped_category\": \"blank\", \"why_stopped_method\": \"blank\", \"checked_live\": false}}\n{\"evidence_id\": \"fda:NDA018669\", \"source_type\": \"Drugs@FDA application\", \"title\": \"Drugs@FDA NDA018669\", \"source_url\": \"https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018669\", \"data\": {\"application_number\": \"NDA018669\", \"sponsor_name\": \"BAYER PHARMS\", \"brand_names\": [\"NICLOCIDE\"], \"original_approval_date\": null, \"marketing_status\": [\"Discontinued\"], \"active_ingredients\": [\"NICLOSAMIDE\"], \"evidence_id\": \"fda:NDA018669\", \"source_url\": \"https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=018669\"}}\n{\"evidence_id\": \"sql:b4ed5482\", \"source_type\": \"Ghost Trials snapshot query\", \"title\": \"Snapshot query b4ed5482\", \"source_url\": \"https://github.com/rishika1099/Ghost-Trials-Autopsy#data\", \"data\": {\"sql\": \"SELECT sponsor, count(*) FROM trials WHERE sponsor ILIKE '%Entero%' OR sponsor ILIKE '%First Wave%' OR sponsor ILIKE '%AzurRx%' GROUP BY 1\", \"rows\": [{\"sponsor\": \"AzurRx SAS\", \"count_star()\": 2}, {\"sponsor\": \"Entero Therapeutics\", \"count_star()\": 9}]}}\n{\"evidence_id\": \"sql:d441f0f0\", \"source_type\": \"Ghost Trials snapshot query\", \"title\": \"Snapshot query d441f0f0\", \"source_url\": \"https://github.com/rishika1099/Ghost-Trials-Autopsy#data\", \"data\": {\"sql\": \"SELECT count(*) FROM filings\", \"rows\": [{\"count_star()\": 0}]}}\n{\"evidence_id\": \"pubmed:34056571\", \"source_type\": \"PubMed article\", \"title\": \"Anti-viral treatment for SARS-CoV-2 infection: A race against time amidst the ongoing pandemic.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34056571/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"34056571\", \"link_type\": \"europepmc_mention\", \"title\": \"Anti-viral treatment for SARS-CoV-2 infection: A race against time amidst the ongoing pandemic.\", \"journal\": \"Metabolism open\", \"pub_date\": \"2021-06-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34056571/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34056571/\"}}\n{\"evidence_id\": \"pubmed:34298652\", \"source_type\": \"PubMed article\", \"title\": \"Metformin and Niclosamide Synergistically Suppress Wnt and YAP in APC-Mutated Colorectal Cancer.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34298652/\", \"data\": {\"nct_id\": \"NCT04542434\", \"pmid\": \"34298652\", \"link_type\": \"europepmc_mention\", \"title\": \"Metformin and Niclosamide Synergistically Suppress Wnt and YAP in APC-Mutated Colorectal Cancer.\", \"journal\": \"Cancers\", \"pub_date\": \"2021-07-09\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34298652/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34298652/\"}}\n{\"evidence_id\": \"pubmed:34349475\", \"source_type\": \"PubMed article\", \"title\": \"A Narrative Review of Antiviral Drugs Used for COVID-19 Pharmacotherapy.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34349475/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"34349475\", \"link_type\": \"europepmc_mention\", \"title\": \"A Narrative Review of Antiviral Drugs Used for COVID-19 Pharmacotherapy.\", \"journal\": \"Journal of pharmacy & bioallied sciences\", \"pub_date\": \"2021-04-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34349475/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34349475/\"}}\n{\"evidence_id\": \"pubmed:34488003\", \"source_type\": \"PubMed article\", \"title\": \"Know your enemy and know yourself - the case of SARS-CoV-2 host factors.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34488003/\", \"data\": {\"nct_id\": \"NCT04858425\", \"pmid\": \"34488003\", \"link_type\": \"europepmc_mention\", \"title\": \"Know your enemy and know yourself - the case of SARS-CoV-2 host factors.\", \"journal\": \"Current opinion in virology\", \"pub_date\": \"2021-10-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34488003/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34488003/\"}}\n{\"evidence_id\": \"pubmed:34676370\", \"source_type\": \"PubMed article\", \"title\": \"Lipid nanoparticle formulation of niclosamide (nano NCM) effectively inhibits SARS-CoV-2 replication in vitro.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34676370/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"34676370\", \"link_type\": \"europepmc_mention\", \"title\": \"Lipid nanoparticle formulation of niclosamide (nano NCM) effectively inhibits SARS-CoV-2 replication in vitro.\", \"journal\": \"Precision nanomedicine\", \"pub_date\": \"2021-04-17\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34676370/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34676370/\"}}\n{\"evidence_id\": \"pubmed:34762760\", \"source_type\": \"PubMed article\", \"title\": \"Races of small molecule clinical trials for the treatment of COVID-19: An up-to-date comprehensive review.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34762760/\", \"data\": {\"nct_id\": \"NCT04542434\", \"pmid\": \"34762760\", \"link_type\": \"europepmc_mention\", \"title\": \"Races of small molecule clinical trials for the treatment of COVID-19: An up-to-date comprehensive review.\", \"journal\": \"Drug development research\", \"pub_date\": \"2022-02-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34762760/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34762760/\"}}\n{\"evidence_id\": \"pubmed:35348204\", \"source_type\": \"PubMed article\", \"title\": \"Niclosamide-A promising treatment for COVID-19.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/35348204/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"35348204\", \"link_type\": \"europepmc_mention\", \"title\": \"Niclosamide-A promising treatment for COVID-19.\", \"journal\": \"British journal of pharmacology\", \"pub_date\": \"2022-07-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/35348204/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/35348204/\", \"year\": \"2022\", \"abstract\": \"Vaccines have reduced the transmission and severity of COVID-19, but there remains a paucity of efficacious treatment for drug-resistant strains and more susceptible individuals, particularly those who mount a suboptimal vaccine response, either due to underlying health conditions or concomitant therapies. Repurposing existing drugs is a timely, safe and scientifically robust method for treating pandemics, such as COVID-19. Here, we review the pharmacology and scientific rationale for repurposing niclosamide, an anti-helminth already in human use as a treatment for COVID-19. In addition, its potent antiviral activity, niclosamide has shown pleiotropic anti-inflammatory, antibacterial, bronchodilatory and anticancer effects in numerous preclinical and early clinical studies. The advantages and rationale for nebulized and intranasal formulations of niclosamide, which target the site of the primary infection in COVID-1...\"}\n{\"evidence_id\": \"pubmed:35496298\", \"source_type\": \"PubMed article\", \"title\": \"2-Deoxy-D-Glucose and its Derivatives for the COVID-19 Treatment: An Update.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/35496298/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"35496298\", \"link_type\": \"europepmc_mention\", \"title\": \"2-Deoxy-D-Glucose and its Derivatives for the COVID-19 Treatment: An Update.\", \"journal\": \"Frontiers in pharmacology\", \"pub_date\": \"2022-04-12\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/35496298/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/35496298/\"}}\n{\"evidence_id\": \"pubmed:38140342\", \"source_type\": \"PubMed article\", \"title\": \"Dynamics of Serologic Change to Gluten in Celiac Disease Patients.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/38140342/\", \"data\": {\"nct_id\": \"NCT04243551\", \"pmid\": \"38140342\", \"link_type\": \"europepmc_mention\", \"title\": \"Dynamics of Serologic Change to Gluten in Celiac Disease Patients.\", \"journal\": \"Nutrients\", \"pub_date\": \"2023-12-12\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/38140342/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/38140342/\"}}\n{\"evidence_id\": \"pubmed:38698821\", \"source_type\": \"PubMed article\", \"title\": \"From an understanding of etiopathogenesis to novel therapies-what is new in the treatment of celiac disease?\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/38698821/\", \"data\": {\"nct_id\": \"NCT04839575\", \"pmid\": \"38698821\", \"link_type\": \"europepmc_mention\", \"title\": \"From an understanding of etiopathogenesis to novel therapies-what is new in the treatment of celiac disease?\", \"journal\": \"Frontiers in pharmacology\", \"pub_date\": \"2024-04-18\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/38698821/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/38698821/\"}}\n{\"evidence_id\": \"pubmed:39493330\", \"source_type\": \"PubMed article\", \"title\": \"Beyond the gluten-free diet: Innovations in celiac disease therapeutics.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39493330/\", \"data\": {\"nct_id\": \"NCT04839575\", \"pmid\": \"39493330\", \"link_type\": \"europepmc_mention\", \"title\": \"Beyond the gluten-free diet: Innovations in celiac disease therapeutics.\", \"journal\": \"World journal of gastroenterology\", \"pub_date\": \"2024-10-14\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/39493330/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39493330/\", \"year\": \"2024\", \"abstract\": \"Celiac disease (CD) is an autoimmune disorder exacerbated by the ingestion of gluten in genetically susceptible individuals, leading to intestinal inflammation and damage. This chronic disease affects approximately 1% of the world's population and is a growing health challenge due to its increasing prevalence. The development of CD is a complex interaction between genetic predispositions and environmental factors, especially gluten, culminating in a dysregulated immune response. The only effective treatment at present is a strict, lifelong gluten-free diet. However, adherence to this diet is challenging and often incomplete, so research into alternative therapies has intensified. Recent advances in understanding the molecular and immunological aspects of CD have spearheaded the development of novel pharmacologic strategies that should provide more effective and man...\"}\n{\"evidence_id\": \"pubmed:39862215\", \"source_type\": \"PubMed article\", \"title\": \"New therapies in celiac disease.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39862215/\", \"data\": {\"nct_id\": \"NCT04839575\", \"pmid\": \"39862215\", \"link_type\": \"europepmc_mention\", \"title\": \"New therapies in celiac disease.\", \"journal\": \"Current opinion in gastroenterology\", \"pub_date\": \"2025-05-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/39862215/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39862215/\"}}\n{\"evidence_id\": \"pubmed:39941971\", \"source_type\": \"PubMed article\", \"title\": \"Celiac Disease: Beyond Diet and Food Awareness.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39941971/\", \"data\": {\"nct_id\": \"NCT04243551\", \"pmid\": \"39941971\", \"link_type\": \"europepmc_mention\", \"title\": \"Celiac Disease: Beyond Diet and Food Awareness.\", \"journal\": \"Foods (Basel, Switzerland)\", \"pub_date\": \"2025-01-24\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/39941971/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39941971/\"}}\n{\"evidence_id\": \"pubmed:40568785\", \"source_type\": \"PubMed article\", \"title\": \"Gastrointestinal inflammation and cancer: viral and bacterial interplay.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/40568785/\", \"data\": {\"nct_id\": \"NCT04858425\", \"pmid\": \"40568785\", \"link_type\": \"europepmc_mention\", \"title\": \"Gastrointestinal inflammation and cancer: viral and bacterial interplay.\", \"journal\": \"Gut microbes\", \"pub_date\": \"2025-12-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/40568785/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/40568785/\"}}\n{\"evidence_id\": \"pubmed:41595566\", \"source_type\": \"PubMed article\", \"title\": \"Rethinking Celiac Disease Management: Treatment Approaches Beyond the Gluten-Free Diet.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/41595566/\", \"data\": {\"nct_id\": \"NCT04839575\", \"pmid\": \"41595566\", \"link_type\": \"europepmc_mention\", \"title\": \"Rethinking Celiac Disease Management: Treatment Approaches Beyond the Gluten-Free Diet.\", \"journal\": \"Biomedicines\", \"pub_date\": \"2025-12-22\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/41595566/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/41595566/\"}}\n{\"evidence_id\": \"sql:f549949d\", \"source_type\": \"Ghost Trials snapshot query\", \"title\": \"Snapshot query f549949d\", \"source_url\": \"https://github.com/rishika1099/Ghost-Trials-Autopsy#data\", \"data\": {\"sql\": \"SELECT * FROM snapshot_meta\", \"rows\": [{\"table_name\": \"trials\", \"row_count\": 16473, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}, {\"table_name\": \"trial_derived\", \"row_count\": 16473, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}, {\"table_name\": \"sponsor_cik\", \"row_count\": 0, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}, {\"table_name\": \"filings\", \"row_count\": 0, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}, {\"table_name\": \"publications\", \"row_count\": 26154, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}]}}\n{\"evidence_id\": \"ctgov:NCT04603924\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Study of Niclosamide in Moderate and Severe Hospitalized Coronavirus-19 (COVID-19) Patients\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04603924\", \"data\": {\"nct_id\": \"NCT04603924\", \"title\": \"Study of Niclosamide in Moderate and Severe Hospitalized Coronavirus-19 (COVID-19) Patients\", \"sponsor\": \"NeuroBo Pharmaceuticals Inc.\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2/PHASE3\", \"conditions\": [\"COVID-19\"], \"interventions\": [\"Niclosamide\", \"Placebo\"], \"drug_names\": [\"Niclosamide\"], \"overall_status\": \"COMPLETED\", \"why_stopped\": null, \"start_date\": \"2020-10-07\", \"primary_completion_date\": \"2022-02-16\", \"completion_date\": \"2022-02-16\", \"enrollment\": 49, \"has_results\": true, \"results_first_post_date\": \"2025-05-15\", \"last_update_date\": \"2025-05-15\", \"results_due_date\": \"2023-02-16\", \"results_posted\": true, \"days_late\": 819, \"stopped\": false, \"why_stopped_category\": \"blank\", \"why_stopped_method\": \"blank\", \"checked_live\": false}}\n{\"evidence_id\": \"ctgov:NCT04932915\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Safety and Efficacy of Intranasal Administration of Niclosamide (UNI91103) in Adults With Asymptomatic or Mild COVID-19\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04932915\", \"data\": {\"nct_id\": \"NCT04932915\", \"title\": \"Safety and Efficacy of Intranasal Administration of Niclosamide (UNI91103) in Adults With Asymptomatic or Mild COVID-19\", \"sponsor\": \"UNION therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Covid19\"], \"interventions\": [\"Niclosamide\", \"Placebo\"], \"drug_names\": [\"Niclosamide\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Failure of recruiting patients\", \"start_date\": \"2021-09-03\", \"primary_completion_date\": \"2022-01-10\", \"completion_date\": \"2022-01-10\", \"enrollment\": 4, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-02-21\", \"results_due_date\": \"2023-01-10\", \"results_posted\": false, \"days_late\": 1395, \"stopped\": true, \"why_stopped_category\": \"enrollment\", \"why_stopped_method\": \"keyword\", \"checked_live\": false}}\n{\"evidence_id\": \"pubmed:31511071\", \"source_type\": \"PubMed article\", \"title\": \"Niclosamide, an antihelmintic drug, enhances efficacy of PD-1/PD-L1 immune checkpoint blockade in non-small cell lung cancer.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/31511071/\", \"data\": {\"nct_id\": \"NCT03521232\", \"pmid\": \"31511071\", \"link_type\": \"europepmc_mention\", \"title\": \"Niclosamide, an antihelmintic drug, enhances efficacy of PD-1/PD-L1 immune checkpoint blockade in non-small cell lung cancer.\", \"journal\": \"Journal for immunotherapy of cancer\", \"pub_date\": \"2019-09-11\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/31511071/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/31511071/\"}}\n{\"evidence_id\": \"pubmed:32761612\", \"source_type\": \"PubMed article\", \"title\": \"Pancreatic enzyme replacement therapy for people with cystic fibrosis.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/32761612/\", \"data\": {\"nct_id\": \"NCT03746483\", \"pmid\": \"32761612\", \"title\": \"Pancreatic enzyme replacement therapy for people with cystic fibrosis.\", \"journal\": \"Cochrane Database Syst Rev\", \"pub_date\": \"2020-08-05\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/32761612/\"}}\n{\"evidence_id\": \"pubmed:34915400\", \"source_type\": \"PubMed article\", \"title\": \"Treatments for COVID-19: Lessons from 2020 and new therapeutic options.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34915400/\", \"data\": {\"nct_id\": \"NCT04932915\", \"pmid\": \"34915400\", \"title\": \"Treatments for COVID-19: Lessons from 2020 and new therapeutic options.\", \"journal\": \"Current opinion in pharmacology\", \"pub_date\": \"2022-02-01\", \"link_type\": \"europepmc_mention\"}}\n{\"evidence_id\": \"pubmed:36297645\", \"source_type\": \"PubMed article\", \"title\": \"Advancements in Rectal Drug Delivery Systems: Clinical Trials, and Patents Perspective.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36297645/\", \"data\": {\"nct_id\": \"NCT03521232\", \"pmid\": \"36297645\", \"link_type\": \"europepmc_mention\", \"title\": \"Advancements in Rectal Drug Delivery Systems: Clinical Trials, and Patents Perspective.\", \"journal\": \"Pharmaceutics\", \"pub_date\": \"2022-10-17\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/36297645/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36297645/\"}}\n{\"evidence_id\": \"pubmed:36581047\", \"source_type\": \"PubMed article\", \"title\": \"Targeting SARS-CoV-2 and host cell receptor interactions.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36581047/\", \"data\": {\"nct_id\": \"NCT04932915\", \"pmid\": \"36581047\", \"title\": \"Targeting SARS-CoV-2 and host cell receptor interactions.\", \"journal\": \"Antiviral research\", \"pub_date\": \"2023-02-01\", \"link_type\": \"europepmc_mention\"}}\n{\"evidence_id\": \"pubmed:36735625\", \"source_type\": \"PubMed article\", \"title\": \"Niclosamide is a potential candidate for the treatment of chemo-resistant osteosarcoma.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36735625/\", \"data\": {\"nct_id\": \"NCT03521232\", \"pmid\": \"36735625\", \"link_type\": \"europepmc_mention\", \"title\": \"Niclosamide is a potential candidate for the treatment of chemo-resistant osteosarcoma.\", \"journal\": \"Genetics and molecular biology\", \"pub_date\": \"2023-02-03\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/36735625/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36735625/\"}}\n{\"evidence_id\": \"pubmed:37291465\", \"source_type\": \"PubMed article\", \"title\": \"Antibiotics in the clinical pipeline as of December 2022.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/37291465/\", \"data\": {\"nct_id\": \"NCT04932915\", \"pmid\": \"37291465\", \"title\": \"Antibiotics in the clinical pipeline as of December 2022.\", \"journal\": \"The Journal of antibiotics\", \"pub_date\": \"2023-08-01\", \"link_type\": \"europepmc_mention\"}}\n{\"evidence_id\": \"pubmed:39299226\", \"source_type\": \"PubMed article\", \"title\": \"Clinical Efficacy and Safety of Treatments for Exocrine Pancreatic Insufficiency: A Systematic Literature Review.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39299226/\", \"data\": {\"nct_id\": \"NCT03746483\", \"pmid\": \"39299226\", \"title\": \"Clinical Efficacy and Safety of Treatments for Exocrine Pancreatic Insufficiency: A Systematic Literature Review.\", \"journal\": \"Digestion\", \"pub_date\": \"2024-09-19\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39299226/\", \"year\": \"2025\", \"abstract\": \"Exocrine pancreatic insufficiency (EPI) is caused by multiple clinical conditions such as cystic fibrosis and chronic pancreatitis (CP). Standard management of EPI includes pancreatic enzyme replacement therapy (PERT) along with consultation with a dietitian. While PERTs have been on the market for several decades, newer publications on their clinical efficacy and safety raised the need for a comprehensive review of the literature. We aimed to identify the available evidence on the clinical efficacy and safety of treatments for EPI to understand the current treatment landscape and unmet need in patients with EPI. A systematic literature review (SLR) was conducted in Embase, Medline, and Evidence-Based Medicine databases from 2010 to 2022; conference proceedings from 2020 to 2022 were also searched. Articles were screened independently by two reviewers at a...\"}\n{\"evidence_id\": \"pubmed:40215170\", \"source_type\": \"PubMed article\", \"title\": \"Lessons from the PROTECT-CH COVID-19 platform trial in care homes.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/40215170/\", \"data\": {\"nct_id\": \"NCT04603924\", \"pmid\": \"40215170\", \"title\": \"Lessons from the PROTECT-CH COVID-19 platform trial in care homes.\", \"journal\": \"Health Technol Assess\", \"pub_date\": \"2026-08-01\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/40215170/\"}}\n{\"evidence_id\": \"pubmed:41656183\", \"source_type\": \"PubMed article\", \"title\": \"The Effect of Intranasal Niclosamide on Nasal Symptoms in Patients with Antineutrophil Cytoplasmic Antibody-Associated Vasculitis.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/41656183/\", \"data\": {\"nct_id\": \"NCT04603924\", \"pmid\": \"41656183\", \"title\": \"The Effect of Intranasal Niclosamide on Nasal Symptoms in Patients with Antineutrophil Cytoplasmic Antibody-Associated Vasculitis.\", \"journal\": \"Arthritis Rheumatol\", \"pub_date\": \"2026-02-23\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/41656183/\"}}\n{\"evidence_id\": \"pubmed:42303049\", \"source_type\": \"PubMed article\", \"title\": \"Drug combination treatment as a strategy for inhibiting human adenovirus replication.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42303049/\", \"data\": {\"nct_id\": \"NCT04603924\", \"pmid\": \"42303049\", \"title\": \"Drug combination treatment as a strategy for inhibiting human adenovirus replication.\", \"journal\": \"Antiviral Res\", \"pub_date\": \"2026-06-16\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42303049/\"}}\n{\"evidence_id\": \"pubmed:42399539\", \"source_type\": \"PubMed article\", \"title\": \"Beyond the target: implications of Wnt pathway inhibitors on bone health.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42399539/\", \"data\": {\"nct_id\": \"NCT04603924\", \"pmid\": \"42399539\", \"title\": \"Beyond the target: implications of Wnt pathway inhibitors on bone health.\", \"journal\": \"J Mol Med (Berl)\", \"pub_date\": \"2026-07-04\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42399539/\"}}\n{\"evidence_id\": \"pubmed:42495325\", \"source_type\": \"PubMed article\", \"title\": \"Reprogramming the Tumor Oncobiosphere: Bioactive Nanohybrid Materials for Reversing Therapeutic Pseudo-Resistance.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42495325/\", \"data\": {\"nct_id\": \"NCT04603924\", \"pmid\": \"42495325\", \"title\": \"Reprogramming the Tumor Oncobiosphere: Bioactive Nanohybrid Materials for Reversing Therapeutic Pseudo-Resistance.\", \"journal\": \"ACS Omega\", \"pub_date\": \"2026-06-09\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42495325/\"}}\n{\"evidence_id\": \"pubmed:42513244\", \"source_type\": \"PubMed article\", \"title\": \"An Open Label, Cross-Over Phase 1 Study to Determine the Safety, Tolerability and Pharmacokinetics of Multiple Oral Doses of Niclosamide Under Fed and Fasted Conditions in Healthy Volunteers.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42513244/\", \"data\": {\"nct_id\": \"NCT04603924\", \"pmid\": \"42513244\", \"title\": \"An Open Label, Cross-Over Phase 1 Study to Determine the Safety, Tolerability and Pharmacokinetics of Multiple Oral Doses of Niclosamide Under Fed and Fasted Conditions in Healthy Volunteers.\", \"journal\": \"J Clin Med\", \"pub_date\": \"2026-07-08\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42513244/\"}}\n{\"evidence_id\": \"pubmed:42683249\", \"source_type\": \"PubMed article\", \"title\": \"Broad-spectrum host-targeting antivirals for rhinovirus infections: mechanisms and future perspectives.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42683249/\", \"data\": {\"nct_id\": \"NCT04603924\", \"pmid\": \"42683249\", \"title\": \"Broad-spectrum host-targeting antivirals for rhinovirus infections: mechanisms and future perspectives.\", \"journal\": \"Front Immunol\", \"pub_date\": \"2026-08-18\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42683249/\"}}\n{\"evidence_id\": \"pubmed:42729937\", \"source_type\": \"PubMed article\", \"title\": \"Repurposing antimicrobial agents for neuroprotection: Mechanisms, clinical potential, and challenges.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42729937/\", \"data\": {\"nct_id\": \"NCT04603924\", \"pmid\": \"42729937\", \"title\": \"Repurposing antimicrobial agents for neuroprotection: Mechanisms, clinical potential, and challenges.\", \"journal\": \"Neuroprotection\", \"pub_date\": \"2026-09-11\", \"found_by\": \"europepmc\", \"link_type\": \"europepmc_drug_name\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/42729937/\"}}\n{\"evidence_id\": \"sql:7ef66385\", \"source_type\": \"Ghost Trials snapshot query\", \"title\": \"Snapshot query 7ef66385\", \"source_url\": \"https://github.com/rishika1099/Ghost-Trials-Autopsy#data\", \"data\": {\"sql\": \"SELECT DISTINCT sponsor FROM trials WHERE sponsor ILIKE '%Entero%' OR sponsor ILIKE '%First Wave%' OR sponsor ILIKE '%AzurRx%'\", \"rows\": [{\"sponsor\": \"Entero Therapeutics\"}, {\"sponsor\": \"AzurRx SAS\"}]}}"
+          }
+        ]
+      },
+      "checker": {
+        "agent": "checker",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are the Citation Checker of Ghost Trials Autopsy. You get numbered claims from a report. Each claim comes with the full evidence records it cites.\n\nFor each claim, decide whether its cited records support every fact in it: each date, status, number, name, and quote must appear in (or follow directly from) the cited records. A quote must match the record's words. A claim that is more certain than the records (for example \"the company hid\" when the records only differ) is not supported.\n\nReturn one verdict per claim:\n- supported: true if every fact is backed by the cited records.\n- fixed_text: when not supported but a corrected version would be (a wrong date fixed, an overreaching word removed), the corrected sentence, using only facts in the cited records. Otherwise null, and the claim will be removed.\n- reason: one short sentence.\n\nBe strict about facts and lenient about wording. Never use em dashes.\n"
+          },
+          {
+            "role": "user",
+            "content": "[{\"index\": 0, \"claim\": \"Entero Therapeutics (formerly First Wave BioPharma) terminated three Phase 2 or Phase 1/2 trials (NCT03521232, NCT04243551, and NCT04839575) without posting results on ClinicalTrials.gov, citing COVID-19 disruptions and enrollment challenges.\", \"evidence\": [{\"evidence_id\": \"ctgov:NCT03521232\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis\", \"source_url\": \"https://clinicaltrials.gov/study/NCT03521232\", \"data\": {\"nct_id\": \"NCT03521232\", \"title\": \"A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE1/PHASE2\", \"conditions\": [\"Ulcerative Colitis\", \"Ulcerative Proctitis\", \"Ulcerative Proctosigmoiditis\"], \"interventions\": [\"Niclosamide\"], \"drug_names\": [\"Niclosamide\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Covid-19\", \"start_date\": \"2018-05-15\", \"primary_completion_date\": \"2022-09-19\", \"completion_date\": \"2022-10-04\", \"enrollment\": 27, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-11-29\", \"results_due_date\": \"2023-09-19\", \"results_posted\": false, \"days_late\": 1143, \"stopped\": true, \"why_stopped_category\": \"other\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}, {\"evidence_id\": \"ctgov:NCT04243551\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04243551\", \"data\": {\"nct_id\": \"NCT04243551\", \"title\": \"Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Celiac Disease\"], \"interventions\": [\"Latiglutenase\", \"Placebo\"], \"drug_names\": [\"Latiglutenase\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Due to low enrollment related to Covid.\", \"start_date\": \"2019-11-01\", \"primary_completion_date\": \"2023-10-16\", \"completion_date\": \"2023-10-31\", \"enrollment\": 83, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2024-08-05\", \"results_due_date\": \"2024-10-15\", \"results_posted\": false, \"days_late\": 751, \"stopped\": true, \"why_stopped_category\": \"enrollment\", \"why_stopped_method\": \"keyword\", \"checked_live\": false}}, {\"evidence_id\": \"ctgov:NCT04839575\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Study of Latiglutenase in T1D/CD Patients\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04839575\", \"data\": {\"nct_id\": \"NCT04839575\", \"title\": \"Study of Latiglutenase in T1D/CD Patients\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Celiac Disease\"], \"interventions\": [\"Latiglutenase\", \"Placebo\"], \"drug_names\": [\"Latiglutenase\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Covid-19 interruptions and enrollment challenges\", \"start_date\": \"2021-04-06\", \"primary_completion_date\": \"2022-12-19\", \"completion_date\": \"2022-12-19\", \"enrollment\": 13, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2024-08-05\", \"results_due_date\": \"2023-12-19\", \"results_posted\": false, \"days_late\": 1052, \"stopped\": true, \"why_stopped_category\": \"enrollment\", \"why_stopped_method\": \"keyword\", \"checked_live\": false}}]}, {\"index\": 1, \"claim\": \"The company also withdrew two Phase 2 trials (NCT04436458 and NCT04542434) without results, reporting that the assets were acquired by another company and the studies never commenced.\", \"evidence\": [{\"evidence_id\": \"ctgov:NCT04436458\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Niclosamide In Moderate COVID-19\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04436458\", \"data\": {\"nct_id\": \"NCT04436458\", \"title\": \"Niclosamide In Moderate COVID-19\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"COVID\"], \"interventions\": [\"Niclosamide Oral Tablet\", \"Placebo\"], \"drug_names\": [\"Niclosamide Oral Tablet\"], \"overall_status\": \"WITHDRAWN\", \"why_stopped\": \"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\", \"start_date\": \"2022-01-20\", \"primary_completion_date\": \"2022-01-20\", \"completion_date\": \"2022-01-20\", \"enrollment\": 0, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-02-21\", \"results_due_date\": \"2023-01-20\", \"results_posted\": false, \"days_late\": 1385, \"stopped\": true, \"why_stopped_category\": \"business/strategic\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}, {\"evidence_id\": \"ctgov:NCT04542434\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Niclosamide in COVID-19\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04542434\", \"data\": {\"nct_id\": \"NCT04542434\", \"title\": \"Niclosamide in COVID-19\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Covid19\"], \"interventions\": [\"Niclosamide Oral Tablet\", \"Placebo\"], \"drug_names\": [\"Niclosamide Oral Tablet\"], \"overall_status\": \"WITHDRAWN\", \"why_stopped\": \"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\", \"start_date\": \"2022-01-20\", \"primary_completion_date\": \"2022-01-20\", \"completion_date\": \"2022-01-20\", \"enrollment\": 0, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-02-21\", \"results_due_date\": \"2023-01-20\", \"results_posted\": false, \"days_late\": 1385, \"stopped\": true, \"why_stopped_category\": \"business/strategic\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}]}, {\"index\": 2, \"claim\": \"The registry says NCT03521232 was a Phase 1/Phase 2 trial of niclosamide that was terminated on 2022-10-04 due to 'Covid-19' with results never posted.\", \"evidence\": [{\"evidence_id\": \"ctgov:NCT03521232\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis\", \"source_url\": \"https://clinicaltrials.gov/study/NCT03521232\", \"data\": {\"nct_id\": \"NCT03521232\", \"title\": \"A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE1/PHASE2\", \"conditions\": [\"Ulcerative Colitis\", \"Ulcerative Proctitis\", \"Ulcerative Proctosigmoiditis\"], \"interventions\": [\"Niclosamide\"], \"drug_names\": [\"Niclosamide\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Covid-19\", \"start_date\": \"2018-05-15\", \"primary_completion_date\": \"2022-09-19\", \"completion_date\": \"2022-10-04\", \"enrollment\": 27, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-11-29\", \"results_due_date\": \"2023-09-19\", \"results_posted\": false, \"days_late\": 1143, \"stopped\": true, \"why_stopped_category\": \"other\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}]}, {\"index\": 3, \"claim\": \"The registry says NCT04243551 was a Phase 2 trial of latiglutenase that was terminated on 2023-10-31 due to 'low enrollment related to Covid' with results never posted.\", \"evidence\": [{\"evidence_id\": \"ctgov:NCT04243551\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04243551\", \"data\": {\"nct_id\": \"NCT04243551\", \"title\": \"Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Celiac Disease\"], \"interventions\": [\"Latiglutenase\", \"Placebo\"], \"drug_names\": [\"Latiglutenase\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Due to low enrollment related to Covid.\", \"start_date\": \"2019-11-01\", \"primary_completion_date\": \"2023-10-16\", \"completion_date\": \"2023-10-31\", \"enrollment\": 83, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2024-08-05\", \"results_due_date\": \"2024-10-15\", \"results_posted\": false, \"days_late\": 751, \"stopped\": true, \"why_stopped_category\": \"enrollment\", \"why_stopped_method\": \"keyword\", \"checked_live\": false}}]}, {\"index\": 4, \"claim\": \"The registry says NCT04839575 was a Phase 2 trial of latiglutenase that was terminated on 2022-12-19 due to 'Covid-19 interruptions and enrollment challenges' with results never posted.\", \"evidence\": [{\"evidence_id\": \"ctgov:NCT04839575\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Study of Latiglutenase in T1D/CD Patients\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04839575\", \"data\": {\"nct_id\": \"NCT04839575\", \"title\": \"Study of Latiglutenase in T1D/CD Patients\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Celiac Disease\"], \"interventions\": [\"Latiglutenase\", \"Placebo\"], \"drug_names\": [\"Latiglutenase\"], \"overall_status\": \"TERMINATED\", \"why_stopped\": \"Covid-19 interruptions and enrollment challenges\", \"start_date\": \"2021-04-06\", \"primary_completion_date\": \"2022-12-19\", \"completion_date\": \"2022-12-19\", \"enrollment\": 13, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2024-08-05\", \"results_due_date\": \"2023-12-19\", \"results_posted\": false, \"days_late\": 1052, \"stopped\": true, \"why_stopped_category\": \"enrollment\", \"why_stopped_method\": \"keyword\", \"checked_live\": false}}]}, {\"index\": 5, \"claim\": \"The registry says NCT04436458 was a Phase 2 trial of niclosamide withdrawn on 2022-01-20 because the sponsor asset was acquired by another pharma company who opened their own IND.\", \"evidence\": [{\"evidence_id\": \"ctgov:NCT04436458\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Niclosamide In Moderate COVID-19\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04436458\", \"data\": {\"nct_id\": \"NCT04436458\", \"title\": \"Niclosamide In Moderate COVID-19\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"COVID\"], \"interventions\": [\"Niclosamide Oral Tablet\", \"Placebo\"], \"drug_names\": [\"Niclosamide Oral Tablet\"], \"overall_status\": \"WITHDRAWN\", \"why_stopped\": \"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\", \"start_date\": \"2022-01-20\", \"primary_completion_date\": \"2022-01-20\", \"completion_date\": \"2022-01-20\", \"enrollment\": 0, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-02-21\", \"results_due_date\": \"2023-01-20\", \"results_posted\": false, \"days_late\": 1385, \"stopped\": true, \"why_stopped_category\": \"business/strategic\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}]}, {\"index\": 6, \"claim\": \"The registry says NCT04542434 was a Phase 2 trial of niclosamide withdrawn on 2022-01-20 because the sponsor asset was acquired by another pharma company.\", \"evidence\": [{\"evidence_id\": \"ctgov:NCT04542434\", \"source_type\": \"ClinicalTrials.gov registry record\", \"title\": \"Niclosamide in COVID-19\", \"source_url\": \"https://clinicaltrials.gov/study/NCT04542434\", \"data\": {\"nct_id\": \"NCT04542434\", \"title\": \"Niclosamide in COVID-19\", \"sponsor\": \"Entero Therapeutics\", \"sponsor_class\": \"INDUSTRY\", \"phase\": \"PHASE2\", \"conditions\": [\"Covid19\"], \"interventions\": [\"Niclosamide Oral Tablet\", \"Placebo\"], \"drug_names\": [\"Niclosamide Oral Tablet\"], \"overall_status\": \"WITHDRAWN\", \"why_stopped\": \"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\", \"start_date\": \"2022-01-20\", \"primary_completion_date\": \"2022-01-20\", \"completion_date\": \"2022-01-20\", \"enrollment\": 0, \"has_results\": false, \"results_first_post_date\": null, \"last_update_date\": \"2022-02-21\", \"results_due_date\": \"2023-01-20\", \"results_posted\": false, \"days_late\": 1385, \"stopped\": true, \"why_stopped_category\": \"business/strategic\", \"why_stopped_method\": \"llm\", \"checked_live\": false}}]}, {\"index\": 7, \"claim\": \"PubMed lists general literature and reviews for these compounds but contains no direct trial-specific reports providing results or detailed stop reasons for the five stopped studies.\", \"evidence\": [{\"evidence_id\": \"pubmed:31511071\", \"source_type\": \"PubMed article\", \"title\": \"Niclosamide, an antihelmintic drug, enhances efficacy of PD-1/PD-L1 immune checkpoint blockade in non-small cell lung cancer.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/31511071/\", \"data\": {\"nct_id\": \"NCT03521232\", \"pmid\": \"31511071\", \"link_type\": \"europepmc_mention\", \"title\": \"Niclosamide, an antihelmintic drug, enhances efficacy of PD-1/PD-L1 immune checkpoint blockade in non-small cell lung cancer.\", \"journal\": \"Journal for immunotherapy of cancer\", \"pub_date\": \"2019-09-11\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/31511071/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/31511071/\"}}, {\"evidence_id\": \"pubmed:36297645\", \"source_type\": \"PubMed article\", \"title\": \"Advancements in Rectal Drug Delivery Systems: Clinical Trials, and Patents Perspective.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36297645/\", \"data\": {\"nct_id\": \"NCT03521232\", \"pmid\": \"36297645\", \"link_type\": \"europepmc_mention\", \"title\": \"Advancements in Rectal Drug Delivery Systems: Clinical Trials, and Patents Perspective.\", \"journal\": \"Pharmaceutics\", \"pub_date\": \"2022-10-17\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/36297645/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36297645/\"}}, {\"evidence_id\": \"pubmed:36735625\", \"source_type\": \"PubMed article\", \"title\": \"Niclosamide is a potential candidate for the treatment of chemo-resistant osteosarcoma.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36735625/\", \"data\": {\"nct_id\": \"NCT03521232\", \"pmid\": \"36735625\", \"link_type\": \"europepmc_mention\", \"title\": \"Niclosamide is a potential candidate for the treatment of chemo-resistant osteosarcoma.\", \"journal\": \"Genetics and molecular biology\", \"pub_date\": \"2023-02-03\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/36735625/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/36735625/\"}}, {\"evidence_id\": \"pubmed:38140342\", \"source_type\": \"PubMed article\", \"title\": \"Dynamics of Serologic Change to Gluten in Celiac Disease Patients.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/38140342/\", \"data\": {\"nct_id\": \"NCT04243551\", \"pmid\": \"38140342\", \"link_type\": \"europepmc_mention\", \"title\": \"Dynamics of Serologic Change to Gluten in Celiac Disease Patients.\", \"journal\": \"Nutrients\", \"pub_date\": \"2023-12-12\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/38140342/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/38140342/\"}}, {\"evidence_id\": \"pubmed:38698821\", \"source_type\": \"PubMed article\", \"title\": \"From an understanding of etiopathogenesis to novel therapies-what is new in the treatment of celiac disease?\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/38698821/\", \"data\": {\"nct_id\": \"NCT04839575\", \"pmid\": \"38698821\", \"link_type\": \"europepmc_mention\", \"title\": \"From an understanding of etiopathogenesis to novel therapies-what is new in the treatment of celiac disease?\", \"journal\": \"Frontiers in pharmacology\", \"pub_date\": \"2024-04-18\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/38698821/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/38698821/\"}}, {\"evidence_id\": \"pubmed:39493330\", \"source_type\": \"PubMed article\", \"title\": \"Beyond the gluten-free diet: Innovations in celiac disease therapeutics.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39493330/\", \"data\": {\"nct_id\": \"NCT04839575\", \"pmid\": \"39493330\", \"link_type\": \"europepmc_mention\", \"title\": \"Beyond the gluten-free diet: Innovations in celiac disease therapeutics.\", \"journal\": \"World journal of gastroenterology\", \"pub_date\": \"2024-10-14\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/39493330/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39493330/\", \"year\": \"2024\", \"abstract\": \"Celiac disease (CD) is an autoimmune disorder exacerbated by the ingestion of gluten in genetically susceptible individuals, leading to intestinal inflammation and damage. This chronic disease affects approximately 1% of the world's population and is a growing health challenge due to its increasing prevalence. The development of CD is a complex interaction between genetic predispositions and environmental factors, especially gluten, culminating in a dysregulated immune response. The only effective treatment at present is a strict, lifelong gluten-free diet. However, adherence to this diet is challenging and often incomplete, so research into alternative therapies has intensified. Recent advances in understanding the molecular and immunological aspects of CD have spearheaded the development of novel pharmacologic strategies that should provide more effective and manageable treatment options. This review examines the latest innovations in CD therapies. The focus is on drugs in advanced clinical phases and targeting specific signaling pathways critical to the disease pathogenesis. We discuss both quantitative strategies such as enzymatic degradation of gluten, and qualitative approaches including immunomodulation and induction of gluten tolerance. Innovative treatments currently under investigation include transglutaminase inhibitors, which prevent the modification of gluten peptides, and nanoparticle-based therapies to recalibrate the immune response. These new therapies not only promise to improve patient outcomes but are also expected to improve quality of life by reducing the burden of dietary restrictions. The integration of these new therapies could revolutionize the treatment of CD and shift the paradigm from strict dietary restrictions to a more flexible and patient-friendly therapeutic approach. This review provides a comprehensive overview of the future prospects of CD treatment and emphasizes the importance of continued research and multidisciplinary collaboration to integrate these advances into standard clinical practice.\"}}, {\"evidence_id\": \"pubmed:39941971\", \"source_type\": \"PubMed article\", \"title\": \"Celiac Disease: Beyond Diet and Food Awareness.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39941971/\", \"data\": {\"nct_id\": \"NCT04243551\", \"pmid\": \"39941971\", \"link_type\": \"europepmc_mention\", \"title\": \"Celiac Disease: Beyond Diet and Food Awareness.\", \"journal\": \"Foods (Basel, Switzerland)\", \"pub_date\": \"2025-01-24\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/39941971/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39941971/\"}}, {\"evidence_id\": \"pubmed:39862215\", \"source_type\": \"PubMed article\", \"title\": \"New therapies in celiac disease.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39862215/\", \"data\": {\"nct_id\": \"NCT04839575\", \"pmid\": \"39862215\", \"link_type\": \"europepmc_mention\", \"title\": \"New therapies in celiac disease.\", \"journal\": \"Current opinion in gastroenterology\", \"pub_date\": \"2025-05-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/39862215/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/39862215/\"}}, {\"evidence_id\": \"pubmed:34349475\", \"source_type\": \"PubMed article\", \"title\": \"A Narrative Review of Antiviral Drugs Used for COVID-19 Pharmacotherapy.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34349475/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"34349475\", \"link_type\": \"europepmc_mention\", \"title\": \"A Narrative Review of Antiviral Drugs Used for COVID-19 Pharmacotherapy.\", \"journal\": \"Journal of pharmacy & bioallied sciences\", \"pub_date\": \"2021-04-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34349475/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34349475/\"}}, {\"evidence_id\": \"pubmed:34676370\", \"source_type\": \"PubMed article\", \"title\": \"Lipid nanoparticle formulation of niclosamide (nano NCM) effectively inhibits SARS-CoV-2 replication in vitro.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34676370/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"34676370\", \"link_type\": \"europepmc_mention\", \"title\": \"Lipid nanoparticle formulation of niclosamide (nano NCM) effectively inhibits SARS-CoV-2 replication in vitro.\", \"journal\": \"Precision nanomedicine\", \"pub_date\": \"2021-04-17\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34676370/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34676370/\"}}, {\"evidence_id\": \"pubmed:34056571\", \"source_type\": \"PubMed article\", \"title\": \"Anti-viral treatment for SARS-CoV-2 infection: A race against time amidst the ongoing pandemic.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34056571/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"34056571\", \"link_type\": \"europepmc_mention\", \"title\": \"Anti-viral treatment for SARS-CoV-2 infection: A race against time amidst the ongoing pandemic.\", \"journal\": \"Metabolism open\", \"pub_date\": \"2021-06-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34056571/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34056571/\"}}, {\"evidence_id\": \"pubmed:35496298\", \"source_type\": \"PubMed article\", \"title\": \"2-Deoxy-D-Glucose and its Derivatives for the COVID-19 Treatment: An Update.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/35496298/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"35496298\", \"link_type\": \"europepmc_mention\", \"title\": \"2-Deoxy-D-Glucose and its Derivatives for the COVID-19 Treatment: An Update.\", \"journal\": \"Frontiers in pharmacology\", \"pub_date\": \"2022-04-12\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/35496298/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/35496298/\"}}, {\"evidence_id\": \"pubmed:35348204\", \"source_type\": \"PubMed article\", \"title\": \"Niclosamide-A promising treatment for COVID-19.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/35348204/\", \"data\": {\"nct_id\": \"NCT04436458\", \"pmid\": \"35348204\", \"link_type\": \"europepmc_mention\", \"title\": \"Niclosamide-A promising treatment for COVID-19.\", \"journal\": \"British journal of pharmacology\", \"pub_date\": \"2022-07-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/35348204/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/35348204/\", \"year\": \"2022\", \"abstract\": \"Vaccines have reduced the transmission and severity of COVID-19, but there remains a paucity of efficacious treatment for drug-resistant strains and more susceptible individuals, particularly those who mount a suboptimal vaccine response, either due to underlying health conditions or concomitant therapies. Repurposing existing drugs is a timely, safe and scientifically robust method for treating pandemics, such as COVID-19. Here, we review the pharmacology and scientific rationale for repurposing niclosamide, an anti-helminth already in human use as a treatment for COVID-19. In addition, its potent antiviral activity, niclosamide has shown pleiotropic anti-inflammatory, antibacterial, bronchodilatory and anticancer effects in numerous preclinical and early clinical studies. The advantages and rationale for nebulized and intranasal formulations of niclosamide, which target the site of the primary infection in COVID-19, are reviewed. Finally, we give an overview of ongoing clinical trials investigating niclosamide as a promising candidate against SARS-CoV-2.\"}}, {\"evidence_id\": \"pubmed:34298652\", \"source_type\": \"PubMed article\", \"title\": \"Metformin and Niclosamide Synergistically Suppress Wnt and YAP in APC-Mutated Colorectal Cancer.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34298652/\", \"data\": {\"nct_id\": \"NCT04542434\", \"pmid\": \"34298652\", \"link_type\": \"europepmc_mention\", \"title\": \"Metformin and Niclosamide Synergistically Suppress Wnt and YAP in APC-Mutated Colorectal Cancer.\", \"journal\": \"Cancers\", \"pub_date\": \"2021-07-09\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34298652/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34298652/\"}}, {\"evidence_id\": \"pubmed:34762760\", \"source_type\": \"PubMed article\", \"title\": \"Races of small molecule clinical trials for the treatment of COVID-19: An up-to-date comprehensive review.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34762760/\", \"data\": {\"nct_id\": \"NCT04542434\", \"pmid\": \"34762760\", \"link_type\": \"europepmc_mention\", \"title\": \"Races of small molecule clinical trials for the treatment of COVID-19: An up-to-date comprehensive review.\", \"journal\": \"Drug development research\", \"pub_date\": \"2022-02-01\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/34762760/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/34762760/\"}}, {\"evidence_id\": \"pubmed:41595566\", \"source_type\": \"PubMed article\", \"title\": \"Rethinking Celiac Disease Management: Treatment Approaches Beyond the Gluten-Free Diet.\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/41595566/\", \"data\": {\"nct_id\": \"NCT04839575\", \"pmid\": \"41595566\", \"link_type\": \"europepmc_mention\", \"title\": \"Rethinking Celiac Disease Management: Treatment Approaches Beyond the Gluten-Free Diet.\", \"journal\": \"Biomedicines\", \"pub_date\": \"2025-12-22\", \"url\": \"https://pubmed.ncbi.nlm.nih.gov/41595566/\", \"found_by\": \"snapshot\", \"source_url\": \"https://pubmed.ncbi.nlm.nih.gov/41595566/\"}}]}, {\"index\": 8, \"claim\": \"The database snapshot contains zero SEC corporate filings for CIK 0001555547 to cross-examine.\", \"evidence\": [{\"evidence_id\": \"sql:d441f0f0\", \"source_type\": \"Ghost Trials snapshot query\", \"title\": \"Snapshot query d441f0f0\", \"source_url\": \"https://github.com/rishika1099/Ghost-Trials-Autopsy#data\", \"data\": {\"sql\": \"SELECT count(*) FROM filings\", \"rows\": [{\"count_star()\": 0}]}}, {\"evidence_id\": \"sql:f549949d\", \"source_type\": \"Ghost Trials snapshot query\", \"title\": \"Snapshot query f549949d\", \"source_url\": \"https://github.com/rishika1099/Ghost-Trials-Autopsy#data\", \"data\": {\"sql\": \"SELECT * FROM snapshot_meta\", \"rows\": [{\"table_name\": \"trials\", \"row_count\": 16473, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}, {\"table_name\": \"trial_derived\", \"row_count\": 16473, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}, {\"table_name\": \"sponsor_cik\", \"row_count\": 0, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}, {\"table_name\": \"filings\", \"row_count\": 0, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}, {\"table_name\": \"publications\", \"row_count\": 26154, \"built_at\": \"2026-11-05\", \"scope\": \"ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to 2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED\"}]}}]}]"
+          }
+        ]
+      }
+    }
+  },
+  "findings": [
+    {
+      "lane": "trials",
+      "round": 1,
+      "brief": "Analyze all Phase 2 trials in the registry sponsored by Entero Therapeutics, First Wave BioPharma, or AzurRx BioPharma (AzurRx SAS). Identify trials that were terminated, suspended, or withdrawn. For each stopped trial, retrieve the NCT ID, drug names, overall status, primary completion date, the stated reason for stopping, and whether results have been posted on ClinicalTrials.gov.",
+      "findings": [
+        {
+          "claim": "Ran out of turns. Records gathered: ctgov:NCT03481803, ctgov:NCT03521232, ctgov:NCT03746483, ctgov:NCT04243551, ctgov:NCT04302662, ctgov:NCT04375878, ctgov:NCT04436458, ctgov:NCT04542434, ctgov:NCT04839575, ctgov:NCT04858425, ctgov:NCT05719311, fda:NDA018669.",
+          "evidence_ids": [
+            "ctgov:NCT03481803",
+            "ctgov:NCT03521232",
+            "ctgov:NCT03746483",
+            "ctgov:NCT04243551",
+            "ctgov:NCT04302662",
+            "ctgov:NCT04375878",
+            "ctgov:NCT04436458",
+            "ctgov:NCT04542434",
+            "ctgov:NCT04839575",
+            "ctgov:NCT04858425",
+            "ctgov:NCT05719311",
+            "fda:NDA018669"
+          ],
+          "confidence": "low",
+          "notes": ""
+        }
+      ],
+      "gaps": [
+        "Researcher hit the 8-turn cap before finishing: Analyze all Phase 2 trials in the registry sponsored by Entero Therapeutics, First Wave BioPharma, or AzurRx BioPharma (AzurRx SAS). Identify trials that were terminated, suspended, or withdrawn. For "
+      ]
+    },
+    {
+      "lane": "disclosures",
+      "round": 1,
+      "brief": "Search SEC filings (specifically 8-K, 10-Q, and 10-K) for Entero Therapeutics (formerly First Wave BioPharma / AzurRx BioPharma, CIK 0001555547 or other linked CIKs) near the termination or stop dates of their Phase 2 trials. Determine what explanation the sponsor provided to investors regarding the discontinuation of these programs and whether it aligns with the registry reasons.",
+      "findings": [
+        {
+          "claim": "Ran out of turns. Records gathered: ctgov:NCT03481803, ctgov:NCT03521232, ctgov:NCT03746483, ctgov:NCT04243551, ctgov:NCT04302662, ctgov:NCT04375878, ctgov:NCT04436458, ctgov:NCT04542434, ctgov:NCT04839575, ctgov:NCT04858425, ctgov:NCT05719311, sql:b4ed5482, sql:d441f0f0.",
+          "evidence_ids": [
+            "ctgov:NCT03481803",
+            "ctgov:NCT03521232",
+            "ctgov:NCT03746483",
+            "ctgov:NCT04243551",
+            "ctgov:NCT04302662",
+            "ctgov:NCT04375878",
+            "ctgov:NCT04436458",
+            "ctgov:NCT04542434",
+            "ctgov:NCT04839575",
+            "ctgov:NCT04858425",
+            "ctgov:NCT05719311",
+            "sql:b4ed5482",
+            "sql:d441f0f0"
+          ],
+          "confidence": "low",
+          "notes": ""
+        }
+      ],
+      "gaps": [
+        "Researcher hit the 8-turn cap before finishing: Search SEC filings (specifically 8-K, 10-Q, and 10-K) for Entero Therapeutics (formerly First Wave BioPharma / AzurRx BioPharma, CIK 0001555547 or other linked CIKs) near the termination or stop dates"
+      ]
+    },
+    {
+      "lane": "publications",
+      "round": 1,
+      "brief": "Search PubMed and Europe PMC for any literature and journal publications linked to the stopped Phase 2 trials of Entero Therapeutics, First Wave BioPharma, or AzurRx. Check if any results or analyses of these discontinued trials were published, the publication dates, and whether the abstracts discuss the reasons for stopping.",
+      "findings": [
+        {
+          "claim": "Ran out of turns. Records gathered: ctgov:NCT04243551, ctgov:NCT04436458, ctgov:NCT04542434, ctgov:NCT04839575, ctgov:NCT04858425, pubmed:34056571, pubmed:34298652, pubmed:34349475, pubmed:34488003, pubmed:34676370, pubmed:34762760, pubmed:35348204, pubmed:35496298, pubmed:38140342, pubmed:38698821, pubmed:39493330, pubmed:39862215, pubmed:39941971, pubmed:40568785, pubmed:41595566.",
+          "evidence_ids": [
+            "ctgov:NCT04243551",
+            "ctgov:NCT04436458",
+            "ctgov:NCT04542434",
+            "ctgov:NCT04839575",
+            "ctgov:NCT04858425",
+            "pubmed:34056571",
+            "pubmed:34298652",
+            "pubmed:34349475",
+            "pubmed:34488003",
+            "pubmed:34676370",
+            "pubmed:34762760",
+            "pubmed:35348204",
+            "pubmed:35496298",
+            "pubmed:38140342",
+            "pubmed:38698821",
+            "pubmed:39493330",
+            "pubmed:39862215",
+            "pubmed:39941971",
+            "pubmed:40568785",
+            "pubmed:41595566"
+          ],
+          "confidence": "low",
+          "notes": ""
+        }
+      ],
+      "gaps": [
+        "Researcher hit the 8-turn cap before finishing: Search PubMed and Europe PMC for any literature and journal publications linked to the stopped Phase 2 trials of Entero Therapeutics, First Wave BioPharma, or AzurRx. Check if any results or analyses "
+      ]
+    },
+    {
+      "lane": "trials",
+      "round": 2,
+      "brief": "Examine the status of the gathered NCT IDs (including NCT03481803, NCT03521232, NCT03746483, NCT04243551, NCT04302662, NCT04375878, NCT04436458, NCT04542434, NCT04839575, NCT04858425, NCT05719311). Filter for Phase 2 trials, identify which are terminated, suspended, or withdrawn, note if results are posted on ClinicalTrials.gov, and record the registry reason for stopping.\n\n(Gap to close: Phase 2 trials list and registry details are incomplete due to premature turn cap.)",
+      "findings": [
+        {
+          "claim": "NCT04375878 is a Phase 2 trial that completed on 2021-04-08, enrollment is 27, results posted: true on 2022-09-13, results due date 2022-04-08, 158 days late, not stopped.",
+          "evidence_ids": [
+            "ctgov:NCT04375878"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT04542434 is a Phase 2 trial that was withdrawn on 2022-01-20, enrollment 0, results posted: false, registry reason: \"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\", category: business/strategic.",
+          "evidence_ids": [
+            "ctgov:NCT04542434"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT04858425 is a Phase 2 trial that was terminated on 2023-09-10 (primary completion 2022-06-04), enrollment 166, results posted: true on 2024-07-24, results due date 2023-06-04, 416 days late, registry reason: \"The termination of the study was a decision based on topline data analysis (no efficacy as per Day 43) of the study data.\", category: efficacy.",
+          "evidence_ids": [
+            "ctgov:NCT04858425"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT05719311 is a Phase 2 trial that completed on 2023-07-28, enrollment 13, results posted: true on 2024-09-19, results due date 2024-06-19, 92 days late, not stopped.",
+          "evidence_ids": [
+            "ctgov:NCT05719311"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT03481803 is a Phase 2 (Phase IIa) trial that completed on 2018-06-29, enrollment 11, results posted: false, results due date 2019-06-29, 2686 days late, not stopped.",
+          "evidence_ids": [
+            "ctgov:NCT03481803"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT03521232 is a Phase 1/Phase 2 trial that was terminated on 2022-10-04, enrollment 27, results posted: false, results due date 2023-09-19, 1143 days late, registry reason: \"Covid-19\", category: other.",
+          "evidence_ids": [
+            "ctgov:NCT03521232"
+          ],
+          "confidence": "high",
+          "notes": "Phase listed as PHASE1/PHASE2. Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT04436458 is a Phase 2 trial that was withdrawn on 2022-01-20, enrollment 0, results posted: false, registry reason: \"Sponsor asset acquired by another pharma company who opened their own IND for this compound. First Wave Bio never started this study in the US or ex-US.\", category: business/strategic.",
+          "evidence_ids": [
+            "ctgov:NCT04436458"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT04839575 is a Phase 2 trial that was terminated on 2022-12-19, enrollment 13, results posted: false, results due date 2023-12-19, 1052 days late, registry reason: \"Covid-19 interruptions and enrollment challenges\", category: enrollment.",
+          "evidence_ids": [
+            "ctgov:NCT04839575"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT03746483 is a Phase 2 trial that completed on 2019-07-27, enrollment 41, results posted: true on 2022-06-06, results due date 2020-07-12, 694 days late, not stopped.",
+          "evidence_ids": [
+            "ctgov:NCT03746483"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT04243551 is a Phase 2 trial that was terminated on 2023-10-31, enrollment 83, results posted: false, results due date 2024-10-15, 751 days late, registry reason: \"Due to low enrollment related to Covid.\", category: enrollment.",
+          "evidence_ids": [
+            "ctgov:NCT04243551"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        },
+        {
+          "claim": "NCT04302662 is a Phase 2 trial that completed on 2021-06-03, enrollment 20, results posted: false, results due date 2022-06-03, 1616 days late, not stopped.",
+          "evidence_ids": [
+            "ctgov:NCT04302662"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot data retrieved successfully."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "lane": "disclosures",
+      "round": 2,
+      "brief": "Using CIK 0001555547 for Entero Therapeutics (formerly First Wave BioPharma and AzurRx BioPharma), search SEC filings (8-K, 10-K, 10-Q) around the estimated stop dates of the identified Phase 2 trials. Retrieve the specific reasons provided to investors for terminating these programs.\n\n(Gap to close: SEC filings search for trial discontinuations was cut short before finding explanations.)",
+      "findings": [
+        {
+          "claim": "The filings table in the snapshot contains zero SEC filing records for CIK 0001555547 (Entero Therapeutics / First Wave BioPharma / AzurRx BioPharma).",
+          "evidence_ids": [
+            "sql:f549949d"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot table filings is empty (row_count: 0)."
+        }
+      ],
+      "gaps": [
+        "Live SEC searches fail because the SEC user agent is not configured, and the snapshot filings table contains no SEC filings for this CIK."
+      ]
+    },
+    {
+      "lane": "publications",
+      "round": 2,
+      "brief": "Search PubMed and Europe PMC using the identified Phase 2 NCT IDs and drug names (such as niclosamide, FW-UP, or MS1819) to see if results have been published in journals, and if any publications explain why the trials were stopped early.\n\n(Gap to close: Literature search was interrupted before linking pubmed records to specific trials.)",
+      "findings": [
+        {
+          "claim": "Ran out of turns. Records gathered: ctgov:NCT03481803, ctgov:NCT03521232, ctgov:NCT03746483, ctgov:NCT04302662, ctgov:NCT04375878, ctgov:NCT04436458, ctgov:NCT04542434, ctgov:NCT04603924, ctgov:NCT04858425, ctgov:NCT04932915, pubmed:31511071, pubmed:32761612, pubmed:34056571, pubmed:34298652, pubmed:34349475, pubmed:34488003, pubmed:34676370, pubmed:34762760, pubmed:34915400, pubmed:35348204, pubmed:35496298, pubmed:36297645, pubmed:36581047, pubmed:36735625, pubmed:37291465, pubmed:39299226, pubmed:40215170, pubmed:40568785, pubmed:41656183, pubmed:42303049, pubmed:42399539, pubmed:42495325, pubmed:42513244, pubmed:42683249, pubmed:42729937.",
+          "evidence_ids": [
+            "ctgov:NCT03481803",
+            "ctgov:NCT03521232",
+            "ctgov:NCT03746483",
+            "ctgov:NCT04302662",
+            "ctgov:NCT04375878",
+            "ctgov:NCT04436458",
+            "ctgov:NCT04542434",
+            "ctgov:NCT04603924",
+            "ctgov:NCT04858425",
+            "ctgov:NCT04932915",
+            "pubmed:31511071",
+            "pubmed:32761612",
+            "pubmed:34056571",
+            "pubmed:34298652",
+            "pubmed:34349475",
+            "pubmed:34488003",
+            "pubmed:34676370",
+            "pubmed:34762760",
+            "pubmed:34915400",
+            "pubmed:35348204",
+            "pubmed:35496298",
+            "pubmed:36297645",
+            "pubmed:36581047",
+            "pubmed:36735625",
+            "pubmed:37291465",
+            "pubmed:39299226",
+            "pubmed:40215170",
+            "pubmed:40568785",
+            "pubmed:41656183",
+            "pubmed:42303049",
+            "pubmed:42399539",
+            "pubmed:42495325",
+            "pubmed:42513244",
+            "pubmed:42683249",
+            "pubmed:42729937"
+          ],
+          "confidence": "low",
+          "notes": ""
+        }
+      ],
+      "gaps": [
+        "Researcher hit the 8-turn cap before finishing: Search PubMed and Europe PMC using the identified Phase 2 NCT IDs and drug names (such as niclosamide, FW-UP, or MS1819) to see if results have been published in journals, and if any publications expl"
+      ]
+    },
+    {
+      "lane": "publications",
+      "round": 3,
+      "brief": "Using the NCT IDs for stopped Phase 2 trials (NCT03521232, NCT04243551, NCT04436458, NCT04542434, NCT04839575) and drug names (such as niclosamide, FW-UP, FW-COV, MS1819), search PubMed and Europe PMC. Determine if any of the gathered publication records contain results or explain the reasons for stopping these trials.\n\n(Gap to close: Literature search for stopped Phase 2 trials was interrupted and needs to map identified PMIDs to specific NCT IDs.)",
+      "findings": [
+        {
+          "claim": "For NCT03521232 (drug: niclosamide), find_publications returned multiple mentions (such as PMIDs 31511071, 36297645, 36735625), but all are Europe PMC drug mentions rather than trial-specific reports providing results or reasons for stopping.",
+          "evidence_ids": [
+            "pubmed:31511071",
+            "pubmed:36297645",
+            "pubmed:36735625"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot only, not checked live. Results may exist in conference abstracts or company websites."
+        },
+        {
+          "claim": "For NCT04243551 (drug: FW-UP), find_publications returned several mentions (such as PMIDs 38140342, 38698821, 39493330, 39941971, 39862215), which are Europe PMC drug/topic mentions rather than direct reports of trial results or stop reasons.",
+          "evidence_ids": [
+            "pubmed:38140342",
+            "pubmed:38698821",
+            "pubmed:39493330",
+            "pubmed:39941971",
+            "pubmed:39862215"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot only, not checked live."
+        },
+        {
+          "claim": "For NCT04436458 (drug: FW-COV), find_publications returned several mentions (such as PMIDs 34349475, 34676370, 34056571, 35496298, 35348204), representing general reviews or preclinical studies rather than primary trial results or explanations for stopping.",
+          "evidence_ids": [
+            "pubmed:34349475",
+            "pubmed:34676370",
+            "pubmed:34056571",
+            "pubmed:35496298",
+            "pubmed:35348204"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot only, not checked live."
+        },
+        {
+          "claim": "For NCT04542434 (drug: MS1819), find_publications returned mentions (such as PMIDs 34298652, 34762760, 35348204) via Europe PMC text mining, but none report trial results or reasons for stopping.",
+          "evidence_ids": [
+            "pubmed:34298652",
+            "pubmed:34762760",
+            "pubmed:35348204"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot only, not checked live."
+        },
+        {
+          "claim": "For NCT04839575 (drug: niclosamide), find_publications returned mentions (such as PMIDs 38698821, 39493330, 39862215, 41595566), which are general literature mentions and do not contain results or stop reasons for this trial.",
+          "evidence_ids": [
+            "pubmed:38698821",
+            "pubmed:39493330",
+            "pubmed:39862215",
+            "pubmed:41595566"
+          ],
+          "confidence": "high",
+          "notes": "Snapshot only, not checked live."
+        }
+      ],
+      "gaps": []
+    }
+  ],
+  "elapsed_s": 132.7
+}

@@ -41,7 +41,7 @@ def model(name: str) -> LitellmModel:
 
 
 # A stalled model call would hang the page: give up after 90 s, and retry twice.
-SETTINGS = ModelSettings(extra_args={"vertex_location": config.VERTEX_LOCATION, "timeout": 90, "num_retries": 2})
+SETTINGS = ModelSettings(extra_args={**config.VERTEX_ARGS, "timeout": 90, "num_retries": 2})
 
 
 # --- Structured outputs ---

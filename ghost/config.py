@@ -22,6 +22,10 @@ RESEARCHER_MODEL = os.environ.get("RESEARCHER_MODEL", "vertex_ai/gemini-3.5-flas
 WRITER_MODEL = os.environ.get("WRITER_MODEL", "vertex_ai/gemini-3.5-flash")
 CHECKER_MODEL = os.environ.get("CHECKER_MODEL", "vertex_ai/gemini-3.5-flash")
 VERTEX_LOCATION = os.environ.get("VERTEX_LOCATION", "global")
+# The GCP project that pays for Gemini calls (the team uses Kshamaa's course credits).
+# Empty means the project from `gcloud auth application-default login` (or the Cloud Run service's own project).
+VERTEX_PROJECT = os.environ.get("VERTEX_PROJECT", "")
+VERTEX_ARGS = {"vertex_location": VERTEX_LOCATION, **({"vertex_project": VERTEX_PROJECT} if VERTEX_PROJECT else {})}
 
 # Caps. Prompts ask for restraint; code enforces it.
 MAX_RESEARCH_ROUNDS = int(os.environ.get("MAX_RESEARCH_ROUNDS", 3))
