@@ -1,0 +1,57 @@
+{
+  "brief": "Trial NCT03738423 (Regeneron, phase 2). Status, stated reason for stopping quoted exactly, enrollment, and when results were posted relative to the approximate due date.",
+  "findings": {
+    "findings": [
+      {
+        "claim": "Trial NCT03738423 status is TERMINATED.",
+        "evidence_ids": [
+          "ctgov:NCT03738423"
+        ],
+        "confidence": "high",
+        "notes": "Confirmed in snapshot and live record."
+      },
+      {
+        "claim": "Trial NCT03738423 stated reason for stopping is \"Lack of efficacy\", categorized under efficacy.",
+        "evidence_ids": [
+          "ctgov:NCT03738423"
+        ],
+        "confidence": "high",
+        "notes": "Exact quote from registry record."
+      },
+      {
+        "claim": "Trial NCT03738423 enrollment is 129 patients.",
+        "evidence_ids": [
+          "ctgov:NCT03738423"
+        ],
+        "confidence": "high",
+        "notes": "Snapshot and live match."
+      },
+      {
+        "claim": "Trial NCT03738423 results were first posted on June 10, 2022, which is 454 days late relative to the approximate due date of March 13, 2021.",
+        "evidence_ids": [
+          "ctgov:NCT03738423"
+        ],
+        "confidence": "high",
+        "notes": "Primary completion date was March 13, 2020, making the results due date March 13, 2021."
+      }
+    ],
+    "gaps": []
+  },
+  "problems": [],
+  "tool_calls": [
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.sponsor, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_due_date, d.results_posted, t.results_first_post_date, d.days_late FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT03738423';"
+      },
+      "result": "1 rows, 1 evidence ids"
+    },
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT03738423"
+      },
+      "result": "NCT03738423: TERMINATED, why_stopped='Lack of efficacy'"
+    }
+  ]
+}

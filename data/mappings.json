@@ -122,7 +122,7 @@
         {
           "name": "results_due_date",
           "type": "DATE",
-          "description": "Approximate results deadline: primary completion + 365 days. An approximation, not a legal deadline."
+          "description": "Approximate results deadline: primary completion + 365 days. An approximation, not a legal deadline. NULL for trials that never enrolled anyone (all WITHDRAWN trials): they have no results to post."
         },
         {
           "name": "results_posted",

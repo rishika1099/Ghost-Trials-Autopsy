@@ -1,0 +1,64 @@
+{
+  "brief": "Trial NCT03068754 (Mallinckrodt). Why did it stop, what category is the stated reason, and were results posted on time?",
+  "findings": {
+    "findings": [
+      {
+        "claim": "Trial NCT03068754 was terminated with the stated why_stopped reason: \"As recommended by the study's independent Data and Safety Monitoring Board (DSMB)\".",
+        "evidence_ids": [
+          "ctgov:NCT03068754"
+        ],
+        "confidence": "high",
+        "notes": "Live record matches snapshot. (cited ids no tool returned, removed: sql:NCT03068754)"
+      },
+      {
+        "claim": "The category for the stated reason why trial NCT03068754 stopped is safety.",
+        "evidence_ids": [
+          "ctgov:NCT03068754"
+        ],
+        "confidence": "high",
+        "notes": "Categorized as safety. (cited ids no tool returned, removed: sql:NCT03068754)"
+      },
+      {
+        "claim": "Trial NCT03068754 results were posted on ClinicalTrials.gov on September 3, 2020, with a results_due_date of November 24, 2020, and 0 days late (posted on time).",
+        "evidence_ids": [
+          "ctgov:NCT03068754"
+        ],
+        "confidence": "high",
+        "notes": "Results posted before due date. (cited ids no tool returned, removed: sql:NCT03068754)"
+      },
+      {
+        "claim": "The study drug Acthar has been approved by the FDA under multiple applications, including NDA022432 (H.P. ACTHAR GEL) approved on October 15, 2010.",
+        "evidence_ids": [
+          "fda:NDA022432"
+        ],
+        "confidence": "high",
+        "notes": "Drugs@FDA record confirms approval."
+      }
+    ],
+    "gaps": []
+  },
+  "problems": [],
+  "tool_calls": [
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT03068754"
+      },
+      "result": "NCT03068754: TERMINATED, why_stopped=\"As recommended by the study's independent Data and Safety Monitoring Board (DSMB\""
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.title, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_posted, t.results_first_post_date, d.results_due_date, d.days_late, t.sponsor FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT03068754'"
+      },
+      "result": "1 rows, 1 evidence ids"
+    },
+    {
+      "name": "get_fda_approvals",
+      "args": {
+        "drug_name": "Acthar"
+      },
+      "result": "3 applications"
+    }
+  ]
+}

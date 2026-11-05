@@ -1,0 +1,65 @@
+{
+  "brief": "Trial NCT05824559 (MEI Pharma). Why did it stop and were results posted? It may be outside the snapshot scope.",
+  "findings": {
+    "findings": [
+      {
+        "claim": "Trial NCT05824559 (MEI Pharma) overall status is TERMINATED.",
+        "evidence_ids": [
+          "ctgov:NCT05824559"
+        ],
+        "confidence": "high",
+        "notes": "Trial is outside snapshot scope, retrieved live."
+      },
+      {
+        "claim": "Trial NCT05824559 why_stopped text is: \"Company decision to wind down operations, close all clinical programs and evaluate strategic options\"",
+        "evidence_ids": [
+          "ctgov:NCT05824559"
+        ],
+        "confidence": "high",
+        "notes": "Live record from ClinicalTrials.gov."
+      },
+      {
+        "claim": "Results were posted for trial NCT05824559 on ClinicalTrials.gov with results_first_post_date November 21, 2024.",
+        "evidence_ids": [
+          "ctgov:NCT05824559"
+        ],
+        "confidence": "high",
+        "notes": "Live record from ClinicalTrials.gov."
+      },
+      {
+        "claim": "Trial NCT05824559 start date was August 7, 2023, primary completion date was July 9, 2024, and completion date was July 23, 2024, with an enrollment of 23.",
+        "evidence_ids": [
+          "ctgov:NCT05824559"
+        ],
+        "confidence": "high",
+        "notes": "Live record from ClinicalTrials.gov."
+      },
+      {
+        "claim": "ME-344 has no FDA approvals found in Drugs@FDA.",
+        "evidence_ids": [
+          "fda:none:me-344"
+        ],
+        "confidence": "high",
+        "notes": "Checked via get_fda_approvals."
+      }
+    ],
+    "gaps": []
+  },
+  "problems": [],
+  "tool_calls": [
+    {
+      "name": "get_trial_live",
+      "args": {
+        "nct_id": "NCT05824559"
+      },
+      "result": "NCT05824559: TERMINATED, why_stopped='Company decision to wind down operations, close all clinical programs and evalua'"
+    },
+    {
+      "name": "get_fda_approvals",
+      "args": {
+        "drug_name": "ME-344"
+      },
+      "result": "0 applications (No Drugs@FDA application found for this name. Cite fda:none:me-344 for that.)"
+    }
+  ]
+}

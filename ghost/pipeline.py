@@ -153,13 +153,29 @@ async def run_lead_review(state: RunState, plan: LeadPlan, findings: list[dict])
     return result.final_output
 
 
+def drop_unknown_ids(state: RunState, findings: Findings) -> Findings:
+    """A researcher may only cite ids a tool put in the store. Unknown ids are removed before the Lead sees the
+    findings; a finding left with no evidence is kept as low confidence and marked, so the Lead can send it back."""
+    kept = []
+    for f in findings.findings:
+        known = [e for e in f.evidence_ids if e in state.store]
+        dropped = [e for e in f.evidence_ids if e not in state.store]
+        if not dropped:
+            kept.append(f)
+            continue
+        note = f"cited ids no tool returned, removed: {', '.join(dropped)}"
+        kept.append(Finding(claim=f.claim, evidence_ids=known, confidence=f.confidence if known else "low",
+                            notes=f"{f.notes} ({note})".strip() if f.notes else note))
+    return findings.model_copy(update={"findings": kept})
+
+
 async def run_researcher(state: RunState, brief: Brief, key: str) -> Findings:
     """A fresh context: a new run whose input is only this brief. It never sees the Lead's or another researcher's messages."""
     agent = researcher(brief.lane)
     hooks = TraceHooks(state, agent.name, context_key=key)
     try:
         result = await Runner.run(agent, brief.brief, context=state, hooks=hooks, max_turns=config.RESEARCHER_MAX_TURNS)
-        return result.final_output
+        return drop_unknown_ids(state, result.final_output)
     except MaxTurnsExceeded as e:
         # Like the Lead: report now, with no tools, from its own conversation (so quotes still come from real excerpts).
         if e.run_data is not None:
@@ -170,7 +186,7 @@ async def run_researcher(state: RunState, brief: Brief, key: str) -> Findings:
             try:
                 result = await Runner.run(agent.clone(tools=[]), history, context=state, hooks=hooks, max_turns=2)
                 state.notes.append(f"{agent.name} hit its {config.RESEARCHER_MAX_TURNS}-turn cap and reported from what it had found.")
-                return result.final_output
+                return drop_unknown_ids(state, result.final_output)
             except MaxTurnsExceeded:
                 pass
         seen = sorted(set(hooks.evidence_seen))

@@ -128,6 +128,8 @@ def derive(trials: list[dict], today: dt.date, use_llm: bool) -> list[dict]:
     rows = []
     for t in trials:
         due = t["primary_completion_date"] + dt.timedelta(days=365) if t["primary_completion_date"] else None
+        if t["overall_status"] == "WITHDRAWN" or t["enrollment"] == 0:
+            due = None  # never enrolled anyone, so there are no results to post
         posted = t["has_results"]
         if due is None:
             days_late = None
@@ -385,7 +387,7 @@ DESCRIPTIONS = {
     "trial_derived": {
         "_table": "Derived columns per trial, built by scripts/build_snapshot.py. Join on nct_id.",
         "nct_id": "Trial ID; joins trials.nct_id.",
-        "results_due_date": "Approximate results deadline: primary completion + 365 days. An approximation, not a legal deadline.",
+        "results_due_date": "Approximate results deadline: primary completion + 365 days. An approximation, not a legal deadline. NULL for trials that never enrolled anyone (all WITHDRAWN trials): they have no results to post.",
         "results_posted": "TRUE if results are posted on ClinicalTrials.gov.",
         "days_late": "If posted: days after results_due_date it was posted (0 = on time). If not posted and past due: days overdue as of the snapshot date. NULL otherwise.",
         "stopped": "TRUE if status is TERMINATED, WITHDRAWN or SUSPENDED.",

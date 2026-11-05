@@ -32,8 +32,26 @@ BOARDS = re.compile(r"\b(data (and )?safety monitoring (board|committee)|safety 
 BEFORE_ENROLLING = re.compile(r"\b(before|prior to)\s+(any\s+)?(participants?|patients?|subjects?)?\s*(were\s+|was\s+)?(enrol\w*|recruit\w*|dosed|randomi[sz]ed)", re.IGNORECASE)
 
 
+# "Safety" as data being collected, or as a finding that was absent, is not the reason a trial stopped:
+# "sufficient safety data has been generated", "followed for safety data", "to analyze available safety and
+# efficacy data", "absence of significant safety findings". "Review of safety data" is left alone: it is a reason.
+SAFETY_AS_DATA = re.compile(
+    r"\b(sufficient|considerable|enough|additional|available|accumulated|cumulative)\s+safety\s+(data|information)\b"
+    r"|\bfollow(ed|ed up|-up)?\s+(up\s+)?for\s+safety\b"
+    r"|\b(obtain|collect|analy[sz]e|evaluate|gather)\w*\b[^.;*]{0,40}?\b(safety|efficacy)\b[^.;*]{0,30}?\b(data|future)\b"
+    r"|\b(safety|efficacy)\s+data\s+(has\s+been\s+|have\s+been\s+|was\s+|were\s+)?(generated|gathered|collected)\b"
+    r"|\bbased\s+on\s+the\s+safety\s+data\s+gathered\b"
+    r"|\b(absence|lack|free)\s+of\s+((any|significant|new|major|clinically|relevant|meaningful)\s+)*safety\s+(findings|concerns|signals|issues)\b"
+    r"|\bsafety\s+data\s+demonstrated\b[^.;]*"
+    r"|\bbeneficial\s+safety\s+information\b",
+    re.IGNORECASE,
+)
+
+
 def _clean(reason: str) -> str:
-    return NEGATED.sub(" ", BEFORE_ENROLLING.sub(" ", BOARDS.sub(" monitoring board ", reason)))
+    text = BOARDS.sub(" monitoring board ", reason)
+    text = SAFETY_AS_DATA.sub(" ", text)
+    return NEGATED.sub(" ", BEFORE_ENROLLING.sub(" ", text))
 
 
 def classify_why_stopped(reason: str | None) -> tuple[str, str]:
@@ -51,6 +69,8 @@ def _label_batch(batch: dict[str, str], allowed: list[str]) -> dict[str, str]:
     prompt = (
         "Each value is the reason a sponsor gave for stopping a clinical trial. Label each with exactly one of "
         f"{allowed}. Use 'other' when none fits (for example COVID-19 disruption or a protocol change). "
+        "Use 'safety' only when a safety problem or concern is why it stopped: enough safety data having been "
+        "collected, or an absence of safety findings, is not 'safety'. "
         "Return a JSON object mapping each key to its label.\n\n" + json.dumps(batch)
     )
     response = litellm.completion(
