@@ -53,28 +53,28 @@ The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need t
 - [ ] Trials researcher on 10 more briefs after the fixes
 
 **Agent shape: the Lead** (`ghost/pipeline.py`, `prompts/lead.md`, `prompts/lead_review.md`)
-- [ ] `uv run python scripts/run_samples.py` on all 5 samples: each under 240 s, none crash
+- [x] `uv run python scripts/run_samples.py` on all 5 samples: each under 240 s, none crash (97 to 140 s; vague 8 s)
 - [ ] `LIVE=1 uv run pytest` passes (clarify, refuse, can't-answer)
-- [ ] At least one run shows a second research round, for the README
+- [x] At least one run shows a second research round, for the README (the never-posted sample ran 2 rounds)
 - [ ] Tune the gate and the gap review where real runs go wrong
 
 **Ties it together:** the sample runs in `runs/` and the final submission (checklist below).
 
 ### Shreya: disclosures + the Citation Checker
-**Data lane B: SEC EDGAR** (`find_sponsor_cik`, `search_sec_filings`, `get_filing_excerpt`; `prompts/lane_disclosures.md`). The `sponsor_cik` and `filings` tables are **empty** because SEC blocks requests without a contact email in the User-Agent.
+**Data lane B: SEC EDGAR** (`find_sponsor_cik`, `search_sec_filings`, `get_filing_excerpt`; `prompts/lane_disclosures.md`). PR 14: 591 sponsors matched to a CIK, 2,053 `filings` rows, 770 stopped trials with an 8-K.
 - [ ] Agree on a team contact string and put it in `.env` as `SEC_USER_AGENT="Ghost Trials Autopsy name@columbia.edu"` (never in the repo)
-- [ ] Rebuild: `uv run python scripts/build_snapshot.py` (other sources are cached, so only the SEC steps are new)
-- [ ] Check 20 sponsor matches (`ghost/names.py`, threshold 92) and 10 rows of `filings`: right company, right trial, relevant `snippet`
+- [x] Rebuild: `uv run python scripts/build_snapshot.py` (other sources are cached, so only the SEC steps are new)
+- [x] Check 20 sponsor matches (`ghost/names.py`, threshold 92) and 10 rows of `filings`: right company, right trial, relevant `snippet`
 - [ ] Run the disclosures researcher on the three samples in `samples.json`; it should quote 8-K language exactly
 
 **Agent shape: the Citation Checker** (`check_citations` in `ghost/pipeline.py`, `prompts/checker.md`)
 - [ ] On 3 real reports, read what the Checker kept, fixed or removed. Does it catch a wrong date, a misquote, an overreaching word ("hid")?
-- [ ] 10 claims with planted errors against real records: how many does it catch?
-- [ ] Tune `prompts/checker.md`; `tests/test_citations.py` must still pass
+- [x] 10 claims with planted errors against real records: how many does it catch? (9 of 10, no false positives)
+- [x] Tune `prompts/checker.md`; `tests/test_citations.py` must still pass
 
 **Ties it together: the discrepancy finder** (the headline feature)
-- [ ] Find stopped trials where `why_stopped_category` differs from what the 8-K `snippet` says; add a `discrepancies` table to `scripts/build_snapshot.py`
-- [ ] Pick the README's discrepancy sample from it and hand-check it (Veru NCT05065411, "Business decision", is the first candidate)
+- [x] Find stopped trials where `why_stopped_category` differs from what the 8-K `snippet` says; add a `discrepancies` table to `scripts/build_snapshot.py`
+- [x] Pick the README's discrepancy sample from it and hand-check it: vTv NCT03980730 (Veru turned out to be consistent: its 8-Ks also give funding as the reason)
 - [ ] Bonus: `uv run python evals/build_dataset.py`, then `uv run inspect eval evals/task.py@gate` and `@facts --limit 10`; scores in the README
 
 ### Kshamaa: publications + the Writer + GCP
@@ -87,8 +87,8 @@ The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need t
 **Agent shape: the Writer** (`prompts/writer.md`, `ghost/report.py`) **and the page** (`index.html`)
 - [ ] On 3 real reports: is the Answer direct, one fact per Evidence claim, "What the data can't tell us" specific (not boilerplate)?
 - [ ] Timeline events right on the 3 samples (start, stop, results due, posted or never, 8-K, publication)
-- [ ] Phone width (375 px), light and dark mode, timeline labels don't overlap, `[n]` opens its source
-- [ ] Make it feel like ours (peer review scores originality)
+- [x] Phone width (375 px), light and dark mode, timeline labels don't overlap, `[n]` opens its source (PR 13)
+- [x] Make it feel like ours (peer review scores originality): hand-drawn lab notebook design (PR 13)
 
 **Ties it together: GCP on her course credits**
 - [ ] Share the project ID; give Rishika and Shreya **Vertex AI User** (and **Cloud Run Developer** to whoever helps deploy)
