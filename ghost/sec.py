@@ -13,6 +13,12 @@ TICKERS = "https://www.sec.gov/files/company_tickers.json"
 SUBMISSIONS = "https://data.sec.gov/submissions/CIK{cik}.json"
 FILING_WINDOW_DAYS = 120
 
+# Intervention names that are not the sponsor's drug, or too vague to search EDGAR with.
+NOT_A_DRUG = re.compile(
+    r"^(placebo|matching placebo|saline|vehicle|standard of care|soc|best supportive care|chemotherapy|"
+    r"investigator'?s? choice|non-steroidal ai|steroidal ai|aromatase inhibitor|combo|combination|"
+    r"control|sham|observation|usual care|treatment)$")
+
 
 def filing_windows(t: dict) -> list[tuple[dt.date, dt.date]]:
     """FILING_WINDOW_DAYS either side of each anchor date (primary completion, completion, last update),
@@ -27,6 +33,20 @@ def filing_windows(t: dict) -> list[tuple[dt.date, dt.date]]:
         else:
             windows.append([anchor - pad, anchor + pad])
     return [(start, end) for start, end in windows]
+
+
+def drug_terms(drug_names: list[str], limit: int = 3) -> list[str]:
+    """Searchable drug names: 'Enobosarm & Abemaciclib Combo' -> ['Enobosarm', 'Abemaciclib'].
+    Splits combinations, drops doses and words like placebo, keeps the registry's order."""
+    terms: list[str] = []
+    for name in drug_names:
+        name = re.sub(r"\([^)]*\)", lambda m: " , " + m.group(0)[1:-1] + " , ", name)  # '(exemestane ...)' is its own part
+        for part in re.split(r"\s*(?:&|\+|/|,|;|\bwith or without\b|\bwith\b|\bplus\b|\band\b|\bor\b|\bcombo\b)\s*", name, flags=re.I):
+            part = re.sub(r"\b\d+(\.\d+)?\s*(mg|mcg|µg|ug|g|ml|mg/kg|iu|%)\b.*$", "", part, flags=re.I).strip(" .-")
+            part = re.sub(r"\b(prefilled syringe|tablets?|capsules?|injection|oral|iv|sc|low dose|high dose)\b", "", part, flags=re.I).strip(" .-")
+            if len(part) >= 4 and not NOT_A_DRUG.match(part.lower()) and part.lower() not in (x.lower() for x in terms):
+                terms.append(part)
+    return terms[:limit]
 
 
 def plain_text(document: str) -> str:
