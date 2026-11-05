@@ -73,4 +73,4 @@ def test_hand_checked_rows_are_complete_and_neutral():
     for row in d.HAND_CHECKED:
         assert re.fullmatch(r"NCT\d{8}", row["nct_id"]) and re.fullmatch(r"\d{10}-\d{2}-\d{6}", row["accession"])
         assert row["filing_url"].startswith("https://www.sec.gov/Archives/") and row["label"] in ("discrepancy", "consistent")
-        assert not banned.search(row["rule"]) and "—" not in row["sec_quote"] + row["rule"]
+        assert not banned.search(row["rule"]) and "\u2014" not in row["sec_quote"] + row["rule"]
