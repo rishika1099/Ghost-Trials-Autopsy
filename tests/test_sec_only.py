@@ -28,7 +28,7 @@ SUBMISSIONS = {"sic": "2834", "filings": {"recent": {"form": ["8-K", "10-Q"], "f
 NO_ENTITIES = {"hits": {"hits": []}}
 EFTS_HIT = {"hits": {"hits": [{"_id": "0001863990-22-000099:ex99.htm",
                                "_source": {"form": "8-K", "file_date": "2022-11-10"}}]}}
-DOCUMENT = "<html><body><p>Veru announced that the Phase 3 trial of sabizabulin (NCT05065411) will stop.</p></body></html>"
+DOCUMENT = "<html><body><p>Veru announced that the Phase 3 trial of enobosarm (NCT05065411) will stop.</p></body></html>"
 
 
 def fake_get(url, params=None, *, as_json=True, use_cache=True):
@@ -55,8 +55,8 @@ def make_snapshot(path: Path) -> None:
         why_stopped VARCHAR, start_date DATE, primary_completion_date DATE, completion_date DATE, enrollment INTEGER,
         has_results BOOLEAN, results_first_post_date DATE, last_update_date DATE)""")
     db.executemany("INSERT INTO trials VALUES (" + ",".join("?" * 17) + ")", [
-        ["NCT05065411", "Sabizabulin in COVID-19", "Veru Inc.", "INDUSTRY", "PHASE3", ["COVID-19"], ["sabizabulin", "placebo"],
-         ["sabizabulin"], "TERMINATED", "Business decision", dt.date(2021, 5, 1), dt.date(2022, 6, 1), dt.date(2022, 9, 1),
+        ["NCT05065411", "Enobosarm and abemaciclib in breast cancer", "Veru Inc.", "INDUSTRY", "PHASE3", ["Breast Cancer"],
+         ["Enobosarm & Abemaciclib Combo"], ["Enobosarm & Abemaciclib Combo"], "TERMINATED", "Business decision", dt.date(2021, 5, 1), dt.date(2022, 6, 1), dt.date(2022, 9, 1),
          204, False, None, dt.date(2022, 12, 1)],
         ["NCT00000002", "A completed trial", "Private Pharma GmbH", "INDUSTRY", "PHASE2", ["Asthma"], ["drugx"], ["drugx"],
          "COMPLETED", None, dt.date(2016, 1, 1), dt.date(2017, 1, 1), dt.date(2017, 3, 1), 50, True, dt.date(2018, 1, 1),
@@ -112,10 +112,11 @@ def test_sec_only_builds_sec_tables_and_meta(snapshot):
     db = duckdb.connect(str(db_path), read_only=True)
     assert db.execute("SELECT sponsor, cik, ticker, match_method, sic, files_8k FROM sponsor_cik").fetchall() == [
         ("Veru Inc.", "0001863990", "VERU", "exact_core", "2834", True)]
-    filings = db.execute("SELECT nct_id, accession, form, filed_date, snippet FROM filings").fetchall()
+    filings = db.execute("SELECT nct_id, accession, form, filed_date, snippet, relevance, matched_terms FROM filings").fetchall()
     assert len(filings) == 1
-    nct, accession, form, filed, snippet = filings[0]
-    assert (nct, accession, form, filed) == ("NCT05065411", "0001863990-22-000099", "8-K", dt.date(2022, 11, 10))
+    nct, accession, form, filed, snippet, relevance, terms = filings[0]
+    assert (nct, accession, form, filed, relevance) == ("NCT05065411", "0001863990-22-000099", "8-K", dt.date(2022, 11, 10), "nct_id")
+    assert terms == ["NCT05065411", "Enobosarm", "Abemaciclib"]
     assert "NCT05065411" in snippet and "<" not in snippet
     meta = dict(db.execute("SELECT table_name, row_count FROM snapshot_meta").fetchall())
     assert meta == {"trials": 2, "trial_derived": 2, "sponsor_cik": 1, "filings": 1, "publications": 1}
