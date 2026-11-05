@@ -17,7 +17,6 @@ Steps (each one is cached on disk under .cache/http, so a re-run is fast):
 
 import argparse
 import datetime as dt
-import html
 import json
 import re
 import shutil
@@ -33,14 +32,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from ghost import http  # noqa: E402
 from ghost.config import DATA_DIR, DB_PATH, MAPPINGS_PATH, SEC_USER_AGENT  # noqa: E402
 from ghost.classify import classify_why_stopped, llm_classify  # noqa: E402
-from ghost.names import core_key, match_sponsors, normalize  # noqa: E402
+from ghost.names import match_sponsors  # noqa: E402
+from ghost.sec import (EFTS, FILING_WINDOW_DAYS, TICKERS, edgar_entities, filing_windows,  # noqa: E402,F401
+                       plain_text, sec_profile)
 
 CTGOV = "https://clinicaltrials.gov/api/v2/studies"
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 EUROPEPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
-EFTS = "https://efts.sec.gov/LATEST/search-index"
-TICKERS = "https://www.sec.gov/files/company_tickers.json"
-SUBMISSIONS = "https://data.sec.gov/submissions/CIK{cik}.json"
 
 FILTER = (
     "AREA[StudyType]INTERVENTIONAL AND AREA[LeadSponsorClass]INDUSTRY AND "
@@ -53,7 +51,6 @@ FIELDS = ",".join([
     "PrimaryCompletionDate", "CompletionDate", "EnrollmentCount", "HasResults",
     "ResultsFirstPostDate", "LastUpdatePostDate", "ReferencePMID", "ReferenceType",
 ])
-FILING_WINDOW_DAYS = 120
 MAX_FILINGS_PER_TRIAL = 3
 STOPPED = ("TERMINATED", "WITHDRAWN", "SUSPENDED")
 
@@ -164,32 +161,6 @@ def derive(trials: list[dict], today: dt.date, use_llm: bool) -> list[dict]:
 # --- 3. Sponsor to CIK ---
 
 
-def sec_profile(cik: str) -> dict:
-    """SEC's own record for a filer: industry code and whether it files 8-Ks (foreign issuers file 6-Ks)."""
-    try:
-        record = http.get(SUBMISSIONS.format(cik=cik)) or {}
-    except http.SourceError:
-        return {"sic": None, "files_8k": None, "last_8k": ""}
-    recent = record.get("filings", {}).get("recent", {})
-    dates_8k = [d for d, form in zip(recent.get("filingDate", []), recent.get("form", [])) if form == "8-K"]
-    return {"sic": record.get("sic") or None, "files_8k": bool(dates_8k), "last_8k": max(dates_8k, default="")}
-
-
-def edgar_entities(sponsor: str) -> dict[str, tuple[str, str]]:
-    """EDGAR's company-name search, which also knows delisted filers. Returns {title: (cik, '')} for hits whose
-    core name is the sponsor's."""
-    try:
-        found = http.get(EFTS, {"keysTyped": normalize(sponsor)})  # every word must appear, so drop 'Inc.', 'LLC'
-    except http.SourceError:
-        return {}
-    entities: dict[str, tuple[str, str]] = {}
-    for hit in (found or {}).get("hits", {}).get("hits", [])[:10]:
-        title = hit.get("_source", {}).get("entity")
-        if title and core_key(title) == core_key(sponsor):
-            entities.setdefault(title, (str(hit["_id"]).zfill(10), ""))  # EDGAR ranks the active filer first
-    return entities
-
-
 def sponsor_ciks(sponsors: set[str], lookup_delisted: set[str] = frozenset()) -> list[dict]:
     """Match sponsors to SEC filers: listed companies first, then EDGAR's name search for the sponsors in
     lookup_delisted that are still unmatched (companies that have since been acquired, renamed or delisted)."""
@@ -241,21 +212,6 @@ RELEVANCE = ("nct_id", "drug_and_stop", "drug_and_condition", "drug_only")
 MAX_CANDIDATES_PER_TRIAL = 8  # documents read per trial before keeping the best MAX_FILINGS_PER_TRIAL
 
 
-def filing_windows(t: dict) -> list[tuple[dt.date, dt.date]]:
-    """FILING_WINDOW_DAYS either side of each anchor date (primary completion, completion, last update),
-    merged where they overlap. One window from the earliest to the latest date spanned years when a registry
-    record was updated long after the trial stopped."""
-    anchors = sorted({d for d in (t["primary_completion_date"], t["completion_date"], t["last_update_date"]) if d})
-    pad = dt.timedelta(days=FILING_WINDOW_DAYS)
-    windows: list[list[dt.date]] = []
-    for anchor in anchors:
-        if windows and anchor - pad <= windows[-1][1]:
-            windows[-1][1] = anchor + pad
-        else:
-            windows.append([anchor - pad, anchor + pad])
-    return [(start, end) for start, end in windows]
-
-
 def drug_terms(drug_names: list[str], limit: int = 3) -> list[str]:
     """Searchable drug names: 'Enobosarm & Abemaciclib Combo' -> ['Enobosarm', 'Abemaciclib'].
     Splits combinations, drops doses and words like placebo, keeps the registry's order."""
@@ -268,13 +224,6 @@ def drug_terms(drug_names: list[str], limit: int = 3) -> list[str]:
             if len(part) >= 4 and not NOT_A_DRUG.match(part.lower()) and part.lower() not in (x.lower() for x in terms):
                 terms.append(part)
     return terms[:limit]
-
-
-def plain_text(document: str) -> str:
-    """Filing HTML to plain text: tags dropped, entities decoded ('&#8226;' -> '•'), whitespace collapsed."""
-    text = re.sub(r"<[^>]+>", " ", document)
-    text = html.unescape(text).replace("\xa0", " ")
-    return re.sub(r"\s+", " ", text).strip()
 
 
 def condition_words(conditions: list[str]) -> list[str]:
