@@ -106,3 +106,13 @@ async def test_rule_flag_overrides_a_model_that_says_supported(monkeypatch):
     monkeypatch.setattr(pipeline, "run_checker", lenient)
     checked, stats = await pipeline.check_citations(state, report)
     assert checked.answer == [] and "date 2019-03-01" in stats["decisions"][0]["reason"]
+
+
+def test_rules_flag_sentences_about_our_own_tables():
+    from ghost.citecheck import check_claim
+    assert check_claim("The database filings table contains zero rows.", [])
+    assert check_claim("The database snapshot contains zero SEC corporate filings to cross-examine.", [])
+    assert not check_claim("No 8-K found from 2023-06-21 to 2024-06-25 for CIK 0000863894.",
+                           [{"title": "No 8-K found from 2023-06-21 to 2024-06-25 for CIK 0000863894", "data": {}}])
+    assert not check_claim("The trial enrolled zero participants.", [])
+    assert not check_claim("The snapshot shows no results posted for NCT04903327.", [])
