@@ -33,8 +33,8 @@ from ghost import http  # noqa: E402
 from ghost.config import DATA_DIR, DB_PATH, MAPPINGS_PATH, SEC_USER_AGENT  # noqa: E402
 from ghost.classify import classify_why_stopped, llm_classify  # noqa: E402
 from ghost.names import match_sponsors  # noqa: E402
-from ghost.sec import (EFTS, FILING_WINDOW_DAYS, TICKERS, edgar_entities, filing_windows,  # noqa: E402,F401
-                       plain_text, sec_profile)
+from ghost.sec import (EFTS, FILING_WINDOW_DAYS, TICKERS, drug_terms, edgar_entities,  # noqa: E402,F401
+                       filing_windows, plain_text, sec_profile)
 
 CTGOV = "https://clinicaltrials.gov/api/v2/studies"
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
@@ -194,11 +194,6 @@ def sponsor_ciks(sponsors: set[str], lookup_delisted: set[str] = frozenset()) ->
 
 # --- 4. Filings ---
 
-# Intervention names that are not the sponsor's drug, or too vague to search EDGAR with.
-NOT_A_DRUG = re.compile(
-    r"^(placebo|matching placebo|saline|vehicle|standard of care|soc|best supportive care|chemotherapy|"
-    r"investigator'?s? choice|non-steroidal ai|steroidal ai|aromatase inhibitor|combo|combination|"
-    r"control|sham|observation|usual care|treatment)$")
 # Words near a drug name that make a passage about a trial's fate rather than a sales table or pipeline chart.
 STOP_WORDS = re.compile(
     r"\b(terminat\w*|discontinu\w*|halt\w*|stop(?:ped|ping|s)?|suspen\w*|paus\w*|wind(?:ing)? down|futility|"
@@ -210,20 +205,6 @@ BOILERPLATE = re.compile(r"forward-looking|safe harbor|risks and uncertainties|w
 MAX_PASSAGES = 200  # drug mentions scored per document
 RELEVANCE = ("nct_id", "drug_and_stop", "drug_and_condition", "drug_only")
 MAX_CANDIDATES_PER_TRIAL = 8  # documents read per trial before keeping the best MAX_FILINGS_PER_TRIAL
-
-
-def drug_terms(drug_names: list[str], limit: int = 3) -> list[str]:
-    """Searchable drug names: 'Enobosarm & Abemaciclib Combo' -> ['Enobosarm', 'Abemaciclib'].
-    Splits combinations, drops doses and words like placebo, keeps the registry's order."""
-    terms: list[str] = []
-    for name in drug_names:
-        name = re.sub(r"\([^)]*\)", lambda m: " , " + m.group(0)[1:-1] + " , ", name)  # '(exemestane ...)' is its own part
-        for part in re.split(r"\s*(?:&|\+|/|,|;|\bwith or without\b|\bwith\b|\bplus\b|\band\b|\bor\b|\bcombo\b)\s*", name, flags=re.I):
-            part = re.sub(r"\b\d+(\.\d+)?\s*(mg|mcg|µg|ug|g|ml|mg/kg|iu|%)\b.*$", "", part, flags=re.I).strip(" .-")
-            part = re.sub(r"\b(prefilled syringe|tablets?|capsules?|injection|oral|iv|sc|low dose|high dose)\b", "", part, flags=re.I).strip(" .-")
-            if len(part) >= 4 and not NOT_A_DRUG.match(part.lower()) and part.lower() not in (x.lower() for x in terms):
-                terms.append(part)
-    return terms[:limit]
 
 
 def condition_words(conditions: list[str]) -> list[str]:
