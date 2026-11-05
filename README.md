@@ -48,6 +48,104 @@ It combines the three course starters: the deep research pattern from `wikipedia
 
 Each sample is in `samples.json`. `uv run python scripts/run_samples.py` reruns them into `runs/`, and `uv run python scripts/baseline.py` asks the same model (`vertex_ai/gemini-3.5-flash`) the same question with no tools and no system prompt, into `baseline/`.
 
+### Discrepancy: vTv Therapeutics Elevage (NCT03980730)
+
+**Query:** "vTv Therapeutics terminated its phase 2 Elevage trial of azeliragon (NCT03980730). What reason did it give the registry, what did it tell investors, and do the two match?"
+
+**Expected answer (checked by hand against the live registry, the snapshot and the 8-K text on 2026-11-05):**
+
+- Terminated. The registry reason is "for business reasons" (category `business/strategic`).
+- Started 2019-06-27, primary completion 2020-12-01, completion 2021-01-29, 43 people enrolled.
+- Results were posted on ClinicalTrials.gov on 2022-01-21, 51 days after our approximate due date of 2021-12-01.
+- vTv (CIK 0001641489) told investors in three 8-Ks near the stop:
+  - 2020-11-05: "Following our decision to conclude enrollment in the Elevage Study at the end of September, we look forward to announcing topline results from this phase 2 study of azeliragon in December". No reason given.
+  - 2020-11-24: topline results from the "ongoing Elevage Study" expected in December 2020. No reason given.
+  - 2021-02-24: "On December 15, 2020, vTv announced that the phase 2 Elevage Study of azeliragon did not meet its primary objective." It also says vTv "has discontinued development of azeliragon for Alzheimer’s disease".
+- **They do not match.** The registry gives a business reason; the 8-K that names the trial gives an efficacy result. That is a discrepancy between sources, not proof that anyone meant to mislead. It is one of 7 hand-checked rows in the `discrepancies` table (`decided_by = 'hand_checked'`, strength 9 of 10).
+- No results paper: the 5 PubMed articles linked to the NCT ID are reviews from 2025 and 2026 found through Europe PMC mentions.
+
+**Source:**
+
+- `https://clinicaltrials.gov/api/v2/studies/NCT03980730` (status module, `whyStopped`, `hasResults`)
+- tables `trials` and `trial_derived`, row `nct_id = 'NCT03980730'`
+- table `sponsor_cik`, `sponsor = 'vTv Therapeutics'` (CIK 0001641489, `exact_core` match)
+- table `filings` and table `discrepancies`, `nct_id = 'NCT03980730'`: EDGAR accessions 0001564590-20-051429, 0001564590-20-055077, 0001564590-21-008154
+- 8-K exhibit: `https://www.sec.gov/Archives/edgar/data/1641489/000156459021008154/vtvt-ex991_6.htm`
+- the disclosures researcher alone on this sample, with every quote checked word for word: `runs/disclosures_s1_discrepancy.json` (`uv run python scripts/run_disclosures.py s1`)
+
+**What the no-tools model says is wrong:** it gives the registry reason as "terminated early due to the COVID-19 pandemic" (the registry says "for business reasons"), says vTv halted enrollment in May 2020 because of COVID-19 (the 8-K of 2020-11-05 says enrollment concluded at the end of September and gives no reason), and concludes "Yes, they match". It does get the efficacy result and the discontinuation right.
+
+<details>
+<summary>Same model, no tools and no system prompt (<code>baseline/s1_discrepancy.md</code>), verbatim</summary>
+
+Based on the public disclosures, SEC filings, and the ClinicalTrials.gov registry for the Phase 2 Elevage trial of azeliragon (NCT03980730), here is how the reasons provided by vTv Therapeutics compare:
+
+### 1. The Reason Given to the Registry (ClinicalTrials.gov)
+On ClinicalTrials.gov, the official status of the Elevage trial is listed as **Terminated**. 
+* **The official reason provided in the registry is:** *"The study was terminated early due to the COVID-19 pandemic."*
+
+### 2. The Reason Told to Investors
+vTv Therapeutics provided a two-step explanation to its investors through press releases and SEC filings (such as their 10-Q and 10-K filings):
+* **May 2020 (Operational Decision):** vTv announced to investors that it was halting enrollment in the Elevage study early due to the challenges of the COVID-19 pandemic (specifically citing patient safety concerns and disruptions at clinical trial sites). Because enrollment was stopped early, the company decided to clean the database and perform an early/interim analysis on the patient cohort that had already been randomized (approximately 43 patients out of the originally planned 110).
+* **December 2020 (Clinical Outcome):** vTv announced the top-line results from this shortened trial. They informed investors that azeliragon **did not meet its primary objective** of demonstrating a statistically significant improvement in cognitive function (measured by ADAS-Cog14) compared to the placebo. Consequently, they discontinued the development of azeliragon for Alzheimer’s disease.
+
+### 3. Do the Two Match?
+**Yes, they match.** 
+
+There is no material contradiction between the registry and investor communications:
+* **The Registry** lists the *operational* reason the trial was stopped short of its original design: the COVID-19 pandemic prevented full enrollment. 
+* **Investor Communications** provided the same operational reason (COVID-19) for stopping enrollment in mid-2020, but added the *clinical* outcome (the drug failed to show efficacy in the patients who did complete the trial), which explained why the program was permanently shelved rather than paused or restarted post-pandemic.
+
+</details>
+
+<details>
+<summary>Our agent (<code>runs/s1_discrepancy_latest.md</code>, full trace in <code>runs/20261105-1208_s1_discrepancy.json</code>), verbatim</summary>
+
+## Answer
+The records do not show whether vTv Therapeutics intended to mislead anyone by using different terms, but they do reveal a discrepancy between the registry and investor disclosures. [1][2] The registry says the trial was terminated for business reasons. [1] The 8-K says the phase 2 Elevage study did not meet its primary objective, and development of azeliragon for Alzheimer's disease was discontinued. [2]
+
+## Timeline
+Trial NCT03980730 started on 2019-06-27 and reached primary completion on 2020-12-01. vTv Therapeutics disclosed the end of enrollment in an 8-K on 2020-11-05, and later reported the trial's failure and discontinuation in an 8-K on 2021-02-24. Results were due on 2021-12-01 and posted on 2022-01-21, and no publications in the linked PubMed records report the trial results.
+
+## Evidence
+- The clinical trials registry lists the status of trial NCT03980730 as terminated with 43 patients enrolled. [1]
+- The registry lists the reason for termination as for business reasons. [1]
+- The 8-K filed on November 5, 2020, says the company decided to conclude enrollment in the study at the end of September. [3]
+- The 8-K filed on February 24, 2021, says the Elevage study did not meet its primary objective and the company discontinued development of azeliragon for Alzheimer's disease. [2]
+- Trial NCT03980730 started on 2019-06-27, reached primary completion on 2020-12-01, and completed on 2021-01-29. [1]
+- The registry says the results were due on 2021-12-01 and were posted on 2022-01-21, making them 51 days late. [1]
+- The Drugs@FDA database contains no applications or approvals for azeliragon. [4]
+- PubMed lists five reviews mentioning the trial or drug between 2025 and 2026, but none of these articles report the specific trial results or explain the termination. [5][6][7][8][9]
+
+## Where the stories differ
+- There is a discrepancy between the registry and investor communications regarding why the research stopped. [1][2]
+- The registry says the trial was terminated for business reasons, which is classified as business or strategic. [1]
+- The 8-K says the trial did not meet its primary objective and development was discontinued, which represents an efficacy or scientific failure. [2]
+
+## What the data can't tell us
+- We cannot tell the real reason for termination beyond the stated text in the registry or the investor filings.
+- A discrepancy between these sources is not proof of intent to deceive or mislead.
+- The results due date is an approximation of the FDAAA deadline, which only applies to applicable clinical trials, so this delay is not proof that the sponsor broke the law.
+- Results published in conference abstracts, non-indexed journals, or company websites may have been missed.
+- We also cannot tell if the research stopped early because of the time budget.
+
+## Sources
+1. Study of Azeliragon in Patients With Mild Alzheimer's Disease and Impaired Glucose Tolerance. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT03980730
+2. SEC 8-K 0001564590-21-008154. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1641489/000156459021008154/vtvt-ex991_6.htm
+3. SEC 8-K 0001564590-20-051429. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1641489/000156459020051429/vtvt-ex991_6.htm
+4. Drugs@FDA search for azeliragon: no application. Drugs@FDA application. https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=BasicSearch.process&searchterm=azeliragon
+5. Conventional and Emerging Drug Targeting Sites in Alzheimer's Disease and the Role of Translational Informatics in its Diagnosis and Management.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/40207764/
+6. Revisiting the therapeutic landscape of tauopathies: assessing the current pipeline and clinical trials.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/40462159/
+7. Extracellular Matrix Signaling Cues: Biological Functions, Diseases, and Therapeutic Targets.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/40686923/
+8. Tau-Targeted Therapeutic Strategies: Mechanistic Targets, Clinical Pipelines, and Analysis of Failures.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/41090735/
+9. Deconstructing the RAGE signaling maze: the molecular key to opening a new dimension of ovarian anti-aging.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/42009954/
+
+_Snapshot date: 2026-11-05. Research rounds: 1. citations_checked: 20, removed: 0._
+
+_83 s, 26 tool calls_
+
+</details>
+
 ### Never posted results: Sorrento COVI-MSC (NCT04903327)
 
 **Query:** "Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?"
