@@ -12,10 +12,11 @@ import hashlib
 import json
 import re
 import xml.etree.ElementTree as ET
+from urllib.parse import quote
 
 from agents import RunContextWrapper, function_tool
 
-from ghost import db, http
+from ghost import db, http, sec
 from ghost.names import match_sponsors
 from ghost.state import RunState
 
@@ -229,42 +230,76 @@ def get_fda_approvals(ctx: RunContextWrapper[RunState], drug_name: str) -> str:
 # --- Lane B: disclosures ---
 
 
+def _live_sponsor_match(sponsor_name: str) -> list[dict]:
+    """The snapshot builder's matching, live: SEC's listed companies, then EDGAR's name search (delisted filers),
+    each candidate checked against its SEC industry code."""
+    tickers = http.get(TICKERS)
+    companies = {}
+    for row in tickers.values():
+        companies.setdefault(row["title"], (str(row["cik_str"]).zfill(10), row["ticker"]))
+    profiles: dict[str, dict] = {}
+
+    def profile(cik: str) -> dict:
+        if cik not in profiles:
+            profiles[cik] = sec.sec_profile(cik)
+        return profiles[cik]
+
+    rows = match_sponsors({sponsor_name}, companies, lambda cik: profile(cik)["sic"])
+    if not rows:
+        entities = dict(sorted(sec.edgar_entities(sponsor_name).items(), key=lambda e: profile(e[1][0])["last_8k"], reverse=True))
+        rows = [{**r, "ticker": None, "match_method": "edgar_name"}
+                for r in match_sponsors({sponsor_name}, entities, lambda cik: profile(cik)["sic"])]
+    for row in rows:
+        row.update({k: v for k, v in profile(row["cik"]).items() if k != "last_8k"})
+    return rows
+
+
+def no_sec_filer(state: RunState, sponsor_name: str, searched: list[str]) -> str:
+    """A citable record that no SEC filer matches the sponsor."""
+    url = f"https://www.sec.gov/cgi-bin/browse-edgar?company={quote(sponsor_name)}&type=8-K"
+    return _nothing_found(state, "cik", sponsor_name, f"No SEC filer found for {sponsor_name}", url,
+                          {"sponsor_name": sponsor_name, "searched": searched})
+
+
+def _cik_record(state: RunState, row: dict) -> dict:
+    url = f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={row['cik']}"
+    row = {**row, "source_url": url}
+    if row.get("files_8k") is False:
+        row["note"] = "This filer does not file 8-Ks (a foreign private issuer reports on 6-K), so no 8-K is expected."
+    row["evidence_id"] = state.store.add(f"cik:{row['cik']}", f"{row['company']} (SEC CIK {row['cik']})", url, row)
+    return row
+
+
 @function_tool
 def find_sponsor_cik(ctx: RunContextWrapper[RunState], sponsor_name: str) -> str:
-    """Map a sponsor name to its SEC CIK. Checks the snapshot first, then SEC's list of listed companies.
-    No match usually means the sponsor is private, which means no SEC filings to check.
+    """Map a sponsor name to its SEC CIK. Checks the snapshot first, then SEC's listed companies and EDGAR's
+    company search (which also finds delisted filers). No match means no SEC filer was found: the sponsor is
+    private, foreign without a US listing, or renamed beyond what the search knows.
 
     Args:
         sponsor_name: The sponsor as registered, e.g. 'Acme Therapeutics, Inc.'.
     """
     rows = []
+    searched = []
     try:
         result = db.run_select(
             f"SELECT * FROM sponsor_cik WHERE sponsor ILIKE '%{sponsor_name.replace(chr(39), chr(39) * 2)}%' ORDER BY match_score DESC")
         rows = result.get("rows") or []
+        searched.append("snapshot sponsor_cik table")
     except db.SnapshotMissing:
         pass
     if not rows:
         try:
-            tickers = http.get(TICKERS)
+            rows = _live_sponsor_match(sponsor_name)
+            searched += ["SEC company_tickers.json (listed companies)", "EDGAR company name search (current names)"]
         except http.SourceError as e:
-            return _error(f"Not in the snapshot, and the live SEC lookup failed: {e}")
-        companies = {}
-        for row in tickers.values():
-            companies.setdefault(row["title"], (str(row["cik_str"]).zfill(10), row["ticker"]))
-        rows = match_sponsors({sponsor_name}, companies)
+            return _error(f"Not in the snapshot, and the live SEC lookup failed: {e}. Do not guess a CIK.")
     if not rows:
-        evidence_id = _nothing_found(ctx.context, "cik", sponsor_name, f"SEC company search for {sponsor_name}: no listed company",
-                                     "https://www.sec.gov/files/company_tickers.json", {"sponsor_name": sponsor_name, "searched": "SEC company_tickers.json"})
+        evidence_id = no_sec_filer(ctx.context, sponsor_name, searched)
         return _json({"sponsor_name": sponsor_name, "matches": [], "evidence_id": evidence_id,
-                      "note": f"No listed company matches this sponsor. It is probably private or delisted, so it has no SEC filings we can check. Cite {evidence_id} for that."})
-    matches = []
-    for row in rows[:3]:
-        url = f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={row['cik']}"
-        row = {**row, "source_url": url}
-        row["evidence_id"] = ctx.context.store.add(f"cik:{row['cik']}", f"{row['company']} (SEC CIK {row['cik']})", url, row)
-        matches.append(row)
-    return _json({"sponsor_name": sponsor_name, "matches": matches})
+                      "note": f"No SEC filer found for {sponsor_name}. Cite {evidence_id} for that, and do not search filings "
+                              "with a guessed CIK. It may be private, foreign without a US listing, or renamed."})
+    return _json({"sponsor_name": sponsor_name, "matches": [_cik_record(ctx.context, row) for row in rows[:3]]})
 
 
 @function_tool
