@@ -4,7 +4,8 @@ They catch three kinds of error with certainty, so the result does not depend on
 - a quote that is not in the cited records, character for character (case, curly quotes and spacing aside);
 - a date that is in none of the cited records;
 - an overreaching word ("hid", "concealed", "misled", "broke the law"): a mismatch between sources is a
-  discrepancy, never proof of intent or illegality.
+  discrepancy, never proof of intent or illegality;
+- a sentence about our own tables ("the filings table contains zero rows") instead of what was searched.
 Anything subtler (a wrong status, a misread reason, a wrong number) is left to the model pass.
 """
 
@@ -23,6 +24,11 @@ OVERREACH = re.compile(
     r"\b(hid|hide|hides|hiding|hidden|conceal\w*|cover(?:ed|ing)?[- ]up|mislead\w*|misled|lied|lies|lying|deceiv\w*|"
     r"deception|deceptive|fraud\w*|illegal\w*|unlawful\w*|broke the law|break(?:s|ing)? the law|violat\w* (?:the )?law|"
     r"withh[eo]ld\w*|buried|bury|suppress\w*|secretly|covert\w*|whitewash\w*)\b", re.I)
+# "The filings table contains zero rows" describes our database, not the world. A report says what was searched
+# and not found ("No 8-K found from <date> to <date> for CIK <cik>"), using the tool's not-found record.
+PLUMBING = re.compile(
+    r"\b(?:table|database|snapshot|dataset|query|sql)\b[^.;]{0,60}?\b(?:zero|no|0) (?:[\w-]+ ){0,3}?(?:rows|records|entries|filings)\b|"
+    r"\b(?:table|database|snapshot)\b[^.;]{0,40}?\b(?:is|was) empty\b|\b(?:zero|0) rows\b", re.I)
 # "A mismatch is not evidence that the company hid anything" is allowed: the word is negated.
 NEGATION_BEFORE = re.compile(r"\b(not|no|never|cannot|can't|without|nor)\b[^.;]{0,50}$", re.I)
 
@@ -79,8 +85,14 @@ def overreach_problems(claim: str) -> list[str]:
     return problems
 
 
+def plumbing_problems(claim: str) -> list[str]:
+    if PLUMBING.search(claim):
+        return ["describes our own tables ('zero rows'); say what was searched and not found, from the tool's not-found record"]
+    return []
+
+
 def check_claim(claim: str, records: list[dict]) -> list[str]:
     """Problems with one claim against the records it cites. Empty means the rules found nothing wrong."""
     pool = record_text(records)
     raw = " ".join([str(r.get("title") or "") + " " + json.dumps(r.get("data") or {}, default=str, ensure_ascii=False) for r in records])
-    return quote_problems(claim, pool) + date_problems(claim, dates_in(raw)) + overreach_problems(claim)
+    return quote_problems(claim, pool) + date_problems(claim, dates_in(raw)) + overreach_problems(claim) + plumbing_problems(claim)
