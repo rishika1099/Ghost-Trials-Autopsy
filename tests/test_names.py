@@ -84,3 +84,11 @@ def test_industries_must_agree():
     assert not compatible("Arena Pharmaceuticals", "Arena Group Holdings")
     assert not compatible("Cogna Technology Solutions LLC", "Cogna Therapeutics")
     assert compatible("Pacira Pharmaceuticals, Inc", "Pacira BioSciences, Inc.")
+
+
+def test_override_follows_a_renamed_filer():
+    # The s3 sample sponsor: CIK 1604191 has been AzurRx, First Wave BioPharma, Entero Therapeutics and now
+    # GridAI Technologies (an electric-services SIC), so neither the ticker list nor EDGAR's name search finds it.
+    rows = match_sponsors({"Entero Therapeutics", "AzurRx SAS", "First Wave Bio, Inc."}, COMPANIES, SIC.get)
+    assert {r["sponsor"]: r["cik"] for r in rows} == {
+        "Entero Therapeutics": "0001604191", "AzurRx SAS": "0001604191", "First Wave Bio, Inc.": "0001604191"}
