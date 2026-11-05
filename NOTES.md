@@ -23,8 +23,8 @@ Working notes for the team: how the three course starters were combined, where w
 
 | Rubric | Status | Evidence |
 |---|---|---|
-| README and valid `submission.json` | in progress | `README.md`, `submission.json` (deploy_url to fill after deploy) |
-| Deployed and reachable | to do | `/health`; `bash tests/test_deploy.sh <url>` |
+| README and valid `submission.json` | in progress | `README.md`, `submission.json` (deploy_url filled; README sample write-ups for s1 and s3 still to do) |
+| Deployed and reachable | in progress | https://ghost-trials-autopsy-895402809785.us-central1.run.app (Cloud Run, us-central1, 600 s timeout, 2 GiB); `/health` 200; `bash tests/test_deploy.sh` PASS in 169 s on the never-posted sample. To do: continuous deploy from GitHub, `min-instances=1` before grading, `SEC_USER_AGENT` secret |
 | Clear purpose | done | page header; README intro |
 | Answers its research questions correctly | in progress | `samples.json`, `runs/*_latest.md`; never-posted sample (NCT04903327) hand-checked in README; `scripts/run_trials.py`: 10 trials briefs, 0 problems; discrepancy and sponsor samples still to write up |
 | Unique dataset or problem | done | joined trials + 8-K + publications snapshot (`data/autopsy.duckdb`); sign-up sheet entry |
