@@ -70,3 +70,7 @@ def test_best_snippet_prefers_the_passage_naming_both_drugs_of_a_combination():
            "<p>The ENABLAR-2 trial of enobosarm and abemaciclib was stopped subject to funding.</p>")
     snippet, relevance = build_snapshot.best_snippet(doc, "NCT05065411", ["Enobosarm", "Abemaciclib"], [])
     assert relevance == "drug_and_stop" and "ENABLAR-2" in snippet
+
+
+def test_drug_terms_drop_comparator_phrases_with_extra_words():
+    assert build_snapshot.drug_terms(["LYS228", "Standard of care therapy", "Placebo Oral Tablet"]) == ["LYS228"]
