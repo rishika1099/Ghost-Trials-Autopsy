@@ -79,9 +79,9 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 /* ask */
 .ask-card { position: relative; background: var(--card); box-shadow: var(--shadow); padding: 20px 22px 16px; margin: 4px 0 26px; }
 .ask-card label { display: block; font: 700 20.5px "Shantell Sans", cursive; margin-bottom: 4px; }
-.bar { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
+.bar { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
 .bar textarea { flex: 1 1 280px; min-width: 0; border: 0; border-bottom: 2px solid var(--ink); outline: 0; background: transparent; color: var(--ink); resize: none;
-  font: 20.5px/1.3 "Shantell Sans", cursive; padding: 6px 2px; height: 50px; }
+  font: 20.5px/1.3 "Shantell Sans", cursive; padding: 6px 2px; height: 50px; min-height: 50px; overflow: hidden; }
 @media (max-width: 640px) { .bar textarea { font-size: 16px; } }
 .bar textarea::placeholder { color: var(--pencil); opacity: .8; }
 .bar button { border: var(--stroke) solid var(--red); color: var(--red); background: var(--card); padding: 4px 20px; font: 700 18.5px "Shantell Sans", cursive; cursor: pointer;
@@ -370,10 +370,15 @@ $("chips").innerHTML = EXAMPLES.map((e, i) => `<button class="case ${e.vague ? "
   <span class="q">${esc(e.q)}</span><span class="go">open case →</span></button>`).join("");
 $("chips").addEventListener("click", (ev) => {
   const b = ev.target.closest(".case"); if (!b) return;
-  sessionId = null; $("q").value = EXAMPLES[b.dataset.i].q; ask();
+  sessionId = null; $("q").value = EXAMPLES[b.dataset.i].q; fitQuestion(); ask();
   document.querySelector(".desk").scrollIntoView({behavior: "smooth"});
 });
 $("form").addEventListener("submit", (ev) => { ev.preventDefault(); ask(); document.querySelector(".desk").scrollIntoView({behavior: "smooth"}); });
+// The question box grows to fit its text instead of scrolling.
+function fitQuestion() { const q = $("q"); q.style.height = "auto"; q.style.height = q.scrollHeight + 2 + "px"; }
+$("q").addEventListener("input", fitQuestion);
+window.addEventListener("resize", fitQuestion);
+if (document.fonts) document.fonts.ready.then(fitQuestion);
 $("q").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); $("form").requestSubmit(); } });
 
 function waiting(html) { $("report").innerHTML = `<p class="waiting">${html}</p>`; }
@@ -475,7 +480,7 @@ function drawClarify(e) {
     ${e.options.map((o, i) => `<button class="case" data-o="${i}"><span class="no">OPTION ${i + 1}</span><span class="tag"></span><span class="q">${esc(o)}</span><span class="go">→</span></button>`).join("")}` : ""}</div>`;
   $("report").querySelectorAll("[data-o]").forEach(b => b.onclick = () => {
     if (refuse) sessionId = null;
-    const option = e.options[b.dataset.o]; $("q").value = option; ask(option);
+    const option = e.options[b.dataset.o]; $("q").value = option; fitQuestion(); ask(option);
   });
 }
 
