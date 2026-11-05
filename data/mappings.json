@@ -336,6 +336,133 @@
       ]
     },
     {
+      "table": "discrepancies",
+      "description": "Registry reason vs. 8-K language, one row per stopped trial and linked 8-K (drug_only snippets skipped). Built by keyword rules in ghost/discrepancy.py from the filings snippet. A discrepancy is a difference between two public statements, not evidence of intent.",
+      "columns": [
+        {
+          "name": "nct_id",
+          "type": "VARCHAR",
+          "description": "Trial ID."
+        },
+        {
+          "name": "sponsor",
+          "type": "VARCHAR",
+          "description": "Sponsor as registered."
+        },
+        {
+          "name": "registry_reason",
+          "type": "VARCHAR",
+          "description": "why_stopped text from the registry, exactly as registered."
+        },
+        {
+          "name": "registry_category",
+          "type": "VARCHAR",
+          "description": "trial_derived.why_stopped_category for the trial.",
+          "enum_values": [
+            "blank",
+            "business/strategic",
+            "efficacy",
+            "enrollment",
+            "other",
+            "safety"
+          ]
+        },
+        {
+          "name": "registry_evidence_id",
+          "type": "VARCHAR",
+          "description": "Evidence id of the registry side, e.g. ctgov:NCT01234567."
+        },
+        {
+          "name": "accession",
+          "type": "VARCHAR",
+          "description": "SEC accession number of the 8-K."
+        },
+        {
+          "name": "filed_date",
+          "type": "DATE",
+          "description": "Date the 8-K was filed."
+        },
+        {
+          "name": "filing_url",
+          "type": "VARCHAR",
+          "description": "URL of the 8-K document."
+        },
+        {
+          "name": "sec_evidence_id",
+          "type": "VARCHAR",
+          "description": "Evidence id of the 8-K side, e.g. sec:0001193125-23-231951."
+        },
+        {
+          "name": "sec_quote",
+          "type": "VARCHAR",
+          "description": "The 8-K sentence the label rests on, an exact substring of the filing text. NULL when no sentence gives a reason."
+        },
+        {
+          "name": "sec_categories",
+          "type": "VARCHAR[]",
+          "description": "Reasons the quote states: efficacy (a failure such as 'did not meet the primary endpoint'), safety (a concern such as 'clinical hold'), business/strategic, enrollment, positive (a success such as 'met its primary endpoint')."
+        },
+        {
+          "name": "scope",
+          "type": "VARCHAR",
+          "description": "What the quote is about: this_trial (names the NCT ID or the trial's acronym), drug_program (names only the drug), other_trial (names a different trial).",
+          "enum_values": [
+            "drug_program",
+            "other_trial",
+            "this_trial"
+          ]
+        },
+        {
+          "name": "relevance",
+          "type": "VARCHAR",
+          "description": "The filing's relevance label from the filings table.",
+          "enum_values": [
+            "drug_and_condition",
+            "drug_and_stop",
+            "hand_checked",
+            "nct_id"
+          ]
+        },
+        {
+          "name": "label",
+          "type": "VARCHAR",
+          "description": "discrepancy (8-K gives efficacy or safety where the registry gives another reason, or the reverse), consistent, registry_blank_8k_reason, different_reason, no_reason_in_8k, about_another_trial.",
+          "enum_values": [
+            "about_another_trial",
+            "consistent",
+            "different_reason",
+            "discrepancy",
+            "no_reason_in_8k",
+            "registry_blank_8k_reason"
+          ]
+        },
+        {
+          "name": "rule",
+          "type": "VARCHAR",
+          "description": "The rule that set the label, e.g. 'registry business/strategic; 8-K efficacy'."
+        },
+        {
+          "name": "decided_by",
+          "type": "VARCHAR",
+          "description": "How the label was decided: keyword_rules_v1 (deterministic rules), or hand_checked after a person read the filing.",
+          "enum_values": [
+            "hand_checked",
+            "keyword_rules_v1"
+          ]
+        },
+        {
+          "name": "strength",
+          "type": "INTEGER",
+          "description": "0 to 10, discrepancies only: higher when the 8-K names this trial, gives efficacy or safety, the registry explicitly rules that reason out, and the 8-K is close to the stop date."
+        },
+        {
+          "name": "days_from_stop",
+          "type": "INTEGER",
+          "description": "Days between the 8-K and the nearest of the trial's primary completion, completion or last update date."
+        }
+      ]
+    },
+    {
       "table": "snapshot_meta",
       "description": "One row per table: when the snapshot was built and how many rows each table has.",
       "columns": [
@@ -344,6 +471,7 @@
           "type": "VARCHAR",
           "description": "Table name.",
           "enum_values": [
+            "discrepancies",
             "filings",
             "publications",
             "sponsor_cik",
