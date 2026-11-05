@@ -11,3 +11,4 @@ __pycache__/
 *.tmp.duckdb.wal
 logs/
 runs/*.log
+.claude/

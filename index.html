@@ -5,216 +5,378 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ghost Trials Autopsy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@400;600;700&family=Nunito:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --paper: #f6f3ec; --card: #fffdf8; --ink: #1d1b18; --muted: #6b655b; --line: #ddd5c6;
-  --accent: #7a2e2e; --accent-soft: #f3e3df; --teal: #1f6f66; --teal-soft: #dcefeb;
-  --amber: #9a6a12; --amber-soft: #f6ead0; --blue: #2c4f7c; --blue-soft: #e1e9f4;
-  --violet: #5b3f86; --violet-soft: #ebe4f5; --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.04);
+  --paper: #f7f2e7; --card: #fcf8ef; --ink: #38352f; --ink2: #514d44; --pencil: #7a7466; --rule: #ddd6c6; --margin: #d9a79f;
+  --red: #9e3a2e; --red-soft: #f3e1da; --blue: #344c69; --sticky: #f5e7a8; --sticky-edge: #d9c57a; --hl: #f0dfa0;
+  --tape: rgba(214, 200, 160, .62); --grid: #ebe4d5; --shadow: 2px 3px 0 rgba(56, 53, 47, .14);
+  --lane-t: #344c69; --lane-d: #9a9384; --lane-p: #9e3a2e;
+  --radius-control: 9px 4px 17px 5px / 4px 12px 5px 9px; --stroke: 1.5px; --motion: 100ms;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #151412; --card: #1d1b18; --ink: #ece7dd; --muted: #a39b8d; --line: #39352e;
-    --accent: #e38b7f; --accent-soft: #3a2421; --teal: #6cc4b6; --teal-soft: #1b322e;
-    --amber: #e0b562; --amber-soft: #352b17; --blue: #8fb1e0; --blue-soft: #1d2a3b;
-    --violet: #bba3e3; --violet-soft: #2a2336; --shadow: none;
+    --paper: #1b1e24; --card: #22262e; --ink: #e8e4d8; --ink2: #c4c0b4; --pencil: #8d909a; --rule: #2b3340; --margin: #7a3a3a;
+    --red: #ff7b6b; --red-soft: #3a2220; --blue: #8fb4ff; --sticky: #4a4220; --sticky-edge: #6b5f2a; --hl: rgba(200, 170, 40, .45);
+    --tape: rgba(120, 110, 80, .55); --grid: #262b34; --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 6px 14px rgba(0, 0, 0, .25);
+    --lane-t: #8fb4ff; --lane-d: #8d909a; --lane-p: #ff7b6b;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #151412; --card: #1d1b18; --ink: #ece7dd; --muted: #a39b8d; --line: #39352e;
-  --accent: #e38b7f; --accent-soft: #3a2421; --teal: #6cc4b6; --teal-soft: #1b322e;
-  --amber: #e0b562; --amber-soft: #352b17; --blue: #8fb1e0; --blue-soft: #1d2a3b;
-  --violet: #bba3e3; --violet-soft: #2a2336; --shadow: none;
+  --paper: #1b1e24; --card: #22262e; --ink: #e8e4d8; --ink2: #c4c0b4; --pencil: #8d909a; --rule: #2b3340; --margin: #7a3a3a;
+  --red: #ff7b6b; --red-soft: #3a2220; --blue: #8fb4ff; --sticky: #4a4220; --sticky-edge: #6b5f2a; --hl: rgba(200, 170, 40, .45);
+  --tape: rgba(120, 110, 80, .55); --grid: #262b34; --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 6px 14px rgba(0, 0, 0, .25);
+  --lane-t: #8fb4ff; --lane-d: #8d909a; --lane-p: #ff7b6b;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; background: var(--paper); color: var(--ink); }
-body { font: 15px/1.55 "IBM Plex Sans", system-ui, sans-serif; overflow-x: hidden; }
-a { color: var(--blue); }
-code, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .86em; }
-.wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+html { background: var(--paper); }
+body {
+  margin: 0; color: var(--ink); overflow-x: hidden;
+  font: 15px/1.6 "Shantell Sans", system-ui, sans-serif;
+  background-color: var(--paper);
+  background-image: linear-gradient(to bottom, transparent 27px, var(--rule) 27px, var(--rule) 28px);
+  background-size: 100% 28px;
+}
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+button { font: inherit; color: inherit; }
+.hand { font-family: "Shantell Sans", cursive; }
+.mono { font-family: "DM Mono", ui-monospace, monospace; font-size: .82em; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px 0 56px; position: relative; }
+@media (max-width: 640px) { .wrap { padding-left: 30px; } }
 
-header.top { border-bottom: 1px solid var(--line); padding: 28px 0 22px; }
-.brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.brand h1 { font: 700 34px/1.1 "Source Serif 4", Georgia, serif; margin: 0; letter-spacing: -.01em; }
-.tag { font: 500 11px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--accent);
-  border: 1px solid var(--accent); padding: 4px 7px; border-radius: 3px; }
-.lede { font: 400 19px/1.45 "Source Serif 4", Georgia, serif; max-width: 760px; margin: 12px 0 18px; }
-.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
-.fact { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; box-shadow: var(--shadow); }
-.fact h3 { margin: 0 0 6px; font: 600 11px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
-.fact p, .fact ul { margin: 0; font-size: 14px; }
-.fact ul { padding-left: 18px; }
-.questions { counter-reset: q; list-style: none; padding: 0 !important; }
-.questions li { counter-increment: q; padding-left: 22px; position: relative; }
-.questions li::before { content: counter(q); position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: 50%;
-  background: var(--accent-soft); color: var(--accent); font: 600 10px/16px "IBM Plex Mono", monospace; text-align: center; }
+/* header */
+.mast { padding-top: 18px; }
+.mast .row { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 20px; flex-wrap: wrap; }
+.mast .no { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
+.mast nav { display: flex; gap: 4px 14px; flex-wrap: wrap; font-size: 13px; }
+.mast nav span { color: var(--pencil); }
 
-.ask { margin: 22px 0 8px; }
-.askbox { display: flex; gap: 8px; background: var(--card); border: 1.5px solid var(--ink); border-radius: 10px; padding: 6px; }
-.askbox textarea { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); resize: none;
-  font: 16px/1.4 "IBM Plex Sans", sans-serif; padding: 8px; height: 46px; }
-.askbox button { border: 0; background: var(--ink); color: var(--paper); border-radius: 7px; padding: 0 18px;
-  font: 600 14px "IBM Plex Sans", sans-serif; cursor: pointer; }
-.askbox button:disabled { opacity: .45; cursor: wait; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
-.chip { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 6px 12px;
-  font: 13px/1.3 "IBM Plex Sans", sans-serif; cursor: pointer; text-align: left; max-width: 100%; }
-.chip:hover { border-color: var(--ink); }
-.chip .k { font: 600 10px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-right: 6px; }
-.chip.vague .k { color: var(--amber); }
+.intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; padding: 20px 0 30px; }
+@media (max-width: 880px) { .intro { grid-template-columns: minmax(0, 1fr); gap: 26px; } }
+h1 { font: 700 clamp(38px, 6.4vw, 68px)/1.05 "Shantell Sans", cursive; margin: 6px 0 16px; letter-spacing: -.01em; }
+h1 .circled { position: relative; color: var(--red); white-space: nowrap; display: inline-block; }
+h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 122%; overflow: visible; pointer-events: none; }
+.dek { font: 400 17px/1.55 "Shantell Sans", cursive; margin: 0 0 14px; max-width: 32em; }
+.who { font-size: 13.5px; color: var(--ink2); margin: 0; }
+.who b { background: var(--hl); font-weight: 400; padding: 0 2px; }
+#snap { display: block; margin-top: 6px; color: var(--pencil); }
 
-main.grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 22px; margin: 22px 0 60px; align-items: start; }
-@media (max-width: 960px) { main.grid { grid-template-columns: minmax(0, 1fr); } }
-.panel { background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); min-width: 0; }
-.panel > .hd { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); gap: 8px; }
-.panel > .hd h2 { margin: 0; font: 600 12px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; }
-.panel > .bd { padding: 16px; }
-.muted { color: var(--muted); }
-.empty { color: var(--muted); font-style: italic; padding: 30px 8px; text-align: center; }
+.qcard { background: var(--card); box-shadow: var(--shadow); padding: 22px 22px 12px; transform: rotate(.8deg); position: relative; align-self: start; }
+.qcard::before, .ask-card::before, .sticky::before, .file::before {
+  content: ""; position: absolute; top: -11px; left: 50%; width: 96px; height: 24px; margin-left: -48px; background: var(--tape); transform: rotate(-3deg);
+  clip-path: polygon(0 8%, 4% 0, 9% 10%, 14% 2%, 86% 0, 91% 9%, 96% 1%, 100% 10%, 100% 92%, 95% 100%, 90% 90%, 85% 99%, 13% 100%, 8% 91%, 3% 100%, 0 90%);
+}
+.qcard h2 { font: 700 19px "Shantell Sans", cursive; margin: 0 0 4px; color: var(--blue); }
+.qcard ol { margin: 0; padding: 0; list-style: none; }
+.qcard li { display: grid; grid-template-columns: 26px 1fr; gap: 4px; padding: 7px 0; border-bottom: 1px dashed var(--rule); }
+.qcard li:last-child { border-bottom: 0; }
+.qcard .box { width: 15px; height: 15px; border: 1.5px solid var(--ink); border-radius: 2px; margin-top: 4px; position: relative; }
+.qcard .box::after { content: "✓"; position: absolute; left: 1px; top: -9px; font: 700 16.5px "Shantell Sans", cursive; color: var(--red); }
+.qcard b { font: 700 15.5px/1.2 "Shantell Sans", cursive; display: block; }
+.qcard small { color: var(--ink2); font-size: 13px; display: block; line-height: 1.45; }
 
-#report h3 { font: 600 20px/1.25 "Source Serif 4", Georgia, serif; margin: 22px 0 8px; }
-#report h3:first-child { margin-top: 0; }
-.answer { font: 400 18px/1.55 "Source Serif 4", Georgia, serif; }
-#report ul { padding-left: 20px; margin: 6px 0; }
-#report li { margin: 5px 0; }
-.cite { font: 600 11px/1 "IBM Plex Mono", monospace; color: var(--blue); background: var(--blue-soft); border: 0; border-radius: 3px;
-  padding: 2px 4px; margin: 0 1px; cursor: pointer; vertical-align: 2px; }
-.cite:hover { background: var(--blue); color: var(--card); }
-.differ { border-left: 3px solid var(--violet); background: var(--violet-soft); padding: 10px 14px; border-radius: 0 8px 8px 0; }
-.differ li { margin: 4px 0; }
-.canttell { border: 2px dashed var(--accent); background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; margin-top: 18px; }
-.canttell h3 { color: var(--accent); margin-top: 0 !important; display: flex; align-items: center; gap: 8px; }
-.canttell ul { margin: 0; }
-.sources ol { padding-left: 24px; margin: 6px 0; }
-.sources li { margin: 6px 0; padding: 4px 6px; border-radius: 6px; transition: background .3s; word-break: break-word; }
-.sources li.hit { background: var(--amber-soft); outline: 1.5px solid var(--amber); }
-.stype { font: 500 10px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-.foot { margin-top: 14px; font-size: 12px; color: var(--muted); }
-.clarify { border: 1.5px solid var(--amber); background: var(--amber-soft); border-radius: 10px; padding: 14px 16px; }
-.clarify p { margin: 0 0 10px; font: 17px/1.5 "Source Serif 4", Georgia, serif; }
-.err { border: 1.5px solid var(--accent); background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; }
+/* ask */
+.ask-card { position: relative; background: var(--card); box-shadow: var(--shadow); padding: 20px 22px 16px; margin: 4px 0 26px; }
+.ask-card label { display: block; font: 700 20.5px "Shantell Sans", cursive; margin-bottom: 4px; }
+.bar { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
+.bar textarea { flex: 1 1 280px; min-width: 0; border: 0; border-bottom: 2px solid var(--ink); outline: 0; background: transparent; color: var(--ink); resize: none;
+  font: 20.5px/1.3 "Shantell Sans", cursive; padding: 6px 2px; height: 50px; }
+@media (max-width: 640px) { .bar textarea { font-size: 16px; } }
+.bar textarea::placeholder { color: var(--pencil); opacity: .8; }
+.bar button { border: var(--stroke) solid var(--red); color: var(--red); background: var(--card); padding: 4px 20px; font: 700 18.5px "Shantell Sans", cursive; cursor: pointer;
+  border-radius: var(--radius-control); transform: rotate(-1.5deg); box-shadow: 3px 3px 0 var(--red); transition: transform var(--motion), box-shadow var(--motion); }
+.bar button:hover { transform: rotate(0); box-shadow: 1.5px 1.5px 0 var(--red); }
+.bar button:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--red); }
+.bar button:disabled { opacity: .5; cursor: progress; }
+.hint { font-size: 13px; color: var(--pencil); margin: 10px 0 0; }
+
+.cases h2 { font: 700 22px "Shantell Sans", cursive; margin: 0 0 10px; }
+#chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+.case { position: relative; text-align: left; background: var(--card); border: var(--stroke) solid var(--ink); border-radius: var(--radius-control); box-shadow: 3px 3px 0 var(--ink); padding: 14px 16px 14px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 6px; transition: transform var(--motion), box-shadow var(--motion); border-top: 4px solid var(--blue); }
+.case:nth-child(odd) { transform: rotate(-.7deg); } .case:nth-child(even) { transform: rotate(.6deg); }
+.case:hover { transform: rotate(0); box-shadow: 1.5px 1.5px 0 var(--ink); }
+.case:active { transform: translate(3px, 3px); box-shadow: none; }
+.case .no { font: 700 15px "Shantell Sans", cursive; color: var(--pencil); }
+.case .tag { font: 700 16.5px/1.1 "Shantell Sans", cursive; }
+.case .tag.red { color: var(--red); }
+.case .tag .mono { display: block; font: 11.5px "DM Mono", monospace; color: var(--pencil); margin-top: 2px; }
+.case .q { font: 14.5px/1.5 "Shantell Sans", cursive; color: var(--ink2); }
+.case .go { font: 700 15px "Shantell Sans", cursive; color: var(--blue); align-self: flex-end; }
+.case.red-top { border-top-color: var(--red); }
+
+/* desk */
+.desk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 30px; margin: 40px 0 50px; align-items: start; }
+@media (max-width: 980px) { .desk { grid-template-columns: minmax(0, 1fr); } }
+.file { position: relative; background: var(--card); box-shadow: var(--shadow); padding: 26px 28px 30px; min-width: 0; }
+@media (max-width: 640px) { .file { padding: 22px 16px 24px; } }
+.filehead { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-bottom: 2px solid var(--ink); margin-bottom: 18px; padding-bottom: 2px; }
+.sect { font: 700 22px/1.1 "Shantell Sans", cursive; }
+.waiting { font: 17px/1.6 "Shantell Sans", cursive; color: var(--pencil); padding: 24px 0; margin: 0; }
+.waiting b { color: var(--ink); font-weight: 700; }
+
+#report h3 { font: 700 20px/1.1 "Shantell Sans", cursive; color: var(--red); margin: 28px 0 8px; display: inline-block;
+  background: linear-gradient(transparent 70%, var(--red-soft) 70%); padding-right: 6px; }
+.answer { font: 400 17px/1.55 "Shantell Sans", cursive; margin: 0; }
+.prose { font: 16px/1.65 "Shantell Sans", cursive; }
+.claims { list-style: none; padding: 0; margin: 0; counter-reset: c; }
+.claims li { font: 16px/1.6 "Shantell Sans", cursive; padding: 8px 0 8px 34px; position: relative; counter-increment: c; border-bottom: 1px dashed var(--rule); }
+.claims li::before { content: counter(c) "."; position: absolute; left: 4px; top: 9px; font: 700 15.5px "Shantell Sans", cursive; color: var(--blue); }
+.cite { font: 700 12px/1 "Shantell Sans", sans-serif; border: 0; background: var(--hl); color: var(--ink); padding: 1px 4px; margin: 0 1px; cursor: pointer; vertical-align: 2px; border-radius: 2px; }
+.cite:hover, .cite:focus-visible { outline: 1.5px solid var(--red); }
+.differ { border-left: 3px solid var(--red); padding: 2px 0 2px 14px; }
+.differ .claims li::before { color: var(--red); }
+.sticky { position: relative; margin: 34px 0 6px; background: var(--sticky); padding: 20px 20px 10px; transform: rotate(-.8deg);
+  box-shadow: 0 10px 18px -12px rgba(0, 0, 0, .35); border-bottom: 1px solid var(--sticky-edge); }
+#report .sticky h3 { color: var(--ink); background: none; margin-top: 0; font-size: 28px; }
+.sticky ul { margin: 0; padding-left: 0; list-style: none; }
+.sticky li { font: 15.5px/1.5 "Shantell Sans", cursive; padding: 0 0 8px 22px; position: relative; }
+.sticky li::before { content: "!"; position: absolute; left: 4px; top: -2px; font: 700 16.5px "Shantell Sans", cursive; color: var(--red); }
+.sources ol { padding: 0; margin: 0; list-style: none; }
+.sources li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px; padding: 6px 4px; border-bottom: 1px dashed var(--rule); word-break: break-word; transition: background .4s; }
+.sources li.hit { background: var(--hl); }
+.sources .sn { font: 700 15px/1.2 "Shantell Sans", cursive; color: var(--blue); }
+.sources .st { display: block; font-size: 12px; color: var(--pencil); }
+.sources a { font: 600 15px/1.4 "Nunito", system-ui, sans-serif; color: var(--ink); text-decoration-color: var(--line, #b3ac9d); }
+.sources a:hover { color: var(--blue); }
+.sources .st, .sources .st .mono { font: 13px/1.5 "Nunito", system-ui, sans-serif; }
+.stamp { display: inline-block; font: 700 13px "Shantell Sans", sans-serif; text-transform: uppercase; letter-spacing: .06em; padding: 4px 10px;
+  border: 3px double var(--ink); color: var(--ink); transform: rotate(-3deg); opacity: .9; }
+.stamp.red { color: var(--red); border-color: var(--red); }
+.foot { margin-top: 20px; font: 13.5px "Shantell Sans", cursive; color: var(--pencil); }
+.clarify .q { font: 400 19px/1.5 "Shantell Sans", cursive; margin: 14px 0 16px; }
+.clarify .case { margin: 0 0 12px; }
+.err { border: 2px dashed var(--red); padding: 12px 14px; color: var(--red); background: var(--red-soft); word-break: break-word; }
 
 /* timeline */
-.tl { margin: 10px 0 16px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px 4px; }
-.tl .meta { font-size: 13px; margin-bottom: 2px; }
-.tl .meta b { font-family: "IBM Plex Mono", monospace; font-weight: 500; }
-.tl .why { font-size: 12.5px; color: var(--muted); }
-.tl svg { width: 100%; height: auto; display: block; }
-.tl svg text { font: 10px "IBM Plex Mono", monospace; fill: var(--muted); }
-.tl svg .lbl { fill: var(--ink); font: 500 10.5px "IBM Plex Sans", sans-serif; }
-.legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 11.5px; color: var(--muted); margin: 4px 0 6px; }
-.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+.tl { margin: 6px 0 16px; }
+.tl .meta { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; font-size: 14px; }
+.tl .meta .id { font-weight: 700; background: var(--hl); padding: 0 3px; }
+.tl .why { font: 15.5px "Shantell Sans", cursive; color: var(--ink2); margin: 2px 0 0; }
+.tl svg { width: 100%; height: auto; display: block; margin-top: 4px; }
+.tl svg text { font: 11px "Shantell Sans", sans-serif; fill: var(--pencil); }
+.tl svg .lbl { fill: var(--ink); font: 700 11px "Shantell Sans", cursive; }
+.tl svg .lbl.red { fill: var(--red); font-size: 16px; }
 
-/* trace */
-.agents { display: grid; gap: 6px; }
-.agent { display: grid; grid-template-columns: 14px 1fr auto; gap: 8px; align-items: center; font-size: 13.5px; }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
-.agent.run .dot { background: var(--amber); animation: pulse 1s infinite; }
-.agent.ok .dot { background: var(--teal); }
-@keyframes pulse { 50% { opacity: .3; } }
-.agent .t { font: 11px "IBM Plex Mono", monospace; color: var(--muted); }
-.gantt { margin-top: 14px; }
-.gantt h4, .calls h4 { font: 600 11px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 8px; }
-.bar-row { display: grid; grid-template-columns: 112px 1fr; gap: 8px; align-items: center; margin: 4px 0; font-size: 11.5px; }
-.bar-row .nm { font-family: "IBM Plex Mono", monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.track { position: relative; height: 14px; background: var(--paper); border-radius: 3px; }
-.bar { position: absolute; top: 0; bottom: 0; border-radius: 3px; min-width: 3px; }
-.bar.trials { background: var(--teal); } .bar.disclosures { background: var(--amber); } .bar.publications { background: var(--blue); }
-.bar.live { opacity: .55; animation: pulse 1s infinite; }
-.calls { margin-top: 16px; }
-details.grp { border-top: 1px solid var(--line); padding: 6px 0; }
-details.grp summary { cursor: pointer; font: 500 13px "IBM Plex Mono", monospace; list-style: none; display: flex; justify-content: space-between; }
+/* log: graph paper */
+.log { background-color: var(--card); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 14px 14px; box-shadow: var(--shadow); padding: 20px 18px 22px; min-width: 0; transform: rotate(.4deg);
+  position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
+@media (max-width: 980px) { .log { transform: none; position: static; max-height: none; } }
+.log .sect { font-size: 27px; }
+.steps { list-style: none; margin: 0 0 16px; padding: 0; }
+.steps li { display: grid; grid-template-columns: 18px 1fr auto; gap: 6px; align-items: baseline; padding: 3px 0; font: 14px/1.3 "Shantell Sans", cursive; }
+.steps .mk { width: 12px; height: 12px; border: 1.5px solid var(--ink); border-radius: 50%; display: inline-block; position: relative; top: 1px; }
+.steps .run .mk { border-style: dashed; animation: spin 2s linear infinite; }
+.steps .ok .mk { background: var(--ink); }
+.steps .t { font: 12px "Shantell Sans", sans-serif; color: var(--pencil); text-align: right; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.gantt { margin: 0 0 16px; }
+.gantt .sect { font-size: 22px !important; }
+.row { display: grid; grid-template-columns: 112px 1fr; white-space: nowrap; gap: 6px; align-items: center; margin: 4px 0; font: 12px "Shantell Sans", sans-serif; }
+.track { position: relative; height: 12px; }
+.bar2 { position: absolute; top: 1px; bottom: 1px; min-width: 3px; border-radius: 3px 8px 4px 9px; opacity: .85; }
+.bar2.trials { background: var(--lane-t); } .bar2.disclosures { background: var(--lane-d); } .bar2.publications { background: var(--lane-p); }
+.bar2.live { opacity: .4; }
+.axis { display: flex; justify-content: space-between; font: 11px "Shantell Sans", sans-serif; color: var(--pencil); margin-left: 118px; }
+.checked { font: 13.5px "Shantell Sans", cursive; color: var(--red); border: 2px solid var(--red); border-radius: 50% 40% 45% 55% / 60% 50% 55% 45%; padding: 8px 14px; margin: 0 0 16px; text-align: center; transform: rotate(-2deg); background: var(--card); }
+details.grp { border-top: 1px dashed var(--pencil); background: var(--card); }
+details.grp summary { cursor: pointer; padding: 6px 2px; font: 13px "Shantell Sans", sans-serif; display: flex; gap: 8px; list-style: none; }
+details.grp summary > span:first-child { flex: 1; }
+details.grp summary::before { content: "+"; font: 700 15px/14px "Shantell Sans", cursive; color: var(--blue); width: 12px; transition: transform var(--motion); }
+details.grp[open] summary::before { transform: rotate(45deg); color: var(--red); }
 details.grp summary::-webkit-details-marker { display: none; }
-.call { font-size: 12px; padding: 6px 0 6px 10px; border-left: 2px solid var(--line); margin: 6px 0 6px 4px; word-break: break-word; }
-.call .fn { font: 500 12px "IBM Plex Mono", monospace; }
-.call .args { color: var(--muted); font: 11px "IBM Plex Mono", monospace; max-height: 60px; overflow: hidden; }
-.call .res { margin-top: 2px; }
-.stat { display: inline-block; font: 500 11px "IBM Plex Mono", monospace; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 3px 6px; margin: 2px 4px 2px 0; }
-.stat.good { border-color: var(--teal); color: var(--teal); }
-footer { border-top: 1px solid var(--line); padding: 18px 0 30px; font-size: 13px; color: var(--muted); }
+.call { font-size: 12.5px; padding: 4px 0 4px 10px; border-left: 2px solid var(--rule); margin: 0 0 6px 2px; word-break: break-word; }
+.call .fn { font-weight: 700; }
+.call .args { color: var(--pencil); font-size: 11.5px; max-height: 48px; overflow: hidden; }
+.empty-log { font: 13.5px/1.4 "Shantell Sans", cursive; color: var(--ink2); background: var(--card); margin: 0; }
+
+.closing { font: 700 clamp(26px, 4.4vw, 44px)/1.15 "Shantell Sans", cursive; color: var(--red); margin: 10px 0 18px; transform: rotate(-1deg); }
+footer { padding: 18px 0 40px; font-size: 13px; color: var(--ink2); border-top: var(--stroke) dashed var(--rule); }
+:focus-visible { outline: 2px dashed var(--blue); outline-offset: 3px; }
+.bar textarea:focus-visible { outline: 2px dashed var(--blue); outline-offset: 4px; }
+.arrow { position: absolute; right: 18px; top: -44px; width: 120px; height: 52px; color: var(--blue); pointer-events: none; }
+.arrow-note { position: absolute; right: 140px; top: -46px; font: 700 15.5px "Shantell Sans", cursive; color: var(--blue); transform: rotate(-3deg); white-space: nowrap; }
+@media (max-width: 640px) { .arrow, .arrow-note { display: none; } .case, .qcard, .sticky, .log, .bar button, h1 .circled, .closing { transform: none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .case, .qcard, .sticky, .log, .bar button, .stamp, .checked, .closing, .case:active, .bar button:active { transform: none !important; }
+}
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 30px; }
+footer p { margin: 0; max-width: 48em; }
+footer .sig { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
+
+/* continuous margin line down the whole page */
+body { position: relative; }
+body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(max(0px, (100% - 1160px) / 2) + 36px); border-left: 2px solid var(--margin); pointer-events: none; z-index: 0; }
+@media (max-width: 640px) { body::before { left: 16px; } }
+
+/* numbered step notes */
+.step { display: flex; align-items: flex-start; gap: 8px; color: var(--blue); font: 600 16px/1.3 "Shantell Sans", cursive; margin: 0 0 4px 6px; transform: rotate(-1.2deg); }
+.step .num { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border: var(--stroke) solid var(--blue); border-radius: 52% 48% 55% 45% / 48% 55% 45% 52%; font-weight: 700; font-size: 15px; }
+.step .txt { padding-top: 4px; }
+.step svg { flex: none; width: 58px; height: 40px; margin-top: 8px; }
+.step path { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.desk-steps { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 30px; margin-top: 40px; }
+.desk-steps + .desk { margin-top: 6px; }
+@media (max-width: 980px) { .desk-steps { grid-template-columns: minmax(0, 1fr); } .desk-steps .step:last-child { display: none; } }
+
+/* doodles */
+.dd .ghost { stroke-width: 1.1; opacity: .55; }
+.step svg, .ecg, h1 .circled svg, .qcard .box::after { filter: url(#rough); }
+
+.dd { display: block; color: var(--pencil); opacity: .75; }
+.dd use, .dd path, .dd circle, .dd rect { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.dd.blue { color: var(--blue); } .dd.red { color: var(--red); }
+.corner-dd { position: absolute; z-index: 2; pointer-events: none; }
+.case-dd { position: absolute; top: 10px; right: 12px; width: 42px; height: 42px; transform: rotate(6deg); }
+.case:nth-child(even) .case-dd { transform: rotate(-7deg); }
+.scatter { position: relative; height: 130px; }
+.scatter .dd { position: absolute; width: 66px; height: 66px; }
+@media (max-width: 880px) { .scatter { display: none; } }
+.cases-head { display: flex; align-items: flex-end; gap: 14px; }
+.cases-head .dd { width: 44px; height: 44px; }
+.margin-dd { position: absolute; left: 4px; width: 26px; height: 26px; }
+.ecg { display: block; width: min(560px, 100%); height: 46px; color: var(--red); opacity: .8; margin: -4px 0 14px; }
+.waiting .dd { width: 54px; height: 54px; margin-bottom: 8px; }
+.sig-wrap { display: flex; align-items: center; gap: 10px; }
+.sig-wrap .dd { width: 38px; height: 38px; }
+@media (max-width: 640px) { .cases-head .dd { display: none; } .corner-dd { transform: none !important; right: -6px !important; width: 54px !important; height: 54px !important; } .step { transform: none; } }
 </style>
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <div class="brand"><h1>Ghost Trials Autopsy</h1><span class="tag">Deep research agent</span></div>
-    <p class="lede">When a drug company stops a clinical trial early, what did it tell the public registry, its investors, and the scientific record? This agent pulls all three and checks whether the stories match.</p>
-    <div class="facts">
-      <div class="fact"><h3>What it answers</h3>
-        <ul class="questions"><li>Why did the trial stop?</li><li>Were the results ever reported?</li><li>What did the sponsor tell investors?</li><li>Do those stories match?</li></ul></div>
-      <div class="fact"><h3>Who it's for</h3><p>Health reporters, patient advocates, and research-integrity people looking into a drug, a sponsor, a condition, or a trial ID (NCT number).</p></div>
-      <div class="fact"><h3>How to use it</h3><p>Name a sponsor, drug, condition or NCT ID and what you want to know. Vague questions get a follow-up question first. Click any <span class="cite">1</span> to see its source. A full answer takes 1 to 4 minutes.</p></div>
-      <div class="fact"><h3>Data</h3><p><span id="snap">Snapshot loading...</span><br>
-        <a href="https://clinicaltrials.gov/data-api/api" target="_blank" rel="noopener">ClinicalTrials.gov</a> ·
-        <a href="https://open.fda.gov/apis/drug/drugsfda/" target="_blank" rel="noopener">Drugs@FDA</a> ·
-        <a href="https://efts.sec.gov/LATEST/search-index" target="_blank" rel="noopener">SEC EDGAR</a> ·
-        <a href="https://www.ncbi.nlm.nih.gov/books/NBK25501/" target="_blank" rel="noopener">PubMed</a> ·
-        <a href="https://europepmc.org/RestfulWebService" target="_blank" rel="noopener">Europe PMC</a></p></div>
-    </div>
-    <div class="ask">
-      <form class="askbox" id="form">
-        <textarea id="q" placeholder="e.g. Did Acme Bio stop any phase 2 trials without posting results, and what did it tell investors?" aria-label="Your question"></textarea>
-        <button id="go" type="submit">Investigate</button>
-      </form>
-      <div class="chips" id="chips"></div>
-    </div>
-  </div>
-</header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <filter id="rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="rough2" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="31" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="G" yChannelSelector="R"/></filter>
+  <symbol id="d-pill" viewBox="0 0 64 64"><g transform="rotate(-35 32 32)"><rect x="8" y="22" width="48" height="20" rx="10"/><path d="M32 22v20M14 28c2-2 4-3 7-3M37 24l-4 7M43 22l-9 17M49 23l-10 18M54 28l-8 13"/></g></symbol>
+  <symbol id="d-syringe" viewBox="0 0 64 64"><g transform="rotate(-40 32 32)"><rect x="16" y="26" width="28" height="12" rx="2"/><path d="M44 32h14M4 32h12M4 25v14M22 26v5M28 26v5M34 26v5M40 26v5M16 23v18M44 29v6"/></g></symbol>
+  <symbol id="d-flask" viewBox="0 0 64 64"><path d="M24 6h16M27 6v18L12 52c-2 4 0 7 4 7h32c4 0 6-3 4-7L37 24V6M17 44h30M16 52l7-7M20 58l12-13M30 58l13-13M40 58l8-8"/><circle cx="28" cy="50" r="2"/><circle cx="36" cy="47" r="1.5"/><circle cx="33" cy="53" r="1"/></symbol>
+  <symbol id="d-dna" viewBox="0 0 64 64"><path d="M20 4C20 14 44 14 44 24S20 34 20 44S44 54 44 60M44 4C44 14 20 14 20 24S44 34 44 44S20 54 20 60M23 8h18M23 20h18M21 24h22M23 28h18M23 40h18M21 44h22M23 48h18"/></symbol>
+  <symbol id="d-clip" viewBox="0 0 64 64"><rect x="13" y="10" width="38" height="50" rx="3"/><rect x="23" y="5" width="18" height="10" rx="2"/><path d="M21 28l3 3 6-6M34 28h10M21 40l3 3 6-6M34 40h10M21 52h23"/></symbol>
+  <symbol id="d-tube" viewBox="0 0 64 64"><g transform="rotate(25 32 32)"><path d="M24 4h16M26 4v46a6 6 0 0 0 12 0V4M26 30h12M27 37l10-5M27 44l10-5M28 51l9-5"/></g></symbol>
+  <symbol id="d-mag" viewBox="0 0 64 64"><circle cx="26" cy="26" r="16"/><path d="M38 38l18 18M18 22c2-4 5-6 9-6"/></symbol>
+  <symbol id="d-pencil" viewBox="0 0 64 64"><g transform="rotate(-40 32 32)"><path d="M8 26h40l10 6-10 6H8zM48 26v12M14 26v12M52 29.5l6 2.5-6 2.5"/></g><path d="M8 56c6-3 10 2 16-1s9-3 14 0"/></symbol>
+  <symbol id="d-docs" viewBox="0 0 64 64"><path d="M8 16h26v40H8zM14 26h14M14 33h14M14 40h10"/><path d="M28 8h26v40H40M34 18h14M38 25h10M40 32h8"/><path d="M30 46l8 8M38 46l-8 8"/></symbol>
+  <symbol id="d-nopage" viewBox="0 0 64 64"><path d="M16 6h24l10 10v42H16zM40 6v10h10M24 30l16 16M40 30L24 46"/></symbol>
+  <symbol id="d-building" viewBox="0 0 64 64"><path d="M8 56h48M12 56V28M52 56V28M6 28h52L32 10zM22 32v20M32 32v20M42 32v20M30 20h4"/></symbol>
+  <symbol id="d-cloud" viewBox="0 0 64 64"><path d="M20 42c-9 0-11-12-3-14-1-10 13-13 18-6 6-6 19-2 17 8 8 2 6 13-2 12z"/><path d="M29 24c0-6 9-6 9 0 0 4-4 4-4 8M34 36v1"/><circle cx="16" cy="50" r="3"/><circle cx="9" cy="57" r="2"/></symbol>
+  <symbol id="d-plus" viewBox="0 0 64 64"><path d="M32 10v44M10 32h44"/></symbol>
+</defs></svg>
+<div class="mast"><div class="wrap"><div class="row">
+  <span class="no">Lab notebook</span>
+  <nav>
+    <span>sources:</span>
+    <a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov</a>
+    <a href="https://efts.sec.gov/LATEST/search-index" target="_blank" rel="noopener">SEC EDGAR</a>
+    <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" rel="noopener">PubMed</a>
+    <a href="https://europepmc.org" target="_blank" rel="noopener">Europe PMC</a>
+    <a href="https://open.fda.gov/apis/drug/drugsfda/" target="_blank" rel="noopener">Drugs@FDA</a>
+  </nav>
+</div></div></div>
 
 <div class="wrap">
-<main class="grid">
-  <section class="panel">
-    <div class="hd"><h2>Report</h2><span class="muted mono" id="elapsed"></span></div>
-    <div class="bd" id="report"><div class="empty">Ask a question, or pick an example above.</div></div>
+  <section class="intro">
+    <div>
+      <h1>Ghost Trials Autopsy:<br>stopped early, <span class="circled">then what?<svg viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M8 34 C 10 10, 90 2, 150 6 S 198 24, 190 40 S 120 60, 60 56 S 2 46, 14 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span></h1>
+      <p class="dek">Drug companies end trials early all the time. Afterwards, the public registry, the investor filings and the medical journals can tell three different stories, or say nothing at all. Name a sponsor, a drug or a trial, and a team of research agents pulls all three records and lays them side by side.</p>
+      <p class="who">For <b>health reporters</b>, <b>patient advocates</b> and <b>research-integrity</b> work.<span id="snap" class="mono"></span></p>
+    </div>
+    <div>
+    <div class="qcard">
+      <h2>What we check, every case</h2>
+      <svg class="dd " style="position:absolute;top:12px;right:14px;width:40px;height:50px;transform:rotate(12deg)" aria-hidden="true"><use href="#d-dna" filter="url(#rough)"/><use href="#d-dna" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+      <svg class="dd blue corner-dd" style="bottom:-34px;right:-22px;width:70px;height:70px;transform:rotate(-10deg)" aria-hidden="true"><use href="#d-mag" filter="url(#rough)"/><use href="#d-mag" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+      <ol>
+        <li><span class="box"></span><div><b>Why did it stop?</b><small>The status and reason the sponsor gave the registry</small></div></li>
+        <li><span class="box"></span><div><b>Were the results ever shared?</b><small>Posted on ClinicalTrials.gov, published in a journal, and how late</small></div></li>
+        <li><span class="box"></span><div><b>What did investors hear?</b><small>8-K and other SEC filings near the stop date</small></div></li>
+        <li><span class="box"></span><div><b>Do the stories match?</b><small>Where the registry, the filings and the papers disagree</small></div></li>
+      </ol>
+    </div>
+    <div class="scatter"><svg class="dd red" style="left:14%;top:46px;transform:rotate(-14deg)" aria-hidden="true"><use href="#d-pill" filter="url(#rough)"/><use href="#d-pill" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd blue" style="left:62%;top:22px;transform:rotate(9deg)" aria-hidden="true"><use href="#d-flask" filter="url(#rough)"/><use href="#d-flask" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></div>
+    </div>
   </section>
-  <aside class="panel">
-    <div class="hd"><h2>Agent trace</h2><span class="mono muted" id="round"></span></div>
-    <div class="bd">
-      <div class="agents" id="agents"></div>
+
+  <section class="ask" style="position:relative">
+    <div class="step" aria-hidden="true"><span class="num">1</span><span class="txt">start here: name a sponsor, a drug or a trial</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div>
+    <form id="form" class="ask-card">
+      <svg class="dd " style="position:absolute;top:6px;right:22px;width:62px;height:62px" aria-hidden="true"><use href="#d-pencil" filter="url(#rough)"/><use href="#d-pencil" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+      <label for="q">Open a new case</label>
+      <div class="bar">
+        <textarea id="q" placeholder="a sponsor, drug, condition or NCT number..."></textarea>
+        <button id="go" type="submit">Investigate</button>
+      </div>
+      <p class="hint">A full investigation takes one to four minutes. A question with no target gets a follow-up question first.</p>
+    </form>
+    <div class="cases">
+      <div class="cases-head"><h2>Or pick up an old case:</h2><svg class="dd blue" aria-hidden="true"><use href="#d-tube" filter="url(#rough)"/><use href="#d-tube" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></div>
+      <div class="step" aria-hidden="true"><span class="num">2</span><span class="txt">no question in mind? open one of these</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div>
+      <div id="chips"></div>
+    </div>
+  </section>
+
+  <div class="desk-steps"><div class="step" aria-hidden="true"><span class="num">3</span><span class="txt">the case notes land here, every claim cited</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div><div class="step" aria-hidden="true"><span class="num">4</span><span class="txt">watch the agents work, side by side</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div></div>
+  <main class="desk" style="position:relative">
+    <section class="file">
+      <svg class="dd corner-dd" style="top:-30px;right:-24px;width:78px;height:78px;transform:rotate(8deg)" aria-hidden="true"><use href="#d-syringe" filter="url(#rough)"/><use href="#d-syringe" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+      <div class="filehead"><span class="sect">Case notes</span><span class="mono" id="elapsed"></span></div>
+      <div id="report"><p class="waiting"><svg class="dd " aria-hidden="true"><use href="#d-clip" filter="url(#rough)"/><use href="#d-clip" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>Nothing open yet. Pick a case card above, or write your own question.</p></div>
+    </section>
+    <aside class="log">
+      <div class="filehead"><span class="sect">Research log</span><span class="mono" id="round"></span></div>
+      <ul class="steps" id="agents"></ul>
       <div class="gantt" id="gantt"></div>
       <div id="checkstats"></div>
-      <div class="calls" id="calls"></div>
-    </div>
-  </aside>
-</main>
+      <div id="calls"><p class="empty-log">Every agent and every tool call is logged here as it happens: the Lead, three researchers working at once, the Writer and the Citation Checker.</p></div>
+      <svg class="dd blue" style="width:52px;height:52px;margin:14px 6px 0 auto;transform:rotate(-8deg)" aria-hidden="true"><use href="#d-flask" filter="url(#rough)"/><use href="#d-flask" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+    </aside>
+  </main>
 </div>
-<footer><div class="wrap">Ghost Trials Autopsy reports only what sponsors registered, filed and published. A mismatch between sources is a discrepancy, not proof of intent, and a late or missing result is not proof of a legal violation. Not medical advice.</div></footer>
+
+<div class="wrap"><p class="closing">Patients took the risk. The results should exist.</p><svg class="ecg" viewBox="0 0 560 46" preserveAspectRatio="none" aria-hidden="true"><path d="M2 26h70l8-14 10 26 12-34 9 22h40l6-8 8 8h60l8-14 10 26 12-34 9 22H558" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<footer><div class="wrap">
+  <p>This reports only what sponsors registered, filed and published. A mismatch between sources is a discrepancy, not proof of intent. A late or missing result is not proof that a law was broken. Not medical advice.</p>
+  <span class="sig-wrap"><svg class="dd red" aria-hidden="true"><use href="#d-pill" filter="url(#rough)"/><use href="#d-pill" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></span>
+</div></footer>
 
 <script>
 // The README's sample queries, plus one vague question that shows clarification.
 const EXAMPLES = [
-  {k: "discrepancy", q: "Veru terminated its phase 3 trial of enobosarm with abemaciclib (NCT05065411). What reason did it give the registry, what did it tell investors, and do the two match?"},
-  {k: "never posted", q: "Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?"},
-  {k: "sponsor", q: "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"},
-  {k: "vague", q: "Why do Alzheimer's trials fail?", vague: true}
+  {k: "Discrepancy", icon: "docs", who: "Veru · NCT05065411", q: "Veru terminated its phase 3 trial of enobosarm with abemaciclib (NCT05065411). What reason did it give the registry, what did it tell investors, and do the two match?"},
+  {k: "Never posted", icon: "nopage", who: "Sorrento · NCT04903327", q: "Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?"},
+  {k: "Sponsor", icon: "building", who: "Entero Therapeutics", q: "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"},
+  {k: "Too vague", icon: "cloud", who: "Alzheimer's", q: "Why do Alzheimer's trials fail?", vague: true}
 ];
-const LANES = ["trials", "disclosures", "publications"];
+const AGENT_NAMES = {lead: "Lead", writer: "Writer", checker: "Citation Checker"};
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
-let sessionId = null, source = null, timer = null, started = 0;
-let state;
+let sessionId = null, source = null, timer = null, started = 0, state;
 
 function reset() {
-  state = {agents: {}, timings: {}, calls: [], now: 0};
+  state = {agents: {}, timings: {}, calls: [], now: 0, done: false};
   $("agents").innerHTML = ""; $("gantt").innerHTML = ""; $("calls").innerHTML = ""; $("checkstats").innerHTML = ""; $("round").textContent = "";
 }
 
 fetch("/api/meta").then(r => r.json()).then(m => {
   const trials = (m.tables || []).find(t => t.table_name === "trials");
-  $("snap").textContent = m.snapshot_date
-    ? `Snapshot ${m.snapshot_date}: ${trials ? trials.row_count.toLocaleString() : "?"} industry phase 2/3 trials, primary completion 2015 to 2023.`
-    : "Snapshot not built yet.";
-}).catch(() => { $("snap").textContent = "Snapshot date unavailable."; });
+  if (m.snapshot_date) $("snap").textContent = `Data as of ${m.snapshot_date}: ${trials ? trials.row_count.toLocaleString() : "?"} industry phase 2 and 3 trials, 2015 to 2023.`;
+}).catch(() => {});
 
-$("chips").innerHTML = EXAMPLES.map((e, i) =>
-  `<button class="chip ${e.vague ? "vague" : ""}" data-i="${i}"><span class="k">${esc(e.k)}</span>${esc(e.q)}</button>`).join("");
+$("chips").innerHTML = EXAMPLES.map((e, i) => `<button class="case ${e.vague ? "" : "red-top"}" data-i="${i}">
+  <svg class="dd case-dd ${e.vague ? "blue" : "red"}" aria-hidden="true"><use href="#d-${e.icon}" filter="url(#rough)"/><use href="#d-${e.icon}" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+  <span class="no">CASE ${String(i + 1).padStart(2, "0")}</span>
+  <span class="tag ${e.vague ? "" : "red"}">${esc(e.k)}<br><span class="mono">${esc(e.who)}</span></span>
+  <span class="q">${esc(e.q)}</span><span class="go">open case →</span></button>`).join("");
 $("chips").addEventListener("click", (ev) => {
-  const b = ev.target.closest(".chip"); if (!b) return;
+  const b = ev.target.closest(".case"); if (!b) return;
   sessionId = null; $("q").value = EXAMPLES[b.dataset.i].q; ask();
+  document.querySelector(".desk").scrollIntoView({behavior: "smooth"});
 });
-$("form").addEventListener("submit", (ev) => { ev.preventDefault(); ask(); });
-$("q").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); ask(); } });
+$("form").addEventListener("submit", (ev) => { ev.preventDefault(); ask(); document.querySelector(".desk").scrollIntoView({behavior: "smooth"}); });
+$("q").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); $("form").requestSubmit(); } });
+
+function waiting(html) { $("report").innerHTML = `<p class="waiting">${html}</p>`; }
 
 function ask(text) {
   const question = (text ?? $("q").value).trim();
@@ -222,22 +384,22 @@ function ask(text) {
   if (source) source.close();
   reset();
   $("go").disabled = true;
-  $("report").innerHTML = `<div class="empty">The Lead is reading your question...</div>`;
+  waiting("The <b>Lead</b> is reading the question and deciding whether it's specific enough to research.");
   started = performance.now();
   clearInterval(timer);
   timer = setInterval(() => { state.now = (performance.now() - started) / 1000; $("elapsed").textContent = state.now.toFixed(0) + " s"; drawGantt(); }, 500);
   const params = new URLSearchParams({question}); if (sessionId) params.set("session_id", sessionId);
   source = new EventSource("/run?" + params);
   source.onmessage = (m) => handle(JSON.parse(m.data));
-  source.onerror = () => { finish(); if (!state.done) $("report").innerHTML = `<div class="err">The connection dropped. Try again.</div>`; };
+  source.onerror = () => { finish(); if (!state.done) $("report").innerHTML = `<div class="err">The connection dropped before the report was finished. Try again.</div>`; };
 }
 
 function finish() { clearInterval(timer); $("go").disabled = false; if (source) source.close(); }
 
-function setAgent(key, label, status, extra = "") {
+function setStep(key, label, status, extra = "") {
   state.agents[key] = {label, status, extra};
-  $("agents").innerHTML = Object.entries(state.agents).map(([k, a]) =>
-    `<div class="agent ${a.status}"><span class="dot"></span><span>${esc(a.label)}</span><span class="t">${esc(a.extra)}</span></div>`).join("");
+  $("agents").innerHTML = Object.values(state.agents).map(a =>
+    `<li class="${a.status}"><span class="mk"></span><span>${esc(a.label)}</span><span class="t">${esc(a.extra)}</span></li>`).join("");
 }
 
 function handle(e) {
@@ -245,48 +407,48 @@ function handle(e) {
   if (e.type === "agent") {
     if (e.agent.startsWith("researcher:")) {
       const lane = e.agent.split(":")[1];
+      const label = `${lane[0].toUpperCase() + lane.slice(1)} researcher, round ${e.round}`;
       if (e.status === "start") {
         state.timings[e.key] = {lane, round: e.round, start: e.t, end: null};
-        setAgent(e.key, `Researcher: ${lane} (round ${e.round})`, "run", "working");
-        $("report").innerHTML = `<div class="empty">Researchers are working in parallel...</div>`;
+        setStep(e.key, label, "run", "working");
+        waiting("Three <b>researchers</b> are working at the same time: one on the registry, one on SEC filings, one on the medical literature.");
       } else {
         state.timings[e.key].end = e.t;
-        setAgent(e.key, `Researcher: ${lane} (round ${e.round})`, "ok", `${e.findings} findings, ${(e.t - state.timings[e.key].start).toFixed(0)} s`);
+        setStep(e.key, label, "ok", `${e.findings} findings · ${(e.t - state.timings[e.key].start).toFixed(0)} s`);
       }
       drawGantt();
     } else {
-      const names = {lead: "Lead", writer: "Writer", checker: "Citation Checker"};
       let extra = e.status === "start" ? "working" : "done";
       if (e.agent === "lead" && e.decision) extra = e.decision;
-      if (e.agent === "checker" && e.status === "end") extra = `${e.citations_checked} checked, ${e.removed} removed`;
-      setAgent(e.agent, names[e.agent] || e.agent, e.status === "start" ? "run" : "ok", extra);
-      if (e.agent === "writer" && e.status === "start") $("report").innerHTML = `<div class="empty">The Writer is drafting the report...</div>`;
-      if (e.agent === "checker" && e.status === "start") $("report").innerHTML = `<div class="empty">The Citation Checker is verifying every citation...</div>`;
+      if (e.agent === "checker" && e.status === "end") extra = `${e.removed} of ${e.citations_checked} cut`;
+      setStep(e.agent, AGENT_NAMES[e.agent] || e.agent, e.status === "start" ? "run" : "ok", extra);
+      if (e.agent === "writer" && e.status === "start") waiting("The <b>Writer</b> is drafting the case file from the evidence the researchers collected.");
+      if (e.agent === "checker" && e.status === "start") waiting("The <b>Citation Checker</b> is checking every cited sentence against its source record.");
     }
   } else if (e.type === "round") {
-    $("round").textContent = `round ${e.round}`;
+    $("round").textContent = `round ${e.round} of 3`;
   } else if (e.type === "tool") {
     state.calls.push(e); drawCalls();
   } else if (e.type === "done") {
     state.done = true; finish(); sessionId = e.session_id;
     state.calls = e.tool_calls || state.calls; drawCalls();
-    if (e.trace) { $("round").textContent = e.trace.rounds ? `${e.trace.rounds} of ${e.trace.max_rounds} rounds` : "no research"; }
+    if (e.trace) $("round").textContent = e.trace.rounds ? `${e.trace.rounds} of ${e.trace.max_rounds} rounds` : "no research needed";
     if (e.kind === "report") drawReport(e); else drawClarify(e);
   } else if (e.type === "error") {
     state.done = true; finish();
-    $("report").innerHTML = `<div class="err"><b>Research failed.</b> ${esc(e.message)}</div>`;
+    $("report").innerHTML = `<div class="err"><b>The investigation failed.</b> ${esc(e.message)}</div>`;
   }
 }
 
 function drawGantt() {
-  const rows = Object.entries(state.timings);
+  const rows = Object.values(state.timings);
   if (!rows.length) return;
-  const max = Math.max(state.now, ...rows.map(([, t]) => t.end || 0), 1);
-  $("gantt").innerHTML = `<h4>Researchers in parallel (seconds)</h4>` + rows.map(([k, t]) => {
+  const max = Math.max(state.now, ...rows.map(t => t.end || 0), 1);
+  $("gantt").innerHTML = `<div class="sect" style="margin-bottom:4px">Researchers, side by side</div>` + rows.map(t => {
     const end = t.end ?? state.now, left = 100 * t.start / max, width = Math.max(.8, 100 * (end - t.start) / max);
-    return `<div class="bar-row"><span class="nm">r${t.round} ${esc(t.lane)}</span><div class="track" title="${t.start.toFixed(1)}s to ${end.toFixed(1)}s">
-      <div class="bar ${t.lane} ${t.end == null ? "live" : ""}" style="left:${left}%;width:${width}%"></div></div></div>`;
-  }).join("") + `<div class="muted" style="font-size:11px;text-align:right">0 to ${max.toFixed(0)} s</div>`;
+    return `<div class="row"><span>${esc(t.lane)} r${t.round}</span><div class="track" title="${t.start.toFixed(1)} s to ${end.toFixed(1)} s">
+      <div class="bar2 ${t.lane} ${t.end == null ? "live" : ""}" style="left:${left}%;width:${width}%"></div></div></div>`;
+  }).join("") + `<div class="axis"><span>0 s</span><span>${max.toFixed(0)} s</span></div>`;
 }
 
 function drawCalls() {
@@ -295,75 +457,84 @@ function drawCalls() {
   const order = ["lead", "researcher:trials", "researcher:disclosures", "researcher:publications", "writer", "checker"];
   const keys = Object.keys(groups).sort((a, b) => order.indexOf(a) - order.indexOf(b));
   const check = state.calls.find(c => c.name === "check_citations");
-  $("checkstats").innerHTML = check ? `<div style="margin-top:12px"><span class="stat good">${esc(check.result.split(" (")[0])}</span></div>` : "";
-  $("calls").innerHTML = keys.length ? `<h4>Tool calls by agent</h4>` + keys.map(k => `<details class="grp" ${k.startsWith("researcher") ? "" : ""}>
-    <summary><span>${esc(k)}</span><span class="muted">${groups[k].length}</span></summary>
-    ${groups[k].map(c => `<div class="call"><div class="fn">${esc(c.name)}</div><div class="args">${esc(JSON.stringify(c.args))}</div><div class="res">${esc(c.result)}</div></div>`).join("")}
+  $("checkstats").innerHTML = check ? `<div class="checked">${esc(check.result.split(" (")[0])}</div>` : "";
+  $("calls").innerHTML = keys.length ? `<div class="sect" style="margin-bottom:4px">Tool calls</div>` + keys.map(k => `<details class="grp">
+    <summary><span>${esc(k)}</span><span>${groups[k].length}</span></summary>
+    ${groups[k].map(c => `<div class="call"><div class="fn">${esc(c.name)}</div><div class="args">${esc(JSON.stringify(c.args))}</div><div>${esc(c.result)}</div></div>`).join("")}
   </details>`).join("") : "";
 }
 
-function cites(text) {
-  return esc(text).replace(/\[(\d+)\]/g, (_, n) => `<button class="cite" data-n="${n}" title="Show source ${n}">${n}</button>`);
-}
+const cites = (text) => esc(text).replace(/\[(\d+)\]/g, (_, n) => `<button class="cite" data-n="${n}" title="Source ${n}">${n}</button>`);
 
 function drawClarify(e) {
-  const isRefuse = e.kind === "refuse";
-  const [msg, ...rest] = e.markdown.split("\n\nTry one of these:");
-  $("report").innerHTML = `<div class="clarify"><p>${esc(msg)}</p>
-    ${(e.options || []).length ? `<div class="muted" style="font-size:13px;margin-bottom:6px">${isRefuse ? "What I can look into instead:" : "Pick one, or type your own answer above:"}</div>
-    <div class="chips">${e.options.map((o, i) => `<button class="chip" data-o="${i}">${esc(o)}</button>`).join("")}</div>` : ""}</div>`;
+  const refuse = e.kind === "refuse";
+  const msg = e.markdown.split("\n\nTry one of these:")[0];
+  $("report").innerHTML = `<div class="clarify"><span class="stamp ${refuse ? "red" : ""}">${refuse ? "Outside what we can answer" : "Needs a target"}</span>
+    <p class="q" style="margin-top:12px">${esc(msg)}</p>
+    ${(e.options || []).length ? `<div class="sect">${refuse ? "What we can look into instead" : "Narrow it to one of these"}</div>
+    ${e.options.map((o, i) => `<button class="case" data-o="${i}"><span class="no">OPTION ${i + 1}</span><span class="tag"></span><span class="q">${esc(o)}</span><span class="go">→</span></button>`).join("")}` : ""}</div>`;
   $("report").querySelectorAll("[data-o]").forEach(b => b.onclick = () => {
-    const option = e.options[b.dataset.o];
-    if (isRefuse) sessionId = null;
-    $("q").value = option; ask(option);
+    if (refuse) sessionId = null;
+    const option = e.options[b.dataset.o]; $("q").value = option; ask(option);
   });
 }
 
-const KIND = {start: "--ink", stop: "--muted", due: "--amber", posted: "--teal", never: "--accent", filing: "--violet", publication: "--blue", update: "--muted"};
+const KIND = {start: "--ink", stop: "--pencil", due: "--pencil", posted: "--ink", never: "--red", filing: "--lane-d", publication: "--blue", update: "--pencil"};
 function drawTimeline(t) {
   const dated = t.events.filter(e => e.date);
   if (!dated.length) return "";
-  const ts = dated.map(e => Date.parse(e.date));
-  let min = Math.min(...ts), max = Math.max(...ts);
-  const never = t.events.find(e => e.kind === "never");
-  if (never) max = Math.max(max, Date.now());
-  const pad = (max - min) * .06 || 3e10; min -= pad; max += pad;
-  const W = 640, x = (d) => 20 + (W - 40) * (Date.parse(d) - min) / (max - min);
   const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  const y0 = 64;
+  const ts = dated.map(e => Date.parse(e.date));
+  const never = t.events.find(e => e.kind === "never");
+  // The scale covers only the dated events; a never-posted trial gets its own zone on the right, so the line is not stretched to today.
+  let min = Math.min(...ts), max = Math.max(...ts);
+  const pad = (max - min) * .04 || 3e10; min -= pad; max += pad;
+  const W = 680, y0 = 92, R = never ? W - 150 : W - 24, x = (d) => 24 + (R - 24) * (d - min) / (max - min);
   let years = "";
   for (let y = new Date(min).getUTCFullYear() + 1; y <= new Date(max).getUTCFullYear(); y++) {
-    const xx = x(`${y}-01-01`); years += `<line x1="${xx}" x2="${xx}" y1="${y0 - 4}" y2="${y0 + 4}" stroke="${css("--line")}"/><text x="${xx}" y="${y0 + 18}" text-anchor="middle">${y}</text>`;
+    const xx = x(Date.UTC(y, 0, 1)); years += `<line x1="${xx}" x2="${xx}" y1="${y0 - 3}" y2="${y0 + 3}" stroke="${css("--ink")}"/><text x="${xx}" y="${y0 + 16}" text-anchor="middle">${y}</text>`;
   }
-  const marks = dated.map((e, i) => {
-    const xx = x(e.date), up = i % 2 === 0, ly = up ? y0 - 16 - (i % 4 === 0 ? 14 : 0) : y0 + 32 + (i % 4 === 1 ? 14 : 0);
+  // Greedy label placement: each label takes the first lane (alternating above and below the line) where it fits.
+  const lanes = [-16, 32, -31, 47, -46, 62, -61, 77], ends = lanes.map(() => -1e9);
+  const marks = dated.map((e) => {
+    const xx = x(Date.parse(e.date)), w = e.label.length * 6.6 + 10;
+    const tx = Math.min(Math.max(xx, w / 2 + 2), R + (never ? 0 : 22) - w / 2);
+    let k = lanes.findIndex((_, j) => tx - w / 2 > ends[j]);
+    if (k < 0) k = ends.indexOf(Math.min(...ends));
+    ends[k] = tx + w / 2;
+    const up = lanes[k] < 0, ly = y0 + lanes[k];
     const color = css(KIND[e.kind] || "--ink");
-    return `<g><title>${esc(e.label)}: ${esc(e.date)}</title><line x1="${xx}" x2="${xx}" y1="${y0}" y2="${up ? ly + 4 : ly - 10}" stroke="${color}" stroke-dasharray="2 2"/>
-      <circle cx="${xx}" cy="${y0}" r="5" fill="${color}" stroke="${css("--card")}" stroke-width="1.5"/>
-      <text class="lbl" x="${Math.min(Math.max(xx, 50), W - 50)}" y="${ly}" text-anchor="middle">${esc(e.label)}</text></g>`;
+    return `<g><title>${esc(e.label)}: ${esc(e.date)}</title>
+      <line x1="${xx}" x2="${xx}" y1="${y0}" y2="${up ? ly + 4 : ly - 12}" stroke="${color}" stroke-width="1" stroke-dasharray="2 2"/>
+      <rect x="${xx - 4}" y="${y0 - 4}" width="8" height="8" fill="${e.kind === "posted" || e.kind === "start" ? color : css("--card")}" stroke="${color}" stroke-width="1.5"/>
+      <text class="lbl" x="${tx}" y="${ly}" text-anchor="middle">${esc(e.label)}</text></g>`;
   }).join("");
-  const nev = never ? (() => { const xx = W - 22; return `<g><title>Results never posted on ClinicalTrials.gov as of the snapshot</title>
-    <line x1="${xx - 7}" x2="${xx + 7}" y1="${y0 - 7}" y2="${y0 + 7}" stroke="${css("--accent")}" stroke-width="3"/><line x1="${xx - 7}" x2="${xx + 7}" y1="${y0 + 7}" y2="${y0 - 7}" stroke="${css("--accent")}" stroke-width="3"/>
-    <text class="lbl" x="${xx - 4}" y="${y0 - 34}" text-anchor="end" style="fill:${css("--accent")};font-weight:600">Results never posted</text></g>`; })() : "";
-  return `<div class="tl"><div class="meta"><b>${esc(t.nct_id)}</b> ${esc(t.title || "")} <span class="muted">(${esc(t.sponsor || "")}, ${esc(t.status || "")})</span></div>
-    ${t.why_stopped ? `<div class="why">Registry reason: "${esc(t.why_stopped)}"</div>` : ""}
-    <svg viewBox="0 0 ${W} 120" role="img" aria-label="Timeline for ${esc(t.nct_id)}">
-      <line x1="16" x2="${W - 16}" y1="${y0}" y2="${y0}" stroke="${css("--ink")}" stroke-width="1.5"/>${years}${marks}${nev}</svg></div>`;
+  const nev = never ? (() => { const xx = W - 64; return `<g><title>No results on ClinicalTrials.gov as of the snapshot date</title>
+    <path d="M${xx - 7} ${y0 - 7}L${xx + 7} ${y0 + 7}M${xx + 7} ${y0 - 7}L${xx - 7} ${y0 + 7}" stroke="${css("--red")}" stroke-width="3"/>
+    <line x1="${R + 4}" x2="${xx - 10}" y1="${y0}" y2="${y0}" stroke="${css("--red")}" stroke-width="2" stroke-dasharray="5 4"/>
+    <text class="lbl red" x="${xx}" y="${y0 - 30}" text-anchor="middle"><tspan>Results</tspan><tspan x="${xx}" dy="13">never posted</tspan></text></g>`; })() : "";
+  return `<div class="tl"><div class="meta"><span class="id">${esc(t.nct_id)}</span><b>${esc(t.title || "")}</b>
+      <span style="color:var(--pencil)">${esc(t.sponsor || "")} · ${esc((t.status || "").toLowerCase())}</span></div>
+    ${t.why_stopped ? `<p class="why">“${esc(t.why_stopped)}”</p>` : ""}
+    <svg viewBox="0 0 ${W} 180" role="img" aria-label="Timeline for ${esc(t.nct_id)}">
+      <line x1="16" x2="${R + 4}" y1="${y0}" y2="${y0}" stroke="${css("--ink")}" stroke-width="2"/>${years}${marks}${nev}</svg></div>`;
 }
 
 function drawReport(e) {
   const r = e.report;
-  const legend = `<div class="legend">${[["start", "start"], ["stop", "completion"], ["due", "results due"], ["posted", "results posted"], ["never", "never posted"], ["filing", "SEC filing"], ["publication", "publication"]]
-    .map(([k, l]) => `<span><i style="background:var(${KIND[k]})"></i>${l}</span>`).join("")}</div>`;
+  const neverPosted = (e.timeline || []).some(t => t.events.some(ev => ev.kind === "never"));
+  const stamps = [neverPosted ? `<span class="stamp red">Results never posted</span>` : "", r.differences.length ? `<span class="stamp red">Stories differ</span>` : ""].filter(Boolean).join(" ");
+  const list = (items) => `<ol class="claims">${items.map(s => `<li>${cites(s)}</li>`).join("")}</ol>`;
   $("report").innerHTML = `
-    <h3>Answer</h3><div class="answer">${r.answer.map(cites).join(" ")}</div>
-    <h3>Timeline</h3>${(e.timeline || []).length ? legend + e.timeline.map(drawTimeline).join("") : ""}<p>${cites(r.timeline_text)}</p>
-    <h3>Evidence</h3><ul>${r.evidence.map(s => `<li>${cites(s)}</li>`).join("") || "<li>No claim survived the citation check.</li>"}</ul>
-    ${r.differences.length ? `<h3>Where the stories differ</h3><div class="differ"><ul>${r.differences.map(s => `<li>${cites(s)}</li>`).join("")}</ul></div>` : ""}
-    <div class="canttell"><h3>What the data can't tell us</h3><ul>${r.cant_tell.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
-    <div class="sources"><h3>Sources</h3><ol>${e.sources.map(s => `<li id="src-${s.n}"><span class="stype">${esc(s.source_type)}</span><br>
-      <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a> <span class="mono muted">${esc(s.evidence_id)}</span></li>`).join("")}</ol></div>
-    <div class="foot">Research rounds: ${e.trace.rounds} of ${e.trace.max_rounds}. Citations checked: ${e.checker.citations_checked}, removed: ${e.checker.removed}. ${esc((e.trace.notes || []).join(" "))}</div>`;
+    ${stamps ? `<div style="margin-bottom:14px;display:flex;gap:6px;flex-wrap:wrap">${stamps}</div>` : ""}
+    <h3>Finding</h3><p class="answer">${r.answer.map(cites).join(" ") || "The evidence gathered does not support a direct answer."}</p>
+    <h3>Timeline</h3>${(e.timeline || []).map(drawTimeline).join("")}<p class="prose">${cites(r.timeline_text)}</p>
+    <h3>Evidence</h3>${r.evidence.length ? list(r.evidence) : `<p class="prose">No claim survived the citation check.</p>`}
+    ${r.differences.length ? `<h3>Where the stories differ</h3><div class="differ">${list(r.differences)}</div>` : ""}
+    <div class="sticky"><h3>What the records can't tell us</h3><ul>${r.cant_tell.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
+    <h3>Sources</h3><div class="sources"><ol>${e.sources.map(s => `<li id="src-${s.n}"><span class="sn">${s.n}</span><div>
+      <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a><span class="st">${esc(s.source_type)} · <span class="mono">${esc(s.evidence_id)}</span></span></div></li>`).join("")}</ol></div>
+    <div class="foot">${e.trace.rounds} research round${e.trace.rounds === 1 ? "" : "s"} · ${e.checker.citations_checked} citations checked, ${e.checker.removed} claims cut · ${e.trace.elapsed_s} s</div>`;
   $("report").querySelectorAll(".cite").forEach(b => b.onclick = () => {
     const li = $("src-" + b.dataset.n); if (!li) return;
     document.querySelectorAll(".sources li.hit").forEach(x => x.classList.remove("hit"));
