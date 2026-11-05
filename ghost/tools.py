@@ -38,6 +38,13 @@ def _error(message: str) -> str:
     return _json({"error": message})
 
 
+def _nothing_found(state: RunState, prefix: str, key: str, title: str, url: str, searched: dict) -> str:
+    """An empty search is a finding too ("no FDA approval for X"). Store it so it can be cited, instead of the
+    model inventing an id for it."""
+    slug = re.sub(r"[^a-z0-9]+", "-", key.lower()).strip("-")[:60]
+    return state.store.add(f"{prefix}:none:{slug}", title, url, {"found": 0, **searched})
+
+
 def ctgov_url(nct_id: str) -> str:
     return f"https://clinicaltrials.gov/study/{nct_id}"
 
@@ -180,15 +187,25 @@ def get_fda_approvals(ctx: RunContextWrapper[RunState], drug_name: str) -> str:
     Args:
         drug_name: Brand or generic name, e.g. 'aducanumab'.
     """
-    name = drug_name.strip().replace('"', "")
-    query = f'openfda.generic_name:"{name}" OR openfda.brand_name:"{name}" OR products.brand_name:"{name}"'
+    name = re.sub(r"[^A-Za-z0-9 .-]", "", drug_name).strip()
+    if not name:
+        return _error("Give a drug name.")
+    # Search the product's own fields too: a withdrawn drug (e.g. Aduhelm) loses its openfda block. Biologic
+    # generic names carry a suffix ('aducanumab-avwa'), so a one-word name is matched as a prefix.
+    term = f"{name.lower()}*" if " " not in name else f'"{name}"'
+    query = " OR ".join(f"{field}:{term}" for field in
+                        ("products.active_ingredients.name", "products.brand_name", "openfda.generic_name", "openfda.brand_name"))
     try:
         found = http.get(OPENFDA, {"search": query, "limit": 5})
     except http.SourceError as e:
         return _error(str(e))
     results = (found or {}).get("results", [])
     if not results:
-        return _json({"drug_name": name, "applications": [], "note": "No Drugs@FDA application found for this name."})
+        evidence_id = _nothing_found(ctx.context, "fda", name, f"Drugs@FDA search for {name}: no application",
+                                     f"https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=BasicSearch.process&searchterm={name}",
+                                     {"drug_name": name, "searched": "Drugs@FDA (openFDA drugsfda)"})
+        return _json({"drug_name": name, "applications": [], "evidence_id": evidence_id,
+                      "note": f"No Drugs@FDA application found for this name. Cite {evidence_id} for that."})
     applications = []
     for app in results:
         number = app.get("application_number")
@@ -199,6 +216,8 @@ def get_fda_approvals(ctx: RunContextWrapper[RunState], drug_name: str) -> str:
             "application_number": number, "sponsor_name": app.get("sponsor_name"),
             "brand_names": sorted({p.get("brand_name") for p in app.get("products", []) if p.get("brand_name")}),
             "original_approval_date": f"{first[:4]}-{first[4:6]}-{first[6:]}" if first else None,
+            "marketing_status": sorted({p.get("marketing_status") for p in app.get("products", []) if p.get("marketing_status")}),
+            "active_ingredients": sorted({i.get("name") for p in app.get("products", []) for i in p.get("active_ingredients", []) if i.get("name")}),
         }
         url = f"https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo={re.sub(r'[^0-9]', '', number or '')}"
         record["evidence_id"] = ctx.context.store.add(f"fda:{number}", f"Drugs@FDA {number}", url, record)
@@ -235,8 +254,10 @@ def find_sponsor_cik(ctx: RunContextWrapper[RunState], sponsor_name: str) -> str
             companies.setdefault(row["title"], (str(row["cik_str"]).zfill(10), row["ticker"]))
         rows = match_sponsors({sponsor_name}, companies)
     if not rows:
-        return _json({"sponsor_name": sponsor_name, "matches": [],
-                      "note": "No listed company matches this sponsor. It is probably private or delisted, so it has no SEC filings we can check."})
+        evidence_id = _nothing_found(ctx.context, "cik", sponsor_name, f"SEC company search for {sponsor_name}: no listed company",
+                                     "https://www.sec.gov/files/company_tickers.json", {"sponsor_name": sponsor_name, "searched": "SEC company_tickers.json"})
+        return _json({"sponsor_name": sponsor_name, "matches": [], "evidence_id": evidence_id,
+                      "note": f"No listed company matches this sponsor. It is probably private or delisted, so it has no SEC filings we can check. Cite {evidence_id} for that."})
     matches = []
     for row in rows[:3]:
         url = f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={row['cik']}"
@@ -282,8 +303,12 @@ def search_sec_filings(ctx: RunContextWrapper[RunState], query: str, cik: str | 
         record["source_url"] = url
         filings.append(record)
     total = hits.get("total", {}).get("value", len(filings))
-    return _json({"query": query, "total": total, "filings": filings,
-                  **({"note": "No filings matched. Try the drug's code name, a wider date range, or 10-Q/10-K."} if not filings else {})})
+    if not filings:
+        evidence_id = _nothing_found(ctx.context, "sec", json.dumps(params, sort_keys=True), f"EDGAR full-text search: no {params['forms']} filings for {query}",
+                                     f"https://efts.sec.gov/LATEST/search-index?{'&'.join(f'{k}={v}' for k, v in params.items())}", {"searched": params})
+        return _json({"query": query, "total": 0, "filings": [], "evidence_id": evidence_id,
+                      "note": f"No filings matched. Cite {evidence_id} for that. Next, try the drug's code name, a wider date range, or 10-Q/10-K."})
+    return _json({"query": query, "total": total, "filings": filings})
 
 
 def _paragraphs(html: str) -> list[str]:
@@ -375,8 +400,12 @@ def find_publications(ctx: RunContextWrapper[RunState], nct_id: str, drug_name: 
     for pub in pubs:
         pub["source_url"] = f"https://pubmed.ncbi.nlm.nih.gov/{pub['pmid']}/"
         pub["evidence_id"] = ctx.context.store.add(f"pubmed:{pub['pmid']}", pub.get("title") or f"PMID {pub['pmid']}", pub["source_url"], dict(pub))
-    return _json({"nct_id": nct_id, "searched": searched, "publications": pubs,
-                  **({"note": "No linked publication found in PubMed or Europe PMC. Results may exist elsewhere (conference abstracts, company sites)."} if not pubs else {})})
+    if not pubs:
+        evidence_id = _nothing_found(ctx.context, "pubmed", nct_id, f"PubMed and Europe PMC search for {nct_id}: no linked article",
+                                     f"https://pubmed.ncbi.nlm.nih.gov/?term={nct_id}%5Bsi%5D", {"nct_id": nct_id, "searched": searched, "drug_name": drug_name})
+        return _json({"nct_id": nct_id, "searched": searched, "publications": [], "evidence_id": evidence_id,
+                      "note": f"No linked publication found in {', '.join(searched)}. Cite {evidence_id} for that. Results may exist elsewhere (conference abstracts, company sites)."})
+    return _json({"nct_id": nct_id, "searched": searched, "publications": pubs})
 
 
 @function_tool

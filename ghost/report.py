@@ -100,7 +100,8 @@ def render(state: RunState, report, checker: dict) -> dict:
     lines += ["## Evidence"] + ([f"- {_cite(c, numbers)}" for c in report.evidence] or ["- No claim survived the citation check."]) + [""]
     if report.differences:
         lines += ["## Where the stories differ"] + [f"- {_cite(c, numbers)}" for c in report.differences] + [""]
-    cant = list(report.cant_tell) + [n for n in state.notes if "budget" in n or "cap" in n.lower()]
+    # Only the time budget limits the answer in a way the reader needs to know; other notes are for the trace.
+    cant = list(report.cant_tell) + [n for n in state.notes if "budget" in n]
     lines += ["## What the data can't tell us"] + [f"- {c}" for c in cant] + [""]
     lines += ["## Sources"] + [f"{s['n']}. {s['title']}. {s['source_type']}. {s['url']}" for s in sources]
     lines += ["", f"_Snapshot date: {db.snapshot_date() or 'unknown'}. Research rounds: {state.rounds}. "

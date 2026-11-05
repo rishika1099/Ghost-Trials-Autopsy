@@ -1,0 +1,59 @@
+{
+  "kind": "clarify",
+  "markdown": "Would you like to analyze the overall trends for stopped Alzheimer's trials, or investigate a specific clinical trial and its disclosures in detail?\n\nTry one of these:\n- Industry phase 2 and 3 Alzheimer's trials that stopped from 2015 to 2023, grouped by stated reason and results reporting status\n- Why did Biogen stop the phase 3 aducanumab trial (NCT02477800) early, and what did they report to the registry, PubMed, and the SEC?\n- Why did Axovant stop the phase 3 trial of intepirdine (NCT02586909), and how did the trial findings compare to their SEC filings?",
+  "options": [
+    "Industry phase 2 and 3 Alzheimer's trials that stopped from 2015 to 2023, grouped by stated reason and results reporting status",
+    "Why did Biogen stop the phase 3 aducanumab trial (NCT02477800) early, and what did they report to the registry, PubMed, and the SEC?",
+    "Why did Axovant stop the phase 3 trial of intepirdine (NCT02586909), and how did the trial findings compare to their SEC filings?"
+  ],
+  "tool_calls": [
+    {
+      "name": "read_mappings",
+      "args": {},
+      "result": "[{\"table\": \"trials\", \"description\": \"One row per trial from ClinicalTrials.gov: industry-sponsored, interventional, phase 2 or 3, primary completion 2015 to 2023.\", \"columns\": [{\"name\": \"nct_id\", \"typ",
+      "agent": "lead"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT t.nct_id, t.sponsor, t.drug_names, t.why_stopped, td.why_stopped_category\nFROM trials t\nJOIN trial_derived td ON t.nct_id = td.nct_id\nWHERE array_to_string(t.conditions, ' ') ILIKE '%Alzheimer%'\n  AND td.stopped = true\nLIMIT 5;"
+      },
+      "result": "5 rows, 5 evidence ids",
+      "agent": "lead"
+    },
+    {
+      "name": "plan",
+      "args": {
+        "question": "Why do Alzheimer's trials fail?"
+      },
+      "result": "{\"decision\": \"clarify\", \"plan\": \"\", \"lanes\": []}",
+      "agent": "lead"
+    }
+  ],
+  "trace": {
+    "rounds": 0,
+    "max_rounds": 3,
+    "timings": [],
+    "elapsed_s": 7.87,
+    "notes": [],
+    "first_contexts": {
+      "lead": {
+        "agent": "lead",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are the Lead of Ghost Trials Autopsy, a research team that investigates industry clinical trials that stopped early.\nThe team can answer four questions about a drug, sponsor, condition or trial (NCT ID):\n1. Why did the trial stop? (registry status and the stated reason)\n2. Were the results ever reported? (results on ClinicalTrials.gov, journal publications, how late)\n3. What did the sponsor tell investors? (SEC 8-K and other filings near the stop date)\n4. Do those stories match?\n\nThe data: a snapshot of 16,000+ industry-sponsored, interventional, phase 2 or 3 trials with primary completion from 2015 to 2023, joined to SEC filings and PubMed articles, plus live ClinicalTrials.gov, Drugs@FDA, SEC EDGAR, PubMed and Europe PMC lookups.\n\n## Step 1: the gate. Decide before any research.\n\nReturn decision \"refuse\" when the question asks for something this tool must never give:\n- medical advice (\"Should I take X?\", \"Is X safe for me?\"),\n- a verdict on intent, fraud or deception, or on whether a sponsor broke the law, AS THE WHOLE QUESTION with no factual part we can research.\nIn message, say briefly why, and what the tool can do instead. Put 2 to 3 researchable rephrasings in options.\nIf a question asks for a legal or intent verdict but names a concrete sponsor, drug or trial, do NOT refuse: return \"research\" and plan the factual part (what was reported and when). The Writer will explain that the data cannot show intent or legal violations.\n\nReturn decision \"clarify\" when the question is vague: it lacks a concrete target (a drug, sponsor, NCT ID or condition) AND a scope (a phase, a time window, or which of the four questions). \"Why do trials fail?\" and \"Why do Alzheimer's trials fail?\" are vague. \"Did Acme stop any trials without reporting results?\" is specific: it names a sponsor and a question.\nIn message, ask one short question. In options, give 2 to 4 concrete, ready-to-run rewrites, such as \"Industry phase 2 and 3 Alzheimer's trials that stopped from 2015 to 2023, grouped by stated reason\". You may call query_trials_sql once to make the options concrete (real sponsor or drug names).\nDo not research when you clarify.\n\nOtherwise return decision \"research\".\n\n## Step 2: plan (only for \"research\")\n\nYou may call read_mappings, get_snapshot_stats and query_trials_sql (at most 3 calls) to find the trials in question, so the briefs can name NCT IDs, sponsors and drug names. Do not try to answer the question yourself.\nWrite a short plan (2 to 4 sentences) and one brief per relevant lane:\n- \"trials\": registry facts, statuses, stated reasons, dates, results posting and lateness, FDA approval, base rates.\n- \"disclosures\": the sponsor's CIK, 8-K (and if needed 10-Q/10-K) language near the stop date, and how it describes the trial.\n- \"publications\": PubMed / Europe PMC articles linked to each trial, their dates and what the abstracts report.\nUsually all three lanes are relevant. Each brief is self-contained: the Researcher sees only its brief, never this conversation. Name the exact NCT IDs, sponsor, drug names and date windows. Ask for at most 3 trials per brief; pick the most relevant ones.\n\nWrite plainly. Never use em dashes.\n"
+          },
+          {
+            "role": "user",
+            "content": "Why do Alzheimer's trials fail?"
+          }
+        ]
+      }
+    }
+  },
+  "report": null,
+  "sources": [],
+  "timeline": [],
+  "elapsed_s": 7.9
+}

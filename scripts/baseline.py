@@ -12,13 +12,13 @@ from pathlib import Path
 import litellm
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from ghost.config import ROOT, VERTEX_LOCATION, WRITER_MODEL  # noqa: E402
+from ghost.config import ROOT, VERTEX_ARGS, WRITER_MODEL  # noqa: E402
 
 OUT = ROOT / "baseline"
 
 
 def ask(query: str) -> str:
-    response = litellm.completion(model=WRITER_MODEL, vertex_location=VERTEX_LOCATION, timeout=120, num_retries=2,
+    response = litellm.completion(model=WRITER_MODEL, **VERTEX_ARGS, timeout=120, num_retries=2,
                                   messages=[{"role": "user", "content": query}])
     return response.choices[0].message.content
 
