@@ -24,9 +24,9 @@ from ghost import pipeline  # noqa: E402
 from ghost.state import RunState  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
-# Inspect's Vertex provider reads the project from the environment: default it to gcloud's.
+# Inspect's Vertex provider reads the project from the environment: the agent's VERTEX_PROJECT, else gcloud's.
 if not os.environ.get("GOOGLE_CLOUD_PROJECT"):
-    os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()[1] or ""
+    os.environ["GOOGLE_CLOUD_PROJECT"] = os.environ.get("VERTEX_PROJECT") or google.auth.default()[1] or ""
 os.environ.setdefault("GOOGLE_CLOUD_LOCATION", "global")
 JUDGE = "google/vertex/gemini-3.5-flash"
 
