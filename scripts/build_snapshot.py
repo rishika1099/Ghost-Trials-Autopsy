@@ -32,13 +32,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from ghost import http  # noqa: E402
 from ghost.config import DATA_DIR, DB_PATH, MAPPINGS_PATH, SEC_USER_AGENT  # noqa: E402
 from ghost.classify import classify_why_stopped, llm_classify  # noqa: E402
-from ghost.names import match_sponsors  # noqa: E402
+from ghost.names import core_key, match_sponsors, normalize  # noqa: E402
 
 CTGOV = "https://clinicaltrials.gov/api/v2/studies"
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 EUROPEPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 EFTS = "https://efts.sec.gov/LATEST/search-index"
 TICKERS = "https://www.sec.gov/files/company_tickers.json"
+SUBMISSIONS = "https://data.sec.gov/submissions/CIK{cik}.json"
 
 FILTER = (
     "AREA[StudyType]INTERVENTIONAL AND AREA[LeadSponsorClass]INDUSTRY AND "
@@ -162,12 +163,61 @@ def derive(trials: list[dict], today: dt.date, use_llm: bool) -> list[dict]:
 # --- 3. Sponsor to CIK ---
 
 
-def sponsor_ciks(sponsors: set[str]) -> list[dict]:
+def sec_profile(cik: str) -> dict:
+    """SEC's own record for a filer: industry code and whether it files 8-Ks (foreign issuers file 6-Ks)."""
+    try:
+        record = http.get(SUBMISSIONS.format(cik=cik)) or {}
+    except http.SourceError:
+        return {"sic": None, "files_8k": None, "last_8k": ""}
+    recent = record.get("filings", {}).get("recent", {})
+    dates_8k = [d for d, form in zip(recent.get("filingDate", []), recent.get("form", [])) if form == "8-K"]
+    return {"sic": record.get("sic") or None, "files_8k": bool(dates_8k), "last_8k": max(dates_8k, default="")}
+
+
+def edgar_entities(sponsor: str) -> dict[str, tuple[str, str]]:
+    """EDGAR's company-name search, which also knows delisted filers. Returns {title: (cik, '')} for hits whose
+    core name is the sponsor's."""
+    try:
+        found = http.get(EFTS, {"keysTyped": normalize(sponsor)})  # every word must appear, so drop 'Inc.', 'LLC'
+    except http.SourceError:
+        return {}
+    entities: dict[str, tuple[str, str]] = {}
+    for hit in (found or {}).get("hits", {}).get("hits", [])[:10]:
+        title = hit.get("_source", {}).get("entity")
+        if title and core_key(title) == core_key(sponsor):
+            entities.setdefault(title, (str(hit["_id"]).zfill(10), ""))  # EDGAR ranks the active filer first
+    return entities
+
+
+def sponsor_ciks(sponsors: set[str], lookup_delisted: set[str] = frozenset()) -> list[dict]:
+    """Match sponsors to SEC filers: listed companies first, then EDGAR's name search for the sponsors in
+    lookup_delisted that are still unmatched (companies that have since been acquired, renamed or delisted)."""
     tickers = http.get(TICKERS)
     companies = {}
     for row in tickers.values():
         companies.setdefault(row["title"], (str(row["cik_str"]).zfill(10), row["ticker"]))
-    return match_sponsors(sponsors, companies)
+    profiles: dict[str, dict] = {}
+
+    def profile(cik: str) -> dict:
+        if cik not in profiles:
+            profiles[cik] = sec_profile(cik)
+        return profiles[cik]
+
+    rows = match_sponsors(sponsors, companies, lambda cik: profile(cik)["sic"])
+    matched = {r["sponsor"] for r in rows}
+    pending = sorted(lookup_delisted - matched)
+    log(f"sponsor_cik: {len(rows)} listed matches; EDGAR name search for {len(pending)} more")
+    for sponsor in pending:
+        entities = edgar_entities(sponsor)
+        # Several filers can share a name (Allergan Inc. until 2015, Allergan plc to 2020): on a tie, the one
+        # that filed 8-Ks most recently wins, since it covers more of the 2015 to 2023 trial window.
+        entities = dict(sorted(entities.items(), key=lambda e: profile(e[1][0])["last_8k"], reverse=True))
+        if entities:
+            for row in match_sponsors({sponsor}, entities, lambda cik: profile(cik)["sic"]):
+                rows.append({**row, "ticker": None, "match_method": "edgar_name"})
+    for row in rows:
+        row.update({k: v for k, v in profile(row["cik"]).items() if k != "last_8k"})
+    return rows
 
 
 # --- 4. Filings ---
@@ -324,9 +374,12 @@ DESCRIPTIONS = {
         "_table": "Sponsor name to SEC CIK for publicly listed sponsors. Private sponsors have no row.",
         "sponsor": "Sponsor name as in trials.sponsor.",
         "cik": "SEC Central Index Key, 10 digits zero-padded.",
-        "ticker": "Stock ticker.",
-        "company": "Company name in SEC's list.",
-        "match_score": "Fuzzy match score 0 to 100 between the normalized names. Only rows >= the threshold are kept.",
+        "ticker": "Stock ticker. NULL for a filer that is no longer listed (acquired, renamed or delisted).",
+        "company": "Company name as SEC has it.",
+        "match_score": "Similarity 0 to 100 of the full normalized names. Informational: every row already has an identical core name (or is an override).",
+        "match_method": "How it matched: exact_core (identical core name in SEC's listed companies), edgar_name (EDGAR company search, for filers no longer listed), override (subsidiary mapped to the parent that files).",
+        "sic": "SEC Standard Industrial Classification code of the filer, e.g. 2834 pharmaceutical preparations.",
+        "files_8k": "TRUE if the filer files 8-Ks. FALSE for foreign private issuers, which report on 6-K instead, so an empty filings result for them is expected.",
     },
     "filings": {
         "_table": "SEC 8-K filings from a matched sponsor within 120 days of a stopped trial's dates that mention its NCT ID or drug name.",
@@ -383,9 +436,11 @@ SCOPE = ("ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials,
 def write_sec_tables(db: duckdb.DuckDBPyConnection, ciks: list[dict], filings: list[dict]) -> None:
     """(Re)create sponsor_cik and filings. Touches no other table."""
     db.execute("DROP TABLE IF EXISTS sponsor_cik")
-    db.execute("CREATE TABLE sponsor_cik (sponsor VARCHAR, cik VARCHAR, ticker VARCHAR, company VARCHAR, match_score DOUBLE)")
+    db.execute("""CREATE TABLE sponsor_cik (sponsor VARCHAR, cik VARCHAR, ticker VARCHAR, company VARCHAR, match_score DOUBLE,
+        match_method VARCHAR, sic VARCHAR, files_8k BOOLEAN)""")
     if ciks:
-        db.executemany("INSERT INTO sponsor_cik VALUES (?,?,?,?,?)", [[c[k] for k in ("sponsor", "cik", "ticker", "company", "match_score")] for c in ciks])
+        columns = ("sponsor", "cik", "ticker", "company", "match_score", "match_method", "sic", "files_8k")
+        db.executemany("INSERT INTO sponsor_cik VALUES (?,?,?,?,?,?,?,?)", [[c.get(k) for k in columns] for c in ciks])
     db.execute("DROP TABLE IF EXISTS filings")
     db.execute("""CREATE TABLE filings (nct_id VARCHAR, cik VARCHAR, accession VARCHAR, form VARCHAR, filed_date DATE,
         url VARCHAR, matched_terms VARCHAR[], snippet VARCHAR)""")
@@ -431,7 +486,8 @@ def build_sec_only(today: dt.date) -> None:
         trials = load_trials(db)
         built_at = dict(db.execute("SELECT table_name, built_at FROM snapshot_meta").fetchall())
         log(f"sec-only: {len(trials)} trials read from {DB_PATH.name}")
-        ciks = sponsor_ciks({t["sponsor"] for t in trials if t["sponsor"]})
+        ciks = sponsor_ciks({t["sponsor"] for t in trials if t["sponsor"]},
+                           {t["sponsor"] for t in trials if t["sponsor"] and t["overall_status"] in STOPPED})
         log(f"sponsor_cik: {len(ciks)} sponsors matched to a CIK")
         filings = fetch_filings(trials, {c["sponsor"]: c["cik"] for c in ciks})
         write_sec_tables(db, ciks, filings)
@@ -484,7 +540,8 @@ def main(argv: list[str] | None = None) -> None:
         log("SEC steps skipped: set SEC_USER_AGENT to build sponsor_cik and filings")
         ciks, filings = [], []
     else:
-        ciks = sponsor_ciks({t["sponsor"] for t in trials if t["sponsor"]})
+        ciks = sponsor_ciks({t["sponsor"] for t in trials if t["sponsor"]},
+                           {t["sponsor"] for t in trials if t["sponsor"] and t["overall_status"] in STOPPED})
         log(f"sponsor_cik: {len(ciks)} sponsors matched to a CIK")
         filings = fetch_filings(trials, {c["sponsor"]: c["cik"] for c in ciks})
 
