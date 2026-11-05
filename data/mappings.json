@@ -179,26 +179,22 @@
         {
           "name": "sponsor",
           "type": "VARCHAR",
-          "description": "Sponsor name as in trials.sponsor.",
-          "enum_values": []
+          "description": "Sponsor name as in trials.sponsor."
         },
         {
           "name": "cik",
           "type": "VARCHAR",
-          "description": "SEC Central Index Key, 10 digits zero-padded.",
-          "enum_values": []
+          "description": "SEC Central Index Key, 10 digits zero-padded."
         },
         {
           "name": "ticker",
           "type": "VARCHAR",
-          "description": "Stock ticker.",
-          "enum_values": []
+          "description": "Stock ticker."
         },
         {
           "name": "company",
           "type": "VARCHAR",
-          "description": "Company name in SEC's list.",
-          "enum_values": []
+          "description": "Company name in SEC's list."
         },
         {
           "name": "match_score",
@@ -219,20 +215,21 @@
         {
           "name": "cik",
           "type": "VARCHAR",
-          "description": "Filer's CIK.",
-          "enum_values": []
+          "description": "Filer's CIK."
         },
         {
           "name": "accession",
           "type": "VARCHAR",
-          "description": "SEC accession number, e.g. 0001193125-21-123456.",
-          "enum_values": []
+          "description": "SEC accession number, e.g. 0001193125-21-123456."
         },
         {
           "name": "form",
           "type": "VARCHAR",
           "description": "Form type, e.g. 8-K.",
-          "enum_values": []
+          "enum_values": [
+            "8-K",
+            "8-K/A"
+          ]
         },
         {
           "name": "filed_date",
