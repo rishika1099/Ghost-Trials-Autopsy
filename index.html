@@ -154,8 +154,9 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 
 /* log: graph paper */
 .log { background-color: var(--card); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 14px 14px; box-shadow: var(--shadow); padding: 20px 18px 22px; min-width: 0; transform: rotate(.4deg); }
-@media (max-width: 980px) { .log { transform: none; } }
+  background-size: 14px 14px; box-shadow: var(--shadow); padding: 20px 18px 22px; min-width: 0; transform: rotate(.4deg);
+  position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
+@media (max-width: 980px) { .log { transform: none; position: static; max-height: none; } }
 .log .sect { font-size: 27px; }
 .steps { list-style: none; margin: 0 0 16px; padding: 0; }
 .steps li { display: grid; grid-template-columns: 18px 1fr auto; gap: 6px; align-items: baseline; padding: 3px 0; font: 19px/1.3 "Caveat", cursive; }
@@ -398,9 +399,10 @@ function drawTimeline(t) {
   const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const ts = dated.map(e => Date.parse(e.date));
   const never = t.events.find(e => e.kind === "never");
-  let min = Math.min(...ts), max = Math.max(...ts, never ? Date.now() : 0);
-  const pad = (max - min) * .05 || 3e10; min -= pad; max += pad;
-  const W = 680, y0 = 92, x = (d) => 24 + (W - 48) * (d - min) / (max - min);
+  // The scale covers only the dated events; a never-posted trial gets its own zone on the right, so the line is not stretched to today.
+  let min = Math.min(...ts), max = Math.max(...ts);
+  const pad = (max - min) * .04 || 3e10; min -= pad; max += pad;
+  const W = 680, y0 = 92, R = never ? W - 150 : W - 24, x = (d) => 24 + (R - 24) * (d - min) / (max - min);
   let years = "";
   for (let y = new Date(min).getUTCFullYear() + 1; y <= new Date(max).getUTCFullYear(); y++) {
     const xx = x(Date.UTC(y, 0, 1)); years += `<line x1="${xx}" x2="${xx}" y1="${y0 - 3}" y2="${y0 + 3}" stroke="${css("--ink")}"/><text x="${xx}" y="${y0 + 16}" text-anchor="middle">${y}</text>`;
@@ -409,7 +411,7 @@ function drawTimeline(t) {
   const lanes = [-16, 32, -31, 47, -46, 62, -61, 77], ends = lanes.map(() => -1e9);
   const marks = dated.map((e) => {
     const xx = x(Date.parse(e.date)), w = e.label.length * 6.3 + 10;
-    const tx = Math.min(Math.max(xx, w / 2 + 2), W - w / 2 - 2);
+    const tx = Math.min(Math.max(xx, w / 2 + 2), R + (never ? 0 : 22) - w / 2);
     let k = lanes.findIndex((_, j) => tx - w / 2 > ends[j]);
     if (k < 0) k = ends.indexOf(Math.min(...ends));
     ends[k] = tx + w / 2;
@@ -420,14 +422,15 @@ function drawTimeline(t) {
       <rect x="${xx - 4}" y="${y0 - 4}" width="8" height="8" fill="${e.kind === "posted" || e.kind === "start" ? color : css("--card")}" stroke="${color}" stroke-width="1.5"/>
       <text class="lbl" x="${tx}" y="${ly}" text-anchor="middle">${esc(e.label)}</text></g>`;
   }).join("");
-  const nev = never ? (() => { const xx = W - 26; return `<g><title>No results on ClinicalTrials.gov as of the snapshot date</title>
+  const nev = never ? (() => { const xx = W - 70; return `<g><title>No results on ClinicalTrials.gov as of the snapshot date</title>
     <path d="M${xx - 7} ${y0 - 7}L${xx + 7} ${y0 + 7}M${xx + 7} ${y0 - 7}L${xx - 7} ${y0 + 7}" stroke="${css("--red")}" stroke-width="3"/>
-    <text class="lbl red" x="${xx + 8}" y="12" text-anchor="end">Results never posted</text></g>`; })() : "";
+    <line x1="${R + 4}" x2="${xx - 10}" y1="${y0}" y2="${y0}" stroke="${css("--red")}" stroke-width="2" stroke-dasharray="5 4"/>
+    <text class="lbl red" x="${xx}" y="${y0 - 16}" text-anchor="middle">Results never posted</text></g>`; })() : "";
   return `<div class="tl"><div class="meta"><span class="id">${esc(t.nct_id)}</span><b>${esc(t.title || "")}</b>
       <span style="color:var(--pencil)">${esc(t.sponsor || "")} · ${esc((t.status || "").toLowerCase())}</span></div>
     ${t.why_stopped ? `<p class="why">“${esc(t.why_stopped)}”</p>` : ""}
     <svg viewBox="0 0 ${W} 180" role="img" aria-label="Timeline for ${esc(t.nct_id)}">
-      <line x1="16" x2="${W - 16}" y1="${y0}" y2="${y0}" stroke="${css("--ink")}" stroke-width="2"/>${years}${marks}${nev}</svg></div>`;
+      <line x1="16" x2="${R + 4}" y1="${y0}" y2="${y0}" stroke="${css("--ink")}" stroke-width="2"/>${years}${marks}${nev}</svg></div>`;
 }
 
 function drawReport(e) {
