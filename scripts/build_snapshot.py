@@ -371,6 +371,36 @@ def write_mappings(db: duckdb.DuckDBPyConnection) -> None:
     MAPPINGS_PATH.write_text(json.dumps({"tables": tables}, indent=2))
 
 
+# --- Writing tables ---
+
+SNAPSHOT_TABLES = ("trials", "trial_derived", "sponsor_cik", "filings", "publications")
+SCOPE = ("ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to "
+         "2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED")
+
+
+def write_sec_tables(db: duckdb.DuckDBPyConnection, ciks: list[dict], filings: list[dict]) -> None:
+    """(Re)create sponsor_cik and filings. Touches no other table."""
+    db.execute("DROP TABLE IF EXISTS sponsor_cik")
+    db.execute("CREATE TABLE sponsor_cik (sponsor VARCHAR, cik VARCHAR, ticker VARCHAR, company VARCHAR, match_score DOUBLE)")
+    if ciks:
+        db.executemany("INSERT INTO sponsor_cik VALUES (?,?,?,?,?)", [[c[k] for k in ("sponsor", "cik", "ticker", "company", "match_score")] for c in ciks])
+    db.execute("DROP TABLE IF EXISTS filings")
+    db.execute("""CREATE TABLE filings (nct_id VARCHAR, cik VARCHAR, accession VARCHAR, form VARCHAR, filed_date DATE,
+        url VARCHAR, matched_terms VARCHAR[], snippet VARCHAR)""")
+    if filings:
+        db.executemany("INSERT INTO filings VALUES (?,?,?,?,?,?,?,?)",
+                       [[f[k] for k in ("nct_id", "cik", "accession", "form", "filed_date", "url", "matched_terms", "snippet")] for f in filings])
+
+
+def write_snapshot_meta(db: duckdb.DuckDBPyConnection, built_at: dict[str, dt.date]) -> None:
+    """(Re)create snapshot_meta with current row counts. built_at says when each table was last built."""
+    db.execute("DROP TABLE IF EXISTS snapshot_meta")
+    db.execute("CREATE TABLE snapshot_meta (table_name VARCHAR, row_count INTEGER, built_at DATE, scope VARCHAR)")
+    for table in SNAPSHOT_TABLES:
+        count = db.execute(f"SELECT count(*) FROM {table}").fetchone()[0]
+        db.execute("INSERT INTO snapshot_meta VALUES (?,?,?,?)", [table, count, built_at[table], SCOPE])
+
+
 # --- Main ---
 
 
@@ -423,23 +453,12 @@ def main() -> None:
     db.execute("""CREATE TABLE trial_derived (nct_id VARCHAR PRIMARY KEY, results_due_date DATE, results_posted BOOLEAN,
         days_late INTEGER, stopped BOOLEAN, why_stopped_category VARCHAR, why_stopped_method VARCHAR)""")
     db.executemany("INSERT INTO trial_derived VALUES (?,?,?,?,?,?,?)", [list(r.values()) for r in derived])
-    db.execute("CREATE TABLE sponsor_cik (sponsor VARCHAR, cik VARCHAR, ticker VARCHAR, company VARCHAR, match_score DOUBLE)")
-    if ciks:
-        db.executemany("INSERT INTO sponsor_cik VALUES (?,?,?,?,?)", [[c[k] for k in ("sponsor", "cik", "ticker", "company", "match_score")] for c in ciks])
-    db.execute("""CREATE TABLE filings (nct_id VARCHAR, cik VARCHAR, accession VARCHAR, form VARCHAR, filed_date DATE,
-        url VARCHAR, matched_terms VARCHAR[], snippet VARCHAR)""")
-    if filings:
-        db.executemany("INSERT INTO filings VALUES (?,?,?,?,?,?,?,?)", [list(f.values()) for f in filings])
+    write_sec_tables(db, ciks, filings)
     db.execute("""CREATE TABLE publications (nct_id VARCHAR, pmid VARCHAR, link_type VARCHAR, title VARCHAR,
         journal VARCHAR, pub_date DATE, url VARCHAR)""")
     db.executemany("INSERT INTO publications VALUES (?,?,?,?,?,?,?)",
                    [[p[k] for k in ("nct_id", "pmid", "link_type", "title", "journal", "pub_date", "url")] for p in publications])
-    scope = ("ClinicalTrials.gov industry-sponsored interventional phase 2/3 trials, primary completion 2015-01-01 to "
-             "2023-12-31, status TERMINATED/WITHDRAWN/SUSPENDED/COMPLETED")
-    db.execute("CREATE TABLE snapshot_meta (table_name VARCHAR, row_count INTEGER, built_at DATE, scope VARCHAR)")
-    for table in ("trials", "trial_derived", "sponsor_cik", "filings", "publications"):
-        count = db.execute(f"SELECT count(*) FROM {table}").fetchone()[0]
-        db.execute("INSERT INTO snapshot_meta VALUES (?,?,?,?)", [table, count, today, scope])
+    write_snapshot_meta(db, {table: today for table in SNAPSHOT_TABLES})
     write_mappings(db)
     db.close()
     tmp.replace(DB_PATH)
