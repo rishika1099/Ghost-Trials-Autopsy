@@ -54,13 +54,13 @@ NOT_ACRONYMS = {"NASDAQ", "NYSE", "GLOBE", "NEWSWIRE", "PHASE", "FDA", "COVID", 
                 "CORP", "USA", "IND", "NDA", "BLA", "EMA", "DSMB", "IDMC", "ORR", "MSS", "CEO", "CFO", "GAAP", "OTC", "PRNEWSWIRE",
                 "BUSINESS", "WIRE", "ACCESSWIRE", "SEC", "MD", "PHD", "AND", "THE", "FOR", "WITH"}
 # Sentence breaks in press-release text, including the dash-separated bullets of a headline.
-BREAKS = re.compile(r"(?<=[.!?])\s+(?=[A-Z(“\"])|\s+[–—]\s+|\s*[•▪◦]\s*")
+BREAKS = re.compile(r"(?<=[.!?])\s+(?=[A-Z(\u201c\"])|\s+[\u2013\u2014]\s+|\s*[\u2022\u25aa\u25e6]\s*")
 MAX_QUOTE = 400
 STRONG_REASONS = {"efficacy", "safety"}
 
 
 def sentences(text: str) -> list[str]:
-    return [s.strip(" –—•") for s in BREAKS.split(text or "") if len(s.strip()) > 15]
+    return [s.strip(" \u2013\u2014\u2022") for s in BREAKS.split(text or "") if len(s.strip()) > 15]
 
 
 def acronyms(text: str) -> set[str]:
