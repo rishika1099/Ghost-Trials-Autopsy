@@ -28,7 +28,7 @@ async def test_citations_map_to_sources(monkeypatch):
         differences=[Claim(text="The registry says sponsor decision; the 8-K says safety.", citations=["ctgov:NCT01234567", "sec:0001193125-21-000001"])],
         cant_tell=["We only know the stated reason."], timeline_text="Terminated.")
 
-    async def checker(state, claims):
+    async def checker(state, claims, **kwargs):
         # Claim 2 (index 2 after the unknown-id claim is dropped) has a wrong year: remove it.
         return CheckerVerdicts(verdicts=[Verdict(index=2, supported=False, fixed_text=None, reason="filed 2021, not 2019")])
 
@@ -54,9 +54,55 @@ async def test_checker_fix_replaces_text(monkeypatch):
     report = WriterReport(answer=[Claim(text="The company hid the safety problem.", citations=["sec:0001193125-21-000001"])],
                           evidence=[], cant_tell=["x"], timeline_text="")
 
-    async def checker(state, claims):
+    async def checker(state, claims, **kwargs):
         return CheckerVerdicts(verdicts=[Verdict(index=0, supported=False, fixed_text="The 8-K mentions discontinuing due to safety.")])
 
     monkeypatch.setattr(pipeline, "run_checker", checker)
     checked, stats = await pipeline.check_citations(state, report)
     assert checked.answer[0].text == "The 8-K mentions discontinuing due to safety." and stats["claims_fixed"] == 1
+
+
+async def test_rules_catch_errors_even_when_the_model_pass_fails(monkeypatch):
+    state = make_state()
+    report = WriterReport(answer=[Claim(text="The 8-K says the drug was stopped \"because of a safety signal in patients\".",
+                                        citations=["sec:0001193125-21-000001"]),
+                                  Claim(text="The 8-K was filed on 2021-04-01.", citations=["sec:0001193125-21-000001"]),
+                                  Claim(text="The sponsor concealed the safety problem.", citations=["sec:0001193125-21-000001"]),
+                                  Claim(text="The 8-K was filed on 2021-03-01.", citations=["sec:0001193125-21-000001"])],
+                          evidence=[], cant_tell=["x"], timeline_text="")
+
+    async def broken(state, claims, **kwargs):
+        raise TimeoutError("model down")
+
+    monkeypatch.setattr(pipeline, "run_checker", broken)
+    checked, stats = await pipeline.check_citations(state, report)
+    assert [c.text for c in checked.answer] == ["The 8-K was filed on 2021-03-01."]
+    assert stats["removed"] == 3 and stats["rule_flags"] == 3 and stats["model_pass"] is False
+    assert [d["action"] for d in stats["decisions"]] == ["removed", "removed", "removed", "kept"]
+
+
+async def test_a_fix_that_still_overreaches_is_rejected(monkeypatch):
+    state = make_state()
+    report = WriterReport(answer=[Claim(text="The company hid the safety problem.", citations=["sec:0001193125-21-000001"])],
+                          evidence=[], cant_tell=["x"], timeline_text="")
+
+    async def checker(state, claims, **kwargs):
+        assert kwargs["rule_problems"][0], "the rule problems reach the model as hints"
+        return CheckerVerdicts(verdicts=[Verdict(index=0, supported=False, fixed_text="The company concealed a safety problem.")])
+
+    monkeypatch.setattr(pipeline, "run_checker", checker)
+    checked, stats = await pipeline.check_citations(state, report)
+    assert checked.answer == [] and stats["removed"] == 1 and stats["decisions"][0]["by"] == "rules"
+
+
+async def test_rule_flag_overrides_a_model_that_says_supported(monkeypatch):
+    state = make_state()
+    report = WriterReport(answer=[Claim(text="The 8-K was filed on 2019-03-01.", citations=["sec:0001193125-21-000001"])],
+                          evidence=[], cant_tell=["x"], timeline_text="")
+
+    async def lenient(state, claims, **kwargs):
+        return CheckerVerdicts(verdicts=[Verdict(index=0, supported=True)])
+
+    monkeypatch.setattr(pipeline, "run_checker", lenient)
+    checked, stats = await pipeline.check_citations(state, report)
+    assert checked.answer == [] and "date 2019-03-01" in stats["decisions"][0]["reason"]
