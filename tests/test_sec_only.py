@@ -73,6 +73,7 @@ def make_snapshot(path: Path) -> None:
     db.execute("INSERT INTO publications VALUES ('NCT00000002', '12345678', 'pubmed_si', 'A paper', 'A journal', "
                "DATE '2019-01-01', 'https://pubmed.ncbi.nlm.nih.gov/12345678/')")
     build_snapshot.write_sec_tables(db, [], [])
+    build_snapshot.write_discrepancies(db)
     build_snapshot.write_snapshot_meta(db, {t: dt.date(2026, 11, 1) for t in build_snapshot.SNAPSHOT_TABLES})
     db.close()
 
@@ -119,7 +120,10 @@ def test_sec_only_builds_sec_tables_and_meta(snapshot):
     assert terms == ["NCT05065411", "Enobosarm", "Abemaciclib"]
     assert "NCT05065411" in snippet and "<" not in snippet
     meta = dict(db.execute("SELECT table_name, row_count FROM snapshot_meta").fetchall())
-    assert meta == {"trials": 2, "trial_derived": 2, "sponsor_cik": 1, "filings": 1, "publications": 1}
+    # discrepancies: the keyword row for the fixture's filing, plus the hand-checked Veru row (ghost/discrepancy.HAND_CHECKED)
+    assert meta == {"trials": 2, "trial_derived": 2, "sponsor_cik": 1, "filings": 1, "publications": 1, "discrepancies": 2}
+    assert db.execute("SELECT label, decided_by FROM discrepancies WHERE accession = '0001193125-24-133757'").fetchall() == [
+        ("consistent", "hand_checked")]
     built = dict(db.execute("SELECT table_name, built_at FROM snapshot_meta").fetchall())
     assert built["trials"] == dt.date(2026, 11, 1)  # untouched tables keep their build date
     db.close()
