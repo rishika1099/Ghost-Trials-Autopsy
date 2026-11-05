@@ -82,6 +82,7 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 .bar { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
 .bar textarea { flex: 1 1 280px; min-width: 0; border: 0; border-bottom: 2px solid var(--ink); outline: 0; background: transparent; color: var(--ink); resize: none;
   font: 20.5px/1.3 "Shantell Sans", cursive; padding: 6px 2px; height: 50px; }
+@media (max-width: 640px) { .bar textarea { font-size: 16px; } }
 .bar textarea::placeholder { color: var(--pencil); opacity: .8; }
 .bar button { border: var(--stroke) solid var(--red); color: var(--red); background: var(--card); padding: 4px 20px; font: 700 18.5px "Shantell Sans", cursive; cursor: pointer;
   border-radius: var(--radius-control); transform: rotate(-1.5deg); box-shadow: 3px 3px 0 var(--red); transition: transform var(--motion), box-shadow var(--motion); }
@@ -222,6 +223,9 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 @media (max-width: 980px) { .desk-steps { grid-template-columns: minmax(0, 1fr); } .desk-steps .step:last-child { display: none; } }
 
 /* doodles */
+.dd .ghost { stroke-width: 1.1; opacity: .55; }
+.step svg, .ecg, h1 .circled svg, .qcard .box::after { filter: url(#rough); }
+
 .dd { display: block; color: var(--pencil); opacity: .75; }
 .dd use, .dd path, .dd circle, .dd rect { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .dd.blue { color: var(--blue); } .dd.red { color: var(--red); }
@@ -240,12 +244,14 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <symbol id="d-pill" viewBox="0 0 64 64"><g transform="rotate(-35 32 32)"><rect x="8" y="22" width="48" height="20" rx="10"/><path d="M32 22v20M14 28c2-2 4-3 7-3"/></g></symbol>
+  <filter id="rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="rough2" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="31" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="G" yChannelSelector="R"/></filter>
+  <symbol id="d-pill" viewBox="0 0 64 64"><g transform="rotate(-35 32 32)"><rect x="8" y="22" width="48" height="20" rx="10"/><path d="M32 22v20M14 28c2-2 4-3 7-3M37 24l-4 7M43 22l-9 17M49 23l-10 18M54 28l-8 13"/></g></symbol>
   <symbol id="d-syringe" viewBox="0 0 64 64"><g transform="rotate(-40 32 32)"><rect x="16" y="26" width="28" height="12" rx="2"/><path d="M44 32h14M4 32h12M4 25v14M22 26v5M28 26v5M34 26v5M40 26v5M16 23v18M44 29v6"/></g></symbol>
-  <symbol id="d-flask" viewBox="0 0 64 64"><path d="M24 6h16M27 6v18L12 52c-2 4 0 7 4 7h32c4 0 6-3 4-7L37 24V6M17 44h30"/><circle cx="28" cy="50" r="2"/><circle cx="36" cy="47" r="1.5"/><circle cx="33" cy="53" r="1"/></symbol>
+  <symbol id="d-flask" viewBox="0 0 64 64"><path d="M24 6h16M27 6v18L12 52c-2 4 0 7 4 7h32c4 0 6-3 4-7L37 24V6M17 44h30M16 52l7-7M20 58l12-13M30 58l13-13M40 58l8-8"/><circle cx="28" cy="50" r="2"/><circle cx="36" cy="47" r="1.5"/><circle cx="33" cy="53" r="1"/></symbol>
   <symbol id="d-dna" viewBox="0 0 64 64"><path d="M20 4C20 14 44 14 44 24S20 34 20 44S44 54 44 60M44 4C44 14 20 14 20 24S44 34 44 44S20 54 20 60M23 8h18M23 20h18M21 24h22M23 28h18M23 40h18M21 44h22M23 48h18"/></symbol>
   <symbol id="d-clip" viewBox="0 0 64 64"><rect x="13" y="10" width="38" height="50" rx="3"/><rect x="23" y="5" width="18" height="10" rx="2"/><path d="M21 28l3 3 6-6M34 28h10M21 40l3 3 6-6M34 40h10M21 52h23"/></symbol>
-  <symbol id="d-tube" viewBox="0 0 64 64"><g transform="rotate(25 32 32)"><path d="M24 4h16M26 4v46a6 6 0 0 0 12 0V4M26 30h12"/></g></symbol>
+  <symbol id="d-tube" viewBox="0 0 64 64"><g transform="rotate(25 32 32)"><path d="M24 4h16M26 4v46a6 6 0 0 0 12 0V4M26 30h12M27 37l10-5M27 44l10-5M28 51l9-5"/></g></symbol>
   <symbol id="d-mag" viewBox="0 0 64 64"><circle cx="26" cy="26" r="16"/><path d="M38 38l18 18M18 22c2-4 5-6 9-6"/></symbol>
   <symbol id="d-plus" viewBox="0 0 64 64"><path d="M32 10v44M10 32h44"/></symbol>
 </defs></svg>
@@ -278,7 +284,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
         <li><span class="box"></span><div><b>Do the stories match?</b><small>Where the registry, the filings and the papers disagree</small></div></li>
       </ol>
     </div>
-    <div class="doodle-row"><svg class="dd red" aria-hidden="true"><use href="#d-pill"/></svg><svg class="dd " aria-hidden="true"><use href="#d-syringe"/></svg><svg class="dd blue" aria-hidden="true"><use href="#d-flask"/></svg><svg class="dd " aria-hidden="true"><use href="#d-dna"/></svg><svg class="dd blue" aria-hidden="true"><use href="#d-mag"/></svg></div>
+    <div class="doodle-row"><svg class="dd red" aria-hidden="true"><use href="#d-pill" filter="url(#rough)"/><use href="#d-pill" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd " aria-hidden="true"><use href="#d-syringe" filter="url(#rough)"/><use href="#d-syringe" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd blue" aria-hidden="true"><use href="#d-flask" filter="url(#rough)"/><use href="#d-flask" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd " aria-hidden="true"><use href="#d-dna" filter="url(#rough)"/><use href="#d-dna" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd blue" aria-hidden="true"><use href="#d-mag" filter="url(#rough)"/><use href="#d-mag" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></div>
     </div>
   </section>
 
@@ -293,7 +299,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
       <p class="hint">A full investigation takes one to four minutes. A question with no target gets a follow-up question first.</p>
     </form>
     <div class="cases">
-      <div class="cases-head"><h2>Or pick up an old case:</h2><svg class="dd blue" aria-hidden="true"><use href="#d-tube"/></svg><svg class="dd " aria-hidden="true"><use href="#d-clip"/></svg></div>
+      <div class="cases-head"><h2>Or pick up an old case:</h2><svg class="dd blue" aria-hidden="true"><use href="#d-tube" filter="url(#rough)"/><use href="#d-tube" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd " aria-hidden="true"><use href="#d-clip" filter="url(#rough)"/><use href="#d-clip" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></div>
       <div class="step" aria-hidden="true"><span class="num">2</span><span class="txt">no question in mind? open one of these</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div>
       <div id="chips"></div>
     </div>
@@ -303,7 +309,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
   <main class="desk" style="position:relative">
     <section class="file">
       <div class="filehead"><span class="sect">Case notes</span><span class="mono" id="elapsed"></span></div>
-      <div id="report"><p class="waiting"><svg class="dd " aria-hidden="true"><use href="#d-clip"/></svg>Nothing open yet. Pick a case card above, or write your own question.</p></div>
+      <div id="report"><p class="waiting"><svg class="dd " aria-hidden="true"><use href="#d-clip" filter="url(#rough)"/><use href="#d-clip" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>Nothing open yet. Pick a case card above, or write your own question.</p></div>
     </section>
     <aside class="log">
       <div class="filehead"><span class="sect">Research log</span><span class="mono" id="round"></span></div>
@@ -318,7 +324,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 <div class="wrap"><p class="closing">Patients took the risk. The results should exist.</p><svg class="ecg" viewBox="0 0 560 46" preserveAspectRatio="none" aria-hidden="true"><path d="M2 26h70l8-14 10 26 12-34 9 22h40l6-8 8 8h60l8-14 10 26 12-34 9 22H558" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 <footer><div class="wrap">
   <p>This reports only what sponsors registered, filed and published. A mismatch between sources is a discrepancy, not proof of intent. A late or missing result is not proof that a law was broken. Not medical advice.</p>
-  <span class="sig-wrap"><svg class="dd red" aria-hidden="true"><use href="#d-pill"/></svg><span class="sig">Rishika, Shreya &amp; Kshamaa</span></span>
+  <span class="sig-wrap"><svg class="dd red" aria-hidden="true"><use href="#d-pill" filter="url(#rough)"/><use href="#d-pill" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><span class="sig">Rishika, Shreya &amp; Kshamaa</span></span>
 </div></footer>
 
 <script>
