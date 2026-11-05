@@ -3,6 +3,7 @@
     uv run python scripts/build_snapshot.py            # everything
     uv run python scripts/build_snapshot.py --skip-sec # no SEC_USER_AGENT yet
     uv run python scripts/build_snapshot.py --skip-llm # keyword rules only for why_stopped
+    uv run python scripts/build_snapshot.py --sec-only # only sponsor_cik and filings, on the existing snapshot
 
 Steps (each one is cached on disk under .cache/http, so a re-run is fast):
  1. trials          ClinicalTrials.gov API v2: industry, interventional, phase 2/3, primary completion 2015 to 2023
@@ -18,6 +19,7 @@ import argparse
 import datetime as dt
 import json
 import re
+import shutil
 import sys
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor
@@ -401,16 +403,61 @@ def write_snapshot_meta(db: duckdb.DuckDBPyConnection, built_at: dict[str, dt.da
         db.execute("INSERT INTO snapshot_meta VALUES (?,?,?,?)", [table, count, built_at[table], SCOPE])
 
 
+# --- SEC tables only ---
+
+
+def load_trials(db: duckdb.DuckDBPyConnection) -> list[dict]:
+    """The columns sponsor_cik and fetch_filings need, read from the existing trials table."""
+    columns = ["nct_id", "sponsor", "overall_status", "drug_names", "primary_completion_date", "completion_date", "last_update_date"]
+    rows = db.execute(f"SELECT {', '.join(columns)} FROM trials ORDER BY nct_id").fetchall()
+    return [{**dict(zip(columns, row)), "drug_names": list(row[3] or [])} for row in rows]
+
+
+def build_sec_only(today: dt.date) -> None:
+    """Rebuild only sponsor_cik and filings on top of the existing snapshot.
+
+    Reads trials from data/autopsy.duckdb as they are; makes no ClinicalTrials.gov, PubMed, Europe PMC or Gemini
+    calls; leaves trials, trial_derived and publications untouched. Works on a copy, swapped in only at the end.
+    """
+    if not SEC_USER_AGENT:
+        sys.exit("--sec-only needs SEC_USER_AGENT in .env (a contact string with an email)")
+    if not DB_PATH.exists():
+        sys.exit(f"--sec-only needs an existing snapshot at {DB_PATH}")
+    tmp = DB_PATH.with_suffix(".tmp.duckdb")
+    tmp.unlink(missing_ok=True)
+    shutil.copyfile(DB_PATH, tmp)
+    db = duckdb.connect(str(tmp))
+    try:
+        trials = load_trials(db)
+        built_at = dict(db.execute("SELECT table_name, built_at FROM snapshot_meta").fetchall())
+        log(f"sec-only: {len(trials)} trials read from {DB_PATH.name}")
+        ciks = sponsor_ciks({t["sponsor"] for t in trials if t["sponsor"]})
+        log(f"sponsor_cik: {len(ciks)} sponsors matched to a CIK")
+        filings = fetch_filings(trials, {c["sponsor"]: c["cik"] for c in ciks})
+        write_sec_tables(db, ciks, filings)
+        write_snapshot_meta(db, {**{t: built_at.get(t, today) for t in SNAPSHOT_TABLES}, "sponsor_cik": today, "filings": today})
+        write_mappings(db)
+    finally:
+        db.close()
+    tmp.replace(DB_PATH)
+    log(f"built {DB_PATH} ({DB_PATH.stat().st_size / 1e6:.1f} MB) and {MAPPINGS_PATH.name}")
+
+
 # --- Main ---
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--skip-sec", action="store_true", help="skip sponsor_cik and filings (no SEC_USER_AGENT)")
     parser.add_argument("--skip-llm", action="store_true", help="keyword rules only for why_stopped_category")
     parser.add_argument("--skip-europepmc", action="store_true", help="skip the Europe PMC fallback")
-    args = parser.parse_args()
+    parser.add_argument("--sec-only", action="store_true",
+                        help="rebuild only sponsor_cik and filings from the existing snapshot (no CT.gov, PubMed or LLM calls)")
+    args = parser.parse_args(argv)
     today = dt.datetime.now(dt.timezone.utc).date()
+    if args.sec_only:
+        build_sec_only(today)
+        return
 
     trials, references = fetch_trials()
     derived = derive(trials, today, use_llm=not args.skip_llm)
