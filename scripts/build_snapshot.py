@@ -232,9 +232,13 @@ NOT_A_DRUG = re.compile(
 STOP_WORDS = re.compile(
     r"\b(terminat\w*|discontinu\w*|halt\w*|stop(?:ped|ping|s)?|suspen\w*|paus\w*|wind(?:ing)? down|futility|"
     r"did not (?:meet|achieve|reach)|failed to|primary (?:efficacy )?end ?point|top-?line|deprioriti[sz]\w*|"
-    r"no longer|enrol+ment)\b", re.I)
+    r"no longer)\b", re.I)
+# Safe-harbor and risk-factor language lists every trial and every way it could fail ("enrollment, timing,
+# commencement ... whether any of such studies will meet any of its primary endpoints"): never stop language.
+BOILERPLATE = re.compile(r"forward-looking|safe harbor|risks and uncertainties|whether any of such|may not be predictive", re.I)
+MAX_PASSAGES = 200  # drug mentions scored per document
 RELEVANCE = ("nct_id", "drug_and_stop", "drug_and_condition", "drug_only")
-MAX_CANDIDATES_PER_TRIAL = 6  # documents read per trial before keeping the best MAX_FILINGS_PER_TRIAL
+MAX_CANDIDATES_PER_TRIAL = 8  # documents read per trial before keeping the best MAX_FILINGS_PER_TRIAL
 
 
 def filing_windows(t: dict) -> list[tuple[dt.date, dt.date]]:
@@ -280,8 +284,10 @@ def condition_words(conditions: list[str]) -> list[str]:
 def best_snippet(document: str, nct_id: str, terms: list[str], conditions: list[str], width: int = 600) -> tuple[str | None, str | None]:
     """The most relevant passage of a filing for this trial, and how relevant it is (one of RELEVANCE).
 
-    Prefers a passage naming the NCT ID; then one where a drug name sits near stop or outcome language;
-    then near the trial's condition; then the first mention of the drug."""
+    A passage naming the NCT ID wins. Otherwise every passage around a drug mention is scored: stop or outcome
+    language near the drug (not safe-harbor boilerplate) beats the trial's condition near the drug, which
+    beats a bare mention. Naming more of the trial's drugs counts for more than one tier (for a combination
+    trial, 'enobosarm and abemaciclib' is this trial, 'enobosarm' alone may be another); then the earliest wins."""
     text = plain_text(document)
     lower = text.lower()
 
@@ -293,17 +299,24 @@ def best_snippet(document: str, nct_id: str, terms: list[str], conditions: list[
     if at >= 0:
         return window(at), "nct_id"
     disease = [w.lower() for w in condition_words(conditions)]
-    fallback = None
-    for tier in ("drug_and_stop", "drug_and_condition"):
-        for term in terms:
-            for match in re.finditer(re.escape(term.lower()), lower):
-                passage = window(match.start())
-                if tier == "drug_and_stop" and STOP_WORDS.search(passage):
-                    return passage, tier
-                if tier == "drug_and_condition" and any(w in passage.lower() for w in disease):
-                    return passage, tier
-                fallback = fallback or passage
-    return (fallback, "drug_only") if fallback else (None, None)
+    best = None
+    positions = sorted(m.start() for term in terms for m in re.finditer(re.escape(term.lower()), lower))[:MAX_PASSAGES]
+    for at in positions:
+        passage = window(at)
+        folded = passage.lower()
+        if STOP_WORDS.search(passage) and not BOILERPLATE.search(passage):
+            tier = "drug_and_stop"
+        elif any(w in folded for w in disease):
+            tier = "drug_and_condition"
+        else:
+            tier = "drug_only"
+        named = sum(term.lower() in folded for term in terms)
+        # Each extra drug of the trial named in the passage outweighs one tier: for a combination trial,
+        # 'enobosarm and abemaciclib' near the condition beats 'enobosarm' near the word 'topline'.
+        score = (RELEVANCE.index(tier) - 1.5 * max(0, named - 1), at)
+        if best is None or score < best[0]:
+            best = (score, passage, tier)
+    return (best[1], best[2]) if best else (None, None)
 
 
 def fetch_filings(trials: list[dict], cik_by_sponsor: dict[str, str]) -> list[dict]:
