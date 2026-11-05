@@ -19,7 +19,7 @@ from agents import Agent, MaxTurnsExceeded, ModelSettings, Runner, set_tracing_d
 from agents.extensions.models.litellm_model import LitellmModel
 from pydantic import BaseModel, Field
 
-from ghost import config, db
+from ghost import citecheck, config, db
 from ghost.hooks import TraceHooks
 from ghost.state import RunState
 from ghost.tools import DISCLOSURES_TOOLS, LEAD_TOOLS, PUBLICATIONS_TOOLS, TRIALS_TOOLS
@@ -243,8 +243,10 @@ async def run_writer(state: RunState, findings: list[dict]) -> WriterReport:
     return result.final_output
 
 
-async def run_checker(state: RunState, claims: list[Claim]) -> CheckerVerdicts:
-    items = [{"index": i, "claim": c.text, "evidence": [state.store.get(e).as_dict() for e in c.citations if e in state.store]}
+async def run_checker(state: RunState, claims: list[Claim], rule_problems: dict[int, list[str]] | None = None) -> CheckerVerdicts:
+    rule_problems = rule_problems or {}
+    items = [{"index": i, "claim": c.text, "rule_problems": rule_problems.get(i, []),
+              "evidence": [state.store.get(e).as_dict() for e in c.citations if e in state.store]}
              for i, c in enumerate(claims)]
     text = json.dumps(items, default=str)
     result = await Runner.run(checker, text[:120_000], context=state, hooks=TraceHooks(state, "checker"), max_turns=config.CHECKER_MAX_TURNS)
@@ -252,11 +254,15 @@ async def run_checker(state: RunState, claims: list[Claim]) -> CheckerVerdicts:
 
 
 async def check_citations(state: RunState, report: WriterReport) -> tuple[WriterReport, dict]:
-    """Two passes. 1: every citation must name a record in the store (deterministic). 2: the Checker model compares
-    each claim to its records and fixes or removes it. Returns the cleaned report and the counts for the trace."""
+    """Three passes. 1: every citation must name a record in the store. 2: deterministic rules (ghost/citecheck.py):
+    quotes must be in the cited records, dates must be in them, and no overreaching words. 3: the Checker model
+    compares each claim to its records, with the rule problems as hints. A claim with any problem is replaced by the
+    model's fixed_text only if that text passes the rules too; otherwise it is removed. Returns the cleaned report and
+    the counts for the trace, with one decision per claim."""
     sections = {"answer": report.answer, "evidence": report.evidence, "differences": report.differences}
     checked = sum(len(c.citations) for claims in sections.values() for c in claims)
     unknown = 0
+    decisions = []
     for name, claims in sections.items():
         kept = []
         for claim in claims:
@@ -264,25 +270,47 @@ async def check_citations(state: RunState, report: WriterReport) -> tuple[Writer
             unknown += len(claim.citations) - len(valid)
             if valid:
                 kept.append(Claim(text=claim.text, citations=valid))
+            else:
+                decisions.append({"section": name, "claim": claim.text, "action": "removed", "by": "evidence_ids",
+                                  "reason": f"cites no record in the store: {', '.join(claim.citations) or 'nothing'}"})
         sections[name] = kept
 
     flat = [(name, i) for name, claims in sections.items() for i in range(len(claims))]
     all_claims = [sections[name][i] for name, i in flat]
-    fixed, removed_ids, model_ok = 0, set(), True
+
+    def records(claim: Claim) -> list[dict]:
+        return [state.store.get(e).as_dict() for e in claim.citations if e in state.store]
+
+    rule_problems = {n: citecheck.check_claim(c.text, records(c)) for n, c in enumerate(all_claims)}
+    verdicts, model_ok = {}, True
     if all_claims:
         try:
-            verdicts = (await run_checker(state, all_claims)).verdicts
+            result = await run_checker(state, all_claims, rule_problems=rule_problems)
+            verdicts = {v.index: v for v in result.verdicts if 0 <= v.index < len(flat)}
         except Exception as e:
-            verdicts, model_ok = [], False
-            state.notes.append(f"Citation Checker model pass failed ({type(e).__name__}); only the evidence-id check ran.")
-        for v in verdicts:
-            if 0 <= v.index < len(flat) and not v.supported:
-                name, i = flat[v.index]
-                if v.fixed_text and v.fixed_text.strip():
-                    sections[name][i] = Claim(text=v.fixed_text.strip(), citations=sections[name][i].citations)
-                    fixed += 1
-                else:
-                    removed_ids.add(v.index)
+            model_ok = False
+            state.notes.append(f"Citation Checker model pass failed ({type(e).__name__}); the evidence-id and rule checks ran.")
+    fixed, flagged_by_rules, removed_ids = 0, 0, set()
+    for n, (name, i) in enumerate(flat):
+        claim, verdict = sections[name][i], verdicts.get(n)
+        problems = list(rule_problems[n])
+        flagged_by_rules += bool(problems)
+        if verdict is not None and not verdict.supported:
+            problems.append(f"model: {verdict.reason or 'not supported by the cited records'}")
+        if not problems:
+            decisions.append({"section": name, "claim": claim.text, "action": "kept", "by": "rules+model" if model_ok else "rules"})
+            continue
+        candidate = (verdict.fixed_text or "").strip() if verdict is not None else ""
+        still_wrong = citecheck.check_claim(candidate, records(claim)) if candidate else ["no fix offered"]
+        if candidate and not still_wrong:
+            sections[name][i] = Claim(text=candidate, citations=claim.citations)
+            fixed += 1
+            decisions.append({"section": name, "claim": claim.text, "action": "fixed", "fixed_text": candidate,
+                              "by": "rules+model" if rule_problems[n] else "model", "reason": "; ".join(problems)})
+        else:
+            removed_ids.add(n)
+            decisions.append({"section": name, "claim": claim.text, "action": "removed",
+                              "by": "rules" if rule_problems[n] else "model", "reason": "; ".join(problems)})
     final = {name: [] for name in sections}
     for n, (name, i) in enumerate(flat):
         if n not in removed_ids:
@@ -290,9 +318,10 @@ async def check_citations(state: RunState, report: WriterReport) -> tuple[Writer
     before = sum(len(c) for c in (report.answer, report.evidence, report.differences))
     removed = before - sum(len(c) for c in final.values())
     stats = {"citations_checked": checked, "unknown_ids_dropped": unknown, "claims_fixed": fixed, "removed": removed,
-             "model_pass": model_ok}
+             "rule_flags": flagged_by_rules, "model_pass": model_ok, "decisions": decisions}
     state.record_call("checker", "check_citations", {"claims": before, "citations": checked},
-                      f"citations_checked: {checked}, removed: {removed} (fixed {fixed}, unknown ids dropped {unknown})")
+                      f"citations_checked: {checked}, removed: {removed} (fixed {fixed}, rule flags {flagged_by_rules}, "
+                      f"unknown ids dropped {unknown})")
     return report.model_copy(update=final), stats
 
 

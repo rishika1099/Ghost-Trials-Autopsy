@@ -76,7 +76,7 @@ def stub_pipeline(monkeypatch):
                             evidence=[Claim(text="No results are posted.", citations=["ctgov:NCT01234567"])],
                             differences=[], cant_tell=["The stated reason is all we know."], timeline_text="Started 2017-01-01.")
 
-    async def checker(state, claims):
+    async def checker(state, claims, **kwargs):
         return CheckerVerdicts(verdicts=[])
 
     monkeypatch.setattr(pipeline, "run_lead_plan", plan)

@@ -1,0 +1,308 @@
+{
+  "records": {
+    "ctgov:NCT05065411": {
+      "evidence_id": "ctgov:NCT05065411",
+      "title": "Efficacy & Safety Evaluation of Enobosarm in Combo With Abemaciclib in Treatment of ER+HER2- Metastatic Breast Cancer",
+      "source_url": "https://clinicaltrials.gov/study/NCT05065411",
+      "data": {
+        "nct_id": "NCT05065411",
+        "title": "Efficacy & Safety Evaluation of Enobosarm in Combo With Abemaciclib in Treatment of ER+HER2- Metastatic Breast Cancer",
+        "sponsor": "Veru Inc.",
+        "sponsor_class": "INDUSTRY",
+        "phase": "PHASE3",
+        "conditions": [
+          "Metastatic Breast Cancer"
+        ],
+        "interventions": [
+          "Enobosarm & Abemaciclib Combo",
+          "non-steroidal AI, or steroidal AI (exemestane with or without everolimus) or Fulvestrant"
+        ],
+        "drug_names": [
+          "Enobosarm & Abemaciclib Combo",
+          "non-steroidal AI, or steroidal AI (exemestane with or without everolimus) or Fulvestrant"
+        ],
+        "overall_status": "TERMINATED",
+        "why_stopped": "Business decision",
+        "start_date": "2022-04-11",
+        "primary_completion_date": "2023-10-19",
+        "completion_date": "2024-01-09",
+        "enrollment": 5,
+        "has_results": false,
+        "results_first_post_date": null,
+        "last_update_date": "2024-02-26",
+        "results_due_date": "2024-10-18",
+        "results_posted": false,
+        "days_late": 748,
+        "stopped": true,
+        "why_stopped_category": "business/strategic",
+        "why_stopped_method": "keyword"
+      }
+    },
+    "ctgov:NCT03980730": {
+      "evidence_id": "ctgov:NCT03980730",
+      "title": "Study of Azeliragon in Patients With Mild Alzheimer's Disease and Impaired Glucose Tolerance",
+      "source_url": "https://clinicaltrials.gov/study/NCT03980730",
+      "data": {
+        "nct_id": "NCT03980730",
+        "title": "Study of Azeliragon in Patients With Mild Alzheimer's Disease and Impaired Glucose Tolerance",
+        "sponsor": "vTv Therapeutics",
+        "sponsor_class": "INDUSTRY",
+        "phase": "PHASE2",
+        "conditions": [
+          "Alzheimer Disease"
+        ],
+        "interventions": [
+          "Azeliragon",
+          "Placebo"
+        ],
+        "drug_names": [
+          "Azeliragon"
+        ],
+        "overall_status": "TERMINATED",
+        "why_stopped": "for business reasons",
+        "start_date": "2019-06-27",
+        "primary_completion_date": "2020-12-01",
+        "completion_date": "2021-01-29",
+        "enrollment": 43,
+        "has_results": true,
+        "results_first_post_date": "2022-01-21",
+        "last_update_date": "2022-01-21",
+        "results_due_date": "2021-12-01",
+        "results_posted": true,
+        "days_late": 51,
+        "stopped": true,
+        "why_stopped_category": "business/strategic",
+        "why_stopped_method": "keyword"
+      }
+    },
+    "ctgov:NCT04903327": {
+      "evidence_id": "ctgov:NCT04903327",
+      "title": "Study of Intravenous COVI-MSC for Treatment of COVID-19-Induced Acute Respiratory Distress",
+      "source_url": "https://clinicaltrials.gov/study/NCT04903327",
+      "data": {
+        "nct_id": "NCT04903327",
+        "title": "Study of Intravenous COVI-MSC for Treatment of COVID-19-Induced Acute Respiratory Distress",
+        "sponsor": "Sorrento Therapeutics, Inc.",
+        "sponsor_class": "INDUSTRY",
+        "phase": "PHASE2",
+        "conditions": [
+          "Covid19"
+        ],
+        "interventions": [
+          "COVI-MSC",
+          "Placebo"
+        ],
+        "drug_names": [
+          "COVI-MSC"
+        ],
+        "overall_status": "TERMINATED",
+        "why_stopped": "Due to considerably slow enrollment, unable to reach enrollment targets",
+        "start_date": "2021-11-16",
+        "primary_completion_date": "2022-08-29",
+        "completion_date": "2022-11-23",
+        "enrollment": 43,
+        "has_results": false,
+        "results_first_post_date": null,
+        "last_update_date": "2023-01-09",
+        "results_due_date": "2023-08-29",
+        "results_posted": false,
+        "days_late": 1164,
+        "stopped": true,
+        "why_stopped_category": "enrollment",
+        "why_stopped_method": "keyword"
+      }
+    },
+    "sec:0001564590-21-008154": {
+      "evidence_id": "sec:0001564590-21-008154",
+      "title": "8-K filed 2021-02-24",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1641489/000156459021008154/vtvt-ex991_6.htm",
+      "data": {
+        "accession": "0001564590-21-008154",
+        "form": "8-K",
+        "filed_date": "2021-02-24",
+        "url": "https://www.sec.gov/Archives/edgar/data/1641489/000156459021008154/vtvt-ex991_6.htm",
+        "excerpts": [
+          "Discontinuation of azeliragon for Alzheimer’s disease . On December 15, 2020, vTv announced that the phase 2 Elevage Study of azeliragon did not meet its primary objective. vTv has discontinued development of azeliragon for Alzheimer’s disease, but the Company is evaluating potential alternative indications in partnership with other interested parties."
+        ]
+      }
+    },
+    "sec:0000950170-24-004686": {
+      "evidence_id": "sec:0000950170-24-004686",
+      "title": "8-K filed 2024-01-16",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1564824/000095017024004686/allk-ex99_2.htm",
+      "data": {
+        "accession": "0000950170-24-004686",
+        "form": "8-K",
+        "filed_date": "2024-01-16",
+        "url": "https://www.sec.gov/Archives/edgar/data/1564824/000095017024004686/allk-ex99_2.htm",
+        "excerpts": [
+          "Allakos Announces Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Did Not Meet Their Primary Endpoints",
+          "SAN CARLOS, Calif., Jan. 16, 2024 (GLOBE NEWSWIRE) – Allakos Inc. (the “Company”) (Nasdaq: ALLK), a biotechnology company developing antibodies for the treatment of allergic, inflammatory and proliferative diseases, today announced topline data from its phase 2 clinical trial in patients with atopic dermatitis (ATLAS) and from its Phase 2b clinical trial in patients with chronic spontaneous urticaria (MAVERICK).",
+          "MAVERICK: Phase 2b Trial of Lirentelimab in Patients with Chronic Spontaneous Urticaria",
+          "Consistent with previously reported antibody-dependent cellular cytotoxicity (ADCC) activity of lirentelimab on eosinophils, patients treated with lirentelimab showed sustained depletion of blood eosinophil counts. In the ATLAS trial, lirentelimab-treated patients’ blood eosinophils decreased by 96% versus placebo-treated patients’ blood eosinophils which decreased by 15%. In the MAVERICK trial, lirentelimab-treated patients’ blood eosinophils decreased by 95% versus placebo-treated patients’ blood eosinophils which increased by 9%."
+        ]
+      }
+    },
+    "sec:0001193125-24-133757": {
+      "evidence_id": "sec:0001193125-24-133757",
+      "title": "8-K filed 2024-05-08",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/863894/000119312524133757/d820381dex991.htm",
+      "data": {
+        "accession": "0001193125-24-133757",
+        "form": "8-K",
+        "filed_date": "2024-05-08",
+        "url": "https://www.sec.gov/Archives/edgar/data/863894/000119312524133757/d820381dex991.htm",
+        "excerpts": [
+          "receptor modulator (SARM), is being developed for two indications: (i) Phase 2b clinical study of enobosarm as a treatment to augment fat loss and to prevent muscle loss in sarcopenic obese or overweight elderly patients receiving a GLP-1 RA who are at-risk for developing muscle atrophy and muscle weakness and (ii) subject to the availability of sufficient funding, Phase 3 ENABLAR-2 clinical trial of enobosarm and abemaciclib for the treatment of androgen receptor positive (AR+), estrogen receptor positive (ER+) and human epidermal growth factor receptor 2 negative (HER2-) metastatic"
+        ]
+      }
+    }
+  },
+  "planted": [
+    {
+      "error": "wrong date",
+      "text": "Veru's NCT05065411 reached primary completion on 2023-11-19.",
+      "cites": [
+        "ctgov:NCT05065411"
+      ],
+      "wrong": "2023-11-19"
+    },
+    {
+      "error": "wrong date",
+      "text": "vTv filed the 8-K about Elevage on 2021-02-14.",
+      "cites": [
+        "sec:0001564590-21-008154"
+      ],
+      "wrong": "2021-02-14"
+    },
+    {
+      "error": "wrong date",
+      "text": "Sorrento's NCT04903327 was completed on 2022-12-23.",
+      "cites": [
+        "ctgov:NCT04903327"
+      ],
+      "wrong": "2022-12-23"
+    },
+    {
+      "error": "misquote",
+      "text": "vTv's 8-K says the phase 2 Elevage Study of azeliragon \"failed to meet its primary objective\".",
+      "cites": [
+        "sec:0001564590-21-008154"
+      ],
+      "wrong": "failed to meet"
+    },
+    {
+      "error": "misquote",
+      "text": "Allakos announced that its \"Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Missed Their Primary Endpoints\".",
+      "cites": [
+        "sec:0000950170-24-004686"
+      ],
+      "wrong": "Missed"
+    },
+    {
+      "error": "misquote",
+      "text": "The registry gives \"Strategic business decision\" as the reason NCT05065411 stopped.",
+      "cites": [
+        "ctgov:NCT05065411"
+      ],
+      "wrong": "Strategic business decision"
+    },
+    {
+      "error": "overreach",
+      "text": "Veru hid the outcome of ENABLAR-2 by calling its termination a business decision.",
+      "cites": [
+        "ctgov:NCT05065411",
+        "sec:0001193125-24-133757"
+      ],
+      "wrong": "hid"
+    },
+    {
+      "error": "overreach",
+      "text": "vTv misled the registry by giving business reasons while its 8-K reported that Elevage did not meet its primary objective.",
+      "cites": [
+        "ctgov:NCT03980730",
+        "sec:0001564590-21-008154"
+      ],
+      "wrong": "misled"
+    },
+    {
+      "error": "overreach",
+      "text": "Sorrento withheld the results of NCT04903327 from ClinicalTrials.gov.",
+      "cites": [
+        "ctgov:NCT04903327"
+      ],
+      "wrong": "withheld"
+    },
+    {
+      "error": "wrong status and reason",
+      "text": "The registry lists NCT04903327 as withdrawn because of safety concerns.",
+      "cites": [
+        "ctgov:NCT04903327"
+      ],
+      "wrong": "safety"
+    }
+  ],
+  "controls": [
+    {
+      "text": "NCT05065411 was terminated, and its registry reason is \"Business decision\".",
+      "cites": [
+        "ctgov:NCT05065411"
+      ]
+    },
+    {
+      "text": "Primary completion of NCT05065411 was on 2023-10-19.",
+      "cites": [
+        "ctgov:NCT05065411"
+      ]
+    },
+    {
+      "text": "vTv's 8-K filed on 2021-02-24 says \"the phase 2 Elevage Study of azeliragon did not meet its primary objective\".",
+      "cites": [
+        "sec:0001564590-21-008154"
+      ]
+    },
+    {
+      "text": "On December 15, 2020, vTv announced that the Elevage study did not meet its primary objective.",
+      "cites": [
+        "sec:0001564590-21-008154"
+      ]
+    },
+    {
+      "text": "The registry gives \"for business reasons\" as the reason NCT03980730 stopped.",
+      "cites": [
+        "ctgov:NCT03980730"
+      ]
+    },
+    {
+      "text": "Allakos announced that its Phase 2 lirentelimab trials in chronic spontaneous urticaria did not meet their primary endpoints.",
+      "cites": [
+        "sec:0000950170-24-004686"
+      ]
+    },
+    {
+      "text": "NCT04903327 was terminated \"Due to considerably slow enrollment, unable to reach enrollment targets\".",
+      "cites": [
+        "ctgov:NCT04903327"
+      ]
+    },
+    {
+      "text": "NCT04903327 reached primary completion in August 2022.",
+      "cites": [
+        "ctgov:NCT04903327"
+      ]
+    },
+    {
+      "text": "The registry reason for NCT03980730 differs from the 8-K language; that is a discrepancy, not evidence that vTv hid anything.",
+      "cites": [
+        "ctgov:NCT03980730",
+        "sec:0001564590-21-008154"
+      ]
+    },
+    {
+      "text": "Veru's 8-K filed on 2024-05-08 describes ENABLAR-2 as \"subject to the availability of sufficient funding\".",
+      "cites": [
+        "sec:0001193125-24-133757"
+      ]
+    }
+  ]
+}

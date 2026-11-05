@@ -179,37 +179,57 @@
         {
           "name": "sponsor",
           "type": "VARCHAR",
-          "description": "Sponsor name as in trials.sponsor.",
-          "enum_values": []
+          "description": "Sponsor name as in trials.sponsor."
         },
         {
           "name": "cik",
           "type": "VARCHAR",
-          "description": "SEC Central Index Key, 10 digits zero-padded.",
-          "enum_values": []
+          "description": "SEC Central Index Key, 10 digits zero-padded."
         },
         {
           "name": "ticker",
           "type": "VARCHAR",
-          "description": "Stock ticker.",
-          "enum_values": []
+          "description": "Stock ticker. NULL for a filer that is no longer listed (acquired, renamed or delisted)."
         },
         {
           "name": "company",
           "type": "VARCHAR",
-          "description": "Company name in SEC's list.",
-          "enum_values": []
+          "description": "Company name as SEC has it."
         },
         {
           "name": "match_score",
           "type": "DOUBLE",
-          "description": "Fuzzy match score 0 to 100 between the normalized names. Only rows >= the threshold are kept."
+          "description": "Similarity 0 to 100 of the full normalized names. Informational: every row already has an identical core name (or is an override)."
+        },
+        {
+          "name": "match_method",
+          "type": "VARCHAR",
+          "description": "How it matched: exact_core (identical core name in SEC's listed companies), edgar_name (EDGAR company search, for filers no longer listed), override (subsidiary mapped to the parent that files).",
+          "enum_values": [
+            "edgar_name",
+            "exact_core",
+            "override"
+          ]
+        },
+        {
+          "name": "sic",
+          "type": "VARCHAR",
+          "description": "SEC Standard Industrial Classification code of the filer, e.g. 2834 pharmaceutical preparations."
+        },
+        {
+          "name": "files_8k",
+          "type": "BOOLEAN",
+          "description": "TRUE if the filer files 8-Ks. FALSE for foreign private issuers, which report on 6-K instead, so an empty filings result for them is expected.",
+          "enum_values": [
+            "False",
+            "True"
+          ]
         }
       ]
     },
     {
       "table": "filings",
-      "description": "SEC 8-K filings from a matched sponsor within 120 days of a stopped trial's dates that mention its NCT ID or drug name.",
+      "description": "SEC 8-K filings from a matched sponsor within 120 days of a stopped trial's primary completion, completion or last update date that mention its NCT ID or drug name. Up to 3 per trial, most relevant first.",
       "columns": [
         {
           "name": "nct_id",
@@ -219,20 +239,21 @@
         {
           "name": "cik",
           "type": "VARCHAR",
-          "description": "Filer's CIK.",
-          "enum_values": []
+          "description": "Filer's CIK."
         },
         {
           "name": "accession",
           "type": "VARCHAR",
-          "description": "SEC accession number, e.g. 0001193125-21-123456.",
-          "enum_values": []
+          "description": "SEC accession number, e.g. 0001193125-21-123456."
         },
         {
           "name": "form",
           "type": "VARCHAR",
           "description": "Form type, e.g. 8-K.",
-          "enum_values": []
+          "enum_values": [
+            "8-K",
+            "8-K/A"
+          ]
         },
         {
           "name": "filed_date",
@@ -252,7 +273,18 @@
         {
           "name": "snippet",
           "type": "VARCHAR",
-          "description": "About 600 characters of the filing around the first matching term. NULL if the document could not be read."
+          "description": "About 600 characters of plain text from the filing: the most relevant passage for this trial (see relevance). NULL if the document could not be read."
+        },
+        {
+          "name": "relevance",
+          "type": "VARCHAR",
+          "description": "How closely the snippet is tied to this trial: nct_id (names the NCT ID), drug_and_stop (drug name near stop or outcome language such as terminated, discontinued, primary endpoint, topline), drug_and_condition (drug name near the trial's condition), drug_only (drug name only, often a sales table or pipeline chart: weakest).",
+          "enum_values": [
+            "drug_and_condition",
+            "drug_and_stop",
+            "drug_only",
+            "nct_id"
+          ]
         }
       ]
     },
@@ -304,6 +336,133 @@
       ]
     },
     {
+      "table": "discrepancies",
+      "description": "Registry reason vs. 8-K language, one row per stopped trial and linked 8-K (drug_only snippets skipped). Built by keyword rules in ghost/discrepancy.py from the filings snippet. A discrepancy is a difference between two public statements, not evidence of intent.",
+      "columns": [
+        {
+          "name": "nct_id",
+          "type": "VARCHAR",
+          "description": "Trial ID."
+        },
+        {
+          "name": "sponsor",
+          "type": "VARCHAR",
+          "description": "Sponsor as registered."
+        },
+        {
+          "name": "registry_reason",
+          "type": "VARCHAR",
+          "description": "why_stopped text from the registry, exactly as registered."
+        },
+        {
+          "name": "registry_category",
+          "type": "VARCHAR",
+          "description": "trial_derived.why_stopped_category for the trial.",
+          "enum_values": [
+            "blank",
+            "business/strategic",
+            "efficacy",
+            "enrollment",
+            "other",
+            "safety"
+          ]
+        },
+        {
+          "name": "registry_evidence_id",
+          "type": "VARCHAR",
+          "description": "Evidence id of the registry side, e.g. ctgov:NCT01234567."
+        },
+        {
+          "name": "accession",
+          "type": "VARCHAR",
+          "description": "SEC accession number of the 8-K."
+        },
+        {
+          "name": "filed_date",
+          "type": "DATE",
+          "description": "Date the 8-K was filed."
+        },
+        {
+          "name": "filing_url",
+          "type": "VARCHAR",
+          "description": "URL of the 8-K document."
+        },
+        {
+          "name": "sec_evidence_id",
+          "type": "VARCHAR",
+          "description": "Evidence id of the 8-K side, e.g. sec:0001193125-23-231951."
+        },
+        {
+          "name": "sec_quote",
+          "type": "VARCHAR",
+          "description": "The 8-K sentence the label rests on, an exact substring of the filing text. NULL when no sentence gives a reason."
+        },
+        {
+          "name": "sec_categories",
+          "type": "VARCHAR[]",
+          "description": "Reasons the quote states: efficacy (a failure such as 'did not meet the primary endpoint'), safety (a concern such as 'clinical hold'), business/strategic, enrollment, positive (a success such as 'met its primary endpoint')."
+        },
+        {
+          "name": "scope",
+          "type": "VARCHAR",
+          "description": "What the quote is about: this_trial (names the NCT ID or the trial's acronym), drug_program (names only the drug), other_trial (names a different trial).",
+          "enum_values": [
+            "drug_program",
+            "other_trial",
+            "this_trial"
+          ]
+        },
+        {
+          "name": "relevance",
+          "type": "VARCHAR",
+          "description": "The filing's relevance label from the filings table.",
+          "enum_values": [
+            "drug_and_condition",
+            "drug_and_stop",
+            "hand_checked",
+            "nct_id"
+          ]
+        },
+        {
+          "name": "label",
+          "type": "VARCHAR",
+          "description": "discrepancy (8-K gives efficacy or safety where the registry gives another reason, or the reverse), consistent, registry_blank_8k_reason, different_reason, no_reason_in_8k, about_another_trial.",
+          "enum_values": [
+            "about_another_trial",
+            "consistent",
+            "different_reason",
+            "discrepancy",
+            "no_reason_in_8k",
+            "registry_blank_8k_reason"
+          ]
+        },
+        {
+          "name": "rule",
+          "type": "VARCHAR",
+          "description": "The rule that set the label, e.g. 'registry business/strategic; 8-K efficacy'."
+        },
+        {
+          "name": "decided_by",
+          "type": "VARCHAR",
+          "description": "How the label was decided: keyword_rules_v1 (deterministic rules), or hand_checked after a person read the filing.",
+          "enum_values": [
+            "hand_checked",
+            "keyword_rules_v1"
+          ]
+        },
+        {
+          "name": "strength",
+          "type": "INTEGER",
+          "description": "0 to 10, discrepancies only: higher when the 8-K names this trial, gives efficacy or safety, the registry explicitly rules that reason out, and the 8-K is close to the stop date."
+        },
+        {
+          "name": "days_from_stop",
+          "type": "INTEGER",
+          "description": "Days between the 8-K and the nearest of the trial's primary completion, completion or last update date."
+        }
+      ]
+    },
+    {
       "table": "snapshot_meta",
       "description": "One row per table: when the snapshot was built and how many rows each table has.",
       "columns": [
@@ -312,6 +471,7 @@
           "type": "VARCHAR",
           "description": "Table name.",
           "enum_values": [
+            "discrepancies",
             "filings",
             "publications",
             "sponsor_cik",
