@@ -113,10 +113,3 @@ The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need t
 | Nov 9 | Discrepancy finder, frontend polish, evals. |
 | Nov 10 | Feature freeze. README sample queries tested on the deployed URL. |
 | Nov 11 | Submit the repo URL on Courseworks (one person). |
-
-## How we work
-- `main` auto-deploys to Cloud Run once Kshamaa sets it up, so keep it working: branch per feature (`shreya/sec-filings`), open a PR, get one teammate to look.
-- Gemini calls bill the project in `VERTEX_PROJECT` (Kshamaa's). Set it in `.env` once she shares it.
-- Tools follow the pattern in `ghost/tools.py`: return JSON; every record has a `source_url` and an `evidence_id`, and goes in the evidence store. Errors are JSON that tell the model what to do next.
-- Never make up data, dates or citations. If a tool returns nothing, the report says so. No em dashes anywhere (see `CLAUDE.md`).
-- Run `uv run pytest` before every push.
