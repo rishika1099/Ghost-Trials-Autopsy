@@ -63,6 +63,11 @@ OVERRIDES = {
     "merck sharp dohme": ("0000310158", "MRK", "Merck & Co., Inc."),
     "janssen": ("0000200406", "JNJ", "JOHNSON & JOHNSON"),
     "teva": ("0000818686", "TEVA", "TEVA PHARMACEUTICAL INDUSTRIES LTD"),
+    # One filer, renamed four times: AzurRx BioPharma (2014), First Wave BioPharma (2021), Entero Therapeutics
+    # (2024), GridAI Technologies (2025, SIC now 4931). EDGAR's name search only knows the current name.
+    "entero": ("0001604191", "GRDX", "Entero Therapeutics, Inc. (now GridAI Technologies Corp.)"),
+    "first wave": ("0001604191", "GRDX", "Entero Therapeutics, Inc. (now GridAI Technologies Corp.)"),
+    "azurrx": ("0001604191", "GRDX", "Entero Therapeutics, Inc. (now GridAI Technologies Corp.)"),
 }
 
 
