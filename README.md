@@ -9,7 +9,7 @@ A deep research agent that investigates industry clinical trials that stopped ea
 
 **Who it's for:** health reporters, patient advocates, and research-integrity people. Example: a reporter covering a mid-size biotech asks "Did this company stop any trials without reporting results, and what did it tell investors?"
 
-IEOR 4570 Project 2, Deep Research path. Work in progress: the full grader README (sample queries, baseline comparison, deployed URL) is tracked in the GitHub issues.
+IEOR 4570 Project 2, Deep Research path. Work in progress: who does what is in `PROPOSAL.md`, and the plan and rubric are in `CLAUDE.md`.
 
 ## Run it locally
 
