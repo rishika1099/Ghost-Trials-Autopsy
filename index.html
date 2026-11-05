@@ -229,9 +229,12 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 .dd { display: block; color: var(--pencil); opacity: .75; }
 .dd use, .dd path, .dd circle, .dd rect { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .dd.blue { color: var(--blue); } .dd.red { color: var(--red); }
-.doodle-row { display: flex; justify-content: space-around; align-items: center; margin-top: 26px; gap: 10px; }
-.doodle-row .dd { width: 62px; height: 62px; }
-.doodle-row .dd:nth-child(odd) { transform: rotate(-8deg); } .doodle-row .dd:nth-child(even) { transform: rotate(6deg) translateY(8px); }
+.corner-dd { position: absolute; z-index: 2; pointer-events: none; }
+.case-dd { position: absolute; top: 10px; right: 12px; width: 42px; height: 42px; transform: rotate(6deg); }
+.case:nth-child(even) .case-dd { transform: rotate(-7deg); }
+.scatter { position: relative; height: 130px; }
+.scatter .dd { position: absolute; width: 66px; height: 66px; }
+@media (max-width: 880px) { .scatter { display: none; } }
 .cases-head { display: flex; align-items: flex-end; gap: 14px; }
 .cases-head .dd { width: 44px; height: 44px; }
 .margin-dd { position: absolute; left: 4px; width: 26px; height: 26px; }
@@ -239,7 +242,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 .waiting .dd { width: 54px; height: 54px; margin-bottom: 8px; }
 .sig-wrap { display: flex; align-items: center; gap: 10px; }
 .sig-wrap .dd { width: 38px; height: 38px; }
-@media (max-width: 640px) { .margin-dd, .cases-head .dd { display: none; } .doodle-row .dd { width: 48px; height: 48px; } .step { transform: none; } }
+@media (max-width: 640px) { .cases-head .dd { display: none; } .corner-dd { transform: none !important; right: -6px !important; width: 54px !important; height: 54px !important; } .step { transform: none; } }
 </style>
 </head>
 <body>
@@ -253,6 +256,11 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
   <symbol id="d-clip" viewBox="0 0 64 64"><rect x="13" y="10" width="38" height="50" rx="3"/><rect x="23" y="5" width="18" height="10" rx="2"/><path d="M21 28l3 3 6-6M34 28h10M21 40l3 3 6-6M34 40h10M21 52h23"/></symbol>
   <symbol id="d-tube" viewBox="0 0 64 64"><g transform="rotate(25 32 32)"><path d="M24 4h16M26 4v46a6 6 0 0 0 12 0V4M26 30h12M27 37l10-5M27 44l10-5M28 51l9-5"/></g></symbol>
   <symbol id="d-mag" viewBox="0 0 64 64"><circle cx="26" cy="26" r="16"/><path d="M38 38l18 18M18 22c2-4 5-6 9-6"/></symbol>
+  <symbol id="d-pencil" viewBox="0 0 64 64"><g transform="rotate(-40 32 32)"><path d="M8 26h40l10 6-10 6H8zM48 26v12M14 26v12M52 29.5l6 2.5-6 2.5"/></g><path d="M8 56c6-3 10 2 16-1s9-3 14 0"/></symbol>
+  <symbol id="d-docs" viewBox="0 0 64 64"><path d="M8 16h26v40H8zM14 26h14M14 33h14M14 40h10"/><path d="M28 8h26v40H40M34 18h14M38 25h10M40 32h8"/><path d="M30 46l8 8M38 46l-8 8"/></symbol>
+  <symbol id="d-nopage" viewBox="0 0 64 64"><path d="M16 6h24l10 10v42H16zM40 6v10h10M24 30l16 16M40 30L24 46"/></symbol>
+  <symbol id="d-building" viewBox="0 0 64 64"><path d="M8 56h48M12 56V28M52 56V28M6 28h52L32 10zM22 32v20M32 32v20M42 32v20M30 20h4"/></symbol>
+  <symbol id="d-cloud" viewBox="0 0 64 64"><path d="M20 42c-9 0-11-12-3-14-1-10 13-13 18-6 6-6 19-2 17 8 8 2 6 13-2 12z"/><path d="M29 24c0-6 9-6 9 0 0 4-4 4-4 8M34 36v1"/><circle cx="16" cy="50" r="3"/><circle cx="9" cy="57" r="2"/></symbol>
   <symbol id="d-plus" viewBox="0 0 64 64"><path d="M32 10v44M10 32h44"/></symbol>
 </defs></svg>
 <div class="mast"><div class="wrap"><div class="row">
@@ -277,6 +285,8 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
     <div>
     <div class="qcard">
       <h2>What we check, every case</h2>
+      <svg class="dd " style="position:absolute;top:12px;right:14px;width:40px;height:50px;transform:rotate(12deg)" aria-hidden="true"><use href="#d-dna" filter="url(#rough)"/><use href="#d-dna" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+      <svg class="dd blue corner-dd" style="bottom:-34px;right:-22px;width:70px;height:70px;transform:rotate(-10deg)" aria-hidden="true"><use href="#d-mag" filter="url(#rough)"/><use href="#d-mag" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
       <ol>
         <li><span class="box"></span><div><b>Why did it stop?</b><small>The status and reason the sponsor gave the registry</small></div></li>
         <li><span class="box"></span><div><b>Were the results ever shared?</b><small>Posted on ClinicalTrials.gov, published in a journal, and how late</small></div></li>
@@ -284,13 +294,14 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
         <li><span class="box"></span><div><b>Do the stories match?</b><small>Where the registry, the filings and the papers disagree</small></div></li>
       </ol>
     </div>
-    <div class="doodle-row"><svg class="dd red" aria-hidden="true"><use href="#d-pill" filter="url(#rough)"/><use href="#d-pill" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd " aria-hidden="true"><use href="#d-syringe" filter="url(#rough)"/><use href="#d-syringe" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd blue" aria-hidden="true"><use href="#d-flask" filter="url(#rough)"/><use href="#d-flask" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd " aria-hidden="true"><use href="#d-dna" filter="url(#rough)"/><use href="#d-dna" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd blue" aria-hidden="true"><use href="#d-mag" filter="url(#rough)"/><use href="#d-mag" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></div>
+    <div class="scatter"><svg class="dd red" style="left:14%;top:46px;transform:rotate(-14deg)" aria-hidden="true"><use href="#d-pill" filter="url(#rough)"/><use href="#d-pill" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd blue" style="left:62%;top:22px;transform:rotate(9deg)" aria-hidden="true"><use href="#d-flask" filter="url(#rough)"/><use href="#d-flask" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></div>
     </div>
   </section>
 
   <section class="ask" style="position:relative">
     <div class="step" aria-hidden="true"><span class="num">1</span><span class="txt">start here: name a sponsor, a drug or a trial</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div>
     <form id="form" class="ask-card">
+      <svg class="dd " style="position:absolute;top:6px;right:22px;width:62px;height:62px" aria-hidden="true"><use href="#d-pencil" filter="url(#rough)"/><use href="#d-pencil" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
       <label for="q">Open a new case</label>
       <div class="bar">
         <textarea id="q" placeholder="a sponsor, drug, condition or NCT number..."></textarea>
@@ -299,7 +310,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
       <p class="hint">A full investigation takes one to four minutes. A question with no target gets a follow-up question first.</p>
     </form>
     <div class="cases">
-      <div class="cases-head"><h2>Or pick up an old case:</h2><svg class="dd blue" aria-hidden="true"><use href="#d-tube" filter="url(#rough)"/><use href="#d-tube" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg><svg class="dd " aria-hidden="true"><use href="#d-clip" filter="url(#rough)"/><use href="#d-clip" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></div>
+      <div class="cases-head"><h2>Or pick up an old case:</h2><svg class="dd blue" aria-hidden="true"><use href="#d-tube" filter="url(#rough)"/><use href="#d-tube" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg></div>
       <div class="step" aria-hidden="true"><span class="num">2</span><span class="txt">no question in mind? open one of these</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div>
       <div id="chips"></div>
     </div>
@@ -308,6 +319,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
   <div class="desk-steps"><div class="step" aria-hidden="true"><span class="num">3</span><span class="txt">the case notes land here, every claim cited</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div><div class="step" aria-hidden="true"><span class="num">4</span><span class="txt">watch the agents work, side by side</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div></div>
   <main class="desk" style="position:relative">
     <section class="file">
+      <svg class="dd corner-dd" style="top:-30px;right:-24px;width:78px;height:78px;transform:rotate(8deg)" aria-hidden="true"><use href="#d-syringe" filter="url(#rough)"/><use href="#d-syringe" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
       <div class="filehead"><span class="sect">Case notes</span><span class="mono" id="elapsed"></span></div>
       <div id="report"><p class="waiting"><svg class="dd " aria-hidden="true"><use href="#d-clip" filter="url(#rough)"/><use href="#d-clip" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>Nothing open yet. Pick a case card above, or write your own question.</p></div>
     </section>
@@ -317,6 +329,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
       <div class="gantt" id="gantt"></div>
       <div id="checkstats"></div>
       <div id="calls"><p class="empty-log">Every agent and every tool call is logged here as it happens: the Lead, three researchers working at once, the Writer and the Citation Checker.</p></div>
+      <svg class="dd blue" style="width:52px;height:52px;margin:14px 6px 0 auto;transform:rotate(-8deg)" aria-hidden="true"><use href="#d-flask" filter="url(#rough)"/><use href="#d-flask" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
     </aside>
   </main>
 </div>
@@ -330,10 +343,10 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 <script>
 // The README's sample queries, plus one vague question that shows clarification.
 const EXAMPLES = [
-  {k: "Discrepancy", who: "Veru · NCT05065411", q: "Veru terminated its phase 3 trial of enobosarm with abemaciclib (NCT05065411). What reason did it give the registry, what did it tell investors, and do the two match?"},
-  {k: "Never posted", who: "Sorrento · NCT04903327", q: "Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?"},
-  {k: "Sponsor", who: "Entero Therapeutics", q: "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"},
-  {k: "Too vague", who: "Alzheimer's", q: "Why do Alzheimer's trials fail?", vague: true}
+  {k: "Discrepancy", icon: "docs", who: "Veru · NCT05065411", q: "Veru terminated its phase 3 trial of enobosarm with abemaciclib (NCT05065411). What reason did it give the registry, what did it tell investors, and do the two match?"},
+  {k: "Never posted", icon: "nopage", who: "Sorrento · NCT04903327", q: "Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?"},
+  {k: "Sponsor", icon: "building", who: "Entero Therapeutics", q: "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"},
+  {k: "Too vague", icon: "cloud", who: "Alzheimer's", q: "Why do Alzheimer's trials fail?", vague: true}
 ];
 const AGENT_NAMES = {lead: "Lead", writer: "Writer", checker: "Citation Checker"};
 const $ = (id) => document.getElementById(id);
@@ -351,6 +364,7 @@ fetch("/api/meta").then(r => r.json()).then(m => {
 }).catch(() => {});
 
 $("chips").innerHTML = EXAMPLES.map((e, i) => `<button class="case ${e.vague ? "" : "red-top"}" data-i="${i}">
+  <svg class="dd case-dd ${e.vague ? "blue" : "red"}" aria-hidden="true"><use href="#d-${e.icon}" filter="url(#rough)"/><use href="#d-${e.icon}" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
   <span class="no">CASE ${String(i + 1).padStart(2, "0")}</span>
   <span class="tag ${e.vague ? "" : "red"}">${esc(e.k)}<br><span class="mono">${esc(e.who)}</span></span>
   <span class="q">${esc(e.q)}</span><span class="go">open case →</span></button>`).join("");
