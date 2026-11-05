@@ -6,6 +6,7 @@ For each claim, check every fact against the cited records only:
 - Numbers: enrollment, counts, percentages and days late must match the record.
 - Quotes: words in double quotes must be in the record exactly, apart from case and spacing.
 - Which trial: a filing passage about the same drug but another trial (another NCT ID or trial name) does not support a claim about this trial. The relevance or scope field of a record helps: drug_only and other_trial are weak.
+- Groups: a claim about several trials ("the five hand-checked trials gave efficacy failures") must hold for each one. If one cited record gives a different reason, category or status, the claim is not supported; fix it by naming the trials it is true for.
 - Certainty: a claim must not be more certain than the records. A difference between the registry and an 8-K is a discrepancy. Words such as hid, concealed, misled, lied, withheld, covered up, illegal or broke the law are never supported: the records cannot show intent or a legal violation. "Results not posted" is a fact; "results were withheld" is not.
 
 Return one verdict per claim, with its index:
