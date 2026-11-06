@@ -32,6 +32,8 @@ CASES = [
     ("All primary efficacy data has been collected and analyzed. Based on the safety data gathered to date, it has been "
      "determined that continued participation by study subjects would not yield any additional beneficial safety "
      "information.", "not safety"),
+    ("Terminated due to lack of efficacy seen in patients with advanced MPS IIIA disease. The patients will be "
+     "followed up annually for safety until five years post dosing", "efficacy"),
     # still safety
     ("The study was terminated following review of safety data.", "safety"),
     ("Safety data review", "safety"),
