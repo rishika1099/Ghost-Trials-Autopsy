@@ -114,15 +114,27 @@ def get_enum_values(ctx: RunContextWrapper[RunState], table: str, column: str) -
     return _error(f"No column {table}.{column}. Call read_mappings for the columns.")
 
 
+# A table reference (FROM, JOIN or a comma join), not the word inside a string such as snapshot_meta's table_name.
+_DISCREPANCIES_TABLE = re.compile(r'(?:\bfrom|\bjoin|,)\s*(?:\w+\.)?"?discrepancies"?(?!\w)', re.IGNORECASE)
+DISCREPANCIES_REDIRECT = (
+    "query_trials_sql does not read the discrepancies table. Call find_discrepancies (sponsor, nct_id or condition, "
+    "labels, hand_checked_only) instead: one call returns the distinct trial count, the hand-checked count and the "
+    "best row per trial, all citable."
+)
+
+
 @function_tool
 def query_trials_sql(ctx: RunContextWrapper[RunState], sql: str) -> str:
     """Run one read-only DuckDB SELECT over the snapshot (tables trials, trial_derived, sponsor_cik,
-    filings, publications, discrepancies, snapshot_meta). At most 50 rows come back. Rows with an nct_id, accession or
-    pmid become citable evidence; an aggregate becomes evidence id sql:<hash>.
+    filings, publications, snapshot_meta). At most 50 rows come back. Rows with an nct_id, accession or
+    pmid become citable evidence; an aggregate becomes evidence id sql:<hash>. For the registry vs 8-K comparison
+    (the discrepancies table) call find_discrepancies instead: this tool refuses that table.
 
     Args:
         sql: A single DuckDB SELECT statement.
     """
+    if _DISCREPANCIES_TABLE.search(sql):
+        return _error(DISCREPANCIES_REDIRECT)
     try:
         result = db.run_select(sql)
     except db.SnapshotMissing as e:
