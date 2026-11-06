@@ -80,3 +80,27 @@ def test_sql_rows_from_discrepancies_keep_their_filing_link():
     record = state.store.get("sec:0001564590-21-008154")
     assert "sec:0001564590-21-008154" in ids
     assert record.source_url.startswith("https://www.sec.gov/Archives/") and record.title == "vTv Therapeutics 8-K filed 2021-02-24"
+
+
+@pytest.mark.parametrize("sql", [
+    "SELECT * FROM discrepancies LIMIT 5",
+    "select t.nct_id from trials t join main.discrepancies d using (nct_id)",
+    'SELECT count(*) FROM "Discrepancies"',
+    "select * from trials, discrepancies",
+])
+async def test_sql_on_discrepancies_points_to_the_tool(sql):
+    """The SQL tool refuses the discrepancies table, so every comparison goes through find_discrepancies."""
+    state = RunState("q")
+    args = {"sql": sql}
+    ctx = ToolContext(context=state, tool_name="query_trials_sql", tool_call_id="t1", tool_arguments=json.dumps(args))
+    result = json.loads(await tools.query_trials_sql.on_invoke_tool(ctx, json.dumps(args)))
+    assert "find_discrepancies" in result["error"]
+    assert not state.store.records, "a refused query registers no evidence"
+
+
+async def test_sql_that_only_names_the_table_in_a_string_still_runs():
+    state = RunState("q")
+    args = {"sql": "SELECT row_count FROM snapshot_meta WHERE table_name = 'discrepancies'"}
+    ctx = ToolContext(context=state, tool_name="query_trials_sql", tool_call_id="t1", tool_arguments=json.dumps(args))
+    result = json.loads(await tools.query_trials_sql.on_invoke_tool(ctx, json.dumps(args)))
+    assert "error" not in result and result["rows"][0]["row_count"] > 0
