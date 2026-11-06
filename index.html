@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ghost Trials Autopsy</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='2' y='2' width='60' height='60' rx='14' fill='%23f7f2e7'/><path d='M15 54V29a17 17 0 0 1 34 0v25l-5.5-4.5L38 54l-6-4.5L26 54l-5.5-4.5Z' fill='%23fcf8ef' stroke='%2338352f' stroke-width='4' stroke-linejoin='round'/><circle cx='25.5' cy='29' r='3.6' fill='%2338352f'/><circle cx='38.5' cy='29' r='3.6' fill='%2338352f'/><path d='M21 39h7l2.5-4.5 3 9 2.5-4.5h7' fill='none' stroke='%239e3a2e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@400;600;700&family=Nunito:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -79,9 +80,9 @@ h1 .circled svg { position: absolute; left: -6%; top: -8%; width: 112%; height: 
 /* ask */
 .ask-card { position: relative; background: var(--card); box-shadow: var(--shadow); padding: 20px 22px 16px; margin: 4px 0 26px; }
 .ask-card label { display: block; font: 700 20.5px "Shantell Sans", cursive; margin-bottom: 4px; }
-.bar { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
+.bar { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
 .bar textarea { flex: 1 1 280px; min-width: 0; border: 0; border-bottom: 2px solid var(--ink); outline: 0; background: transparent; color: var(--ink); resize: none;
-  font: 20.5px/1.3 "Shantell Sans", cursive; padding: 6px 2px; height: 50px; }
+  font: 20.5px/1.3 "Shantell Sans", cursive; padding: 6px 2px; height: 50px; min-height: 50px; overflow: hidden; }
 @media (max-width: 640px) { .bar textarea { font-size: 16px; } }
 .bar textarea::placeholder { color: var(--pencil); opacity: .8; }
 .bar button { border: var(--stroke) solid var(--red); color: var(--red); background: var(--card); padding: 4px 20px; font: 700 18.5px "Shantell Sans", cursive; cursor: pointer;
@@ -192,7 +193,7 @@ details.grp summary::-webkit-details-marker { display: none; }
 .call .args { color: var(--pencil); font-size: 11.5px; max-height: 48px; overflow: hidden; }
 .empty-log { font: 13.5px/1.4 "Shantell Sans", cursive; color: var(--ink2); background: var(--card); margin: 0; }
 
-.closing { font: 700 clamp(26px, 4.4vw, 44px)/1.15 "Shantell Sans", cursive; color: var(--red); margin: 10px 0 18px; transform: rotate(-1deg); }
+.closing { font: 600 clamp(17px, 2vw, 21px)/1.3 "Shantell Sans", cursive; color: var(--red); margin: 10px 0 8px; transform: rotate(-1deg); }
 footer { padding: 18px 0 40px; font-size: 13px; color: var(--ink2); border-top: var(--stroke) dashed var(--rule); }
 :focus-visible { outline: 2px dashed var(--blue); outline-offset: 3px; }
 .bar textarea:focus-visible { outline: 2px dashed var(--blue); outline-offset: 4px; }
@@ -204,7 +205,7 @@ footer { padding: 18px 0 40px; font-size: 13px; color: var(--ink2); border-top: 
   .case, .qcard, .sticky, .log, .bar button, .stamp, .checked, .closing, .case:active, .bar button:active { transform: none !important; }
 }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 30px; }
-footer p { margin: 0; max-width: 48em; }
+footer p { margin: 0; flex: 1 1 20em; }
 footer .sig { font: 700 16.5px "Shantell Sans", cursive; color: var(--pencil); }
 
 /* continuous margin line down the whole page */
@@ -238,7 +239,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 .cases-head { display: flex; align-items: flex-end; gap: 14px; }
 .cases-head .dd { width: 44px; height: 44px; }
 .margin-dd { position: absolute; left: 4px; width: 26px; height: 26px; }
-.ecg { display: block; width: min(560px, 100%); height: 46px; color: var(--red); opacity: .8; margin: -4px 0 14px; }
+.ecg { display: block; width: min(300px, 100%); height: 26px; color: var(--red); opacity: .7; margin: -2px 0 14px; }
 .waiting .dd { width: 54px; height: 54px; margin-bottom: 8px; }
 .sig-wrap { display: flex; align-items: center; gap: 10px; }
 .sig-wrap .dd { width: 38px; height: 38px; }
@@ -371,10 +372,15 @@ $("chips").innerHTML = EXAMPLES.map((e, i) => `<button class="case ${e.vague ? "
   <span class="q">${esc(e.q)}</span><span class="go">open case →</span></button>`).join("");
 $("chips").addEventListener("click", (ev) => {
   const b = ev.target.closest(".case"); if (!b) return;
-  sessionId = null; $("q").value = EXAMPLES[b.dataset.i].q; ask();
+  sessionId = null; $("q").value = EXAMPLES[b.dataset.i].q; fitQuestion(); ask();
   document.querySelector(".desk").scrollIntoView({behavior: "smooth"});
 });
 $("form").addEventListener("submit", (ev) => { ev.preventDefault(); ask(); document.querySelector(".desk").scrollIntoView({behavior: "smooth"}); });
+// The question box grows to fit its text instead of scrolling.
+function fitQuestion() { const q = $("q"); q.style.height = "auto"; q.style.height = q.scrollHeight + 2 + "px"; }
+$("q").addEventListener("input", fitQuestion);
+window.addEventListener("resize", fitQuestion);
+if (document.fonts) document.fonts.ready.then(fitQuestion);
 $("q").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); $("form").requestSubmit(); } });
 
 function waiting(html) { $("report").innerHTML = `<p class="waiting">${html}</p>`; }
@@ -476,7 +482,7 @@ function drawClarify(e) {
     ${e.options.map((o, i) => `<button class="case" data-o="${i}"><span class="no">OPTION ${i + 1}</span><span class="tag"></span><span class="q">${esc(o)}</span><span class="go">→</span></button>`).join("")}` : ""}</div>`;
   $("report").querySelectorAll("[data-o]").forEach(b => b.onclick = () => {
     if (refuse) sessionId = null;
-    const option = e.options[b.dataset.o]; $("q").value = option; ask(option);
+    const option = e.options[b.dataset.o]; $("q").value = option; fitQuestion(); ask(option);
   });
 }
 

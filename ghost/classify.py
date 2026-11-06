@@ -37,7 +37,7 @@ BEFORE_ENROLLING = re.compile(r"\b(before|prior to)\s+(any\s+)?(participants?|pa
 # efficacy data", "absence of significant safety findings". "Review of safety data" is left alone: it is a reason.
 SAFETY_AS_DATA = re.compile(
     r"\b(sufficient|considerable|enough|additional|available|accumulated|cumulative)\s+safety\s+(data|information)\b"
-    r"|\bfollow(ed|ed up|-up)?\s+(up\s+)?for\s+safety\b"
+    r"|\bfollow(ed|ed up|-up)?\s+(up\s+)?(\w+\s+){0,2}for\s+(long.term\s+)?safety\b"
     r"|\b(obtain|collect|analy[sz]e|evaluate|gather)\w*\b[^.;*]{0,40}?\b(safety|efficacy)\b[^.;*]{0,30}?\b(data|future)\b"
     r"|\b(safety|efficacy)\s+data\s+(has\s+been\s+|have\s+been\s+|was\s+|were\s+)?(generated|gathered|collected)\b"
     r"|\bbased\s+on\s+the\s+safety\s+data\s+gathered\b"
