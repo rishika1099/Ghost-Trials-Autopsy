@@ -15,7 +15,7 @@ import json
 import time
 from typing import Literal
 
-from agents import Agent, MaxTurnsExceeded, ModelSettings, Runner, set_tracing_disabled
+from agents import Agent, ItemHelpers, MaxTurnsExceeded, ModelSettings, Runner, set_tracing_disabled
 from agents.extensions.models.litellm_model import LitellmModel
 from pydantic import BaseModel, Field
 
@@ -176,7 +176,19 @@ async def run_researcher(state: RunState, brief: Brief, key: str) -> Findings:
     try:
         result = await Runner.run(agent, brief.brief, context=state, hooks=hooks, max_turns=config.RESEARCHER_MAX_TURNS)
         return drop_unknown_ids(state, result.final_output)
-    except MaxTurnsExceeded:
+    except MaxTurnsExceeded as e:
+        # Like the Lead: report now, with no tools, from its own conversation (so quotes still come from real excerpts).
+        if e.run_data is not None:
+            history = ItemHelpers.input_to_new_input_list(e.run_data.input)
+            history += [item.to_input_item() for item in e.run_data.new_items]
+            history.append({"role": "user", "content": "Turn cap reached. No more tool calls. Report your findings and gaps now, "
+                                                       "from the tool results above only."})
+            try:
+                result = await Runner.run(agent.clone(tools=[]), history, context=state, hooks=hooks, max_turns=2)
+                state.notes.append(f"{agent.name} hit its {config.RESEARCHER_MAX_TURNS}-turn cap and reported from what it had found.")
+                return drop_unknown_ids(state, result.final_output)
+            except MaxTurnsExceeded:
+                pass
         seen = sorted(set(hooks.evidence_seen))
         return Findings(findings=[Finding(claim=f"Ran out of turns. Records gathered: {', '.join(seen) or 'none'}.",
                                           evidence_ids=seen, confidence="low")],

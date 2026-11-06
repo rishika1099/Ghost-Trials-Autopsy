@@ -2,7 +2,8 @@
 evidence_id, which it also adds to the run's evidence store so the Writer can cite it.
 
 Lane A (trials):        query_trials_sql, read_mappings, get_enum_values, get_trial_live, get_fda_approvals
-Lane B (disclosures):   find_sponsor_cik, search_sec_filings, get_filing_excerpt (+ query_trials_sql for the filings table)
+Lane B (disclosures):   get_trial_filings, find_discrepancies, find_sponsor_cik, search_sec_filings, get_filing_excerpt
+                        (+ query_trials_sql for the filings table)
 Lane C (publications):  find_publications, get_abstract
 Shared:                 get_snapshot_stats
 """
@@ -63,8 +64,11 @@ def _register_rows(state: RunState, sql: str, rows: list[dict]) -> list[str]:
     ids = []
     for row in rows:
         if row.get("accession"):
-            ids.append(state.store.add(f"sec:{row['accession']}", f"SEC {row.get('form') or 'filing'} {row['accession']}",
-                                       row.get("url") or "", {k: v for k, v in row.items()}))
+            # filings calls the link url; discrepancies calls it filing_url.
+            title = (f"{row['sponsor']} {row.get('form') or '8-K'} filed {row['filed_date']}" if row.get("sponsor") and row.get("filed_date")
+                     else f"SEC {row.get('form') or 'filing'} {row['accession']}")
+            ids.append(state.store.add(f"sec:{row['accession']}", title, row.get("url") or row.get("filing_url") or "",
+                                       {k: v for k, v in row.items()}))
         elif row.get("pmid"):
             ids.append(state.store.add(f"pubmed:{row['pmid']}", row.get("title") or f"PMID {row['pmid']}",
                                        f"https://pubmed.ncbi.nlm.nih.gov/{row['pmid']}/", dict(row)))
@@ -110,15 +114,27 @@ def get_enum_values(ctx: RunContextWrapper[RunState], table: str, column: str) -
     return _error(f"No column {table}.{column}. Call read_mappings for the columns.")
 
 
+# A table reference (FROM, JOIN or a comma join), not the word inside a string such as snapshot_meta's table_name.
+_DISCREPANCIES_TABLE = re.compile(r'(?:\bfrom|\bjoin|,)\s*(?:\w+\.)?"?discrepancies"?(?!\w)', re.IGNORECASE)
+DISCREPANCIES_REDIRECT = (
+    "query_trials_sql does not read the discrepancies table. Call find_discrepancies (sponsor, nct_id or condition, "
+    "labels, hand_checked_only) instead: one call returns the distinct trial count, the hand-checked count and the "
+    "best row per trial, all citable."
+)
+
+
 @function_tool
 def query_trials_sql(ctx: RunContextWrapper[RunState], sql: str) -> str:
     """Run one read-only DuckDB SELECT over the snapshot (tables trials, trial_derived, sponsor_cik,
     filings, publications, snapshot_meta). At most 50 rows come back. Rows with an nct_id, accession or
-    pmid become citable evidence; an aggregate becomes evidence id sql:<hash>.
+    pmid become citable evidence; an aggregate becomes evidence id sql:<hash>. For the registry vs 8-K comparison
+    (the discrepancies table) call find_discrepancies instead: this tool refuses that table.
 
     Args:
         sql: A single DuckDB SELECT statement.
     """
+    if _DISCREPANCIES_TABLE.search(sql):
+        return _error(DISCREPANCIES_REDIRECT)
     try:
         result = db.run_select(sql)
     except db.SnapshotMissing as e:
@@ -384,6 +400,101 @@ def get_trial_filings(ctx: RunContextWrapper[RunState], nct_id: str) -> str:
         return _error(str(e))
 
 
+DIFFERS_LABELS = ("discrepancy", "different_reason", "registry_blank_8k_reason")
+ALL_LABELS = DIFFERS_LABELS + ("consistent", "no_reason_in_8k", "about_another_trial")
+
+
+def _sql_text(value: str) -> str:
+    return value.strip().replace("'", "''")
+
+
+def discrepancy_rows(state: RunState, sponsor: str | None = None, nct_id: str | None = None, condition: str | None = None,
+                     labels: list[str] | None = None, hand_checked_only: bool = False, limit: int = 10) -> dict:
+    """Trials where the registry reason and the 8-K language were compared, best row per trial. See find_discrepancies."""
+    labels = [label for label in (labels or ["discrepancy"]) if label in ALL_LABELS] or ["discrepancy"]
+    where = ["d.label IN (" + ", ".join(f"'{label}'" for label in labels) + ")"]
+    filters = {"labels": labels}
+    if sponsor:
+        where.append(f"d.sponsor ILIKE '%{_sql_text(sponsor)}%'")
+        filters["sponsor"] = sponsor
+    if nct_id:
+        where.append(f"d.nct_id = '{_sql_text(nct_id).upper()}'")
+        filters["nct_id"] = nct_id.upper()
+    if condition:
+        where.append(f"array_to_string(t.conditions, ' ') ILIKE '%{_sql_text(condition)}%'")
+        filters["condition"] = condition
+    if hand_checked_only:
+        where.append("d.decided_by = 'hand_checked'")
+        filters["hand_checked_only"] = True
+    base = f"FROM discrepancies d JOIN trials t USING (nct_id) WHERE {' AND '.join(where)}"
+    totals = db.run_select(f"""SELECT count(DISTINCT d.nct_id) AS trials,
+        count(DISTINCT d.nct_id) FILTER (WHERE d.decided_by = 'hand_checked') AS hand_checked_trials {base}""")
+    if "error" in totals:
+        return totals
+    totals = totals["rows"][0]
+    limit = max(1, min(int(limit or 10), 20))
+    rows = db.run_select(f"""
+        SELECT d.*, t.title, t.overall_status, f.form, f.snippet
+        FROM discrepancies d JOIN trials t USING (nct_id)
+        LEFT JOIN filings f ON f.nct_id = d.nct_id AND f.accession = d.accession
+        WHERE {' AND '.join(where)}
+        QUALIFY row_number() OVER (PARTITION BY d.nct_id ORDER BY d.decided_by = 'hand_checked' DESC, d.strength DESC, d.filed_date) = 1
+        ORDER BY d.decided_by = 'hand_checked' DESC, d.strength DESC, d.nct_id""", limit=limit)
+    if "error" in rows:
+        return rows
+    described = ", ".join(f"{k} {v}" for k, v in filters.items() if k in ("sponsor", "nct_id", "condition"))
+    summary_title = (f"Discrepancies table: {totals['trials']} trial{'' if totals['trials'] == 1 else 's'} labelled {' or '.join(labels)}"
+                     f"{' for ' + described if described else ''}"
+                     f"{', counting only rows checked by hand' if hand_checked_only else ''} ({totals['hand_checked_trials']} checked by hand)")
+    slug = re.sub(r"[^a-z0-9]+", "-", json.dumps(filters, sort_keys=True).lower()).strip("-")[:60]
+    summary_id = state.store.add(f"snapshot:discrepancies:{slug}", summary_title, REPO_DATA_URL,
+                                 {**totals, "filters": filters, "method": "keyword rules (keyword_rules_v1), some rows hand_checked"})
+    trials = []
+    for row in rows["rows"]:
+        registry_id = _add_trial(state, db.trial_record(row["nct_id"]) or {"nct_id": row["nct_id"], "title": row["title"]})
+        sec_id = state.store.add(f"sec:{row['accession']}", f"{row['sponsor']} {row.get('form') or '8-K'} filed {row['filed_date']}",
+                                 row["filing_url"], {"accession": row["accession"], "form": row.get("form"), "filed_date": row["filed_date"],
+                                                     "url": row["filing_url"], "snippet": row.get("snippet"), "sec_quote": row.get("sec_quote"),
+                                                     "nct_id": row["nct_id"]})
+        trials.append({"nct_id": row["nct_id"], "sponsor": row["sponsor"], "title": row["title"], "status": row["overall_status"],
+                       "registry_reason": row["registry_reason"], "registry_category": row["registry_category"],
+                       "filed_date": str(row["filed_date"]), "accession": row["accession"], "sec_quote": row.get("sec_quote"),
+                       "sec_categories": row.get("sec_categories"), "scope": row.get("scope"), "label": row["label"],
+                       "decided_by": row["decided_by"], "strength": row.get("strength"), "rule": row.get("rule"),
+                       "registry_evidence_id": registry_id, "sec_evidence_id": sec_id, "source_url": row["filing_url"]})
+    note = ("Labels come from keyword rules (decided_by keyword_rules_v1) unless decided_by is hand_checked. Before you report a "
+            "rules label, read the filing with get_filing_excerpt and quote it. scope drug_program means the 8-K is about the drug, "
+            "not necessarily this trial. A discrepancy is a difference between the registry and the 8-K, not proof of intent.")
+    if not trials:
+        note = f"{summary_title}. Cite {summary_id} for that exact statement. Do not write that a table is empty."
+    return {"summary": summary_title, "summary_evidence_id": summary_id, "source_url": REPO_DATA_URL, **totals,
+            "trials": trials, "note": note}
+
+
+@function_tool
+def find_discrepancies(ctx: RunContextWrapper[RunState], sponsor: str | None = None, nct_id: str | None = None,
+                       condition: str | None = None, labels: list[str] | None = None, hand_checked_only: bool = False,
+                       limit: int = 10) -> str:
+    """Stopped trials where the registry's stated reason and the sponsor's 8-K language were compared (the snapshot's
+    discrepancies table). Returns a count, then the best row per trial: registry reason, the 8-K date, accession and
+    quote, the label and whether it was checked by hand, with citable evidence ids. Use it for questions like "which
+    trials' 8-Ks give a different reason than the registry?", for a sponsor or condition, or one NCT ID.
+
+    Args:
+        sponsor: Part of a sponsor name, e.g. 'Arrowhead'.
+        nct_id: One trial, e.g. 'NCT03980730'.
+        condition: Part of a condition name, e.g. 'alzheimer'.
+        labels: Default ['discrepancy'] (8-K gives efficacy or safety where the registry gives another reason, or the reverse).
+            Others: 'different_reason', 'registry_blank_8k_reason', 'consistent', 'no_reason_in_8k', 'about_another_trial'.
+        hand_checked_only: Only rows a person checked against the filing.
+        limit: Trials to return, at most 20.
+    """
+    try:
+        return _json(discrepancy_rows(ctx.context, sponsor, nct_id, condition, labels, hand_checked_only, limit))
+    except db.SnapshotMissing as e:
+        return _error(str(e))
+
+
 @function_tool
 def search_sec_filings(ctx: RunContextWrapper[RunState], query: str, cik: str | None = None, start_date: str | None = None,
                        end_date: str | None = None, forms: list[str] | None = None) -> str:
@@ -592,6 +703,6 @@ def get_snapshot_stats(ctx: RunContextWrapper[RunState]) -> str:
 
 
 TRIALS_TOOLS = [read_mappings, get_enum_values, query_trials_sql, get_trial_live, get_fda_approvals, get_snapshot_stats]
-DISCLOSURES_TOOLS = [get_trial_filings, find_sponsor_cik, search_sec_filings, get_filing_excerpt, query_trials_sql, read_mappings]
+DISCLOSURES_TOOLS = [get_trial_filings, find_discrepancies, find_sponsor_cik, search_sec_filings, get_filing_excerpt, query_trials_sql, read_mappings]
 PUBLICATIONS_TOOLS = [find_publications, get_abstract, query_trials_sql, read_mappings]
-LEAD_TOOLS = [get_snapshot_stats, read_mappings, query_trials_sql]
+LEAD_TOOLS = [get_snapshot_stats, find_discrepancies, read_mappings, query_trials_sql]

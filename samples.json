@@ -5,6 +5,8 @@
    "query": "Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?"},
   {"id": "s3_sponsor", "label": "sponsor",
    "query": "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"},
+  {"id": "s4_stories_differ", "label": "stories differ",
+   "query": "Which stopped trials in the snapshot have an 8-K that gives a different reason than the registry? Start with the ones checked by hand."},
   {"id": "vague", "label": "vague",
    "query": "Why do Alzheimer's trials fail?"},
   {"id": "cant_answer", "label": "can't answer",
