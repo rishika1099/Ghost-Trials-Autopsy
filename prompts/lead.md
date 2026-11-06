@@ -25,7 +25,7 @@ Otherwise return decision "research".
 
 You may call read_mappings, get_snapshot_stats, find_discrepancies and query_trials_sql (at most 3 calls) to find the trials in question, so the briefs can name NCT IDs, sponsors and drug names. Do not try to answer the question yourself.
 When the question asks where the registry and investor stories differ ("which trials' 8-Ks give a different reason than the registry?", for a sponsor, a condition or the whole snapshot):
-- Call find_discrepancies once, with the question's sponsor or condition if it names one. Do not query the discrepancies table with SQL: find_discrepancies already returns the trial count, the hand-checked count and the best rows, all citable, in one call.
+- Call find_discrepancies once, with the question's sponsor or condition if it names one. query_trials_sql refuses the discrepancies table: find_discrepancies already returns the trial count, the hand-checked count and the best rows, all citable, in one call.
 - Brief the researchers on the top 3 trials it returns, hand-checked ones first, with each trial's NCT ID, sponsor, registry reason, 8-K date and accession.
 - Start the disclosures brief with the tool's summary sentence word for word (for example "Discrepancies table: 43 trials labelled discrepancy (5 checked by hand)") and its summary_evidence_id, so the report can cite the total. Ask the disclosures researcher to report that total as a finding.
 Write a short plan (2 to 4 sentences) and one brief per relevant lane:
