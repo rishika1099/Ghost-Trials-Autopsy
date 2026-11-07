@@ -1,0 +1,23 @@
+# Continuous deploy: a Cloud Build trigger on pushes to main runs this file.
+# It builds the Dockerfile, pushes the image, and points the Cloud Run service at it. The service keeps its
+# other settings (600 s timeout, 2 GiB memory, public access), so only the image changes.
+steps:
+  - id: build
+    name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "${_IMAGE}:${COMMIT_SHA}", "-t", "${_IMAGE}:latest", "."]
+  - id: push
+    name: gcr.io/cloud-builders/docker
+    args: ["push", "--all-tags", "${_IMAGE}"]
+  - id: deploy
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: gcloud
+    args: ["run", "deploy", "${_SERVICE}", "--image", "${_IMAGE}:${COMMIT_SHA}", "--region", "${_REGION}", "--quiet"]
+substitutions:
+  _SERVICE: ghost-trials-autopsy
+  _REGION: us-central1
+  _IMAGE: us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-run-source-deploy/ghost-trials-autopsy
+images: ["${_IMAGE}:${COMMIT_SHA}"]
+options:
+  logging: CLOUD_LOGGING_ONLY
+  dynamicSubstitutions: true
+timeout: 1200s
