@@ -5,6 +5,7 @@ Numbering is done here, not by the model: sources are numbered in order of first
 """
 
 import datetime as dt
+import re
 
 from ghost import db
 from ghost.state import RunState
@@ -48,6 +49,14 @@ def _date(value) -> str | None:
     return str(value)[:10]
 
 
+RUN_LIMITS_RE = re.compile(r"\b(time|round|research|turn)\s+(budget|cap|limit)s?\b|\bturn caps?\b|\bstopped early because\b", re.I)
+
+
+def _mentions_run_limits(sentence: str) -> bool:
+    """True for a cant_tell sentence about our own run limits (time budget, round or turn caps)."""
+    return bool(RUN_LIMITS_RE.search(sentence))
+
+
 def build_timeline(state: RunState, cited: list[str]) -> list[dict]:
     """One timeline per trial cited in the report (or found, if the report cites none): registry dates,
     results due and posted (or a never-posted marker), 8-K dates and publication dates."""
@@ -76,7 +85,8 @@ def build_timeline(state: RunState, cited: list[str]) -> list[dict]:
                     events.append({"date": _date(other.data["filed_date"]), "label": f"SEC {other.data.get('form') or 'filing'}",
                                    "kind": "filing", "evidence_id": other.evidence_id})
             if other.evidence_id.startswith("pubmed:") and (other.data.get("nct_id") == nct or nct in (other.data.get("nct_ids") or [])):
-                if other.data.get("pub_date"):
+                # A review that only names the trial, or a paper from before it started, is not its publication.
+                if other.data.get("pub_date") and other.data.get("link_strength", "results_candidate") == "results_candidate":
                     events.append({"date": _date(other.data["pub_date"]), "label": "Publication", "kind": "publication",
                                    "evidence_id": other.evidence_id})
         events.sort(key=lambda e: e["date"] or "9999")
@@ -101,7 +111,8 @@ def render(state: RunState, report, checker: dict) -> dict:
     if report.differences:
         lines += ["## Where the stories differ"] + [f"- {_cite(c, numbers)}" for c in report.differences] + [""]
     # Only the time budget limits the answer in a way the reader needs to know; other notes are for the trace.
-    cant = list(report.cant_tell) + [n for n in state.notes if "budget" in n]
+    # The model sometimes adds its own budget sentence even when research finished; only the code's note is true.
+    cant = [c for c in report.cant_tell if not _mentions_run_limits(c)] + [n for n in state.notes if "budget" in n]
     lines += ["## What the data can't tell us"] + [f"- {c}" for c in cant] + [""]
     lines += ["## Sources"] + [f"{s['n']}. {s['title']}. {s['source_type']}. {s['url']}" for s in sources]
     lines += ["", f"_Snapshot date: {db.snapshot_date() or 'unknown'}. Research rounds: {state.rounds}. "

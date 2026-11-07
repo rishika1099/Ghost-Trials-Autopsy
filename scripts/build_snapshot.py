@@ -421,7 +421,7 @@ DESCRIPTIONS = {
         "_table": "PubMed articles linked to a trial.",
         "nct_id": "Trial ID.",
         "pmid": "PubMed ID.",
-        "link_type": "How it was linked: ctgov_result (sponsor listed it as a results paper), ctgov_derived or pubmed_si (the article lists the NCT ID), europepmc_mention (text mentions the NCT ID).",
+        "link_type": "How it was linked: ctgov_result (sponsor listed it as a results paper), ctgov_derived or pubmed_si (the article lists the NCT ID), europepmc_mention (text mentions the NCT ID). Only ctgov_result, pubmed_si and ctgov_derived with pub_date on or after the trial's start_date can be a results paper; europepmc_mention is almost always a review that only names the trial, so never count it as published.",
         "title": "Article title.",
         "journal": "Journal name.",
         "pub_date": "Publication date.",
