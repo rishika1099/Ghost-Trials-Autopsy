@@ -38,3 +38,33 @@ Working notes for the team: how the three course starters were combined, where w
 | Frontend changed from starter | done | `index.html` |
 | Agent does something interesting | done | registry vs. investor vs. publication discrepancy finder: `discrepancies` table (43 trials labelled, 7 hand-checked), vTv sample in README |
 | One data source per team member | done | 3 lanes, 6 sources; owners in README |
+
+## Publication links: what counts as "published"
+
+Spot check on 2026-11-05: 20 random rows per `link_type` from `publications`, each title read against the trial's title and drugs.
+
+| link_type | Reports this trial | Other paper on the drug or programme (pooled, related trial) | Review, background or unrelated |
+|---|---|---|---|
+| ctgov_result | 14 | 2 | 4 (all 4 published years before the trial started) |
+| pubmed_si | 13 | 4 | 3 (Cochrane and other reviews) |
+| ctgov_derived | 15 | 4 | 1 |
+| europepmc_mention | 1 | 1 | 18 (reviews that list the NCT ID) |
+
+Decision: only `ctgov_result`, `pubmed_si` and `ctgov_derived` links published on or after the trial's `start_date` count as a possible results paper. `find_publications` labels every article `results_candidate`, `background` (published before the trial started; 280 of the 1,663 `ctgov_result` rows) or `mention_only` (Europe PMC). The researcher confirms a candidate with `get_abstract` before calling it the trial's results, since about a quarter of candidates are pooled analyses or reviews. When no article is a candidate, the tool returns a citable "No results publication found for NCT..." record listing the mentions, and it now also tries live PubMed `[si]` in case a paper came out after the snapshot.
+
+Effect on `get_snapshot_stats`: `pct_stopped_with_publication` drops from 81.8% (any link) to 21.4% (formal link after start). The new `pct_stopped_mentioned_only` (59.9%) is the share of stopped trials named only in other papers. The timeline no longer draws a "Publication" marker for mentions or background papers. Tests: `tests/test_publications_tools.py`. Live fallback check on trials with no snapshot links: `uv run python scripts/check_publications_live.py`.
+
+## Writer review on the three samples
+
+Read `runs/s1_discrepancy_latest.md`, `s2_never_posted_latest.md` and `s3_sponsor_latest.md` (2026-11-05 runs) and their timeline JSON on 2026-11-07. Registry dates, results due and results posted were right in all three (s1: due 2021-12-01, posted 2022-01-21, 51 days late, matches `trial_derived`). Problems found and what changed:
+
+| Problem | Where | Fix |
+|---|---|---|
+| "No results paper" claims cited the reviews that only mention the trial, so unrelated papers (a niclosamide lung cancer study, an ovarian anti-aging review) appeared as sources | s1, s2, s3 | `find_publications` returns a citable `pubmed:none:<nct>` record; `writer.md` says to cite it, never the mentions |
+| Every "Publication" marker on the timelines was one of those mentions | s1 (5), s2 (5), s3 (all) | timeline keeps only `results_candidate` articles; checked: all five sample trials now have 0 candidates |
+| `cant_tell` ended with a sentence about the time or round budget although research finished | s1, s3 | `report.py` drops model sentences about run limits and keeps only the code's own budget note (`tests/test_publications_tools.py`) |
+| Answer opened with an intent disclaimer the question did not ask for | s1 | `writer.md`: the disclaimer leads only when the question itself asks for intent, the law or safety |
+| "stopped in September 2022" used the primary completion date | s3 | `writer.md`: the registry has no stop date; say "primary completion" |
+| "not published in scientific literature" overstated what we searched | s2 | `writer.md`: "no results publication found in PubMed or Europe PMC" |
+
+Evidence claims were one fact each and `cant_tell` was otherwise specific to each question. To confirm on real runs: `uv run python scripts/run_publications.py` (lane checks) and `uv run python scripts/run_samples.py`.

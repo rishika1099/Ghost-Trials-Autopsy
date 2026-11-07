@@ -589,18 +589,40 @@ def _pubmed_summaries(pmids: list[str]) -> dict[str, dict]:
             for pmid in result.get("uids", [])}
 
 
-@function_tool
-def find_publications(ctx: RunContextWrapper[RunState], nct_id: str, drug_name: str | None = None) -> str:
-    """Find journal articles linked to a trial: the snapshot first, then live PubMed (articles that list
-    the NCT ID), then Europe PMC (articles whose text mentions it, or the drug name if given).
+# Spot check of 20 random links per link_type (NOTES.md, "Publication links"): ctgov_result 14/20 report the
+# trial (4 were background papers published before the trial started), pubmed_si 13/20, ctgov_derived 15/20,
+# europepmc_mention 1/20 (18 were reviews or unrelated papers that only name the NCT ID). So only the first
+# three count as a possible results paper, and only when published on or after the trial's start date.
+RESULTS_LINKS = ("ctgov_result", "pubmed_si", "ctgov_derived")
 
-    Args:
-        nct_id: e.g. 'NCT01234567'.
-        drug_name: Optional drug name for a wider Europe PMC search when nothing links the NCT ID.
-    """
+
+def link_strength(link_type: str | None, pub_date, start_date) -> str:
+    """'results_candidate': the article is formally linked to the trial and came out after it started, so it may
+    report its results (confirm with get_abstract). 'background': linked, but published before the trial started.
+    'mention_only': Europe PMC found the NCT ID or drug name in the text; almost always a review, not results."""
+    if link_type not in RESULTS_LINKS:
+        return "mention_only"
+    pub, start = _date_str(pub_date), _date_str(start_date)
+    if pub and start and pub < start[: len(pub)]:
+        return "background"
+    return "results_candidate"
+
+
+def _date_str(value) -> str | None:
+    if not value:
+        return None
+    return value.isoformat()[:10] if isinstance(value, (dt.date, dt.datetime)) else str(value)[:10]
+
+
+def trial_publications(state: RunState, nct_id: str, drug_name: str | None = None) -> dict:
+    """Articles for one trial, each labelled with link_strength. See find_publications."""
     nct_id = nct_id.strip().upper()
     if not NCT_RE.match(nct_id):
-        return _error("nct_id must look like NCT01234567.")
+        return {"error": "nct_id must look like NCT01234567."}
+    try:
+        start_date = (db.trial_record(nct_id) or {}).get("start_date")
+    except db.SnapshotMissing:
+        start_date = None
     searched, pubs = [], []
     try:
         rows = db.run_select(f"SELECT * FROM publications WHERE nct_id = '{nct_id}' ORDER BY pub_date").get("rows") or []
@@ -608,13 +630,15 @@ def find_publications(ctx: RunContextWrapper[RunState], nct_id: str, drug_name: 
         pubs = [{**r, "found_by": "snapshot"} for r in rows]
     except db.SnapshotMissing:
         pass
-    if not pubs:
+    if not any(p.get("link_type") in RESULTS_LINKS for p in pubs):
+        # Only mentions in the snapshot (or nothing): a results paper may have come out since the build.
         try:
             found = http.get(f"{EUTILS}/esearch.fcgi", {"db": "pubmed", "term": f"{nct_id}[si]", "retmode": "json", "retmax": 20})
             searched.append("pubmed_si")
-            pmids = found.get("esearchresult", {}).get("idlist", [])
-            pubs = [{"nct_id": nct_id, "pmid": p, "link_type": "pubmed_si", **d, "found_by": "pubmed_live"}
-                    for p, d in _pubmed_summaries(pmids).items()]
+            known = {p["pmid"] for p in pubs}
+            pmids = [p for p in found.get("esearchresult", {}).get("idlist", []) if p not in known]
+            pubs += [{"nct_id": nct_id, "pmid": p, "link_type": "pubmed_si", **d, "found_by": "pubmed_live"}
+                     for p, d in _pubmed_summaries(pmids).items()]
         except http.SourceError:
             pass
     if not pubs:
@@ -630,14 +654,44 @@ def find_publications(ctx: RunContextWrapper[RunState], nct_id: str, drug_name: 
         except http.SourceError:
             pass
     for pub in pubs:
+        pub["link_strength"] = link_strength(pub.get("link_type"), pub.get("pub_date"), start_date)
         pub["source_url"] = f"https://pubmed.ncbi.nlm.nih.gov/{pub['pmid']}/"
-        pub["evidence_id"] = ctx.context.store.add(f"pubmed:{pub['pmid']}", pub.get("title") or f"PMID {pub['pmid']}", pub["source_url"], dict(pub))
-    if not pubs:
-        evidence_id = _nothing_found(ctx.context, "pubmed", nct_id, f"PubMed and Europe PMC search for {nct_id}: no linked article",
-                                     f"https://pubmed.ncbi.nlm.nih.gov/?term={nct_id}%5Bsi%5D", {"nct_id": nct_id, "searched": searched, "drug_name": drug_name})
-        return _json({"nct_id": nct_id, "searched": searched, "publications": [], "evidence_id": evidence_id,
-                      "note": f"No linked publication found in {', '.join(searched)}. Cite {evidence_id} for that. Results may exist elsewhere (conference abstracts, company sites)."})
-    return _json({"nct_id": nct_id, "searched": searched, "publications": pubs})
+        pub["evidence_id"] = state.store.add(f"pubmed:{pub['pmid']}", pub.get("title") or f"PMID {pub['pmid']}", pub["source_url"], dict(pub))
+    order = {"results_candidate": 0, "background": 1, "mention_only": 2}
+    pubs.sort(key=lambda p: (order[p["link_strength"]], _date_str(p.get("pub_date")) or "9999"))
+    candidates = [p for p in pubs if p["link_strength"] == "results_candidate"]
+    result = {"nct_id": nct_id, "searched": searched, "results_candidates": len(candidates), "publications": pubs}
+    if candidates:
+        result["note"] = (f"{len(candidates)} article(s) are formally linked to this trial and may report its results: call get_abstract "
+                          "on the most relevant one to confirm before calling it a results paper. Any mention_only or background "
+                          "articles are not results papers.")
+        return result
+    title = f"No results publication found for {nct_id}" + (f" ({len(pubs)} article(s) only mention it)" if pubs else "")
+    evidence_id = _nothing_found(state, "pubmed", nct_id, title, f"https://pubmed.ncbi.nlm.nih.gov/?term={nct_id}%5Bsi%5D",
+                                 {"nct_id": nct_id, "searched": searched, "drug_name": drug_name, "found": 0,
+                                  "mentions": [{"pmid": p["pmid"], "title": p.get("title"), "link_strength": p["link_strength"]} for p in pubs]})
+    result["evidence_id"] = evidence_id
+    result["note"] = (f"No results publication found in {', '.join(searched)}. Cite {evidence_id} for that. "
+                      + ("The articles listed only mention the trial or predate it (reviews, background papers): do not call them "
+                         "its results. " if pubs else "")
+                      + "Results may exist elsewhere (conference abstracts, company sites).")
+    return result
+
+
+@function_tool
+def find_publications(ctx: RunContextWrapper[RunState], nct_id: str, drug_name: str | None = None) -> str:
+    """Find journal articles linked to a trial: the snapshot first, then live PubMed (articles that list
+    the NCT ID), then Europe PMC (articles whose text mentions it, or the drug name if given). Each article has a
+    link_strength: results_candidate (formally linked, may report the results; confirm with get_abstract),
+    background (published before the trial started) or mention_only (only names the trial, usually a review).
+    When no article is a results_candidate, returns a citable 'No results publication found' record.
+
+    Args:
+        nct_id: e.g. 'NCT01234567'.
+        drug_name: Optional drug name for a wider Europe PMC search when nothing links the NCT ID.
+    """
+    result = trial_publications(ctx.context, nct_id, drug_name)
+    return _error(result["error"]) if "error" in result else _json(result)
 
 
 @function_tool
@@ -677,7 +731,12 @@ SELECT
   count(*) FILTER (WHERE d.stopped AND d.results_due_date IS NULL) AS stopped_never_enrolled,
   round(100.0 * count(*) FILTER (WHERE d.stopped AND d.results_due_date IS NOT NULL AND NOT d.results_posted) / nullif(count(*) FILTER (WHERE d.stopped AND d.results_due_date IS NOT NULL), 0), 1) AS pct_stopped_no_results,
   round(100.0 * count(*) FILTER (WHERE NOT d.stopped AND NOT d.results_posted) / nullif(count(*) FILTER (WHERE NOT d.stopped), 0), 1) AS pct_completed_no_results,
-  round(100.0 * count(*) FILTER (WHERE d.stopped AND EXISTS (SELECT 1 FROM publications p WHERE p.nct_id = t.nct_id)) / nullif(count(*) FILTER (WHERE d.stopped), 0), 1) AS pct_stopped_with_publication,
+  round(100.0 * count(*) FILTER (WHERE d.stopped AND EXISTS (SELECT 1 FROM publications p WHERE p.nct_id = t.nct_id
+      AND p.link_type IN ('ctgov_result', 'pubmed_si', 'ctgov_derived') AND (p.pub_date IS NULL OR t.start_date IS NULL OR p.pub_date >= t.start_date)))
+      / nullif(count(*) FILTER (WHERE d.stopped), 0), 1) AS pct_stopped_with_publication,
+  round(100.0 * count(*) FILTER (WHERE d.stopped AND EXISTS (SELECT 1 FROM publications p WHERE p.nct_id = t.nct_id)
+      AND NOT EXISTS (SELECT 1 FROM publications p WHERE p.nct_id = t.nct_id AND p.link_type IN ('ctgov_result', 'pubmed_si', 'ctgov_derived')))
+      / nullif(count(*) FILTER (WHERE d.stopped), 0), 1) AS pct_stopped_mentioned_only,
   median(d.days_late) FILTER (WHERE d.results_posted) AS median_days_late_when_posted
 FROM trials t JOIN trial_derived d USING (nct_id)
 """
@@ -687,7 +746,9 @@ FROM trials t JOIN trial_derived d USING (nct_id)
 def get_snapshot_stats(ctx: RunContextWrapper[RunState]) -> str:
     """Base rates across the whole snapshot, to put one trial or sponsor in context: how many trials stopped,
     the share of stopped trials with a blank reason, with no posted results, with a publication, the reasons
-    by category, and the snapshot date and scope. pct_stopped_no_results counts only stopped trials that enrolled
+    by category, and the snapshot date and scope. pct_stopped_with_publication counts only articles formally linked
+    to the trial (not Europe PMC mentions) and published after it started; pct_stopped_mentioned_only is the share
+    named only in other papers, such as reviews. pct_stopped_no_results counts only stopped trials that enrolled
     patients; withdrawn trials never enrolled anyone and have no results to post (stopped_never_enrolled)."""
     try:
         overall = db.run_select(STATS_SQL)["rows"][0]

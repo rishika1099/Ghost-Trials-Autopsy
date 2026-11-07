@@ -305,7 +305,7 @@
         {
           "name": "link_type",
           "type": "VARCHAR",
-          "description": "How it was linked: ctgov_result (sponsor listed it as a results paper), ctgov_derived or pubmed_si (the article lists the NCT ID), europepmc_mention (text mentions the NCT ID).",
+          "description": "How it was linked: ctgov_result (sponsor listed it as a results paper), ctgov_derived or pubmed_si (the article lists the NCT ID), europepmc_mention (text mentions the NCT ID). Only ctgov_result, pubmed_si and ctgov_derived with pub_date on or after the trial's start_date can be a results paper; europepmc_mention is almost always a review that only names the trial, so never count it as published.",
           "enum_values": [
             "ctgov_derived",
             "ctgov_result",

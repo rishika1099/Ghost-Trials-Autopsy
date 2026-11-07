@@ -79,14 +79,14 @@ The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need t
 
 ### Kshamaa: publications + the Writer + GCP
 **Data lane C: PubMed and Europe PMC** (`find_publications`, `get_abstract`; `prompts/lane_publications.md`)
-- [ ] Spot-check 20 links per `link_type`. `europepmc_mention` is the weakest: e.g. the "never posted" sample NCT04903327 only has review articles that name the NCT ID, not a results paper
-- [ ] Decide whether `europepmc_mention` counts as "published" in `get_snapshot_stats` and the Writer, and document it
-- [ ] Check the live fallback in `find_publications` on 5 trials with nothing in the snapshot
-- [ ] Run the publications researcher on the three samples; it should say "no results publication found" plainly
+- [x] Spot-check 20 links per `link_type` (results candidates 13 to 15 of 20 for the three formal link types, 1 of 20 for `europepmc_mention`; `NOTES.md`)
+- [x] Decide whether `europepmc_mention` counts as "published": it does not. `link_strength` on every article, stats 21.4% instead of 81.8%, Writer and timeline follow it (`NOTES.md`, `tests/test_publications_tools.py`)
+- [ ] Check the live fallback in `find_publications` on 5 trials with nothing in the snapshot (`uv run python scripts/check_publications_live.py`)
+- [ ] Run the publications researcher on the three samples; it should say "no results publication found" plainly (`uv run python scripts/run_publications.py`, checks it automatically)
 
 **Agent shape: the Writer** (`prompts/writer.md`, `ghost/report.py`) **and the page** (`index.html`)
-- [ ] On 3 real reports: is the Answer direct, one fact per Evidence claim, "What the data can't tell us" specific (not boilerplate)?
-- [ ] Timeline events right on the 3 samples (start, stop, results due, posted or never, 8-K, publication)
+- [ ] On 3 real reports: is the Answer direct, one fact per Evidence claim, "What the data can't tell us" specific (not boilerplate)? Reviewed the 2026-11-05 runs, 6 problems fixed (`NOTES.md`); rerun to confirm
+- [ ] Timeline events right on the 3 samples (start, stop, results due, posted or never, 8-K, publication). Registry dates right; review-only "Publication" markers removed; rerun to confirm
 - [x] Phone width (375 px), light and dark mode, timeline labels don't overlap, `[n]` opens its source (PR 13)
 - [x] Make it feel like ours (peer review scores originality): hand-drawn lab notebook design (PR 13)
 
