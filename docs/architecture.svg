@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 488" width="960" height="488" role="img" aria-labelledby="gt-arch-title gt-arch-desc">
+<title id="gt-arch-title">Ghost Trials Autopsy architecture</title>
+<desc id="gt-arch-desc">The browser sends a question to FastAPI on Cloud Run. The Lead decides whether to clarify, refuse or research. To research, it dispatches three Researchers at once, each in a fresh context: trials, disclosures and publications. Each reads the DuckDB snapshot and calls its live APIs. Findings and gaps go back to the Lead, which can run up to three rounds. The Writer drafts a cited report from the evidence store, and the Citation Checker fixes or removes unsupported sentences before the report goes back to the browser.</desc>
+<defs>
+<marker id="gt-arch-arrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6f6a62"/></marker>
+<marker id="gt-arch-arrow-link" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3f6c8c"/></marker>
+<marker id="gt-arch-arrow-accent" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#b5543a"/></marker>
+</defs>
+<rect width="960" height="488" rx="10" fill="#f4f0e8"/>
+<rect x="576" y="32" width="208" height="276" rx="8" fill="rgba(30,28,25,0.025)" stroke="rgba(30,28,25,0.16)" stroke-width="0.8" stroke-dasharray="4,3"/>
+<rect x="588" y="26" width="173" height="12" rx="2" fill="#f4f0e8"/>
+<text x="592" y="35" fill="#8c857b" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">ASYNCIO.GATHER · FRESH CONTEXTS</text>
+<path d="M152,164 L196,164" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-arch-arrow)"/>
+<path d="M196,180 L152,180" fill="none" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-arch-arrow)"/>
+<rect x="162" y="146" width="24" height="12" rx="2" fill="#f4f0e8"/>
+<text x="174" y="155" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">ASK</text>
+<path d="M328,164 L392,164" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-arch-arrow)"/>
+<rect x="334" y="146" width="52" height="12" rx="2" fill="#f4f0e8"/>
+<text x="360" y="155" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">QUESTION</text>
+<path d="M392,180 L328,180" fill="none" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-arch-arrow)"/>
+<rect x="336" y="186" width="48" height="12" rx="2" fill="#f4f0e8"/>
+<text x="360" y="195" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">CLARIFY</text>
+<path d="M536,172 L560,172" fill="none" stroke="#6f6a62" stroke-width="1.2"/>
+<path d="M560,84 L560,260" fill="none" stroke="#6f6a62" stroke-width="1.2"/>
+<path d="M560,84 L592,84" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-arch-arrow)"/>
+<path d="M560,172 L592,172" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-arch-arrow)"/>
+<path d="M560,260 L592,260" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-arch-arrow)"/>
+<path d="M592,284 L504,284 L504,208" fill="none" stroke="#b5543a" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-arch-arrow-accent)"/>
+<rect x="440" y="290" width="156" height="12" rx="2" fill="#f4f0e8"/>
+<text x="518" y="299" fill="#b5543a" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">FINDINGS + GAPS · ≤3 ROUNDS</text>
+<path d="M768,84 L816,84" fill="none" stroke="#3f6c8c" stroke-width="1.2" marker-end="url(#gt-arch-arrow-link)"/>
+<path d="M768,172 L816,172" fill="none" stroke="#3f6c8c" stroke-width="1.2" marker-end="url(#gt-arch-arrow-link)"/>
+<path d="M768,260 L816,260" fill="none" stroke="#3f6c8c" stroke-width="1.2" marker-end="url(#gt-arch-arrow-link)"/>
+<rect x="776" y="66" width="32" height="12" rx="2" fill="#f4f0e8"/>
+<text x="792" y="75" fill="#3f6c8c" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">LIVE</text>
+<path d="M680,292 L680,356" fill="none" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-arch-arrow)"/>
+<rect x="688" y="318" width="124" height="12" rx="2" fill="#f4f0e8"/>
+<text x="750" y="327" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">ALL LANES · READ-ONLY</text>
+<path d="M432,204 L432,352" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-arch-arrow)"/>
+<rect x="440" y="320" width="52" height="12" rx="2" fill="#f4f0e8"/>
+<text x="466" y="329" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">EVIDENCE</text>
+<path d="M392,384 L336,384" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-arch-arrow)"/>
+<rect x="346" y="366" width="36" height="12" rx="2" fill="#f4f0e8"/>
+<text x="364" y="375" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">DRAFT</text>
+<path d="M264,352 L264,196" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-arch-arrow)"/>
+<rect x="272" y="264" width="76" height="12" rx="2" fill="#f4f0e8"/>
+<text x="310" y="273" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">CITED REPORT</text>
+<rect x="24" y="140" width="128" height="64" rx="6" fill="#fffdf9" stroke="#6f6a62" stroke-width="1"/>
+<rect x="36" y="150" width="45" height="12" rx="2" fill="none" stroke="#6f6a62" stroke-width="0.8"/>
+<text x="40" y="159" fill="#6f6a62" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">BROWSER</text>
+<text x="36" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">index.html</text>
+<text x="36" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">trace · timeline</text>
+<rect x="196" y="140" width="132" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="208" y="150" width="45" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="212" y="159" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">FASTAPI</text>
+<text x="208" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">app.py</text>
+<text x="208" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">/chat · /run</text>
+<rect x="392" y="140" width="144" height="64" rx="6" fill="#f6e7e0" stroke="#b5543a" stroke-width="1"/>
+<rect x="404" y="150" width="29" height="12" rx="2" fill="none" stroke="#b5543a" stroke-width="0.8"/>
+<text x="408" y="159" fill="#b5543a" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">LEAD</text>
+<text x="404" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Gate + plan</text>
+<text x="404" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">gate · plan · gaps</text>
+<rect x="592" y="52" width="176" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="604" y="62" width="61" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="608" y="71" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">RESEARCHER</text>
+<text x="604" y="90" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Trials</text>
+<text x="604" y="104" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">≤8 turns · CT.gov + SQL</text>
+<rect x="592" y="140" width="176" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="604" y="150" width="61" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="608" y="159" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">RESEARCHER</text>
+<text x="604" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Disclosures</text>
+<text x="604" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">≤8 turns · SEC tools</text>
+<rect x="592" y="228" width="176" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="604" y="238" width="61" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="608" y="247" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">RESEARCHER</text>
+<text x="604" y="266" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Publications</text>
+<text x="604" y="280" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">≤8 turns · PubMed tools</text>
+<rect x="816" y="52" width="120" height="64" rx="6" fill="#fffdf9" stroke="#3f6c8c" stroke-width="1"/>
+<rect x="828" y="62" width="51" height="12" rx="2" fill="none" stroke="#3f6c8c" stroke-width="0.8"/>
+<text x="832" y="71" fill="#3f6c8c" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">HTTP API</text>
+<text x="828" y="90" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">ClinicalTrials</text>
+<text x="828" y="104" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">+ openFDA</text>
+<rect x="816" y="140" width="120" height="64" rx="6" fill="#fffdf9" stroke="#3f6c8c" stroke-width="1"/>
+<rect x="828" y="150" width="51" height="12" rx="2" fill="none" stroke="#3f6c8c" stroke-width="0.8"/>
+<text x="832" y="159" fill="#3f6c8c" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">HTTP API</text>
+<text x="828" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">SEC EDGAR</text>
+<text x="828" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">8-K · tickers</text>
+<rect x="816" y="228" width="120" height="64" rx="6" fill="#fffdf9" stroke="#3f6c8c" stroke-width="1"/>
+<rect x="828" y="238" width="51" height="12" rx="2" fill="none" stroke="#3f6c8c" stroke-width="0.8"/>
+<text x="832" y="247" fill="#3f6c8c" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">HTTP API</text>
+<text x="828" y="266" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">PubMed</text>
+<text x="828" y="280" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">+ Europe PMC</text>
+<rect x="592" y="356" width="176" height="64" rx="6" fill="#ebe4d6" stroke="#6f6a62" stroke-width="1"/>
+<rect x="604" y="366" width="40" height="12" rx="2" fill="none" stroke="#6f6a62" stroke-width="0.8"/>
+<text x="608" y="375" fill="#6f6a62" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">DUCKDB</text>
+<text x="604" y="394" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Snapshot</text>
+<text x="604" y="408" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">data/autopsy.duckdb</text>
+<rect x="392" y="352" width="144" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="404" y="362" width="40" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="408" y="371" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">WRITER</text>
+<text x="404" y="390" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Cited report</text>
+<text x="404" y="404" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">evidence ids only</text>
+<rect x="196" y="352" width="140" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="208" y="362" width="45" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="212" y="371" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">CHECKER</text>
+<text x="208" y="390" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Citation check</text>
+<text x="208" y="404" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">rules + model</text>
+<line x1="24" y1="448" x2="936" y2="448" stroke="rgba(30,28,25,0.12)" stroke-width="0.8"/>
+<rect x="24" y="464" width="16" height="10" rx="2" fill="#f6e7e0" stroke="#b5543a" stroke-width="1"/>
+<text x="48" y="472" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">FOCAL: THE LEAD</text>
+<rect x="160.0" y="464" width="16" height="10" rx="2" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<text x="184.0" y="472" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">AGENT / SERVICE</text>
+<rect x="296.0" y="464" width="16" height="10" rx="2" fill="#ebe4d6" stroke="#6f6a62" stroke-width="1"/>
+<text x="320.0" y="472" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">SNAPSHOT</text>
+<rect x="392.8" y="464" width="16" height="10" rx="2" fill="#fffdf9" stroke="#3f6c8c" stroke-width="1"/>
+<text x="416.8" y="472" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">EXTERNAL API</text>
+<line x1="512.0" y1="469" x2="528.0" y2="469" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="536.0" y="472" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">RETURN / READ-ONLY</text>
+</svg>

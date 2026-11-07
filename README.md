@@ -1,52 +1,54 @@
 # Ghost Trials Autopsy
 
-A deep research agent that investigates industry clinical trials that stopped early. For a drug, sponsor, condition or trial ID (NCT number), it answers:
+**What happened to the trials that stopped early?**
 
-1. **Why did the trial stop?** (registry status and stated reason)
-2. **Were the results ever reported?** (results on ClinicalTrials.gov, journal publications, how late)
-3. **What did the sponsor tell investors?** (SEC 8-K and other filings near the stop date)
-4. **Do those stories match?**
+Ghost Trials Autopsy is a deep research agent for clinical trials that ended before they were supposed to.
+Ask about a drug, a sponsor, a condition or a trial ID (NCT number), and a team of agents answers four questions:
 
-**Who it's for:** health reporters, patient advocates, and research-integrity people. Example: a reporter covering a mid-size biotech asks "Did this company stop any trials without reporting results, and what did it tell investors?"
+1. **Why did the trial stop?** The registry status and the reason the sponsor gave (ClinicalTrials.gov).
+2. **Were the results ever reported?** Results posted on ClinicalTrials.gov, a journal paper, and how late (PubMed, Europe PMC).
+3. **What did the sponsor tell investors?** SEC 8-K filings near the stop date (SEC EDGAR).
+4. **Do those stories match?** Registry reason vs. investor language vs. publication record.
 
-IEOR 4570 Project 2, Deep Research path. Work in progress: who does what is in `PROPOSAL.md`, and the plan and rubric are in `CLAUDE.md`.
+**Who it's for:** health reporters, patient advocates and research-integrity people. A reporter covering a
+mid-size biotech can ask "Did this company stop any trials without reporting results, and what did it tell
+investors?" and get a cited answer in about two minutes.
 
-## Run it locally
+**Why it matters:** people took risks in trials whose results were never shared, other researchers can't learn
+from those failures, and the reason a company gave investors may not match what it told the registry.
 
-```bash
-gcloud auth application-default login
-cp .env.example .env    # set SEC_USER_AGENT to a contact string with an email
-uv run app.py           # http://localhost:8000
-uv run pytest           # offline tests; LIVE=1 uv run pytest also calls Gemini
-```
+**How to use it:** type a question or click an example chip. The trace panel shows the Lead planning, the
+three Researchers working in parallel (with timing bars), then the Writer and the Citation Checker. The report
+has a timeline per trial (start, stop, results due, results posted or a red "never posted" marker, 8-K and
+publication dates), citations you can click, and a "What the data can't tell us" box. A vague question gets
+clarifying options instead of research.
 
-## How it works
+IEOR 4570 Project 2, Deep Research path. Team: Rishika (rm4318), Shreya (svs2148), Kshamaa (ks4423).
 
-```
-question -> Lead (gate: clarify / refuse / research, then plan)
-              |  dispatch_researchers: all briefs at once, asyncio.gather, fresh context each
-              v
-   researcher:trials   researcher:disclosures   researcher:publications
-              |  Lead reviews findings for gaps; another round only for the lanes that need it
-              v  (max 3 rounds, 8 turns per researcher, 240 s budget)
-           Writer (cites evidence ids only) -> Citation Checker (fixes or removes unsupported claims)
-```
+**Live app:** https://ghost-trials-autopsy-895402809785.us-central1.run.app
 
-It combines the three course starters: the deep research pattern from `wikipedia-deep-research`, the offline DuckDB build step and schema mappings from `subway-survey-text2sql-improved`, and the Inspect eval suite from `nyc-311-agent`. See `NOTES.md`.
-
-## Data
-
-`data/autopsy.duckdb` is a snapshot built by `uv run python scripts/build_snapshot.py`: 16,473 industry-sponsored, interventional, phase 2 or 3 trials with primary completion from 2015 to 2023, joined to SEC 8-K filings and PubMed articles. Live tools add detail at question time.
-
-| Lane | Owner | Sources |
-|---|---|---|
-| A: Trials | Rishika (rm4318) | ClinicalTrials.gov API v2, openFDA Drugs@FDA |
-| B: Disclosures | Shreya (svs2148) | SEC EDGAR full-text search, SEC company tickers |
-| C: Publications | Kshamaa (ks4423) | PubMed E-utilities, Europe PMC |
+![Ghost Trials Autopsy architecture: the browser sends a question to FastAPI on Cloud Run; the Lead decides to clarify, refuse or research; three Researchers run in parallel in fresh contexts against the DuckDB snapshot and live APIs; findings and gaps return to the Lead for up to three rounds; the Writer drafts a cited report and the Citation Checker fixes or removes unsupported sentences](docs/architecture.svg)
 
 ## Sample queries
 
-Each sample is in `samples.json`. `uv run python scripts/run_samples.py` reruns them into `runs/`, and `uv run python scripts/baseline.py` asks the same model (`vertex_ai/gemini-3.5-flash`) the same question with no tools and no system prompt, into `baseline/`.
+Every query below is in `samples.json` and works on the live app. Each report ends with "What the data can't
+tell us" and a checker line (`citations_checked: n, removed: k`); the trace panel shows every tool call,
+grouped by agent.
+
+1. `vTv Therapeutics terminated its phase 2 Elevage trial of azeliragon (NCT03980730). What reason did it give the registry, what did it tell investors, and do the two match?`
+   Expected: registry says "for business reasons", the 8-K says the trial "did not meet its primary objective". A discrepancy (details below).
+2. `Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?`
+   Expected: slow enrollment; results never posted, 1,164 days past the approximate due date; no results paper (details below).
+3. `Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?`
+   Expected: a sponsor-level list from the snapshot: two phase 2 trials (NCT04839575, NCT04243551) and one phase 1/2 (NCT03521232), none with posted results, each citing COVID-19 or enrollment.
+4. `Which stopped trials in the snapshot have an 8-K that gives a different reason than the registry? Start with the ones checked by hand.`
+   Expected: the hand-checked rows of the `discrepancies` table first (vTv's NCT03980730 among them: registry "business reasons", 8-K an efficacy failure), then the strongest model-judged ones.
+5. `Why do Alzheimer's trials fail?` Expected: **clarification**, no research (example below).
+6. `Did Sorrento Therapeutics break the law by not posting results for its terminated COVID-19 trials?`
+   Expected: a **qualified answer**: the facts on record, and a plain statement that the data can't show a legal violation (example below).
+
+`uv run python scripts/run_samples.py` reruns them into `runs/`. `uv run python scripts/baseline.py` asks the
+same model (`vertex_ai/gemini-3.5-flash`) the same question with no tools and no system prompt, into `baseline/`.
 
 ### Discrepancy: vTv Therapeutics Elevage (NCT03980730)
 
@@ -238,6 +240,124 @@ _114 s, 31 tool calls_
 
 </details>
 
+### Vague question: clarification instead of research
+
+**Query:** "Why do Alzheimer's trials fail?" It names a condition but no scope, so the Lead asks before it
+spends any research. No researcher runs (only the Lead's own look-ups appear in `tool_calls`).
+Verbatim from `runs/vague_latest.md`:
+
+> Which Alzheimer's disease trials or drug programs would you like to investigate?
+>
+> Try one of these:
+> - A summary of all phase 2 and 3 Alzheimer's disease trials that stopped early between 2015 and 2023, grouped by their registry reasons.
+> - Why Biogen stopped its phase 3 Aducanumab trials (NCT02477800 and NCT02484547) in 2019, and whether its SEC filings and registry reasons matched.
+> - Why Axovant terminated its phase 3 Intepirdine trial (NCT02586909) in 2017, and how the results were reported.
+
+Replying with one of the options (same `session_id`) runs the research on the original question plus the choice.
+
+### Can't answer: "Did Sorrento break the law?"
+
+**Query:** "Did Sorrento Therapeutics break the law by not posting results for its terminated COVID-19 trials?"
+The agent reports what the records show (two terminated trials, results 1,324 and 1,164 days past the
+approximate due date) and says plainly that this can't establish a legal violation. From
+`runs/cant_answer_latest.md`, the first sentence of the answer and the limits section, verbatim:
+
+> Whether Sorrento Therapeutics has reporting discrepancies by not posting results for its terminated COVID-19 trials is a determination that cannot be made from these records, but the clinical trial registry shows that the results are long overdue. [1][2]
+>
+> **What the data can't tell us**
+> - The registry does not provide the real reason for stopping beyond the stated text.
+> - A lack of clinical outcomes in SEC filings or publications is not proof of an intent to mislead.
+> - The results due date is an approximation of the FDAAA deadline, which only applies to applicable clinical trials, a status that is not fully public, so the delayed reporting is not evidence that Sorrento Therapeutics broke the law.
+> - Results published in conference abstracts, non-indexed journals, or company websites may have been missed.
+
+A question that is entirely out of scope ("Is drug X safe for me?") gets a short refusal that says what the tool can do instead, in the same response shape.
+
+## How the agents work
+
+| Agent | Prompt | Job | Limits |
+|---|---|---|---|
+| **Lead** | `prompts/lead.md` | Gate (clarify, refuse or research), plan, dispatch, review findings for gaps | ≤3 research rounds (`MAX_RESEARCH_ROUNDS`) |
+| **Researcher** ×3 | `prompts/researcher.md` + `prompts/lane_*.md` | One lane each: trials, disclosures, publications. Returns `[{claim, evidence_ids, confidence, notes}]` plus gaps | ≤8 turns each |
+| **Writer** | `prompts/writer.md` | Report from the evidence store only: Answer, Timeline, Evidence, Where the stories differ, What the data can't tell us, Sources | ≤4 turns |
+| **Citation Checker** | `prompts/checker.md` | Checks every `[n]`: the evidence id exists and the date, status, number or quote matches the record. Fixes or removes the sentence | ≤4 turns |
+
+- **Clarify gate.** A question is vague when it has no concrete target (drug, sponsor, NCT ID or condition)
+  and no scope (phase, time window, or which of the four questions). The Lead then returns 2 to 4 concrete
+  rewrites and does no research.
+- **Parallel, fresh contexts.** `dispatch_researchers` starts every brief with `asyncio.gather`. Each
+  Researcher gets a new message list holding only its system prompt and its brief, never the Lead's
+  conversation or another Researcher's. Start and end times are logged and drawn as timing bars in the trace.
+- **Going back for more.** The Lead lists gaps as structured JSON (for example "sponsor matched to a CIK but no
+  8-K in the window") and dispatches only the lanes that can fill them, until no gaps remain or the round cap.
+- **Budget.** The whole request has a 240 s wall clock budget (`REQUEST_BUDGET_S`). Near it, the Lead skips
+  further rounds and the report says research stopped early.
+- **Evidence ids.** Every tool record carries a `source_url` and a stable id: `ctgov:NCT03980730`,
+  `sec:0001564590-21-008154`, `pubmed:34831101`, `fda:...`, or `sql:<hash>` for a snapshot aggregate.
+
+## Tools
+
+| Tool | Lane | Owner | What it does |
+|---|---|---|---|
+| `query_trials_sql` | Trials (all lanes read) | Rishika | Read-only SQL over the snapshot (one `SELECT`, `LIMIT` enforced) |
+| `read_mappings` / `get_enum_values` | Trials (all lanes read) | Rishika | Table and column meanings, and the exact allowed values of enum columns |
+| `get_trial_live` | Trials | Rishika | Live ClinicalTrials.gov record, to confirm or refresh the snapshot |
+| `get_fda_approvals` | Trials | Rishika | Drugs@FDA lookup: was the drug ever approved, and when |
+| `get_snapshot_stats` | Shared | Rishika | Counts and base rates (for example the share of stopped trials with a blank reason), to put a claim in context |
+| `find_sponsor_cik` | Disclosures | Shreya | Sponsor name to SEC CIK (snapshot match, then live company tickers) |
+| `get_trial_filings` | Disclosures | Shreya | 8-Ks within ±120 days of a trial's stop that mention it |
+| `find_discrepancies` | Disclosures | Shreya | Trials whose 8-K reason differs from the registry, hand-checked rows first |
+| `search_sec_filings` | Disclosures | Shreya | Live EDGAR full-text search by query, CIK, date range and form |
+| `get_filing_excerpt` | Disclosures | Shreya | Only the filing paragraphs that match given keywords |
+| `find_publications` | Publications | Kshamaa | Papers linked to an NCT ID (snapshot, then live PubMed and Europe PMC), each with a link strength |
+| `get_abstract` | Publications | Kshamaa | One PubMed abstract, to tell a results paper from a review that just mentions the trial |
+
+`POST /chat` takes `{message, session_id}` and returns `{response, session_id, tool_calls}`, the Project 1
+shape. Every tool call from every agent is in `tool_calls` with an `agent` field (`lead`,
+`researcher:trials`, `researcher:disclosures`, `researcher:publications`, `writer`, `checker`), its arguments
+and a short result summary.
+
+```bash
+curl -s https://ghost-trials-autopsy-895402809785.us-central1.run.app/chat \
+  -H 'Content-Type: application/json' \
+  -d '{"message": "Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?"}'
+```
+
+`GET /health` returns 200 and the snapshot date. `GET /run` streams the same research as Server-Sent Events for the page's live trace.
+
+## Data
+
+![Ghost Trials Autopsy snapshot: ClinicalTrials.gov feeds the trials table and its derived columns; SEC tickers match sponsors to CIKs, 8-Ks near each stop become filings, and filings that disagree with the registry become discrepancies; PubMed and Europe PMC articles are linked by NCT ID](docs/snapshot.svg)
+
+Live APIs can be slow or down, and graders wait at most 5 minutes, so the agents work from a snapshot that ships
+inside the image (`data/autopsy.duckdb`, built 2026-11-05) and use live APIs only to add detail.
+Rebuild it with `uv run python scripts/build_snapshot.py`.
+
+**Scope:** interventional, industry-sponsored, phase 2 or 3 trials (phase 1/2 and 2/3 included) with primary
+completion from 2015-01-01 to 2023-12-31, every status (terminated, withdrawn, suspended, completed) so stopped
+trials can be compared with the rest. 16,473 trials, 3,739 of them stopped, 1,731 of those with no results posted.
+
+| Lane | Owner | Source | What we pull |
+|---|---|---|---|
+| A: Trials | Rishika (rm4318) | [ClinicalTrials.gov API v2](https://clinicaltrials.gov/data-api/api) `clinicaltrials.gov/api/v2/studies` | status, `whyStopped`, phase, sponsor, dates, `hasResults`, enrollment |
+| A: Trials | Rishika (rm4318) | [openFDA Drugs@FDA](https://open.fda.gov/apis/drug/drugsfda/) `api.fda.gov/drug/drugsfda.json` | whether and when a drug was approved |
+| B: Disclosures | Shreya (svs2148) | [SEC EDGAR full-text search](https://efts.sec.gov/LATEST/search-index) and the filings archive | 8-K language about the trial |
+| B: Disclosures | Shreya (svs2148) | [SEC company tickers](https://www.sec.gov/files/company_tickers.json) | sponsor name to CIK |
+| C: Publications | Kshamaa (ks4423) | [PubMed E-utilities](https://eutils.ncbi.nlm.nih.gov/entrez/eutils/) | articles linked to an NCT ID (`NCT01234567[si]`) |
+| C: Publications | Kshamaa (ks4423) | [Europe PMC REST](https://www.ebi.ac.uk/europepmc/webservices/rest/search) | fallback publication search |
+
+**Derived columns** (`trial_derived`):
+
+- `results_due_date` is primary completion + 365 days, an approximation of the FDAAA deadline. It is NULL for
+  trials that never enrolled anyone.
+- `days_late` counts from that date to the posting date, or to the snapshot date if nothing was posted.
+- `why_stopped_category` (`safety`, `efficacy`, `business/strategic`, `enrollment`, `other`, `blank`) comes from
+  keyword rules first (`ghost/classify.py`), then one LLM pass for the rest; `why_stopped_method` records which.
+  The rules skip phrases that only look like reasons, such as "Data Safety Monitoring Board", "not due to
+  safety concerns" or "followed up for safety".
+
+Every HTTP call has a timeout, up to 3 retries with backoff, and a disk cache. SEC calls send the
+`SEC_USER_AGENT` contact string and stay under 10 requests a second; NCBI calls stay under 3.
+
 ## Asking the snapshot in SQL (Text2SQL)
 
 The trials researcher answers list and count questions ("how many phase 2 Alzheimer's trials stopped, and why?") by writing SQL over the snapshot, using the Text2SQL starter's pattern:
@@ -261,6 +381,36 @@ and answered 27 trials: 7 efficacy, 5 blank, 5 business/strategic, 4 enrollment,
 
 `scripts/run_trials.py` runs the trials researcher alone on 10 briefs (safety, efficacy, enrollment, withdrawn, blank reason, suspended, sponsor list, condition counts, FDA approval, outside the snapshot) and checks each claim mechanically: every cited id exists, every date in a claim is in the cited record, every quote is in a cited record, and no withdrawn trial is called late. All 10 pass with 0 problems.
 
+## What it can't tell you
+
+The agent says so in every report ("What the data can't tell us"), specific to the question:
+
+- **The real reason a trial stopped.** We only know what the sponsor wrote in the registry and in filings.
+- **Intent.** A registry reason that differs from an 8-K is a discrepancy between sources, not proof that anyone meant to mislead.
+- **Legal violations.** `results_due_date` is an approximation, and which trials legally have to post results (FDAAA "applicable clinical trial" status) is not fully public. The agent never says a sponsor broke the law.
+- **Results published elsewhere.** Conference abstracts, journals PubMed doesn't index, and company websites can be missed.
+- **Private sponsors.** They file nothing with the SEC, so there is no investor story to compare.
+- **Trials outside the snapshot.** Other phases, non-industry sponsors or other years get a live lookup or an explicit "outside our data" note.
+- **Medical advice.** It never says whether anyone should take a drug.
+
+## Run locally
+
+1. A GCP project with Vertex AI enabled (the course's *Setting up GCP and Gemini* guide), then `gcloud auth application-default login`.
+2. `cp .env.example .env` and set `SEC_USER_AGENT` to a contact string with an email.
+3. `uv run app.py`, then open http://localhost:8000
+
+The snapshot is in the repo, so nothing has to be rebuilt to run it.
+
+## Tests
+
+- `uv run pytest`: offline suite (113 tests). Among them: the `/chat` shape and the `agent` field on every
+  tool call (`test_shape.py`), researchers overlapping in time and starting from fresh message lists
+  (`test_parallel.py`), the Lead's second round and round cap (`test_gap_loop.py`), clarification with no
+  researcher calls (`test_clarify.py`), every `[n]` mapping to a stored source (`test_citations.py`), the
+  qualified answer to a legal question (`test_cant_answer.py`), and the SQL guardrails (`test_sql_guard.py`).
+  `LIVE=1 uv run pytest` also calls Gemini.
+- `tests/test_deploy.sh`: curls the deployed `/health` and one sample query, and fails if it takes over 300 s.
+
 ## Evals
 
 Scores from 2026-11-05 (details, misses and rerun commands in `evals/RESULTS.md`). Small samples, so the margin is roughly ±1/sqrt(n).
@@ -274,16 +424,33 @@ Scores from 2026-11-05 (details, misses and rerun commands in `evals/RESULTS.md`
 
 The two gate misses are intent questions ("Do biotech companies lie to investors?") that we labelled clarify. The Lead refused them instead, saying what the tool can check.
 
-## Layout
+## Deploy
 
-| Path | What it is |
-|---|---|
-| `app.py` | FastAPI: `POST /chat` (Project 1 shape), `GET /run` (live stream for the page), `GET /health` |
-| `index.html` | The frontend |
-| `ghost/pipeline.py` | Lead, Researchers, Writer, Checker, and the round loop |
-| `ghost/tools.py` | The agents' tools, one section per lane |
-| `prompts/` | One system prompt per agent shape, plus one per lane |
-| `scripts/build_snapshot.py` | Builds the snapshot and `data/mappings.json` |
-| `scripts/baseline.py`, `scripts/run_samples.py` | No-tools baseline, and the agent on `samples.json` |
-| `evals/` | Inspect evals: the Lead's gate, and full runs against gold SQL answers |
-| `tests/` | pytest suite and `test_deploy.sh` |
+Cloud Run (`ghost-trials-autopsy`, us-central1) with continuous deploy from this repo: the Cloud Build trigger
+`deploy-on-main` runs `cloudbuild.yaml` on every push to `main`, which builds the `Dockerfile` (`uv sync --frozen`,
+listens on `$PORT`), pushes the image to Artifact Registry and deploys it.
+
+Settings that matter for this app:
+- **Request timeout: 600 s.** Graders wait up to 5 minutes; our own budget is 240 s.
+- **Memory: 2 GiB.** The DuckDB snapshot is opened read-only inside the container.
+- The service account needs **Vertex AI User** to call Gemini, so there is no API key. `SEC_USER_AGENT` comes from the environment and is never committed; live SEC calls need it (the snapshot's filings work without it).
+
+## Project layout
+
+```
+app.py              FastAPI: POST /chat (Project 1 shape), GET /run (live stream), GET /health
+index.html          the frontend: header, example chips, agent trace, trial timelines, citations
+ghost/pipeline.py   Lead, Researchers, Writer, Checker, and the round loop
+ghost/tools.py      the agents' tools, one section per lane
+ghost/classify.py   why_stopped categories: keyword rules, then one LLM pass
+ghost/http.py       timeouts, retries, per-host rate limits, disk cache
+ghost/db.py         read-only DuckDB access and the SQL guardrails
+prompts/            one system prompt per agent shape, plus one per lane
+scripts/            build_snapshot.py, baseline.py, run_samples.py, per-lane runners
+data/               autopsy.duckdb snapshot and mappings.json (table and column meanings)
+runs/, baseline/    agent outputs and no-tools answers for the sample queries
+evals/, tests/      Inspect evals; pytest suite and test_deploy.sh
+docs/               architecture and snapshot diagrams (python3 docs/make_diagrams.py)
+cloudbuild.yaml     continuous deploy
+PROPOSAL.md         plan and who owns what; NOTES.md: decisions and rubric evidence
+```

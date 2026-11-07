@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 368" width="960" height="368" role="img" aria-labelledby="gt-data-title gt-data-desc">
+<title id="gt-data-title">Ghost Trials Autopsy snapshot</title>
+<desc id="gt-data-desc">scripts/build_snapshot.py pulls trials from ClinicalTrials.gov into the trials table and derives due dates, lateness and a stop-reason category. Sponsors are matched to SEC company ids, 8-K filings near each stop are pulled, and filings whose reason differs from the registry become discrepancies. PubMed and Europe PMC articles are linked to each trial by NCT ID.</desc>
+<defs>
+<marker id="gt-data-arrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6f6a62"/></marker>
+<marker id="gt-data-arrow-link" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3f6c8c"/></marker>
+<marker id="gt-data-arrow-accent" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#b5543a"/></marker>
+</defs>
+<rect width="960" height="368" rx="10" fill="#f4f0e8"/>
+<rect x="200" y="32" width="736" height="280" rx="8" fill="rgba(30,28,25,0.025)" stroke="rgba(30,28,25,0.16)" stroke-width="0.8" stroke-dasharray="4,3"/>
+<rect x="212" y="26" width="210" height="12" rx="2" fill="#f4f0e8"/>
+<text x="216" y="35" fill="#8c857b" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">DATA/AUTOPSY.DUCKDB · BUILT 2026-11-05</text>
+<path d="M160,84 L224,84" fill="none" stroke="#3f6c8c" stroke-width="1.2" marker-end="url(#gt-data-arrow-link)"/>
+<path d="M160,172 L224,172" fill="none" stroke="#3f6c8c" stroke-width="1.2" marker-end="url(#gt-data-arrow-link)"/>
+<path d="M160,260 L224,260" fill="none" stroke="#3f6c8c" stroke-width="1.2" marker-end="url(#gt-data-arrow-link)"/>
+<path d="M392,84 L448,84" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-data-arrow)"/>
+<rect x="398" y="66" width="44" height="12" rx="2" fill="#f4f0e8"/>
+<text x="420" y="75" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">DERIVE</text>
+<path d="M308,116 L308,140" fill="none" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-data-arrow)"/>
+<rect x="316" y="122" width="76" height="12" rx="2" fill="#f4f0e8"/>
+<text x="354" y="131" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">SPONSOR NAME</text>
+<path d="M392,172 L448,172" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-data-arrow)"/>
+<rect x="390" y="154" width="60" height="12" rx="2" fill="#f4f0e8"/>
+<text x="420" y="163" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">±120 DAYS</text>
+<path d="M616,172 L672,172" fill="none" stroke="#6f6a62" stroke-width="1.2" marker-end="url(#gt-data-arrow)"/>
+<path d="M532,116 L532,140" fill="none" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-data-arrow)"/>
+<rect x="540" y="122" width="108" height="12" rx="2" fill="#f4f0e8"/>
+<text x="594" y="131" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">STOP DATE + REASON</text>
+<path d="M308,228 L308,204" fill="none" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-data-arrow)"/>
+<rect x="316" y="210" width="44" height="12" rx="2" fill="#f4f0e8"/>
+<text x="338" y="219" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">NCT ID</text>
+<rect x="620" y="154" width="48" height="12" rx="2" fill="#f4f0e8"/>
+<text x="644" y="163" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">COMPARE</text>
+<rect x="24" y="52" width="136" height="64" rx="6" fill="#fffdf9" stroke="#3f6c8c" stroke-width="1"/>
+<rect x="36" y="62" width="40" height="12" rx="2" fill="none" stroke="#3f6c8c" stroke-width="0.8"/>
+<text x="40" y="71" fill="#3f6c8c" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">API v2</text>
+<text x="36" y="90" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">ClinicalTrials.gov</text>
+<text x="36" y="104" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">industry ph 2/3</text>
+<rect x="24" y="140" width="136" height="64" rx="6" fill="#fffdf9" stroke="#3f6c8c" stroke-width="1"/>
+<rect x="36" y="150" width="24" height="12" rx="2" fill="none" stroke="#3f6c8c" stroke-width="0.8"/>
+<text x="40" y="159" fill="#3f6c8c" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">SEC</text>
+<text x="36" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">EDGAR</text>
+<text x="36" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">tickers · 8-K text</text>
+<rect x="24" y="228" width="136" height="64" rx="6" fill="#fffdf9" stroke="#3f6c8c" stroke-width="1"/>
+<rect x="36" y="238" width="61" height="12" rx="2" fill="none" stroke="#3f6c8c" stroke-width="0.8"/>
+<text x="40" y="247" fill="#3f6c8c" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">NCBI + EBI</text>
+<text x="36" y="266" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">PubMed</text>
+<text x="36" y="280" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">+ Europe PMC</text>
+<rect x="224" y="52" width="168" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="236" y="62" width="35" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="240" y="71" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">TABLE</text>
+<text x="236" y="90" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">trials · 16,473</text>
+<text x="236" y="104" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">status · reason · dates</text>
+<rect x="448" y="52" width="168" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="460" y="62" width="35" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="464" y="71" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">TABLE</text>
+<text x="460" y="90" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">trial_derived</text>
+<text x="460" y="104" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">due · days late · reason</text>
+<rect x="224" y="140" width="168" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="236" y="150" width="35" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="240" y="159" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">TABLE</text>
+<text x="236" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">sponsor_cik · 591</text>
+<text x="236" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">fuzzy match ≥ threshold</text>
+<rect x="448" y="140" width="168" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="460" y="150" width="35" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="464" y="159" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">TABLE</text>
+<text x="460" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">filings · 2,053</text>
+<text x="460" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">8-K near each stop</text>
+<rect x="672" y="140" width="248" height="64" rx="6" fill="#f6e7e0" stroke="#b5543a" stroke-width="1"/>
+<rect x="684" y="150" width="35" height="12" rx="2" fill="none" stroke="#b5543a" stroke-width="0.8"/>
+<text x="688" y="159" fill="#b5543a" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">TABLE</text>
+<text x="684" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">discrepancies · 1,564</text>
+<text x="684" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">7 checked by hand</text>
+<rect x="224" y="228" width="168" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="236" y="238" width="35" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="240" y="247" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">TABLE</text>
+<text x="236" y="266" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">publications · 26,154</text>
+<text x="236" y="280" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">9,758 trials linked</text>
+<rect x="672" y="52" width="248" height="64" rx="6" fill="#ebe4d6" stroke="#6f6a62" stroke-width="1"/>
+<rect x="684" y="62" width="35" height="12" rx="2" fill="none" stroke="#6f6a62" stroke-width="0.8"/>
+<text x="688" y="71" fill="#6f6a62" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">TABLE</text>
+<text x="684" y="90" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">snapshot_meta</text>
+<text x="684" y="104" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">build date · row counts</text>
+<line x1="24" y1="328" x2="936" y2="328" stroke="rgba(30,28,25,0.12)" stroke-width="0.8"/>
+<rect x="24" y="344" width="16" height="10" rx="2" fill="#f6e7e0" stroke="#b5543a" stroke-width="1"/>
+<text x="48" y="352" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">FOCAL: THE JOIN NO ONE ELSE HAS</text>
+<rect x="249.6" y="344" width="16" height="10" rx="2" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<text x="273.6" y="352" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">TABLE</text>
+<rect x="329.6" y="344" width="16" height="10" rx="2" fill="#fffdf9" stroke="#3f6c8c" stroke-width="1"/>
+<text x="353.6" y="352" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">SOURCE API</text>
+<line x1="437.6" y1="349" x2="453.6" y2="349" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="461.6" y="352" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">JOIN KEY</text>
+</svg>
