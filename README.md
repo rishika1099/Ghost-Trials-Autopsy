@@ -403,11 +403,11 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
 
 ## Tests
 
-- `uv run pytest`: offline suite (113 tests). Among them: the `/chat` shape and the `agent` field on every
+- `uv run pytest`: offline suite (124 tests). Among them: the `/chat` shape and the `agent` field on every
   tool call (`test_shape.py`), researchers overlapping in time and starting from fresh message lists
   (`test_parallel.py`), the Lead's second round and round cap (`test_gap_loop.py`), clarification with no
   researcher calls (`test_clarify.py`), every `[n]` mapping to a stored source (`test_citations.py`), the
-  qualified answer to a legal question (`test_cant_answer.py`), and the SQL guardrails (`test_sql_guard.py`).
+  qualified answer to a legal question (`test_cant_answer.py`), the SQL guardrails (`test_sql_guard.py`), and retries, time limits and the cache (`test_robustness.py`).
   `LIVE=1 uv run pytest` also calls Gemini.
 - `tests/test_deploy.sh`: curls the deployed `/health` and one sample query, and fails if it takes over 300 s.
 

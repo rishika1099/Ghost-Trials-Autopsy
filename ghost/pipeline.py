@@ -313,8 +313,12 @@ async def check_citations(state: RunState, report: WriterReport) -> tuple[Writer
     verdicts, model_ok = {}, True
     if all_claims:
         try:
-            result = await run_checker(state, all_claims, rule_problems=rule_problems)
+            result = await asyncio.wait_for(run_checker(state, all_claims, rule_problems=rule_problems),
+                                            timeout=max(MIN_STEP_S, state.remaining()))
             verdicts = {v.index: v for v in result.verdicts if 0 <= v.index < len(flat)}
+        except asyncio.TimeoutError:
+            model_ok = False
+            state.notes.append("The Citation Checker model pass hit the time budget; the evidence-id and rule checks ran.")
         except Exception as e:
             model_ok = False
             state.notes.append(f"Citation Checker model pass failed ({type(e).__name__}); the evidence-id and rule checks ran.")
@@ -353,6 +357,40 @@ async def check_citations(state: RunState, report: WriterReport) -> tuple[Writer
     return report.model_copy(update=final), stats
 
 
+# --- Retries and time limits for the single-agent steps ---
+
+MIN_STEP_S = 20.0  # never give a model step less than this, even when the budget is nearly gone
+CHECKER_RESERVE_S = 25.0  # what the Writer leaves for the Checker
+
+
+async def run_step(state: RunState, name: str, call, timeout: float, attempts: int = 2):
+    """Run one model step with a time limit, and retry it once if it fails fast (a bad JSON output, a 5xx).
+    A step that runs out of time is not retried: the budget is gone. The last error is raised."""
+    for attempt in range(attempts):
+        limit = max(MIN_STEP_S, min(timeout, state.remaining()))
+        try:
+            return await asyncio.wait_for(call(), timeout=limit)
+        except asyncio.TimeoutError:
+            raise
+        except Exception as e:
+            if attempt + 1 >= attempts or state.remaining() < MIN_STEP_S * 2:
+                raise
+            state.notes.append(f"The {name} failed once ({type(e).__name__}) and was retried.")
+
+
+def fallback_report(findings: list[dict]) -> WriterReport:
+    """When the Writer can't finish, report the researchers' own cited findings, so the user still gets
+    checked evidence instead of an error. The Checker runs on these claims like any other."""
+    claims = [Claim(text=f["claim"], citations=list(f["evidence_ids"]))
+              for lane in findings for f in lane["findings"] if f["evidence_ids"]]
+    return WriterReport(
+        answer=claims[:1], evidence=claims[1:12],
+        cant_tell=["The Writer did not finish, so these are the researchers' findings as they reported them, "
+                   "without a written summary or a comparison across sources.",
+                   "The registry, filings and papers only show what sponsors reported, not the real reason a trial stopped."],
+        timeline_text="")
+
+
 # --- The whole request ---
 
 
@@ -364,7 +402,11 @@ async def investigate(question: str, emit=lambda event: None, budget_s: float | 
     if budget_s:
         state.budget_s = budget_s
     emit({"type": "agent", "agent": "lead", "status": "start", "t": 0})
-    plan = await run_lead_plan(state)
+    lead_limit = max(MIN_STEP_S, state.remaining() - config.WRITE_RESERVE_S - 30)
+    try:
+        plan = await run_step(state, "Lead", lambda: run_lead_plan(state), timeout=lead_limit)
+    except asyncio.TimeoutError:
+        raise RuntimeError(f"The Lead did not finish planning within {int(lead_limit)} s.") from None
     emit({"type": "agent", "agent": "lead", "status": "end", "t": round(state.elapsed(), 2), "decision": plan.decision})
     state.record_call("lead", "plan", {"question": question},
                       json.dumps({"decision": plan.decision, "plan": plan.plan, "lanes": [b.lane for b in plan.briefs]}))
@@ -375,7 +417,15 @@ async def investigate(question: str, emit=lambda event: None, budget_s: float | 
 
     findings = await research(state, plan)
     emit({"type": "agent", "agent": "writer", "status": "start", "t": round(state.elapsed(), 2)})
-    report = await run_writer(state, findings)
+    try:
+        report = await run_step(state, "Writer", lambda: run_writer(state, findings),
+                                timeout=state.remaining() - CHECKER_RESERVE_S)
+    except asyncio.TimeoutError:
+        state.notes.append("The Writer hit the time budget, so the report lists the researchers' findings directly.")
+        report = fallback_report(findings)
+    except Exception as e:
+        state.notes.append(f"The Writer failed ({type(e).__name__}), so the report lists the researchers' findings directly.")
+        report = fallback_report(findings)
     state.record_call("writer", "write_report", {"findings": sum(len(f["findings"]) for f in findings), "evidence_records": len(state.store.records)},
                       f"{len(report.answer)} answer sentences, {len(report.evidence)} evidence claims, {len(report.differences)} differences")
     emit({"type": "agent", "agent": "writer", "status": "end", "t": round(state.elapsed(), 2)})
