@@ -6,6 +6,8 @@ lookups during a request are fast the second time.
 
 import hashlib
 import json
+import os
+import tempfile
 import threading
 import time
 from urllib.parse import urlparse
@@ -70,36 +72,80 @@ def _cache_path(url: str, params: dict | None):
     return CACHE_DIR / digest[:2] / f"{digest}.json"
 
 
+RETRY_STATUS = (429, 500, 502, 503, 504)
+
+
+class _Retryable(Exception):
+    """A failure worth another try: a network error, a rate limit or a server error."""
+
+
+def _read_cache(path):
+    """(hit, body). A half-written or corrupt file counts as a miss."""
+    try:
+        return True, json.loads(path.read_text())["body"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return False, None
+
+
+def _write_cache(path, record: dict) -> None:
+    """Write to a temp file and rename it into place, so a concurrent reader never sees half a file."""
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        fd, tmp = tempfile.mkstemp(dir=path.parent, suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w") as f:
+                json.dump(record, f)
+            os.replace(tmp, path)
+        except BaseException:
+            os.unlink(tmp)
+            raise
+    except OSError:
+        pass  # a cache we can't write is not worth failing the request over
+
+
 def get(url: str, params: dict | None = None, *, as_json: bool = True, use_cache: bool = True):
-    """GET url and return parsed JSON (or text). Raises SourceError after MAX_RETRIES failures."""
+    """GET url and return parsed JSON (or text).
+
+    Retries (with backoff, up to MAX_RETRIES tries) only what can succeed on a second try: network errors,
+    429 and 5xx. Anything else (a missing SEC_USER_AGENT, a 400 or 403) raises SourceError at once.
+    """
     host = urlparse(url).netloc
     if host == "eutils.ncbi.nlm.nih.gov" and NCBI_API_KEY:
         params = {**(params or {}), "api_key": NCBI_API_KEY}
     path = _cache_path(url, {k: v for k, v in (params or {}).items() if k != "api_key"})
     if use_cache and path.exists():
-        cached = json.loads(path.read_text())
-        return cached["body"]
+        hit, body = _read_cache(path)
+        if hit:
+            return body
 
+    headers = _headers(host)  # raises SourceError right away if SEC_USER_AGENT is missing
     last_error = None
     for attempt in range(MAX_RETRIES):
         _wait_turn(host)
         try:
-            response = _client.get(url, params=params, headers=_headers(host))
+            try:
+                response = _client.get(url, params=params, headers=headers)
+            except httpx.HTTPError as e:
+                raise _Retryable(f"{type(e).__name__}: {e}") from e
             if response.status_code == 404:
                 body = None if as_json else ""
                 break
-            if response.status_code in (429, 500, 502, 503, 504):
+            if response.status_code in RETRY_STATUS:
+                raise _Retryable(f"{host} returned {response.status_code}")
+            if response.status_code >= 400:
                 raise SourceError(f"{host} returned {response.status_code}")
-            response.raise_for_status()
-            body = response.json() if as_json else response.text
+            try:
+                body = response.json() if as_json else response.text
+            except ValueError as e:
+                raise SourceError(f"{host} returned a body that is not JSON") from e
             break
-        except (httpx.HTTPError, SourceError, ValueError) as e:
+        except _Retryable as e:
             last_error = e
-            time.sleep(1.5 * 2**attempt)
+            if attempt + 1 < MAX_RETRIES:
+                time.sleep(1.5 * 2**attempt)
     else:
-        raise SourceError(f"{host} failed after {MAX_RETRIES} tries: {type(last_error).__name__}: {last_error}")
+        raise SourceError(f"{host} failed after {MAX_RETRIES} tries: {last_error}")
 
     if use_cache:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps({"url": url, "params": params, "body": body}))
+        _write_cache(path, {"url": url, "params": params, "body": body})
     return body
