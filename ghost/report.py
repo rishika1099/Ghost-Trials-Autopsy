@@ -57,6 +57,26 @@ def _mentions_run_limits(sentence: str) -> bool:
     return bool(RUN_LIMITS_RE.search(sentence))
 
 
+# A question that asks for a verdict the records can't give: a legal violation, or someone's intent.
+LEGAL_RE = re.compile(r"\b(break|broke|broken|breaking)\s+(the\s+|any\s+)?laws?\b|\bviolat\w*|\billegal\w*|\bunlawful\w*|\bagainst the law\b", re.I)
+INTENT_RE = re.compile(r"\b(lie|lied|lies|lying|mislead\w*|misled|hid|hide|hides|hiding|conceal\w*|fraud\w*|cover(ed|ing)? up|deceiv\w*|decept\w*|on purpose|deliberately|intentionally)\b", re.I)
+HEDGE_RE = re.compile(r"\b(cannot|can't|can not|not (?:establish|show|prove|determine)\w*|does not show|do not show|no way to (?:tell|know)|is not proof|not evidence)\b", re.I)
+
+
+def verdict_caveat(question: str, first_sentence: str) -> str | None:
+    """The sentence the Answer must open with when the question asks for a legal or intent verdict and the
+    Writer's first sentence doesn't already say the records can't give one. None when no caveat is needed."""
+    first = first_sentence or ""
+    hedged = bool(HEDGE_RE.search(first))
+    # Each verdict asked for needs its own caveat: "cannot show intent" says nothing about the law.
+    legal = bool(LEGAL_RE.search(question)) and not (hedged and re.search(r"\b(law|legal\w*|violat\w*)", first, re.I))
+    intent = bool(INTENT_RE.search(question)) and not (hedged and re.search(r"\b(intent\w*|mislead\w*|misled|deceiv\w*|lie|lied)", first, re.I))
+    if not (legal or intent):
+        return None
+    verdict = " or ".join(v for v, asked in (("broke the law", legal), ("meant to mislead anyone", intent)) if asked)
+    return f"These public records cannot show whether anyone {verdict}; they show only what was reported and when."
+
+
 def build_timeline(state: RunState, cited: list[str]) -> list[dict]:
     """One timeline per trial cited in the report (or found, if the report cites none): registry dates,
     results due and posted (or a never-posted marker), 8-K dates and publication dates."""
@@ -131,7 +151,12 @@ def render(state: RunState, report, checker: dict) -> dict:
                         "source_type": record.source_type, "url": record.source_url})
     timeline = build_timeline(state, order)
 
-    lines = ["## Answer", " ".join(_cite(c, numbers) for c in report.answer) or "The evidence gathered does not support a direct answer.", ""]
+    answer = [_cite(c, numbers) for c in report.answer]
+    # The Writer is told to open with this; the code makes sure, since the model doesn't always.
+    caveat = verdict_caveat(state.question, report.answer[0].text if report.answer else "")
+    if caveat:
+        answer.insert(0, caveat)
+    lines = ["## Answer", " ".join(answer) or "The evidence gathered does not support a direct answer.", ""]
     timeline_text = report.timeline_text.strip() or timeline_from_events(timeline)
     lines += ["## Timeline", timeline_text or "No dated events were found.", ""]
     lines += ["## Evidence"] + ([f"- {_cite(c, numbers)}" for c in report.evidence] or ["- No claim survived the citation check."]) + [""]
@@ -147,7 +172,7 @@ def render(state: RunState, report, checker: dict) -> dict:
               f"citations_checked: {checker['citations_checked']}, removed: {checker['removed']}._"]
     return {
         "markdown": "\n".join(lines),
-        "report": {"answer": [_cite(c, numbers) for c in report.answer], "evidence": [_cite(c, numbers) for c in report.evidence],
+        "report": {"answer": answer, "evidence": [_cite(c, numbers) for c in report.evidence],
                    "differences": [_cite(c, numbers) for c in report.differences], "cant_tell": cant,
                    "timeline_text": timeline_text},
         "sources": sources,
