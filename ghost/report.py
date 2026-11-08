@@ -95,6 +95,32 @@ def build_timeline(state: RunState, cited: list[str]) -> list[dict]:
     return timelines
 
 
+def timeline_from_events(timeline: list[dict]) -> str:
+    """A plain text timeline built from the records, used when the Writer's text is missing or failed the check."""
+    lines = []
+    for t in timeline:
+        events = "; ".join(f"{e['label']} {e['date']}" if e["date"] else e["label"] for e in t["events"])
+        if events:
+            lines.append(f"{t['nct_id']}: {events}.")
+    return "\n".join(lines)
+
+
+def default_cant_tell(state: RunState) -> list[str]:
+    """Used only when no limitation survived filtering, so the section is never empty. Picked by what was found."""
+    ids = list(state.store.records)
+    lines = ["The registry reason is what the sponsor reported; the records can't show the full reason a trial stopped."]
+    if not any(i.startswith("sec:") for i in ids):
+        lines.append("No SEC filing was found for this question, so there is no investor story to compare; "
+                     "private sponsors file nothing with the SEC.")
+    else:
+        lines.append("A registry reason that differs from a filing is a discrepancy between sources, not proof of intent.")
+    if not any(i.startswith("pubmed:") for i in ids):
+        lines.append("No linked paper was found in PubMed or Europe PMC; results in conference abstracts or on company "
+                     "websites would be missed.")
+    lines.append("The results due date is an approximation, so a late or missing posting is not evidence that anyone broke the law.")
+    return lines
+
+
 def render(state: RunState, report, checker: dict) -> dict:
     sections = {"answer": report.answer, "evidence": report.evidence, "differences": report.differences}
     order, numbers = _number_sources(sections)
@@ -106,13 +132,15 @@ def render(state: RunState, report, checker: dict) -> dict:
     timeline = build_timeline(state, order)
 
     lines = ["## Answer", " ".join(_cite(c, numbers) for c in report.answer) or "The evidence gathered does not support a direct answer.", ""]
-    lines += ["## Timeline", report.timeline_text.strip() or "No dated events were found.", ""]
+    timeline_text = report.timeline_text.strip() or timeline_from_events(timeline)
+    lines += ["## Timeline", timeline_text or "No dated events were found.", ""]
     lines += ["## Evidence"] + ([f"- {_cite(c, numbers)}" for c in report.evidence] or ["- No claim survived the citation check."]) + [""]
     if report.differences:
         lines += ["## Where the stories differ"] + [f"- {_cite(c, numbers)}" for c in report.differences] + [""]
     # Only the time budget limits the answer in a way the reader needs to know; other notes are for the trace.
     # The model sometimes adds its own budget sentence even when research finished; only the code's note is true.
     cant = [c for c in report.cant_tell if not _mentions_run_limits(c)] + [n for n in state.notes if "budget" in n]
+    cant = cant or default_cant_tell(state)
     lines += ["## What the data can't tell us"] + [f"- {c}" for c in cant] + [""]
     lines += ["## Sources"] + [f"{s['n']}. {s['title']}. {s['source_type']}. {s['url']}" for s in sources]
     lines += ["", f"_Snapshot date: {db.snapshot_date() or 'unknown'}. Research rounds: {state.rounds}. "
@@ -121,7 +149,7 @@ def render(state: RunState, report, checker: dict) -> dict:
         "markdown": "\n".join(lines),
         "report": {"answer": [_cite(c, numbers) for c in report.answer], "evidence": [_cite(c, numbers) for c in report.evidence],
                    "differences": [_cite(c, numbers) for c in report.differences], "cant_tell": cant,
-                   "timeline_text": report.timeline_text},
+                   "timeline_text": timeline_text},
         "sources": sources,
         "timeline": timeline,
     }
