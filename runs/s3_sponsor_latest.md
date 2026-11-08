@@ -1,46 +1,49 @@
 # Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?
 
 ## Answer
-Entero Therapeutics terminated three clinical trials, including one phase 1/2 trial and two phase 2 trials, without posting clinical trial results on ClinicalTrials.gov. [1][2][3] The company stopped trial NCT03521232 in September 2022 citing Covid-19, trial NCT04839575 in December 2022 citing Covid-19 interruptions and enrollment challenges, and trial NCT04243551 in October 2023 citing low enrollment related to Covid. [1][2][3]
+Entero Therapeutics (formerly First Wave BioPharma) terminated three Phase 2 or Phase 1/2 clinical trials without posting results on ClinicalTrials.gov: NCT03521232, NCT04839575, and NCT04243551. [1][2][3] The reasons listed on the clinical trials registry for terminating these trials were related to COVID-19, specifically citing "Covid-19" for NCT03521232, "Covid-19 interruptions and enrollment challenges" for NCT04839575, and low enrollment related to COVID-19 for NCT04243551. [1][2][3] The sponsor's SEC 8-K filings mentioned the corresponding drug candidates but did not provide specific reasons for terminating these trials, and no results publications were found in PubMed. [4][5][6][7][8][9]
 
 ## Timeline
-Trial NCT03521232 started on 2018-05-15, was terminated with a primary completion date of 2022-09-19, had results due by 2023-09-19, and has never posted results or been published in a results paper. Trial NCT04839575 started on 2021-04-06, was terminated with a completion date of 2022-12-19, had results due by 2023-12-19, and has not posted results. Trial NCT04243551 started on 2019-11-01, was terminated with a primary completion date of 2023-10-16, had results due by 2024-10-15, and has no posted or published results.
+For NCT03521232, the trial started on 2018-05-15, reached primary completion on 2022-09-19, and results were due on 2023-09-19 but have not been posted, while 8-K filings in late 2022 mentioned the drug but not the stopping reason, and no results publication was found. For NCT04839575, the trial started on 2021-04-06, reached primary completion on 2022-12-19, and results were due on 2023-12-19 but have not been posted, while 8-K filings in 2024 discussed the drug pipeline without explaining the termination, and no results publication was found. For NCT04243551, the trial started on 2019-11-01, reached primary completion on 2023-10-16, and results were due on 2024-10-15 but have not been posted, while 8-K filings in late 2023 and mid-2024 mentioned pipeline changes without explaining the termination, and no results publication was found.
 
 ## Evidence
-- Trial NCT03521232 was a phase 1/2 trial of niclosamide enemas that enrolled 27 patients, started on 2018-05-15, and reached primary completion on 2022-09-19. [1]
-- Trial NCT03521232 was terminated due to Covid-19, remains without posted results, and had a results due date of 2023-09-19. [1]
-- Trial NCT04839575 was a phase 2 trial of latiglutenase that enrolled 13 patients, started on 2021-04-06, and completed on 2022-12-19. [2]
-- Trial NCT04839575 was terminated due to Covid-19 interruptions and enrollment challenges, remains without posted results, and had a results due date of 2023-12-19. [2]
-- Trial NCT04243551 was a phase 2 trial of latiglutenase that enrolled 83 patients, started on 2019-11-01, and reached primary completion on 2023-10-16. [3]
-- Trial NCT04243551 was terminated due to low enrollment related to Covid, remains without posted results, and had a results due date of 2024-10-15. [3]
-- SEC filings in late 2022 mentioned that the company was advancing multiple programs involving niclosamide but did not explicitly disclose the termination of trial NCT03521232. [4][5][6]
-- SEC filings in December 2023 announced a streamlining of the clinical pipeline and a business combination to develop latiglutenase but did not detail the termination of trial NCT04243551. [7][8]
-- No peer-reviewed journal articles reporting results for trials NCT03521232, NCT04839575, or NCT04243551 were indexed in PubMed or Europe PMC. [9][10][11]
+- NCT03521232 was a Phase 1/2 trial that started on 2018-05-15, reached primary completion on 2022-09-19, and was terminated without results posted. [1]
+- The clinical trials registry lists the reason for stopping NCT03521232 as "Covid-19". [1]
+- NCT04839575 was a Phase 2 trial that started on 2021-04-06, reached primary completion on 2022-12-19, and was terminated without results posted. [2]
+- The clinical trials registry lists the reason for stopping NCT04839575 as "Covid-19 interruptions and enrollment challenges". [2]
+- NCT04243551 was a Phase 2 trial that started on 2019-11-01, reached primary completion on 2023-10-16, and was terminated without results posted. [3]
+- The clinical trials registry lists the reason for stopping NCT04243551 as "Due to low enrollment related to Covid." [3]
+- The sponsor filed 8-K forms discussing niclosamide in late 2022, but did not specify why NCT03521232 was stopped. [4][10][11]
+- The sponsor filed 8-K forms discussing latiglutenase in 2023 and 2024, but did not specify why NCT04839575 or NCT04243551 were stopped. [12][5][6][13]
+- No results publication for NCT03521232 was found in PubMed, though three articles only mention the trial. [7]
+- No results publication for NCT04839575 was found in PubMed, though four articles only mention the trial. [8]
+- No results publication for NCT04243551 was found in PubMed, though five articles only mention the trial. [9]
 
 ## Where the stories differ
-- While the clinical trial registry reports that NCT03521232 was terminated due to Covid-19, the company's SEC 8-K filings around October and November 2022 continued to state that the company was advancing multiple programs involving niclosamide without disclosing the trial's termination. [1][4]
-- While the registry reports that NCT04243551 was terminated due to low enrollment, SEC filings from December 2023 announced a pipeline streamlining and a business combination to expand the latiglutenase pipeline without detailing this specific trial's termination. [3][7][8]
+- The clinical trials registry lists specific COVID-19 and enrollment-related reasons for terminating trials NCT03521232, NCT04839575, and NCT04243551, whereas the sponsor's SEC 8-K filings do not specify reasons for stopping these individual trials, only discussing general pipeline and corporate developments. [1][2][3][4][5][6]
 
 ## What the data can't tell us
-- We cannot determine the true underlying reasons for terminating these trials beyond the brief explanations provided in the clinical registry.
-- Any differences in details between the registry records and investor disclosures are not proof of an intent to mislead.
-- The results due dates are estimates based on the standard 365-day post-primary completion window, which approximates the FDAAA deadline, but this only applies to applicable clinical trials, a status that is not fully public, so this does not serve as evidence that the sponsor broke any laws.
-- It is possible that results were published in conference abstracts, non-indexed journals, or company press releases that were not indexed in PubMed or Europe PMC.
-- Our research into the SEC filings stopped early because of the research round budget.
+- We cannot determine the real underlying reasons for terminating these trials beyond the brief explanations stated in the registry.
+- The lack of detailed explanations in the investor disclosures does not prove any intent to mislead.
+- The results due date (primary completion plus 365 days) only approximates the FDAAA deadline, which only applies to applicable clinical trials, so this is not evidence that the sponsor broke the law.
+- Results published in conference abstracts, non-indexed journals, or directly on company websites may have been missed because we only searched PubMed and Europe PMC.
+- No 10-K or 10-Q filings were available in the snapshot database, so we cannot tell if more detailed trial termination disclosures were made in those reports.
 
 ## Sources
 1. A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT03521232
 2. Study of Latiglutenase in T1D/CD Patients. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04839575
 3. Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04243551
-4. SEC 8-K 0001104659-22-107922. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922107922/tm2228013d1_ex99-2.htm
-5. SEC 8-K 0001104659-22-121003. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922121003/tm2231091d1_ex99-1.htm
-6. SEC 8-K 0001104659-22-122476. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922122476/tm2231455d2_ex99-1.htm
-7. SEC 8-K 0001104659-23-126593. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465923126593/tm2333106d1_ex99-1.htm
-8. SEC 8-K 0001104659-23-129426. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465923129426/tm2333743d1_ex99-1.htm
-9. Niclosamide, an antihelmintic drug, enhances efficacy of PD-1/PD-L1 immune checkpoint blockade in non-small cell lung cancer.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/31511071/
-10. From an understanding of etiopathogenesis to novel therapies-what is new in the treatment of celiac disease?. PubMed article. https://pubmed.ncbi.nlm.nih.gov/38698821/
-11. Dynamics of Serologic Change to Gluten in Celiac Disease Patients.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/38140342/
+4. Entero Therapeutics 8-K filed 2022-10-12. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922107922/tm2228013d1_ex99-2.htm
+5. SEC filing 0001104659-24-084206. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465924084206/tm2420546d1_ex99-1.htm
+6. Entero Therapeutics 8-K filed 2023-12-18. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465923126593/tm2333106d1_ex99-1.htm
+7. No results publication found for NCT03521232 (3 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT03521232%5Bsi%5D
+8. No results publication found for NCT04839575 (4 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04839575%5Bsi%5D
+9. No results publication found for NCT04243551 (5 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04243551%5Bsi%5D
+10. SEC filing 0001104659-22-121003. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922121003/tm2231091d1_ex99-1.htm
+11. SEC filing 0001104659-22-122476. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922122476/tm2231455d2_ex99-1.htm
+12. Entero Therapeutics 8-K filed 2024-07-11. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465924079101/tm2419264d1_ex99-1.htm
+13. SEC filing 0001104659-23-129426. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465923129426/tm2333743d1_ex99-1.htm
 
-_Snapshot date: 2026-11-05. Research rounds: 3. citations_checked: 25, removed: 0._
+_Snapshot date: 2026-11-05. Research rounds: 2. citations_checked: 34, removed: 0._
 
-_167 s, 41 tool calls_
+_84 s, 37 tool calls_
