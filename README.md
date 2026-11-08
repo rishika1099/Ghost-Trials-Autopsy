@@ -40,7 +40,7 @@ grouped by agent.
 2. `Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?`
    Expected: slow enrollment; results never posted, 1,164 days past the approximate due date; no results paper (details below).
 3. `Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?`
-   Expected: a sponsor-level list from the snapshot: two phase 2 trials (NCT04839575, NCT04243551) and one phase 1/2 (NCT03521232), none with posted results, each citing COVID-19 or enrollment.
+   Expected: three terminated trials with no posted results, two phase 2 (NCT04839575, NCT04243551) and one phase 1/2 (NCT03521232), each with a COVID-19 or enrollment reason; the nearby 8-Ks name the drugs but give no reason (details below).
 4. `Which stopped trials in the snapshot have an 8-K that gives a different reason than the registry? Start with the ones checked by hand.`
    Expected: the hand-checked rows of the `discrepancies` table first (vTv's NCT03980730 among them: registry "business reasons", 8-K an efficacy failure), then the strongest model-judged ones.
 5. `Why do Alzheimer's trials fail?` Expected: **clarification**, no research (example below).
@@ -240,6 +240,135 @@ _114 s, 31 tool calls_
 
 </details>
 
+### Sponsor without posted results: Entero Therapeutics
+
+**Query:** "Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?"
+
+**Expected answer (checked by hand against the snapshot and the 8-K text on 2026-11-07):**
+
+- Entero stopped three phase 2 trials (one is phase 1/2) that enrolled patients and never posted results:
+
+  | Trial | Drug, condition | Registry reason | Primary completion | Results due (approx.) | Days late on 2026-11-05 |
+  |---|---|---|---|---|---|
+  | NCT03521232 (phase 1/2) | niclosamide enemas, ulcerative proctitis | "Covid-19" | 2022-09-19 | 2023-09-19 | 1,143 |
+  | NCT04839575 | latiglutenase, celiac disease with type 1 diabetes | "Covid-19 interruptions and enrollment challenges" | 2022-12-19 | 2023-12-19 | 1,052 |
+  | NCT04243551 | latiglutenase, celiac disease | "Due to low enrollment related to Covid." | 2023-10-16 | 2024-10-15 | 751 |
+
+- No results paper for any of them: every PubMed article linked to these NCT IDs is a Europe PMC mention (3, 4 and 5 articles).
+- Entero (CIK 0001604191) 8-Ks near each stop name the drug but give no reason for stopping. Those filed 2022-10-12, 2022-11-22 and 2022-11-28 still say the company "is also advancing multiple programs involving niclosamide, including FW-UP for ulcerative proctitis", after NCT03521232's primary completion. A discrepancy in tone, not proof of intent: the text is boilerplate. The `discrepancies` table marks these rows `no_reason_in_8k`.
+- Also in the snapshot, but not "stopped without posting results": two phase 2 niclosamide COVID-19 trials (NCT04436458, NCT04542434) were withdrawn before enrolling anyone ("Sponsor asset acquired by another pharma company"), so no results were due; and NCT04858425 was terminated for lack of efficacy and did post results.
+
+**Source:**
+
+- `https://clinicaltrials.gov/api/v2/studies/NCT03521232`, `.../NCT04839575`, `.../NCT04243551`
+- tables `trials` and `trial_derived`: `SELECT * FROM trials JOIN trial_derived USING (nct_id) WHERE sponsor IN ('Entero Therapeutics', 'AzurRx SAS')`
+- table `sponsor_cik`, `sponsor = 'Entero Therapeutics'` (CIK 0001604191)
+- table `filings`: EDGAR accessions 0001104659-22-107922, 0001104659-22-121003, 0001104659-22-122476 (NCT03521232); 0001104659-23-126593, 0001104659-23-129426, 0001104659-24-084206 (NCT04243551); 0001104659-24-079101, 0001104659-24-084206, 0001104659-24-092491 (NCT04839575)
+- table `publications`, `link_type = 'europepmc_mention'` for all three
+
+**What the no-tools model says is wrong:** it names none of the three trials. The NCT IDs it does give belong to other sponsors: NCT04862416 is a Radboud University vaccine study, NCT04543188 a Pfizer cancer study, and NCT05711251 a physical activity study at a Turkish university. It also gives reasons ("capital conservation", "lack of efficacy") that are not the registry reasons for any of Entero's stopped trials without results.
+
+<details>
+<summary>Same model, no tools and no system prompt (<code>baseline/s3_sponsor.md</code>), verbatim</summary>
+
+Entero Therapeutics (formerly known as **First Wave BioPharma**, and prior to that, **AzurRx BioPharma**) has gone through multiple strategic pivots, name changes, and mergers (most recently merging with ImmunogenX in early 2024). During these transitions, the company stopped or paused several clinical programs, particularly in its niclosamide and adrulipase pipelines. 
+
+While the company frequently issued press releases with "top-line" data, some of these trials were discontinued, and full, detailed results were not formally published or posted to the ClinicalTrials.gov registry. 
+
+Here is a breakdown of the Phase 2 trials they stopped, deprioritized, or paused, along with the reasons provided:
+
+---
+
+### 1. The Niclosamide Programs (FW-COV and FW-UP)
+In **October 2022**, First Wave BioPharma announced a major strategic pivot to wind down or pause its niclosamide-based clinical programs. 
+
+*   **FW-COV (Niclosamide for COVID-19 GI infections):** 
+    *   **The Trial:** A Phase 2 trial (the "RESERVOIR" study, NCT04862416) evaluating an oral formulation of niclosamide for removing SARS-CoV-2 from the gastrointestinal tract.
+    *   **What Happened:** The company reported some preliminary topline data in early 2022 but ultimately halted further development. 
+    *   **Reasons Given:** First Wave cited **strategic reprioritization and capital conservation**. They decided to focus their limited financial resources and clinical focus entirely on their lead asset, adrulipase, for exocrine pancreatic insufficiency (EPI).
+*   **FW-UP (Niclosamide for Ulcerative Proctitis):**
+    *   **The Trial:** A Phase 2a trial (NCT04543188) evaluating a topical formulation of niclosamide for patients with active ulcerative proctitis. 
+    *   **What Happened:** Although they announced topline data in June 2022 indicating the drug was safe, the clinical program was halted before advancing further.
+    *   **Reasons Given:** Similar to FW-COV, the primary reasons were **capital preservation** and a corporate decision to deprioritize niclosamide in favor of adrulipase.
+
+---
+
+### 2. Adrulipase (MS1819) for Cystic Fibrosis-Related EPI
+Adrulipase was First Wave's lead yeast-derived lipase enzyme designed to treat exocrine pancreatic insufficiency (EPI) in patients with cystic fibrosis (CF). 
+
+*   **The Trial:** Phase 2 clinical trial of a new *microgranule formulation* of adrulipase (NCT05711251), launched to improve the delivery and efficacy of the drug after a previous Phase 2b trial (OPTION-2) failed to meet its primary endpoint in 2021.
+*   **What Happened:** In July 2023, First Wave announced that the Phase 2 microgranule trial **did not meet its primary efficacy endpoint** (the coefficient of fat absorption, or CFA, did not reach the therapeutic threshold compared to commercial pig-derived enzymes). 
+*   **The Outcome:** Rather than starting new trials, the company effectively paused internal clinical development of adrulipase. 
+*   **Reasons Given:** The company cited **lack of efficacy** (the microgranule formulation did not provide the necessary therapeutic benefit) and subsequently announced they were exploring "strategic alternatives" (such as licensing or selling the asset) to avoid spending further cash on it.
+
+---
+
+### 3. Shift to Latiglutenase (Entero Therapeutics Era)
+Following the merger with ImmunogenX in early 2024, First Wave BioPharma rebranded as **Entero Therapeutics**. 
+
+With this transition, the company shifted its primary focus to **Latiglutenase (IMGX003)**, an oral biotherapeutic degradation enzyme for celiac disease. Consequently, older Phase 2 assets from the First Wave/AzurRx portfolio (such as adrulipase and the remaining niclosamide programs) have been sidelined or quietly discontinued due to **strategic misalignment** with their new focus on GI-focused celiac treatments and lack of funding to pursue multiple pipelines simultaneously.
+
+### Summary of Reasons
+When Entero Therapeutics (First Wave) stopped or failed to progress these Phase 2 trials, the reasons fell into three main categories:
+1.  **Clinical Failure / Lack of Efficacy:** Specifically for the adrulipase microgranule Phase 2 trial in 2023, which failed to meet its primary endpoint.
+2.  **Strategic Reprioritization:** Shelving the niclosamide trials to focus solely on adrulipase (in 2022), and later shelving adrulipase to focus on latiglutenase (in 2024).
+3.  **Capital Conservation:** As a micro-cap biotechnology firm, the company lacked the cash reserves to fund multiple late-stage clinical trials simultaneously and chose to preserve cash for their highest-conviction assets.
+
+</details>
+
+<details>
+<summary>Our agent (<code>runs/s3_sponsor_latest.md</code>, full trace in <code>runs/20261107-2246_s3_sponsor.json</code>), verbatim</summary>
+
+## Answer
+Entero Therapeutics (formerly First Wave BioPharma) terminated three Phase 2 or Phase 1/2 clinical trials without posting results on ClinicalTrials.gov: NCT03521232, NCT04839575, and NCT04243551. [1][2][3] The reasons listed on the clinical trials registry for terminating these trials were related to COVID-19, specifically citing "Covid-19" for NCT03521232, "Covid-19 interruptions and enrollment challenges" for NCT04839575, and low enrollment related to COVID-19 for NCT04243551. [1][2][3] The sponsor's SEC 8-K filings mentioned the corresponding drug candidates but did not provide specific reasons for terminating these trials, and no results publications were found in PubMed. [4][5][6][7][8][9]
+
+## Timeline
+For NCT03521232, the trial started on 2018-05-15, reached primary completion on 2022-09-19, and results were due on 2023-09-19 but have not been posted, while 8-K filings in late 2022 mentioned the drug but not the stopping reason, and no results publication was found. For NCT04839575, the trial started on 2021-04-06, reached primary completion on 2022-12-19, and results were due on 2023-12-19 but have not been posted, while 8-K filings in 2024 discussed the drug pipeline without explaining the termination, and no results publication was found. For NCT04243551, the trial started on 2019-11-01, reached primary completion on 2023-10-16, and results were due on 2024-10-15 but have not been posted, while 8-K filings in late 2023 and mid-2024 mentioned pipeline changes without explaining the termination, and no results publication was found.
+
+## Evidence
+- NCT03521232 was a Phase 1/2 trial that started on 2018-05-15, reached primary completion on 2022-09-19, and was terminated without results posted. [1]
+- The clinical trials registry lists the reason for stopping NCT03521232 as "Covid-19". [1]
+- NCT04839575 was a Phase 2 trial that started on 2021-04-06, reached primary completion on 2022-12-19, and was terminated without results posted. [2]
+- The clinical trials registry lists the reason for stopping NCT04839575 as "Covid-19 interruptions and enrollment challenges". [2]
+- NCT04243551 was a Phase 2 trial that started on 2019-11-01, reached primary completion on 2023-10-16, and was terminated without results posted. [3]
+- The clinical trials registry lists the reason for stopping NCT04243551 as "Due to low enrollment related to Covid." [3]
+- The sponsor filed 8-K forms discussing niclosamide in late 2022, but did not specify why NCT03521232 was stopped. [4][10][11]
+- The sponsor filed 8-K forms discussing latiglutenase in 2023 and 2024, but did not specify why NCT04839575 or NCT04243551 were stopped. [12][5][6][13]
+- No results publication for NCT03521232 was found in PubMed, though three articles only mention the trial. [7]
+- No results publication for NCT04839575 was found in PubMed, though four articles only mention the trial. [8]
+- No results publication for NCT04243551 was found in PubMed, though five articles only mention the trial. [9]
+
+## Where the stories differ
+- The clinical trials registry lists specific COVID-19 and enrollment-related reasons for terminating trials NCT03521232, NCT04839575, and NCT04243551, whereas the sponsor's SEC 8-K filings do not specify reasons for stopping these individual trials, only discussing general pipeline and corporate developments. [1][2][3][4][5][6]
+
+## What the data can't tell us
+- We cannot determine the real underlying reasons for terminating these trials beyond the brief explanations stated in the registry.
+- The lack of detailed explanations in the investor disclosures does not prove any intent to mislead.
+- The results due date (primary completion plus 365 days) only approximates the FDAAA deadline, which only applies to applicable clinical trials, so this is not evidence that the sponsor broke the law.
+- Results published in conference abstracts, non-indexed journals, or directly on company websites may have been missed because we only searched PubMed and Europe PMC.
+- No 10-K or 10-Q filings were available in the snapshot database, so we cannot tell if more detailed trial termination disclosures were made in those reports.
+
+## Sources
+1. A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT03521232
+2. Study of Latiglutenase in T1D/CD Patients. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04839575
+3. Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04243551
+4. Entero Therapeutics 8-K filed 2022-10-12. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922107922/tm2228013d1_ex99-2.htm
+5. SEC filing 0001104659-24-084206. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465924084206/tm2420546d1_ex99-1.htm
+6. Entero Therapeutics 8-K filed 2023-12-18. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465923126593/tm2333106d1_ex99-1.htm
+7. No results publication found for NCT03521232 (3 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT03521232%5Bsi%5D
+8. No results publication found for NCT04839575 (4 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04839575%5Bsi%5D
+9. No results publication found for NCT04243551 (5 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04243551%5Bsi%5D
+10. SEC filing 0001104659-22-121003. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922121003/tm2231091d1_ex99-1.htm
+11. SEC filing 0001104659-22-122476. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922122476/tm2231455d2_ex99-1.htm
+12. Entero Therapeutics 8-K filed 2024-07-11. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465924079101/tm2419264d1_ex99-1.htm
+13. SEC filing 0001104659-23-129426. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465923129426/tm2333743d1_ex99-1.htm
+
+_Snapshot date: 2026-11-05. Research rounds: 2. citations_checked: 34, removed: 0._
+
+_84 s, 37 tool calls_
+
+</details>
+
 ### Vague question: clarification instead of research
 
 **Query:** "Why do Alzheimer's trials fail?" It names a condition but no scope, so the Lead asks before it
@@ -403,11 +532,11 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
 
 ## Tests
 
-- `uv run pytest`: offline suite (124 tests). Among them: the `/chat` shape and the `agent` field on every
+- `uv run pytest`: offline suite (129 tests). Among them: the `/chat` shape and the `agent` field on every
   tool call (`test_shape.py`), researchers overlapping in time and starting from fresh message lists
   (`test_parallel.py`), the Lead's second round and round cap (`test_gap_loop.py`), clarification with no
   researcher calls (`test_clarify.py`), every `[n]` mapping to a stored source (`test_citations.py`), the
-  qualified answer to a legal question (`test_cant_answer.py`), the SQL guardrails (`test_sql_guard.py`), and retries, time limits and the cache (`test_robustness.py`).
+  qualified answer to a legal question (`test_cant_answer.py`), the SQL guardrails (`test_sql_guard.py`), retries, time limits and the cache (`test_robustness.py`), and the timeline check and limits section (`test_report_gaps.py`).
   `LIVE=1 uv run pytest` also calls Gemini.
 - `tests/test_deploy.sh`: curls the deployed `/health` and one sample query, and fails if it takes over 300 s.
 
@@ -433,7 +562,7 @@ listens on `$PORT`), pushes the image to Artifact Registry and deploys it.
 Settings that matter for this app:
 - **Request timeout: 600 s.** Graders wait up to 5 minutes; our own budget is 240 s.
 - **Memory: 2 GiB.** The DuckDB snapshot is opened read-only inside the container.
-- The service account needs **Vertex AI User** to call Gemini, so there is no API key. `SEC_USER_AGENT` comes from the environment and is never committed; live SEC calls need it (the snapshot's filings work without it).
+- The service account needs **Vertex AI User** to call Gemini, so there is no API key. `SEC_USER_AGENT` comes from the Secret Manager secret `sec-user-agent` and is never committed. `min-instances=1` during grading, so there are no cold starts.
 
 ## Project layout
 

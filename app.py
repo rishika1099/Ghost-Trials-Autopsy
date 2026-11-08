@@ -11,6 +11,7 @@ GET  /health   200 and the snapshot date.
 import asyncio
 import json
 import os
+import time
 import uuid
 from pathlib import Path
 
@@ -25,8 +26,20 @@ from ghost.pipeline import investigate
 HERE = Path(__file__).parent
 app = FastAPI(title="Ghost Trials Autopsy")
 
-# session_id -> the question we asked a clarification about, so the user's reply can complete it.
-pending_clarifications: dict[str, str] = {}
+# session_id -> (the question we asked a clarification about, when). The user's reply completes it.
+# Entries expire after CLARIFY_TTL_S, and the map never holds more than CLARIFY_MAX entries.
+CLARIFY_TTL_S = 30 * 60
+CLARIFY_MAX = 500
+pending_clarifications: dict[str, tuple[str, float]] = {}
+
+
+def remember_clarification(session_id: str, question: str) -> None:
+    now = time.monotonic()
+    for key in [k for k, (_, at) in pending_clarifications.items() if now - at > CLARIFY_TTL_S]:
+        del pending_clarifications[key]
+    while len(pending_clarifications) >= CLARIFY_MAX:
+        del pending_clarifications[next(iter(pending_clarifications))]  # oldest first
+    pending_clarifications[session_id] = (question, now)
 
 
 class ChatRequest(BaseModel):
@@ -42,8 +55,10 @@ class ChatResponse(BaseModel):
 
 def with_clarification(session_id: str, message: str) -> str:
     """If the last answer in this session asked for clarification, treat this message as the reply to it."""
-    earlier = pending_clarifications.pop(session_id, None)
-    return f"{earlier}\nClarification from the user: {message}" if earlier else message
+    entry = pending_clarifications.pop(session_id, None)
+    if entry is None or time.monotonic() - entry[1] > CLARIFY_TTL_S:
+        return message
+    return f"{entry[0]}\nClarification from the user: {message}"
 
 
 @app.get("/")
@@ -75,7 +90,7 @@ async def chat(request: ChatRequest):
         result = await investigate(question)
         response, tool_calls = result["markdown"], result["tool_calls"]
         if result["kind"] == "clarify":
-            pending_clarifications[session_id] = question
+            remember_clarification(session_id, question)
     except Exception as e:
         # Auth, quota, a model that won't stop: show it in the chat, not as a 500.
         response, tool_calls = f"Research failed: {type(e).__name__}: {str(e)[:300]}", []
@@ -97,7 +112,7 @@ async def run(question: str, session_id: str | None = None):
         try:
             result = await investigate(question, emit=emit)
             if result["kind"] == "clarify":
-                pending_clarifications[session_id] = question
+                remember_clarification(session_id, question)
             result.pop("findings", None)
             queue.put_nowait({"type": "done", "session_id": session_id, **result})
         except Exception as e:

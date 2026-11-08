@@ -12,6 +12,7 @@ RESEARCHER_MAX_TURNS per researcher, and a REQUEST_BUDGET_S wall clock for the w
 
 import asyncio
 import json
+import re
 import time
 from typing import Literal
 
@@ -281,6 +282,19 @@ async def run_checker(state: RunState, claims: list[Claim], rule_problems: dict[
     return result.final_output
 
 
+def timeline_text_problems(state: RunState, text: str) -> list[str]:
+    """The Writer's timeline text cites nothing, so check it against every record in the store (plus each
+    trial's derived dates, such as results_due_date): every date must be in one, and no overreaching words."""
+    records = [r.as_dict() for r in state.store.records.values()]
+    for r in list(state.store.records.values()):
+        nct = r.evidence_id.split(":", 1)[1] if r.evidence_id.startswith("ctgov:") else ""
+        if re.fullmatch(r"NCT\d{8}", nct) and db.DB_PATH.exists():
+            row = db.trial_record(nct)
+            if row:
+                records.append({"title": "", "data": row})
+    return citecheck.check_claim(text, records)
+
+
 async def check_citations(state: RunState, report: WriterReport) -> tuple[WriterReport, dict]:
     """Three passes. 1: every citation must name a record in the store. 2: deterministic rules (ghost/citecheck.py):
     quotes must be in the cited records, dates must be in them, and no overreaching words. 3: the Checker model
@@ -347,14 +361,23 @@ async def check_citations(state: RunState, report: WriterReport) -> tuple[Writer
     for n, (name, i) in enumerate(flat):
         if n not in removed_ids:
             final[name].append(sections[name][i])
+    timeline_text = report.timeline_text
+    timeline_problems = timeline_text_problems(state, timeline_text) if timeline_text.strip() else []
+    if timeline_problems:
+        # The text is regenerated from the records when the report is rendered.
+        timeline_text = ""
+        decisions.append({"section": "timeline", "claim": report.timeline_text, "action": "removed", "by": "rules",
+                          "reason": "; ".join(timeline_problems)})
     before = sum(len(c) for c in (report.answer, report.evidence, report.differences))
     removed = before - sum(len(c) for c in final.values())
     stats = {"citations_checked": checked, "unknown_ids_dropped": unknown, "claims_fixed": fixed, "removed": removed,
-             "rule_flags": flagged_by_rules, "model_pass": model_ok, "decisions": decisions}
+             "rule_flags": flagged_by_rules, "model_pass": model_ok, "timeline_replaced": bool(timeline_problems),
+             "decisions": decisions}
     state.record_call("checker", "check_citations", {"claims": before, "citations": checked},
                       f"citations_checked: {checked}, removed: {removed} (fixed {fixed}, rule flags {flagged_by_rules}, "
-                      f"unknown ids dropped {unknown})")
-    return report.model_copy(update=final), stats
+                      f"unknown ids dropped {unknown}"
+                      + (", timeline text replaced" if timeline_problems else "") + ")")
+    return report.model_copy(update={**final, "timeline_text": timeline_text}), stats
 
 
 # --- Retries and time limits for the single-agent steps ---
