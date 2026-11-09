@@ -400,6 +400,15 @@ def get_trial_filings(ctx: RunContextWrapper[RunState], nct_id: str) -> str:
         return _error(str(e))
 
 
+# A rules label on an 8-K passage that names only the drug is a lead, not a finding: the passage may be about another trial.
+DRUG_ONLY_SUMMARY = "; {n} more are keyword-rule leads whose 8-K names only the drug, not the trial"
+DRUG_ONLY_CAUTION = ("Keyword-rule lead for {trials}, not checked by hand: for {them} this 8-K passage names only the drug, so it "
+                     "may be about another trial of the drug. Call it a lead to check, never a confirmed discrepancy for {them}. "
+                     "It says nothing about any other trial that cites this filing.")
+
+
+def drug_only_caution(nct_ids: list[str]) -> str:
+    return DRUG_ONLY_CAUTION.format(trials=", ".join(nct_ids), them="that trial" if len(nct_ids) == 1 else "those trials")
 DIFFERS_LABELS = ("discrepancy", "different_reason", "registry_blank_8k_reason")
 ALL_LABELS = DIFFERS_LABELS + ("consistent", "no_reason_in_8k", "about_another_trial")
 
@@ -427,8 +436,11 @@ def discrepancy_rows(state: RunState, sponsor: str | None = None, nct_id: str | 
         where.append("d.decided_by = 'hand_checked'")
         filters["hand_checked_only"] = True
     base = f"FROM discrepancies d JOIN trials t USING (nct_id) WHERE {' AND '.join(where)}"
-    totals = db.run_select(f"""SELECT count(DISTINCT d.nct_id) AS trials,
-        count(DISTINCT d.nct_id) FILTER (WHERE d.decided_by = 'hand_checked') AS hand_checked_trials {base}""")
+    # Per trial: was any row checked by hand, and does any 8-K passage name this trial (not just its drug)?
+    totals = db.run_select(f"""SELECT count(*) AS trials, count(*) FILTER (WHERE hand) AS hand_checked_trials,
+        count(*) FILTER (WHERE NOT hand AND NOT named) AS drug_only_leads
+        FROM (SELECT d.nct_id, bool_or(d.decided_by = 'hand_checked') AS hand, bool_or(d.scope = 'this_trial') AS named
+              {base} GROUP BY d.nct_id)""")
     if "error" in totals:
         return totals
     totals = totals["rows"][0]
@@ -445,23 +457,31 @@ def discrepancy_rows(state: RunState, sponsor: str | None = None, nct_id: str | 
     described = ", ".join(f"{k} {v}" for k, v in filters.items() if k in ("sponsor", "nct_id", "condition"))
     summary_title = (f"Discrepancies table: {totals['trials']} trial{'' if totals['trials'] == 1 else 's'} labelled {' or '.join(labels)}"
                      f"{' for ' + described if described else ''}"
-                     f"{', counting only rows checked by hand' if hand_checked_only else ''} ({totals['hand_checked_trials']} checked by hand)")
+                     f"{', counting only rows checked by hand' if hand_checked_only else ''} ({totals['hand_checked_trials']} checked by hand"
+                     f"{DRUG_ONLY_SUMMARY.format(n=totals['drug_only_leads']) if totals['drug_only_leads'] else ''})")
     slug = re.sub(r"[^a-z0-9]+", "-", json.dumps(filters, sort_keys=True).lower()).strip("-")[:60]
     summary_id = state.store.add(f"snapshot:discrepancies:{slug}", summary_title, REPO_DATA_URL,
                                  {**totals, "filters": filters, "method": "keyword rules (keyword_rules_v1), some rows hand_checked"})
     trials = []
     for row in rows["rows"]:
         registry_id = _add_trial(state, db.trial_record(row["nct_id"]) or {"nct_id": row["nct_id"], "title": row["title"]})
+        lead = row["decided_by"] != "hand_checked" and row.get("scope") != "this_trial"
         sec_id = state.store.add(f"sec:{row['accession']}", f"{row['sponsor']} {row.get('form') or '8-K'} filed {row['filed_date']}",
                                  row["filing_url"], {"accession": row["accession"], "form": row.get("form"), "filed_date": row["filed_date"],
                                                      "url": row["filing_url"], "snippet": row.get("snippet"), "sec_quote": row.get("sec_quote"),
                                                      "nct_id": row["nct_id"]})
+        if lead:  # first, so a prompt that trims a long record still shows it, even if the record was stored earlier
+            record = state.store.get(sec_id)
+            leads = sorted({*record.data.get("lead_for", []), row["nct_id"]})
+            rest = {k: v for k, v in record.data.items() if k not in ("caution", "lead_for")}
+            record.data = {"caution": drug_only_caution(leads), "lead_for": leads, **rest}
         trials.append({"nct_id": row["nct_id"], "sponsor": row["sponsor"], "title": row["title"], "status": row["overall_status"],
                        "registry_reason": row["registry_reason"], "registry_category": row["registry_category"],
                        "filed_date": str(row["filed_date"]), "accession": row["accession"], "sec_quote": row.get("sec_quote"),
                        "sec_categories": row.get("sec_categories"), "scope": row.get("scope"), "label": row["label"],
                        "decided_by": row["decided_by"], "strength": row.get("strength"), "rule": row.get("rule"),
-                       "registry_evidence_id": registry_id, "sec_evidence_id": sec_id, "source_url": row["filing_url"]})
+                       "registry_evidence_id": registry_id, "sec_evidence_id": sec_id, "source_url": row["filing_url"],
+                       **({"caution": drug_only_caution([row["nct_id"]])} if lead else {})})
     note = ("Labels come from keyword rules (decided_by keyword_rules_v1) unless decided_by is hand_checked. Before you report a "
             "rules label, read the filing with get_filing_excerpt and quote it. scope drug_program means the 8-K is about the drug, "
             "not necessarily this trial. A discrepancy is a difference between the registry and the 8-K, not proof of intent.")
