@@ -104,3 +104,35 @@ async def test_sql_that_only_names_the_table_in_a_string_still_runs():
     ctx = ToolContext(context=state, tool_name="query_trials_sql", tool_call_id="t1", tool_arguments=json.dumps(args))
     result = json.loads(await tools.query_trials_sql.on_invoke_tool(ctx, json.dumps(args)))
     assert "error" not in result and result["rows"][0]["row_count"] > 0
+
+
+def test_drug_only_rule_labels_are_marked_as_leads():
+    """A keyword-rule label on an 8-K that names only the drug (BMS's ELO-1 substudy) is a lead, and the count says how many."""
+    state = RunState("q")
+    state.store.add("sec:0000014272-20-000166", "BMS 8-K", "https://www.sec.gov/x", {"snippet": "x" * 3000})  # stored earlier, long
+    result = tools.discrepancy_rows(state, limit=20)
+    by_id = {t["nct_id"]: t for t in result["trials"]}
+    bms = by_id["NCT01891643"]
+    assert bms["decided_by"] == "keyword_rules_v1" and bms["scope"] == "drug_program" and "lead" in bms["caution"]
+    assert "caution" not in by_id["NCT03980730"], "a hand-checked row is not a lead"
+    record = state.store.get("sec:0000014272-20-000166")
+    assert next(iter(record.data)) == "caution", "caution comes first, so a trimmed record still shows it"
+    assert state.store.compact([record.evidence_id], max_chars=400).count("Keyword-rule lead for NCT01891643") == 1
+    assert record.data["lead_for"] == ["NCT01891643"]
+    assert result["drug_only_leads"] > 0
+    assert f"{result['drug_only_leads']} more are keyword-rule leads whose 8-K names only the drug" in result["summary"]
+    total = db.run_select("SELECT count(DISTINCT nct_id) AS n FROM discrepancies WHERE label = 'discrepancy'")["rows"][0]["n"]
+    assert result["hand_checked_trials"] + result["drug_only_leads"] < total, "trials whose 8-K names them are not leads"
+
+
+def test_a_shared_filing_names_only_the_lead_trials():
+    """Arrowhead's 2016 8-K is hand-checked for NCT02452528 but may be a rules lead for another ARC-520 trial."""
+    state = RunState("q")
+    result = tools.discrepancy_rows(state, sponsor="Arrowhead", limit=20)
+    hand = [t for t in result["trials"] if t["decided_by"] == "hand_checked"]
+    assert hand and all("caution" not in t for t in hand)
+    for t in hand:
+        caution = state.store.get(t["sec_evidence_id"]).data.get("caution", "")
+        assert t["nct_id"] not in caution, "a hand-checked trial is never named in a filing's caution"
+        if caution:
+            assert "says nothing about any other trial" in caution
