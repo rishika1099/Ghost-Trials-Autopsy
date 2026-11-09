@@ -42,7 +42,7 @@ grouped by agent.
 3. `Did Entero Therapeutics (formerly First Wave BioPharma) stop any phase 2 trials without posting results, and what reasons did it give?`
    Expected: three terminated trials with no posted results, two phase 2 (NCT04839575, NCT04243551) and one phase 1/2 (NCT03521232), each with a COVID-19 or enrollment reason; the nearby 8-Ks name the drugs but give no reason (details below).
 4. `Which stopped trials in the snapshot have an 8-K that gives a different reason than the registry? Start with the ones checked by hand.`
-   Expected: the hand-checked rows of the `discrepancies` table first (vTv's NCT03980730 among them: registry "business reasons", 8-K an efficacy failure), then the strongest model-judged ones.
+   Expected: 43 trials labelled discrepancy, 5 of them checked by hand: vTv NCT03980730, Allakos NCT05528861, Lilly NCT02227784 and Summit NCT04802837 (registry gives a business reason, the 8-K an efficacy failure) and Arrowhead NCT02452528 (registry "Company decision", the 8-K an FDA clinical hold after a primate toxicology study). 37 others are keyword-rule leads whose 8-K names only the drug, and the report says they are not confirmed.
 5. `Why do Alzheimer's trials fail?` Expected: **clarification**, no research (example below).
 6. `Did Sorrento Therapeutics break the law by not posting results for its terminated COVID-19 trials?`
    Expected: a **qualified answer**: the facts on record, and a plain statement that the data can't show a legal violation (example below).
