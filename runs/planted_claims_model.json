@@ -30,7 +30,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "date 2021-02-14 is in none of the cited records; model: The 8-K was filed on 2021-02-24, not 2021-02-14."
+      "reason": "date 2021-02-14 is in none of the cited records; model: The filing date was 2021-02-24, not 2021-02-14."
     },
     {
       "error": "wrong date",
@@ -56,7 +56,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "quote not in the cited records: \"failed to meet its primary objective\"; model: The quote in the record is \"did not meet its primary objective\"."
+      "reason": "quote not in the cited records: \"failed to meet its primary objective\"; model: The 8-K text is 'did not meet its primary objective', not 'failed to meet its primary objective'."
     },
     {
       "error": "misquote",
@@ -69,7 +69,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "quote not in the cited records: \"Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Missed Their Primary Endpoints\"; model: The quote in the record is \"Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Did Not Meet Their Primary Endpoints\"."
+      "reason": "quote not in the cited records: \"Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Missed Their Primary Endpoints\"; model: The announcement quote is 'Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Did Not Meet Their Primary Endpoints'."
     },
     {
       "error": "misquote",
@@ -82,7 +82,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "quote not in the cited records: \"Strategic business decision\"; model: The registry quote is \"Business decision\" rather than \"Strategic business decision\"."
+      "reason": "quote not in the cited records: \"Strategic business decision\"; model: The reason given in the registry is 'Business decision'."
     },
     {
       "error": "overreach",
@@ -96,7 +96,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "overreaching word \"hid\": a mismatch is a discrepancy, not proof of intent or illegality; model: The claim uses the overreaching word \"hid\" to describe a discrepancy."
+      "reason": "overreaching word \"hid\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word 'hid' is not supported by the evidence."
     },
     {
       "error": "overreach",
@@ -110,7 +110,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "overreaching word \"misled\": a mismatch is a discrepancy, not proof of intent or illegality; model: The claim uses the overreaching word \"misled\" to describe a discrepancy."
+      "reason": "overreaching word \"misled\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word 'misled' is not supported by the evidence."
     },
     {
       "error": "overreach",
@@ -123,7 +123,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "overreaching word \"withheld\": a mismatch is a discrepancy, not proof of intent or illegality; model: The claim uses the overreaching word \"withheld\" to describe unposted results."
+      "reason": "overreaching word \"withheld\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word 'withheld' is not supported by the evidence."
     },
     {
       "error": "wrong status and reason",
@@ -136,7 +136,7 @@
       "action": "fixed",
       "by": "model",
       "caught": true,
-      "reason": "model: The trial was terminated due to slow enrollment rather than withdrawn due to safety."
+      "reason": "model: The trial was terminated due to slow enrollment, not withdrawn for safety."
     },
     {
       "text": "NCT05065411 was terminated, and its registry reason is \"Business decision\".",
