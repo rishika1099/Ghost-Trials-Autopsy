@@ -6,6 +6,8 @@ POST /chat     the Project 1 request and response shape: {message, session_id} -
                Every tool call from every agent is in tool_calls, each with an `agent` field.
 GET  /run      the same research, streamed as Server-Sent Events for the page's live trace.
 GET  /health   200 and the snapshot date.
+GET  /api/ledger (with the sponsor leaderboard), /api/differ, /api/sponsors?q=, /api/sponsor?name=
+               instant views of the snapshot for the page's Explore section (SQL only, no model calls).
 """
 
 import asyncio
@@ -13,14 +15,15 @@ import json
 import os
 import time
 import uuid
+from functools import lru_cache
 from pathlib import Path
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
-from ghost import db
+from ghost import db, explore
 from ghost.pipeline import investigate
 
 HERE = Path(__file__).parent
@@ -80,6 +83,47 @@ def meta():
     except db.SnapshotMissing:
         tables = []
     return {"snapshot_date": db.snapshot_date(), "tables": tables}
+
+
+# The snapshot is read-only, so the whole-snapshot views are computed once per process.
+@lru_cache(maxsize=1)
+def _ledger():
+    return {**explore.ledger(), "leaderboard": explore.leaderboard()}
+
+
+@lru_cache(maxsize=1)
+def _differ():
+    return explore.differ_wall()
+
+
+def _snapshot_or_503(fn, *args):
+    try:
+        return fn(*args)
+    except db.SnapshotMissing as e:
+        raise HTTPException(503, str(e))
+
+
+@app.get("/api/ledger")
+def api_ledger():
+    return _snapshot_or_503(_ledger)
+
+
+@app.get("/api/differ")
+def api_differ():
+    return _snapshot_or_503(_differ)
+
+
+@app.get("/api/sponsors")
+def api_sponsors(q: str = ""):
+    return {"sponsors": _snapshot_or_503(explore.sponsor_search, q[:120])}
+
+
+@app.get("/api/sponsor")
+def api_sponsor(name: str):
+    card = _snapshot_or_503(explore.sponsor_card, name[:200])
+    if card is None:
+        raise HTTPException(404, f"No sponsor in the snapshot matches {name[:80]!r}.")
+    return card
 
 
 @app.post("/chat", response_model=ChatResponse)
