@@ -3,7 +3,7 @@
   "findings": {
     "findings": [
       {
-        "claim": "Trial NCT02522598 sponsored by Vivozon is a Phase 2 trial with an overall status of COMPLETED.",
+        "claim": "Trial NCT02522598 has an overall status of COMPLETED.",
         "evidence_ids": [
           "ctgov:NCT02522598"
         ],
@@ -11,15 +11,15 @@
         "notes": "Confirmed via snapshot and live ClinicalTrials.gov record."
       },
       {
-        "claim": "The trial has no stated why_stopped reason because the trial was completed rather than stopped.",
+        "claim": "Trial NCT02522598 has a blank why_stopped reason since it was completed rather than stopped.",
         "evidence_ids": [
           "ctgov:NCT02522598"
         ],
         "confidence": "high",
-        "notes": "why_stopped is null and why_stopped_category is blank."
+        "notes": "Registry records why_stopped as null and why_stopped_category as blank."
       },
       {
-        "claim": "Results were never posted on ClinicalTrials.gov for trial NCT02522598.",
+        "claim": "Results were never posted for trial NCT02522598 on ClinicalTrials.gov.",
         "evidence_ids": [
           "ctgov:NCT02522598"
         ],
@@ -27,7 +27,7 @@
         "notes": "results_posted is false and results_first_post_date is null."
       },
       {
-        "claim": "Trial NCT02522598 started in August 2015, had a primary completion date of February 2016, and completion date of February 2016.",
+        "claim": "Trial NCT02522598 started in August 2015, with primary completion and completion in February 2016, and enrolled 38 participants.",
         "evidence_ids": [
           "ctgov:NCT02522598"
         ],
@@ -35,42 +35,18 @@
         "notes": "Dates have month precision."
       },
       {
-        "claim": "Enrollment for trial NCT02522598 was 38 participants.",
+        "claim": "Trial NCT02522598 has a results_due_date of January 31, 2017 and is overdue (3565 days late).",
         "evidence_ids": [
           "ctgov:NCT02522598"
         ],
         "confidence": "high",
-        "notes": ""
-      },
-      {
-        "claim": "The results due date for trial NCT02522598 was January 31, 2017, and it is past due.",
-        "evidence_ids": [
-          "ctgov:NCT02522598"
-        ],
-        "confidence": "high",
-        "notes": ""
-      },
-      {
-        "claim": "No Drugs@FDA application was found for Vivozon or VVZ-149.",
-        "evidence_ids": [
-          "fda:none:vivozon",
-          "fda:none:vvz-149"
-        ],
-        "confidence": "high",
-        "notes": ""
+        "notes": "Calculated days late in the snapshot data."
       }
     ],
     "gaps": []
   },
   "problems": [],
   "tool_calls": [
-    {
-      "name": "get_fda_approvals",
-      "args": {
-        "drug_name": "Vivozon"
-      },
-      "result": "0 applications (No Drugs@FDA application found for this name. Cite fda:none:vivozon for that.)"
-    },
     {
       "name": "get_trial_live",
       "args": {
@@ -84,13 +60,6 @@
         "sql": "SELECT t.nct_id, t.title, t.sponsor, t.phase, t.overall_status, t.why_stopped, d.why_stopped_category, t.start_date, t.primary_completion_date, t.completion_date, t.enrollment, d.results_posted, t.results_first_post_date, d.results_due_date, d.days_late FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = 'NCT02522598'"
       },
       "result": "1 rows, 1 evidence ids"
-    },
-    {
-      "name": "get_fda_approvals",
-      "args": {
-        "drug_name": "VVZ-149"
-      },
-      "result": "0 applications (No Drugs@FDA application found for this name. Cite fda:none:vvz-149 for that.)"
     }
   ]
 }

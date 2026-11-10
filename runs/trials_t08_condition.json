@@ -3,20 +3,20 @@
   "findings": {
     "findings": [
       {
-        "claim": "There are 27 stopped industry Phase 2 Alzheimer's disease trials in the snapshot.",
+        "claim": "There are 27 industry-sponsored phase 2 Alzheimer's disease trials that stopped (terminated, withdrawn, or suspended) in the snapshot.",
         "evidence_ids": [
-          "sql:749048b6"
+          "sql:18181cf2"
         ],
         "confidence": "high",
-        "notes": "Includes terminated, withdrawn, or suspended industry trials with Alzheimer's disease in conditions."
+        "notes": "Includes trials where sponsor_class is INDUSTRY, phase is PHASE2, condition matches Alzheimer's, and derived stopped is true."
       },
       {
-        "claim": "Breakdown of stopped industry Phase 2 Alzheimer's disease trials by why_stopped_category: 7 efficacy, 5 blank, 5 business/strategic, 4 enrollment, 3 other, 3 safety.",
+        "claim": "Breakdown of stopped industry phase 2 Alzheimer's trials by why_stopped_category: 7 efficacy, 5 blank, 5 business/strategic, 4 enrollment, 3 safety, and 3 other.",
         "evidence_ids": [
-          "sql:9f4d3194"
+          "sql:27d37a82"
         ],
         "confidence": "high",
-        "notes": "Snapshot scope covers industry-sponsored interventional phase 2/3 trials with primary completion between 2015 and 2023."
+        "notes": "Categories are derived from the registry why_stopped text."
       }
     ],
     "gaps": []
@@ -26,21 +26,48 @@
     {
       "name": "query_trials_sql",
       "args": {
-        "sql": "SELECT count(*) AS total_stopped, count(CASE WHEN d.why_stopped_category IS NULL THEN 1 END) AS blank_reason FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%'"
+        "sql": "SELECT count(*) AS total_stopped, count(CASE WHEN d.why_stopped_category = 'lack of efficacy' THEN 1 END) AS lack_of_efficacy, count(CASE WHEN d.why_stopped_category = 'safety' THEN 1 END) AS safety, count(CASE WHEN d.why_stopped_category = 'business' THEN 1 END) AS business, count(CASE WHEN d.why_stopped_category = 'feasibility' THEN 1 END) AS feasibility, count(CASE WHEN d.why_stopped_category = 'unknown' THEN 1 END) AS unknown FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND t.funder_type = 'INDUSTRY' AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' AND d.stopped"
       },
-      "result": "1 rows, 1 evidence ids"
+      "result": "error: Binder Error: Table \"t\" does not have a column named \"funder_type\"\n\nCandidate bindings: : \"phase\"\n\nLINE 1: ... trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND t.funder_"
+    },
+    {
+      "name": "read_mappings",
+      "args": {},
+      "result": "[{\"table\": \"trials\", \"description\": \"One row per trial from ClinicalTrials.gov: industry-sponsored, interventional, phase 2 or 3, primary completion 2015 to 2023.\", \"columns\": [{\"name\": \"nct_id\", \"typ"
     },
     {
       "name": "query_trials_sql",
       "args": {
-        "sql": "SELECT d.why_stopped_category, count(*) AS count FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND d.stopped AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' GROUP BY 1 ORDER BY count DESC"
+        "sql": "SELECT count(*) AS total_stopped, count(CASE WHEN d.why_stopped_category = 'lack of efficacy' THEN 1 END) AS lack_of_efficacy, count(CASE WHEN d.why_stopped_category = 'safety' THEN 1 END) AS safety, count(CASE WHEN d.why_stopped_category = 'business' THEN 1 END) AS business, count(CASE WHEN d.why_stopped_category = 'feasibility' THEN 1 END) AS feasibility, count(CASE WHEN d.why_stopped_category = 'unknown' THEN 1 END) AS unknown FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND t.sponsor_class = 'INDUSTRY' AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' AND d.stopped"
+      },
+      "result": "1 rows, 1 evidence ids"
+    },
+    {
+      "name": "get_enum_values",
+      "args": {
+        "column": "why_stopped_category",
+        "table": "trial_derived"
+      },
+      "result": "{\"table\": \"trial_derived\", \"column\": \"why_stopped_category\", \"enum_values\": [\"blank\", \"business/strategic\", \"efficacy\", \"enrollment\", \"other\", \"safety\"]}"
+    },
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT d.why_stopped_category, count(*) AS n FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND t.sponsor_class = 'INDUSTRY' AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' AND d.stopped GROUP BY 1 ORDER BY n DESC"
       },
       "result": "6 rows, 1 evidence ids"
     },
     {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT count(*) AS total FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.phase = 'PHASE2' AND t.sponsor_class = 'INDUSTRY' AND array_to_string(t.conditions, ' ') ILIKE '%alzheimer%' AND d.stopped"
+      },
+      "result": "1 rows, 1 evidence ids"
+    },
+    {
       "name": "get_snapshot_stats",
       "args": {},
-      "result": "snapshot stats: {\"trials\": 16473, \"stopped\": 3739, \"pct_stopped_blank_reason\": 9.7, \"stopped_never_enrolled\": 834, \"pct_stopped_no_results\": 30.9, \"pct_completed_no_results\": 31.7, \"pct_stopped_with_publication\": 81."
+      "result": "snapshot stats: {\"trials\": 16473, \"stopped\": 3739, \"pct_stopped_blank_reason\": 9.7, \"stopped_never_enrolled\": 834, \"pct_stopped_no_results\": 30.9, \"pct_completed_no_results\": 31.7, \"pct_stopped_with_publication\": 21."
     }
   ]
 }

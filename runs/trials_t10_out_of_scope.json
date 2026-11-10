@@ -3,36 +3,60 @@
   "findings": {
     "findings": [
       {
-        "claim": "Trial NCT05824559 (MEI Pharma) overall status is TERMINATED.",
+        "claim": "Trial NCT05824559 status is TERMINATED.",
         "evidence_ids": [
           "ctgov:NCT05824559"
         ],
         "confidence": "high",
-        "notes": "Trial is outside snapshot scope, retrieved live."
+        "notes": "Trial is outside the snapshot scope, verified live."
       },
       {
-        "claim": "Trial NCT05824559 why_stopped text is: \"Company decision to wind down operations, close all clinical programs and evaluate strategic options\"",
+        "claim": "Trial NCT05824559 why_stopped is \"Company decision to wind down operations, close all clinical programs and evaluate strategic options\".",
         "evidence_ids": [
           "ctgov:NCT05824559"
         ],
         "confidence": "high",
-        "notes": "Live record from ClinicalTrials.gov."
+        "notes": "Verified live."
       },
       {
-        "claim": "Results were posted for trial NCT05824559 on ClinicalTrials.gov with results_first_post_date November 21, 2024.",
+        "claim": "Trial NCT05824559 results were posted on ClinicalTrials.gov on November 21, 2024.",
         "evidence_ids": [
           "ctgov:NCT05824559"
         ],
         "confidence": "high",
-        "notes": "Live record from ClinicalTrials.gov."
+        "notes": "Verified live."
       },
       {
-        "claim": "Trial NCT05824559 start date was August 7, 2023, primary completion date was July 9, 2024, and completion date was July 23, 2024, with an enrollment of 23.",
+        "claim": "Trial NCT05824559 start date was August 7, 2023.",
         "evidence_ids": [
           "ctgov:NCT05824559"
         ],
         "confidence": "high",
-        "notes": "Live record from ClinicalTrials.gov."
+        "notes": "Verified live."
+      },
+      {
+        "claim": "Trial NCT05824559 primary completion date was July 9, 2024.",
+        "evidence_ids": [
+          "ctgov:NCT05824559"
+        ],
+        "confidence": "high",
+        "notes": "Verified live."
+      },
+      {
+        "claim": "Trial NCT05824559 completion date was July 23, 2024.",
+        "evidence_ids": [
+          "ctgov:NCT05824559"
+        ],
+        "confidence": "high",
+        "notes": "Verified live."
+      },
+      {
+        "claim": "Trial NCT05824559 enrollment was 23 patients.",
+        "evidence_ids": [
+          "ctgov:NCT05824559"
+        ],
+        "confidence": "high",
+        "notes": "Verified live."
       },
       {
         "claim": "ME-344 has no FDA approvals found in Drugs@FDA.",

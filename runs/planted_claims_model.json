@@ -56,7 +56,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "quote not in the cited records: \"failed to meet its primary objective\"; model: The 8-K text is 'did not meet its primary objective', not 'failed to meet its primary objective'."
+      "reason": "quote not in the cited records: \"failed to meet its primary objective\"; model: The record says did not meet its primary objective, not failed to meet its primary objective."
     },
     {
       "error": "misquote",
@@ -69,7 +69,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "quote not in the cited records: \"Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Missed Their Primary Endpoints\"; model: The announcement quote is 'Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Did Not Meet Their Primary Endpoints'."
+      "reason": "quote not in the cited records: \"Phase 2 Lirentelimab Trials in Atopic Dermatitis and Chronic Spontaneous Urticaria Missed Their Primary Endpoints\"; model: The record says Did Not Meet Their Primary Endpoints instead of Missed Their Primary Endpoints."
     },
     {
       "error": "misquote",
@@ -82,7 +82,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "quote not in the cited records: \"Strategic business decision\"; model: The reason given in the registry is 'Business decision'."
+      "reason": "quote not in the cited records: \"Strategic business decision\"; model: The record lists the reason as Business decision, not Strategic business decision."
     },
     {
       "error": "overreach",
@@ -96,7 +96,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "overreaching word \"hid\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word 'hid' is not supported by the evidence."
+      "reason": "overreaching word \"hid\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word hid is not supported."
     },
     {
       "error": "overreach",
@@ -110,7 +110,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "overreaching word \"misled\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word 'misled' is not supported by the evidence."
+      "reason": "overreaching word \"misled\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word misled is not supported."
     },
     {
       "error": "overreach",
@@ -123,7 +123,7 @@
       "action": "fixed",
       "by": "rules+model",
       "caught": true,
-      "reason": "overreaching word \"withheld\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word 'withheld' is not supported by the evidence."
+      "reason": "overreaching word \"withheld\": a mismatch is a discrepancy, not proof of intent or illegality; model: The word withheld is not supported."
     },
     {
       "error": "wrong status and reason",
@@ -136,7 +136,7 @@
       "action": "fixed",
       "by": "model",
       "caught": true,
-      "reason": "model: The trial was terminated due to slow enrollment, not withdrawn for safety."
+      "reason": "model: The registry lists the status as terminated and the reason as slow enrollment, not withdrawn for safety concerns."
     },
     {
       "text": "NCT05065411 was terminated, and its registry reason is \"Business decision\".",

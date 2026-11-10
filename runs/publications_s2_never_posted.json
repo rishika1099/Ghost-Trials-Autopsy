@@ -1,0 +1,39 @@
+{
+  "brief": "Publications for Sorrento Therapeutics trial NCT04903327 (COVI-MSC, phase 2, terminated for slow enrollment; primary completion 2022-08-29; results never posted to the registry). Was a paper reporting its results ever published?",
+  "findings": {
+    "findings": [
+      {
+        "claim": "No results publication found for Sorrento Therapeutics trial NCT04903327 (COVI-MSC).",
+        "evidence_ids": [
+          "pubmed:none:nct04903327"
+        ],
+        "confidence": "high",
+        "notes": "No results publication found in snapshot or PubMed. Five articles were found that only mention the trial (mention_only), consisting of reviews and background papers."
+      },
+      {
+        "claim": "Five articles mention trial NCT04903327 in Europe PMC/PubMed: PMID 34831101 (Cells, 2021-10-25), PMID 35321737 (Stem cell research & therapy, 2022-03-24), PMID 35782071 (BioMed research international, 2022-06-22), PMID 35897770 (International journal of molecular sciences, 2022-07-25), and PMID 38005826 (Viruses, 2023-10-25). All have link_strength mention_only.",
+        "evidence_ids": [
+          "pubmed:34831101",
+          "pubmed:35321737",
+          "pubmed:35782071",
+          "pubmed:35897770",
+          "pubmed:38005826"
+        ],
+        "confidence": "high",
+        "notes": "These are reviews or background articles mentioning the trial ID, not results publications."
+      }
+    ],
+    "gaps": []
+  },
+  "problems": [],
+  "tool_calls": [
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04903327",
+        "drug_name": "COVI-MSC"
+      },
+      "result": "5 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct04903327 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
+    }
+  ]
+}
