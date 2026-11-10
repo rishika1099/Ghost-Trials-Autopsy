@@ -244,6 +244,75 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 .sig-wrap { display: flex; align-items: center; gap: 10px; }
 .sig-wrap .dd { width: 38px; height: 38px; }
 @media (max-width: 640px) { .cases-head .dd { display: none; } .corner-dd { transform: none !important; right: -6px !important; width: 54px !important; height: 54px !important; } .step { transform: none; } }
+
+/* explore: instant views of the snapshot */
+.explore { margin: 10px 0 40px; }
+.explore .filehead .mono { color: var(--pencil); }
+.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 20px; }
+.tabs button { border: var(--stroke) solid var(--ink); background: var(--card); padding: 3px 14px; border-radius: var(--radius-control); cursor: pointer;
+  font: 700 15.5px "Shantell Sans", cursive; box-shadow: 2px 2px 0 var(--ink); transition: transform var(--motion), box-shadow var(--motion); }
+.tabs button:hover { box-shadow: 1px 1px 0 var(--ink); }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--card); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 16px; margin: 4px 0 26px; }
+.tile { background: var(--sticky); padding: 12px 14px 10px; box-shadow: 0 8px 14px -12px rgba(0, 0, 0, .45); border-bottom: 1px solid var(--sticky-edge); }
+.tile:nth-child(odd) { transform: rotate(-.8deg); } .tile:nth-child(even) { transform: rotate(.7deg); }
+.tile b { display: block; font: 700 clamp(24px, 3.2vw, 31px)/1.1 "Shantell Sans", cursive; color: var(--red); }
+.tile span { display: block; font-size: 13.5px; line-height: 1.4; color: var(--ink2); margin-top: 4px; }
+.explore h4 { font: 700 18.5px/1.2 "Shantell Sans", cursive; color: var(--blue); margin: 26px 0 4px; }
+.explore .sub { font-size: 13.5px; color: var(--pencil); margin: 0 0 10px; }
+.insight { font: 16.5px/1.5 "Shantell Sans", cursive; border-left: 3px solid var(--red); padding: 2px 0 2px 12px; margin: 10px 0 0; }
+.hbars { display: grid; gap: 7px; }
+.hbar { display: grid; grid-template-columns: 128px minmax(0, 1fr) 92px; gap: 8px; align-items: center; font-size: 13.5px; }
+.hbar .track2 { height: 15px; background: var(--grid); border-radius: 3px 8px 4px 9px; overflow: hidden; }
+.hbar .fill { height: 100%; background: var(--blue); border-radius: 3px 8px 4px 9px; opacity: .85; }
+.hbar .fill.hot { background: var(--red); }
+.hbar .fill.base { background: var(--pencil); }
+.hbar .v { font: 12.5px "DM Mono", monospace; color: var(--ink2); text-align: right; }
+@media (max-width: 640px) { .hbar { grid-template-columns: 96px minmax(0, 1fr) 76px; font-size: 12.5px; } }
+.yearchart svg { width: 100%; height: auto; display: block; }
+.yearchart text { font: 11px "Shantell Sans", sans-serif; fill: var(--pencil); }
+.yearchart .lbl { font: 700 12px "Shantell Sans", cursive; }
+.board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px 30px; }
+@media (max-width: 720px) { .board { grid-template-columns: minmax(0, 1fr); } }
+.board ol { list-style: none; margin: 0; padding: 0; }
+.board li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 5px 0; border-bottom: 1px dashed var(--rule); font-size: 14px; align-items: baseline; }
+.linkish { border: 0; background: none; padding: 0; cursor: pointer; color: var(--blue); text-align: left; font: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.caveat { font-size: 13px; color: var(--ink2); background: var(--red-soft); padding: 8px 12px; margin: 12px 0 0; border-radius: 3px; }
+details.how { margin-top: 22px; font-size: 13.5px; color: var(--ink2); }
+details.how summary { cursor: pointer; font: 700 14.5px "Shantell Sans", cursive; color: var(--blue); }
+details.how dl { margin: 8px 0 0; } details.how dt { font-weight: 700; color: var(--ink); } details.how dd { margin: 0 0 6px; }
+.sform { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 16px; }
+.sform input { flex: 1 1 240px; min-width: 0; border: 0; border-bottom: 2px solid var(--ink); background: transparent; color: var(--ink); outline: 0; font: 19px "Shantell Sans", cursive; padding: 4px 2px; }
+.sform input:focus-visible { outline: 2px dashed var(--blue); outline-offset: 4px; }
+.pill-btn { border: var(--stroke) solid var(--red); color: var(--red); background: var(--card); padding: 2px 16px; font: 700 16px "Shantell Sans", cursive; cursor: pointer;
+  border-radius: var(--radius-control); box-shadow: 2px 2px 0 var(--red); transition: box-shadow var(--motion), transform var(--motion); }
+.pill-btn:hover { box-shadow: 1px 1px 0 var(--red); }
+.pill-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+.pill-btn.blue { border-color: var(--blue); color: var(--blue); box-shadow: 2px 2px 0 var(--blue); }
+.suggest { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.chip { display: inline-block; font: 12.5px/1.5 "Shantell Sans", sans-serif; padding: 0 8px; border: 1px solid var(--pencil); border-radius: 10px; margin: 2px 4px 0 0; color: var(--ink2); background: var(--card); }
+.chip.red { border-color: var(--red); color: var(--red); } .chip.ok { border-color: var(--blue); color: var(--blue); }
+button.chip { cursor: pointer; }
+.card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; }
+.card-head h4 { margin: 4px 0; font-size: 24px; color: var(--ink); }
+.trows { list-style: none; padding: 0; margin: 0; }
+.trows li { padding: 9px 0; border-bottom: 1px dashed var(--rule); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; }
+.trows .tt { font: 14.5px/1.4 "Nunito", system-ui, sans-serif; }
+.trows .tt a { font-weight: 700; }
+.trows .why2 { display: block; font: 13.5px "Shantell Sans", cursive; color: var(--ink2); margin-top: 2px; }
+.gobtn { border: 0; background: none; color: var(--blue); cursor: pointer; font: 700 14.5px "Shantell Sans", cursive; white-space: nowrap; padding: 2px 0; }
+.gobtn:hover { color: var(--red); }
+.walls { display: grid; gap: 18px; }
+.wcard { background: var(--card); border: var(--stroke) solid var(--ink); border-radius: var(--radius-control); box-shadow: 3px 3px 0 var(--ink); padding: 14px 16px 10px; min-width: 0; }
+.wcard .card-head { font-size: 13.5px; }
+.vs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px 20px; margin: 10px 0 6px; }
+@media (max-width: 640px) { .vs { grid-template-columns: minmax(0, 1fr); } }
+.said { border-left: 3px solid var(--blue); padding: 0 0 0 10px; font: 15px/1.5 "Shantell Sans", cursive; word-break: break-word; }
+.said.inv { border-color: var(--red); }
+.said small { display: block; font: 12px "Shantell Sans", sans-serif; color: var(--pencil); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+.report-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+@media (max-width: 640px) { .tile { transform: none !important; } }
+@media (prefers-reduced-motion: reduce) { .tile { transform: none !important; } }
 </style>
 </head>
 <body>
@@ -267,6 +336,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
 <div class="mast"><div class="wrap"><div class="row">
   <span class="no">Lab notebook</span>
   <nav>
+    <a href="#explore">browse the ledger ↓</a>
     <span>sources:</span>
     <a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov</a>
     <a href="https://efts.sec.gov/LATEST/search-index" target="_blank" rel="noopener">SEC EDGAR</a>
@@ -287,7 +357,7 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
     <div class="qcard">
       <h2>What we check, every case</h2>
       <svg class="dd " style="position:absolute;top:12px;right:14px;width:40px;height:50px;transform:rotate(12deg)" aria-hidden="true"><use href="#d-dna" filter="url(#rough)"/><use href="#d-dna" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
-      <svg class="dd blue corner-dd" style="bottom:-34px;right:-22px;width:70px;height:70px;transform:rotate(-10deg)" aria-hidden="true"><use href="#d-mag" filter="url(#rough)"/><use href="#d-mag" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+      <svg class="dd blue corner-dd" style="bottom:-34px;right:-4px;width:64px;height:64px;transform:rotate(-10deg)" aria-hidden="true"><use href="#d-mag" filter="url(#rough)"/><use href="#d-mag" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
       <ol>
         <li><span class="box"></span><div><b>Why did it stop?</b><small>The status and reason the sponsor gave the registry</small></div></li>
         <li><span class="box"></span><div><b>Were the results ever shared?</b><small>Posted on ClinicalTrials.gov, published in a journal, and how late</small></div></li>
@@ -333,6 +403,25 @@ body::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(ma
       <svg class="dd blue" style="width:52px;height:52px;margin:14px 6px 0 auto;transform:rotate(-8deg)" aria-hidden="true"><use href="#d-flask" filter="url(#rough)"/><use href="#d-flask" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
     </aside>
   </main>
+
+  <section class="explore" id="explore">
+    <div class="step" aria-hidden="true"><span class="num">5</span><span class="txt">no time to wait? browse the whole snapshot, instantly</span><svg viewBox="0 0 58 40"><path d="M4 8 C 24 2, 42 8, 46 30 M38 24 L46 33 L53 23"/></svg></div>
+    <div class="file">
+      <svg class="dd blue corner-dd" style="top:-28px;right:-6px;width:64px;height:64px;transform:rotate(-8deg)" aria-hidden="true"><use href="#d-docs" filter="url(#rough)"/><use href="#d-docs" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
+      <div class="filehead"><span class="sect">The ghost ledger</span><span class="mono">no AI on this card: straight from the snapshot</span></div>
+      <div class="tabs" role="tablist" aria-label="Explore the snapshot">
+        <button role="tab" id="t-ledger" aria-controls="tab-ledger" aria-selected="true" data-tab="ledger">Who goes silent</button>
+        <button role="tab" id="t-sponsor" aria-controls="tab-sponsor" aria-selected="false" data-tab="sponsor">Sponsor report card</button>
+        <button role="tab" id="t-differ" aria-controls="tab-differ" aria-selected="false" data-tab="differ">Stories that differ</button>
+      </div>
+      <div id="tab-ledger" role="tabpanel" aria-labelledby="t-ledger"><p class="waiting">Counting the ghosts...</p></div>
+      <div id="tab-sponsor" role="tabpanel" aria-labelledby="t-sponsor" hidden>
+        <form id="sform" class="sform"><input id="sq" list="slist" placeholder="a sponsor, e.g. Arrowhead or Sorrento" autocomplete="off" aria-label="Sponsor name"><datalist id="slist"></datalist><button class="pill-btn" type="submit">Look up</button></form>
+        <div id="scard"><p class="waiting">Type a company name for its record: how many trials it stopped, how many went silent, how it compares with every other sponsor, and whether its investor filings told a different story.</p></div>
+      </div>
+      <div id="tab-differ" role="tabpanel" aria-labelledby="t-differ" hidden><p class="waiting">Loading...</p></div>
+    </div>
+  </section>
 </div>
 
 <div class="wrap"><p class="closing">Patients took the risk. The results should exist.</p><svg class="ecg" viewBox="0 0 560 46" preserveAspectRatio="none" aria-hidden="true"><path d="M2 26h70l8-14 10 26 12-34 9 22h40l6-8 8 8h60l8-14 10 26 12-34 9 22H558" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -353,7 +442,7 @@ const EXAMPLES = [
 const AGENT_NAMES = {lead: "Lead", writer: "Writer", checker: "Citation Checker"};
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
-let sessionId = null, source = null, timer = null, started = 0, state;
+let sessionId = null, source = null, timer = null, started = 0, state, lastQuestion = "";
 
 function reset() {
   state = {agents: {}, timings: {}, calls: [], now: 0, done: false};
@@ -388,6 +477,7 @@ function waiting(html) { $("report").innerHTML = `<p class="waiting">${html}</p>
 function ask(text) {
   const question = (text ?? $("q").value).trim();
   if (!question) return;
+  lastQuestion = question;
   if (source) source.close();
   reset();
   $("go").disabled = true;
@@ -541,7 +631,16 @@ function drawReport(e) {
     <div class="sticky"><h3>What the records can't tell us</h3><ul>${r.cant_tell.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
     <h3>Sources</h3><div class="sources"><ol>${e.sources.map(s => `<li id="src-${s.n}"><span class="sn">${s.n}</span><div>
       <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a><span class="st">${esc(s.source_type)} · <span class="mono">${esc(s.evidence_id)}</span></span></div></li>`).join("")}</ol></div>
-    <div class="foot">${e.trace.rounds} research round${e.trace.rounds === 1 ? "" : "s"} · ${e.checker.citations_checked} citations checked, ${e.checker.removed} claims cut · ${e.trace.elapsed_s} s</div>`;
+    <div class="foot">${e.trace.rounds} research round${e.trace.rounds === 1 ? "" : "s"} · ${e.checker.citations_checked} citations checked, ${e.checker.removed} claims cut · ${e.trace.elapsed_s} s</div>
+    <div class="report-actions"><button class="pill-btn blue" id="share">Copy a link to this case</button><button class="pill-btn blue" id="dl">Download the case notes (.md)</button></div>`;
+  const question = lastQuestion;
+  $("share").onclick = () => copyText(shareUrl({q: question}), $("share"));
+  $("dl").onclick = () => {
+    const md = `# Ghost Trials Autopsy case notes\n\nQuestion: ${question}\n\n${e.markdown || ""}\n\nSnapshot ${$("snap").textContent || ""}\n${location.origin}\n`;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([md], {type: "text/markdown"}));
+    a.download = "ghost-trials-case.md"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
   $("report").querySelectorAll(".cite").forEach(b => b.onclick = () => {
     const li = $("src-" + b.dataset.n); if (!li) return;
     document.querySelectorAll(".sources li.hit").forEach(x => x.classList.remove("hit"));
@@ -550,6 +649,181 @@ function drawReport(e) {
   });
 }
 reset();
+
+// Sharing: ?q= opens a case, ?sponsor= opens a report card.
+function shareUrl(params) { return location.origin + location.pathname + "?" + new URLSearchParams(params) + (params.sponsor ? "#explore" : ""); }
+function copyText(text, btn) {
+  const done = () => { const old = btn.textContent; btn.textContent = "Link copied"; setTimeout(() => btn.textContent = old, 1600); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => prompt("Copy this link:", text));
+  else prompt("Copy this link:", text);
+}
+function runCase(question) {
+  sessionId = null; $("q").value = question; fitQuestion(); ask(question);
+  document.querySelector(".desk").scrollIntoView({behavior: "smooth"});
+}
+
+// Explore: instant views of the snapshot, no model calls.
+const fmt = (n) => n == null ? "?" : Number(n).toLocaleString();
+const pct = (n) => n == null ? "?" : `${Math.round(n)}%`;
+const REASON = {"business/strategic": "business or strategy", efficacy: "the drug didn't work", enrollment: "too few patients", safety: "safety", other: "other", blank: "no reason given"};
+const ctgov = (id) => `https://clinicaltrials.gov/study/${encodeURIComponent(id)}`;
+let ledgerData = null, differData = null, differFilter = "all";
+
+function showTab(name) {
+  document.querySelectorAll(".tabs [role=tab]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === name)));
+  for (const t of ["ledger", "sponsor", "differ"]) $("tab-" + t).hidden = t !== name;
+  if (name === "differ" && !differData) loadDiffer();
+}
+document.querySelector(".tabs").addEventListener("click", (ev) => { const b = ev.target.closest("[data-tab]"); if (b) showTab(b.dataset.tab); });
+
+function hbars(rows, max, hotIndex) {
+  return `<div class="hbars">${rows.map((r, i) => `<div class="hbar"><span>${esc(r.label)}</span>
+    <div class="track2" title="${esc(r.title || "")}"><div class="fill ${r.cls || (i === hotIndex ? "hot" : "")}" style="width:${Math.max(1, 100 * (r.value || 0) / max)}%"></div></div>
+    <span class="v">${esc(r.text)}</span></div>`).join("")}</div>`;
+}
+
+function yearChart(rows) {
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const W = 640, H = 210, L = 40, R = W - 110, T = 16, B = H - 30;
+  const vals = rows.flatMap(r => [r.pct_stopped_posted, r.pct_completed_posted]).filter(v => v != null);
+  const lo = Math.floor((Math.min(...vals) - 5) / 10) * 10, hi = Math.ceil((Math.max(...vals) + 5) / 10) * 10;
+  const x = (i) => L + (R - L) * i / Math.max(1, rows.length - 1), y = (v) => B - (B - T) * (v - lo) / (hi - lo);
+  let grid = "";
+  for (let v = lo; v <= hi; v += 10) grid += `<line x1="${L}" x2="${R}" y1="${y(v)}" y2="${y(v)}" stroke="${css("--rule")}" stroke-dasharray="3 3"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}%</text>`;
+  const years = rows.map((r, i) => `<text x="${x(i)}" y="${B + 18}" text-anchor="middle">${r.year}</text>`).join("");
+  const line = (key, color, name) => {
+    const pts = rows.map((r, i) => [x(i), y(r[key])]);
+    const last = pts[pts.length - 1];
+    return `<polyline points="${pts.map(p => p.join(",")).join(" ")}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" filter="url(#rough)"/>
+      ${pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="${css("--card")}" stroke="${color}" stroke-width="1.8"><title>${rows[i].year}: ${pct(rows[i][key])} of ${name} trials posted results</title></circle>`).join("")}
+      <text class="lbl" x="${last[0] + 10}" y="${last[1] + 4}" fill="${color}" style="fill:${color}">${name}</text>`;
+  };
+  return `<div class="yearchart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Share of trials with results posted, by year of primary completion, stopped versus completed">
+    ${grid}${years}${line("pct_completed_posted", css("--blue"), "completed")}${line("pct_stopped_posted", css("--red"), "stopped")}</svg></div>`;
+}
+
+function drawLedger(d) {
+  const h = d.headline, lb = d.leaderboard;
+  const reasons = [...d.by_reason].sort((a, b) => b.pct_silent - a.pct_silent);
+  const top = reasons[0], bottom = reasons[reasons.length - 1];
+  const board = (rows, title, sub) => `<div><h4>${title}</h4><p class="sub">${sub}</p><ol>${rows.map(r => `<li>
+      <button class="linkish" data-sponsor="${esc(r.sponsor)}">${esc(r.sponsor)}</button>
+      <span class="mono">${r.silent} of ${r.stopped_enrolled} silent</span></li>`).join("")}</ol></div>`;
+  $("tab-ledger").innerHTML = `
+    <div class="tiles">
+      <div class="tile"><b>${fmt(h.silent_participants)}</b><span>people enrolled in stopped trials that went silent: no results posted, no linked paper</span></div>
+      <div class="tile"><b>${fmt(h.silent)} of ${fmt(h.stopped_enrolled)}</b><span>stopped trials that enrolled people went silent (${pct(h.pct_silent)})</span></div>
+      <div class="tile"><b>${fmt(h.stopped_blank_reason)}</b><span>stopped trials gave the registry no reason at all</span></div>
+      <div class="tile"><b>${pct(h.pct_stopped_posted)} vs ${pct(h.pct_completed_posted)}</b><span>stopped vs. completed trials that posted results on ClinicalTrials.gov</span></div>
+    </div>
+    <h4>Does the reason a trial stopped predict silence?</h4>
+    <p class="sub">Share of stopped trials (that enrolled people) with no posted results and no linked paper, by the reason the sponsor gave the registry.</p>
+    ${hbars(reasons.map(r => ({label: REASON[r.reason] || r.reason, value: r.pct_silent, text: `${pct(r.pct_silent)} of ${fmt(r.stopped_enrolled)}`,
+        title: `${r.silent} of ${r.stopped_enrolled} trials stopped for ${r.reason} went silent`})), 100, 0)}
+    <p class="insight">Trials stopped for "${esc(REASON[top.reason] || top.reason)}" went silent ${pct(top.pct_silent)} of the time; trials stopped because ${esc(bottom.reason === "efficacy" ? "the drug didn't work" : "of " + (REASON[bottom.reason] || bottom.reason))}, only ${pct(bottom.pct_silent)}. A failed drug is more likely to be reported than a trial that quietly ran out of road.</p>
+    <h4>Results posted, by the year the trial's main phase ended</h4>
+    <p class="sub">Stopped trials (that enrolled people) vs. completed trials. Recent years are lower partly because some results are still on their way.</p>
+    ${yearChart(d.by_year)}
+    <h4 style="margin-top:30px">Sponsors at both ends</h4>
+    <div class="board">
+      ${board(lb.most_silent, "Most often silent", `share of stopped trials with no results and no paper, among ${lb.peers} sponsors with at least ${lb.min_stopped}`)}
+      ${lb.least_silent.every(r => r.silent === 0) ? board(lb.least_silent, "Never silent", "every stopped trial that enrolled people has posted results or a linked paper")
+        : board(lb.least_silent, "Least often silent", "lowest share of silent stopped trials among the same sponsors")}
+    </div>
+    <p class="caveat">Many sponsors outside the US have no legal duty to post results on ClinicalTrials.gov, and results can appear in places we don't search. A high share is a question to ask, not proof of wrongdoing. Click a sponsor for its report card.</p>
+    <details class="how"><summary>How we count</summary><dl>${Object.entries(d.definitions).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}
+      <dt>snapshot</dt><dd>${esc(d.snapshot_date || "")}: industry-sponsored phase 2 and 3 trials with primary completion from 2015 to 2023. <a href="${esc(d.source_url)}" target="_blank" rel="noopener">the data</a></dd></dl></details>`;
+}
+
+$("tab-ledger").addEventListener("click", (ev) => { const b = ev.target.closest("[data-sponsor]"); if (b) openSponsor(b.dataset.sponsor); });
+fetch("/api/ledger").then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => { ledgerData = d; drawLedger(d); })
+  .catch(() => $("tab-ledger").innerHTML = `<div class="err">The snapshot views didn't load. The agents above still work.</div>`);
+
+// Sponsor report card
+let suggestTimer = null;
+$("sq").addEventListener("input", () => {
+  clearTimeout(suggestTimer);
+  suggestTimer = setTimeout(() => fetch("/api/sponsors?q=" + encodeURIComponent($("sq").value)).then(r => r.json())
+    .then(d => $("slist").innerHTML = d.sponsors.map(s => `<option value="${esc(s.sponsor)}">${s.trials} trials</option>`).join("")).catch(() => {}), 180);
+});
+$("sform").addEventListener("submit", (ev) => { ev.preventDefault(); if ($("sq").value.trim()) openSponsor($("sq").value.trim(), false); });
+
+function openSponsor(name, scroll = true) {
+  showTab("sponsor"); $("sq").value = name;
+  if (scroll) $("explore").scrollIntoView({behavior: "smooth"});
+  $("scard").innerHTML = `<p class="waiting">Pulling the record for <b>${esc(name)}</b>...</p>`;
+  fetch("/api/sponsor?name=" + encodeURIComponent(name)).then(async r => r.ok ? r.json() : Promise.reject((await r.json()).detail))
+    .then(drawSponsor).catch(msg => $("scard").innerHTML = `<div class="err">${esc(msg || "Lookup failed.")} Try part of the name, e.g. "Arrowhead".</div>`);
+}
+
+function drawSponsor(c) {
+  const h = c.headline, b = c.baseline, s = c.sec;
+  const secLine = s ? `<span class="chip ok">SEC filer · CIK <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${esc(s.cik)}&type=8-K" target="_blank" rel="noopener">${esc(s.cik)}</a>${s.ticker ? " · " + esc(s.ticker) : ""}</span>`
+    : `<span class="chip">no SEC match: likely private or non-US, so no investor filings to compare</span>`;
+  const rank = c.rank ? `Among ${c.rank.peers} sponsors with at least ${c.rank.min_stopped} stopped trials that enrolled people, ${pct(c.rank.share_more_silent)} went silent more often than ${esc(c.sponsor)} and ${pct(c.rank.share_less_silent)} less often.`
+    : `Fewer than 5 stopped trials enrolled people, too few to rank against other sponsors.`;
+  const chips = (t) => [
+    t.results_posted ? `<span class="chip ok">results posted</span>` : (t.enrollment ? `<span class="chip red">no results posted</span>` : `<span class="chip">never enrolled</span>`),
+    t.linked_pub ? `<span class="chip ok">linked paper</span>` : "",
+    t.silent ? `<span class="chip red">silent</span>` : "",
+    t.differs ? `<span class="chip red">8-K reason differs</span>` : ""].join("");
+  const sponsorQ = `Did ${c.sponsor} stop any phase 2 or 3 trials without posting results, and what reasons did it give the registry and investors?`;
+  $("scard").innerHTML = `
+    <div class="card-head"><h4>${esc(c.sponsor)}</h4><span>${secLine}</span></div>
+    <div class="tiles">
+      <div class="tile"><b>${fmt(h.stopped)} of ${fmt(h.trials)}</b><span>trials in the snapshot stopped early</span></div>
+      <div class="tile"><b>${fmt(h.silent)}</b><span>stopped trials went silent (${h.stopped_enrolled ? pct(h.pct_silent) : "none enrolled"}), with ${fmt(h.silent_participants)} people enrolled</span></div>
+      <div class="tile"><b>${fmt(c.differ.trials)}</b><span>stopped trials where an 8-K gives a different reason${c.differ.trials ? ` (${c.differ.named} of them checked by hand or named in the 8-K; any others are leads)` : ""}</span></div>
+      <div class="tile"><b>${fmt(h.blank_reason)}</b><span>stopped trials with no reason given to the registry</span></div>
+    </div>
+    ${h.stopped_enrolled ? `<h4>Compared with every sponsor</h4>${hbars([
+      {label: "went silent", value: h.pct_silent, text: pct(h.pct_silent), cls: "hot"},
+      {label: "all sponsors", value: b.pct_silent, text: pct(b.pct_silent), cls: "base"},
+      {label: "posted results", value: h.pct_stopped_posted, text: pct(h.pct_stopped_posted)},
+      {label: "all sponsors", value: b.pct_stopped_posted, text: pct(b.pct_stopped_posted), cls: "base"}], 100, -1)}` : ""}
+    <p class="insight">${esc(rank)}</p>
+    ${c.reasons.length ? `<h4>Reasons given to the registry</h4><div class="suggest">${c.reasons.map(r => `<span class="chip">${esc(REASON[r.reason] || r.reason)} · ${r.n}</span>`).join("")}</div>` : ""}
+    <div class="report-actions"><button class="pill-btn" id="s-run">Send the agents: investigate ${esc(c.sponsor)}</button><button class="pill-btn blue" id="s-share">Copy a link to this card</button></div>
+    <h4>Stopped trials${c.trials.length >= 40 ? " (first 40, silent ones first)" : ""}</h4>
+    <ul class="trows">${c.trials.map(t => `<li><div class="tt"><a href="${ctgov(t.nct_id)}" target="_blank" rel="noopener">${esc(t.nct_id)}</a> ${esc(t.title)}
+        <span class="why2">${esc((t.phase || "").replace(/PHASE/g, "phase ").replace(/\//g, " / ").toLowerCase())} · ${esc(t.overall_status.toLowerCase())}${t.why_stopped ? ` · "${esc(t.why_stopped)}"` : " · no reason given"}</span>
+        <div>${chips(t)}</div></div>
+        <button class="gobtn" data-nct="${esc(t.nct_id)}">autopsy →</button></li>`).join("") || "<li>No stopped trials in the snapshot.</li>"}</ul>
+    <p class="caveat">Silent means no results on ClinicalTrials.gov and no linked paper as of the snapshot. Results can live elsewhere (conference abstracts, company sites), and some sponsors have no duty to post. Not proof of wrongdoing.</p>`;
+  $("s-run").onclick = () => runCase(sponsorQ);
+  $("s-share").onclick = () => copyText(shareUrl({sponsor: c.sponsor}), $("s-share"));
+  $("scard").querySelectorAll("[data-nct]").forEach(b => b.onclick = () =>
+    runCase(`Why was ${c.sponsor}'s trial ${b.dataset.nct} stopped, were its results posted or published, and what did the sponsor tell investors?`));
+}
+
+// Stories that differ
+function loadDiffer() {
+  fetch("/api/differ").then(r => r.json()).then(d => { differData = d; drawDiffer(); })
+    .catch(() => $("tab-differ").innerHTML = `<div class="err">Couldn't load the discrepancy list.</div>`);
+}
+const KINDS = {hand_checked: ["checked by hand", "red"], names_trial: ["8-K names this trial", "red"], drug_lead: ["lead: 8-K names only the drug", ""]};
+function drawDiffer() {
+  const d = differData, rows = d.trials.filter(t => differFilter === "all" || t.kind === differFilter);
+  const count = (k) => d.trials.filter(t => t.kind === k).length;
+  $("tab-differ").innerHTML = `
+    <p class="sub" style="font-size:14.5px;color:var(--ink2)">Stopped trials where the reason told to the registry and the language in an investor filing (8-K) point different ways: a "business decision" in the registry next to a failed endpoint or a clinical hold in the 8-K, or the reverse. ${esc(d.note)}</p>
+    <div class="suggest">${[["all", `all ${d.trials.length}`], ["hand_checked", `checked by hand · ${count("hand_checked")}`], ["names_trial", `8-K names the trial · ${count("names_trial")}`], ["drug_lead", `leads · ${count("drug_lead")}`]]
+      .map(([k, label]) => `<button class="chip ${differFilter === k ? "red" : ""}" data-filter="${k}" aria-pressed="${differFilter === k}">${label}</button>`).join("")}</div>
+    <div class="walls">${rows.map(t => `<article class="wcard">
+      <div class="card-head"><span><a href="${ctgov(t.nct_id)}" target="_blank" rel="noopener" class="mono">${esc(t.nct_id)}</a> · <b>${esc(t.sponsor)}</b></span><span class="chip ${KINDS[t.kind][1]}">${KINDS[t.kind][0]}</span></div>
+      <div style="font:13.5px 'Nunito',sans-serif;color:var(--ink2);margin-top:4px">${esc(t.title)}</div>
+      <div class="vs"><div class="said"><small>Told the registry · ${esc(REASON[t.registry_category] || t.registry_category)}</small>"${esc(t.registry_reason || "no reason given")}"</div>
+        <div class="said inv"><small>Told investors · 8-K filed ${esc(t.filed_date)} · ${esc((t.sec_categories || []).join(", "))}</small>"${esc(t.sec_quote || "")}" <a href="${esc(t.filing_url)}" target="_blank" rel="noopener">filing</a></div></div>
+      <div style="text-align:right"><button class="gobtn" data-q="${esc(`${t.sponsor}'s trial ${t.nct_id} was stopped. What reason did it give the registry, what did it tell investors, and do the two match?`)}">open the case with the agents →</button></div>
+    </article>`).join("")}</div>`;
+  $("tab-differ").querySelectorAll("[data-filter]").forEach(b => b.onclick = () => { differFilter = b.dataset.filter; drawDiffer(); });
+  $("tab-differ").querySelectorAll("[data-q]").forEach(b => b.onclick = () => runCase(b.dataset.q));
+}
+
+// Shared links
+const params = new URLSearchParams(location.search);
+if (params.get("sponsor")) openSponsor(params.get("sponsor"));
+else if (params.get("q")) { $("q").value = params.get("q"); fitQuestion(); ask(params.get("q")); setTimeout(() => document.querySelector(".desk").scrollIntoView({behavior: "smooth"}), 300); }
 </script>
 </body>
 </html>

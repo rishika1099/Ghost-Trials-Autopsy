@@ -23,6 +23,9 @@ has a timeline per trial (start, stop, results due, results posted or a red "nev
 publication dates), citations you can click, and a "What the data can't tell us" box. A vague question gets
 clarifying options instead of research.
 
+No time to wait? The **ghost ledger** at the bottom of the page shows instant, no-AI views of the whole snapshot:
+who goes silent, a report card for any sponsor, and every trial whose 8-K and registry tell different stories.
+
 IEOR 4570 Project 2, Deep Research path. Team: Rishika (rm4318), Shreya (svs2148), Kshamaa (ks4423).
 
 **Live app:** https://ghost-trials-autopsy-895402809785.us-central1.run.app
@@ -510,6 +513,32 @@ and answered 27 trials: 7 efficacy, 5 blank, 5 business/strategic, 4 enrollment,
 
 `scripts/run_trials.py` runs the trials researcher alone on 10 briefs (safety, efficacy, enrollment, withdrawn, blank reason, suspended, sponsor list, condition counts, FDA approval, outside the snapshot) and checks each claim mechanically: every cited id exists, every date in a claim is in the cited record, every quote is in a cited record, and no withdrawn trial is called late. All 10 pass with 0 problems.
 
+## Explore the snapshot instantly (no AI)
+
+A full investigation takes one to four minutes. The **ghost ledger** at the bottom of the page answers the
+big-picture questions in under a second, straight from the snapshot with no model calls (`ghost/explore.py`,
+`GET /api/ledger`, `/api/sponsor?name=`, `/api/differ`). Every number uses the same definitions as the agents'
+`get_snapshot_stats` tool, and a test checks that they agree.
+
+- **Who goes silent.** A trial is *silent* when it stopped after enrolling people and has no results on
+  ClinicalTrials.gov and no linked paper (registry or PubMed link, published after the trial started). In the
+  snapshot, **759 of 2,905** stopped trials that enrolled people are silent, and **62,849 people** took part in
+  them. Broken down by the reason the sponsor gave, trials stopped for "other" reasons (35%) or too few patients
+  (32%) go silent about twice as often as trials stopped because the drug didn't work (15%): a failed drug is
+  more likely to be reported than a trial that quietly ran out of road. A year chart compares results posting for
+  stopped and completed trials, and a leaderboard shows the sponsors at both ends (at least 5 stopped trials each),
+  with a caveat that many non-US sponsors have no duty to post on ClinicalTrials.gov.
+- **Sponsor report card.** Type any sponsor (with autocomplete) to see how many of its trials stopped, how many
+  went silent and how many people were in them, how it ranks against the 92 sponsors with at least 5 stopped
+  trials, its SEC CIK (or that it has none, so there are no investor filings to compare), how many of its trials
+  have an 8-K that tells a different story, and a list of its stopped trials. Each trial has an "autopsy" button
+  that sends the agents to investigate it, and the card has a button to investigate the whole sponsor.
+- **Stories that differ.** The 43 stopped trials where an 8-K and the registry point different ways, with the
+  registry reason and the 8-K sentence side by side. The five checked by hand come first, then the ones whose 8-K
+  names the trial, then *leads* whose 8-K names only the drug. Each card opens a full case with the agents.
+- **Shareable cases.** `?q=<question>` opens and runs a case and `?sponsor=<name>` opens a report card, so a
+  reporter can send a colleague a link. A finished report can be downloaded as Markdown.
+
 ## What it can't tell you
 
 The agent says so in every report ("What the data can't tell us"), specific to the question:
@@ -532,7 +561,7 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
 
 ## Tests
 
-- `uv run pytest`: 303 tests (285 offline; 18 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
+- `uv run pytest`: 313 tests (295 offline; 18 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
   - Rubric proofs: the `/chat` shape and the `agent` field on every tool call (`test_shape.py`), researchers
     overlapping in time and starting from fresh message lists (`test_parallel.py`), the Lead's second round and
     round cap (`test_gap_loop.py`), clarification with no researcher calls (`test_clarify.py`), every `[n]`
@@ -546,6 +575,9 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
     questions, and a report with every claim removed (`test_pipeline_edges.py`); bad request bodies, the
     clarification follow-up and the live stream (`test_api_edges.py`); retries, time limits and the cache
     (`test_robustness.py`); and submission rules such as pinned dependencies and no em dashes (`test_repo_hygiene.py`).
+  - The Explore section (`test_explore.py`): its numbers match the agents' `get_snapshot_stats`, the breakdowns
+    add up, sample s2 shows as silent on Sorrento's report card, the five hand-checked discrepancies lead the
+    wall, and sponsor names are bound parameters, never SQL text.
 - `tests/test_deploy.sh`: curls the deployed `/health` and one sample query, and fails if it takes over 300 s.
 
 ## Evals
@@ -575,8 +607,9 @@ Settings that matter for this app:
 ## Project layout
 
 ```
-app.py              FastAPI: POST /chat (Project 1 shape), GET /run (live stream), GET /health
-index.html          the frontend: header, example chips, agent trace, trial timelines, citations
+app.py              FastAPI: POST /chat (Project 1 shape), GET /run (live stream), GET /health, GET /api/* (Explore)
+index.html          the frontend: header, example chips, agent trace, trial timelines, citations, Explore section
+ghost/explore.py    the Explore section's SQL: ledger, sponsor report card, leaderboard, stories that differ
 ghost/pipeline.py   Lead, Researchers, Writer, Checker, and the round loop
 ghost/tools.py      the agents' tools, one section per lane
 ghost/classify.py   why_stopped categories: keyword rules, then one LLM pass
