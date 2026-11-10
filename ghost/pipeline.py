@@ -1,10 +1,13 @@
-"""The research pipeline: Lead (gate and plan) -> parallel Researchers -> Lead review (gaps) -> ... -> Writer -> Checker.
+"""The research pipeline: Lead (gate and plan) -> parallel Researchers -> Lead review (gaps) -> ... -> Writer -> Checker
+-> Skeptic.
 
-Four agent shapes:
+Five agent shapes:
   lead                      decides clarify / refuse / research, plans, and reviews findings for gaps
   researcher:<lane>         one shape, three lane configs (trials, disclosures, publications), fresh context each
   writer                    turns findings + evidence into the report, citing evidence ids only
   checker                   verifies each cited claim against the stored records; fixes or removes it
+  skeptic                   reads the checked report like an editor: how strong the finding is, what ordinary
+                            explanations the records can't rule out, and what to ask the sponsor
 
 The loop is in code, not in the Lead's prompt, so the caps are guaranteed: MAX_RESEARCH_ROUNDS rounds,
 RESEARCHER_MAX_TURNS per researcher, and a REQUEST_BUDGET_S wall clock for the whole request.
@@ -108,6 +111,13 @@ class CheckerVerdicts(BaseModel):
     verdicts: list[Verdict]
 
 
+class SkepticNotes(BaseModel):
+    strength: Literal["strong", "moderate", "weak"]
+    strength_reason: str = Field(description="One sentence naming the kinds of records the main finding rests on.")
+    alternatives: list[str] = Field(default_factory=list, description="2 to 4 ordinary explanations the records can't rule out.")
+    questions: list[str] = Field(default_factory=list, description="2 to 4 questions a reporter could put to the sponsor.")
+
+
 # --- Agents ---
 
 lead = Agent(name="lead", instructions=prompt("lead"), model=model(config.LEAD_MODEL), model_settings=SETTINGS,
@@ -127,6 +137,8 @@ writer = Agent(name="writer", instructions=prompt("writer"), model=model(config.
                output_type=WriterReport)
 checker = Agent(name="checker", instructions=prompt("checker"), model=model(config.CHECKER_MODEL), model_settings=SETTINGS,
                 output_type=CheckerVerdicts)
+skeptic = Agent(name="skeptic", instructions=prompt("skeptic"), model=model(config.CHECKER_MODEL), model_settings=SETTINGS,
+                output_type=SkepticNotes)
 
 
 # --- Steps. Each is a module-level function so tests can stub it. ---
@@ -380,6 +392,71 @@ async def check_citations(state: RunState, report: WriterReport) -> tuple[Writer
     return report.model_copy(update={**final, "timeline_text": timeline_text}), stats
 
 
+def _skeptic_input(state: RunState, report: WriterReport) -> str:
+    cited = list(dict.fromkeys(e for claims in (report.answer, report.evidence, report.differences) for c in claims for e in c.citations))
+    body = {"question": state.question,
+            "report": {"answer": [c.text for c in report.answer], "evidence": [c.text for c in report.evidence],
+                       "differences": [c.text for c in report.differences], "cant_tell": report.cant_tell}}
+    return f"{json.dumps(body, default=str)}\n\nCited evidence records:\n{state.store.compact(cited[:40])}"
+
+
+async def run_skeptic(state: RunState, report: WriterReport) -> SkepticNotes:
+    result = await Runner.run(skeptic, _skeptic_input(state, report)[:100_000], context=state,
+                              hooks=TraceHooks(state, "skeptic"), max_turns=2)
+    return result.final_output
+
+
+def screen_skeptic(state: RunState, notes: SkepticNotes) -> tuple[SkepticNotes, list[dict]]:
+    """The Skeptic cites nothing, so every sentence it writes is held to the Checker's rules against the whole
+    evidence store: no date or quote that isn't in a record, no overreaching word. A failing sentence is dropped."""
+    records = [r.as_dict() for r in state.store.records.values()]
+    dropped = []
+
+    def keep(lines: list[str], kind: str) -> list[str]:
+        kept = []
+        for line in lines[:4]:
+            problems = citecheck.check_claim(line, records)
+            if problems:
+                dropped.append({"kind": kind, "text": line, "reason": "; ".join(problems)})
+            elif line.strip():
+                kept.append(line.strip())
+        return kept
+
+    reason = notes.strength_reason if not citecheck.check_claim(notes.strength_reason, records) else ""
+    return notes.model_copy(update={"alternatives": keep(notes.alternatives, "alternative"),
+                                    "questions": keep(notes.questions, "question"), "strength_reason": reason}), dropped
+
+
+SKEPTIC_MIN_S = 25.0  # the Skeptic is extra: it runs only when this much of the budget is left
+
+
+async def skeptic_review(state: RunState, report: WriterReport) -> dict | None:
+    """Run the Skeptic on a checked report with something in it. Returns its screened notes, or None when skipped."""
+    if not (report.answer or report.evidence):
+        return None
+    if state.remaining() < SKEPTIC_MIN_S:
+        state.notes.append("The Skeptic was skipped to stay inside the time limit.")
+        return None
+    state.emit({"type": "agent", "agent": "skeptic", "status": "start", "t": round(state.elapsed(), 2)})
+    try:
+        notes = await run_step(state, "Skeptic", lambda: run_skeptic(state, report), timeout=min(45.0, state.remaining()), attempts=1)
+    except Exception as e:
+        state.notes.append(f"The Skeptic did not finish ({type(e).__name__}); the report stands as checked.")
+        state.emit({"type": "agent", "agent": "skeptic", "status": "end", "t": round(state.elapsed(), 2), "skipped": True})
+        return None
+    from ghost.analyst import no_dashes  # local: analyst imports this module
+    notes = notes.model_copy(update={"strength_reason": no_dashes(notes.strength_reason),
+                                     "alternatives": [no_dashes(a) for a in notes.alternatives],
+                                     "questions": [no_dashes(q) for q in notes.questions]})
+    notes, dropped = screen_skeptic(state, notes)
+    out = {**notes.model_dump(), "dropped": dropped}
+    state.record_call("skeptic", "review_report", {"answer": len(report.answer), "differences": len(report.differences)},
+                      f"strength: {notes.strength}; {len(notes.alternatives)} other explanations, {len(notes.questions)} questions "
+                      f"for the sponsor; {len(dropped)} sentences dropped by the citation rules")
+    state.emit({"type": "agent", "agent": "skeptic", "status": "end", "t": round(state.elapsed(), 2), "strength": notes.strength})
+    return out
+
+
 # --- Retries and time limits for the single-agent steps ---
 
 MIN_STEP_S = 20.0  # never give a model step less than this, even when the budget is nearly gone
@@ -476,9 +553,10 @@ async def investigate(question: str, emit=lambda event: None, budget_s: float | 
     emit({"type": "agent", "agent": "checker", "status": "start", "t": round(state.elapsed(), 2)})
     report, checker_stats = await check_citations(state, report)
     emit({"type": "agent", "agent": "checker", "status": "end", "t": round(state.elapsed(), 2), **checker_stats})
-    rendered = render(state, report, checker_stats)
-    return {"kind": "report", **rendered, "checker": checker_stats, "tool_calls": state.tool_calls, "trace": trace(state),
-            "findings": findings}
+    skeptic_notes = await skeptic_review(state, report)
+    rendered = render(state, report, checker_stats, skeptic=skeptic_notes)
+    return {"kind": "report", **rendered, "checker": checker_stats, "skeptic": skeptic_notes, "tool_calls": state.tool_calls,
+            "trace": trace(state), "findings": findings}
 
 
 def trace(state: RunState) -> dict:

@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 import app as web
 from tests.conftest import live
 
-AGENTS = {"lead", "researcher:trials", "researcher:disclosures", "researcher:publications", "writer", "checker"}
+AGENTS = {"lead", "researcher:trials", "researcher:disclosures", "researcher:publications", "writer", "checker", "skeptic"}
 
 
 def check_shape(body: dict) -> None:
@@ -24,7 +24,7 @@ def test_chat_shape(stub_pipeline):
     body = TestClient(web.app).post("/chat", json={"message": "Did NCT01234567 post results?"}).json()
     check_shape(body)
     agents = {c["agent"] for c in body["tool_calls"]}
-    assert {"lead", "researcher:trials", "writer", "checker"} <= agents
+    assert {"lead", "researcher:trials", "writer", "checker", "skeptic"} <= agents
 
 
 def test_session_id_is_kept(stub_pipeline):

@@ -18,7 +18,7 @@ investors?" and get a cited answer in about two minutes.
 from those failures, and the reason a company gave investors may not match what it told the registry.
 
 **How to use it:** type a question or click an example chip. The trace panel shows the Lead planning, the
-three Researchers working in parallel (with timing bars), then the Writer and the Citation Checker. The report
+three Researchers working in parallel (with timing bars), then the Writer, the Citation Checker and the Skeptic, who flags what else could explain the finding and drafts questions for the sponsor. The report
 has a timeline per trial (start, stop, results due, results posted or a red "never posted" marker, 8-K and
 publication dates), citations you can click, and a "What the data can't tell us" box. A vague question gets
 clarifying options instead of research.
@@ -412,6 +412,8 @@ A question that is entirely out of scope ("Is drug X safe for me?") gets a short
 | **Researcher** ×3 | `prompts/researcher.md` + `prompts/lane_*.md` | One lane each: trials, disclosures, publications. Returns `[{claim, evidence_ids, confidence, notes}]` plus gaps | ≤8 turns each |
 | **Writer** | `prompts/writer.md` | Report from the evidence store only: Answer, Timeline, Evidence, Where the stories differ, What the data can't tell us, Sources | ≤4 turns |
 | **Citation Checker** | `prompts/checker.md` | Checks every `[n]`: the evidence id exists and the date, status, number or quote matches the record. Fixes or removes the sentence | ≤4 turns |
+| **Skeptic** | `prompts/skeptic.md` | Reads the checked report like an editor before publication: how strong the finding is (strong, moderate, weak, and which records it rests on), 2 to 4 ordinary explanations the records can't rule out, and 2 to 4 questions a reporter could put to the sponsor. Its sentences cite nothing, so the Checker's rules screen each one against the whole evidence store (no invented date or quote, no "hid" or "misled") | ≤2 turns; skipped when under 25 s of budget is left |
+| **Ledger Analyst** (Explore section) | `prompts/analyst.md` | Answers whole-snapshot questions with SQL ("which conditions have the most silent trials?"). The app reruns its final SELECT itself and shows that table, and checks every number in its answer against the table | ≤8 turns, 90 s |
 
 - **Clarify gate.** A question is vague when it has no concrete target (drug, sponsor, NCT ID or condition)
   and no scope (phase, time window, or which of the four questions). The Lead then returns 2 to 4 concrete
@@ -536,6 +538,12 @@ big-picture questions in under a second, straight from the snapshot with no mode
 - **Stories that differ.** The 43 stopped trials where an 8-K and the registry point different ways, with the
   registry reason and the 8-K sentence side by side. The five checked by hand come first, then the ones whose 8-K
   names the trial, then *leads* whose 8-K names only the drug. Each card opens a full case with the agents.
+- **Ask the ledger (AI).** The one tab that uses a model: type a whole-snapshot question in plain English and the
+  Ledger Analyst agent writes and runs the SQL, usually in 10 to 35 seconds. The page shows the analyst's answer,
+  a bar chart when the result is a label and a number, the table, and the SQL it wrote. The table is the app
+  rerunning that exact SELECT through the read-only guard, never the model's copy, and every number in the answer
+  is checked against it: a number that isn't in the table (a sum the model did in its head, say) is flagged for
+  the reader to check. Medical-advice or legal questions get a refusal with an example of what it can answer.
 - **Shareable cases.** `?q=<question>` opens and runs a case and `?sponsor=<name>` opens a report card, so a
   reporter can send a colleague a link. A finished report can be downloaded as Markdown.
 
@@ -561,7 +569,7 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
 
 ## Tests
 
-- `uv run pytest`: 313 tests (295 offline; 18 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
+- `uv run pytest`: 335 tests (315 offline; 20 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
   - Rubric proofs: the `/chat` shape and the `agent` field on every tool call (`test_shape.py`), researchers
     overlapping in time and starting from fresh message lists (`test_parallel.py`), the Lead's second round and
     round cap (`test_gap_loop.py`), clarification with no researcher calls (`test_clarify.py`), every `[n]`
@@ -575,6 +583,10 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
     questions, and a report with every claim removed (`test_pipeline_edges.py`); bad request bodies, the
     clarification follow-up and the live stream (`test_api_edges.py`); retries, time limits and the cache
     (`test_robustness.py`); and submission rules such as pinned dependencies and no em dashes (`test_repo_hygiene.py`).
+  - The Skeptic (`test_skeptic.py`): invented dates and accusations are dropped, its section sits between "What
+    the data can't tell us" and the sources, a failure or a short budget never costs the report, and no dashes.
+    The Ledger Analyst (`test_analyst.py`): the table comes from rerunning its SQL, a non-SELECT is never run, an
+    invented number is flagged, out-of-scope questions get no table, and a slow run is an answer, not an error.
   - The Explore section (`test_explore.py`): its numbers match the agents' `get_snapshot_stats`, the breakdowns
     add up, sample s2 shows as silent on Sorrento's report card, the five hand-checked discrepancies lead the
     wall, and sponsor names are bound parameters, never SQL text.
