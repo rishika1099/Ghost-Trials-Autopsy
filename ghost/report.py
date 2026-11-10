@@ -9,6 +9,7 @@ import re
 
 from ghost import db
 from ghost.state import RunState
+from ghost.style import no_dashes
 
 TRIAL_EVENTS = [
     ("start_date", "Start", "start"),
@@ -178,10 +179,12 @@ def render(state: RunState, report, checker: dict, skeptic: dict | None = None) 
     lines += ["## Sources"] + [f"{s['n']}. {s['title']}. {s['source_type']}. {s['url']}" for s in sources]
     lines += ["", f"_Snapshot date: {db.snapshot_date() or 'unknown'}. Research rounds: {state.rounds}. "
               f"citations_checked: {checker['citations_checked']}, removed: {checker['removed']}._"]
+    # The Writer is told never to use dashes; this makes sure (quotes were checked against the records already).
+    answer, cant, timeline_text = [no_dashes(a) for a in answer], [no_dashes(c) for c in cant], no_dashes(timeline_text)
     return {
-        "markdown": "\n".join(lines),
-        "report": {"answer": answer, "evidence": [_cite(c, numbers) for c in report.evidence],
-                   "differences": [_cite(c, numbers) for c in report.differences], "cant_tell": cant,
+        "markdown": no_dashes("\n".join(lines)),
+        "report": {"answer": answer, "evidence": [no_dashes(_cite(c, numbers)) for c in report.evidence],
+                   "differences": [no_dashes(_cite(c, numbers)) for c in report.differences], "cant_tell": cant,
                    "timeline_text": timeline_text, "skeptic": skeptic},
         "sources": sources,
         "timeline": timeline,

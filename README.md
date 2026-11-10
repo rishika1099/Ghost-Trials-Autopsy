@@ -104,50 +104,58 @@ There is no material contradiction between the registry and investor communicati
 </details>
 
 <details>
-<summary>Our agent (<code>runs/s1_discrepancy_latest.md</code>, full trace in <code>runs/20261105-1208_s1_discrepancy.json</code>), verbatim</summary>
+<summary>Our agent (<code>runs/s1_discrepancy_latest.md</code>, full trace in <code>runs/20261110-0925_s1_discrepancy.json</code>), verbatim</summary>
 
 ## Answer
-The records do not show whether vTv Therapeutics intended to mislead anyone by using different terms, but they do reveal a discrepancy between the registry and investor disclosures. [1][2] The registry says the trial was terminated for business reasons. [1] The 8-K says the phase 2 Elevage study did not meet its primary objective, and development of azeliragon for Alzheimer's disease was discontinued. [2]
+The registry explanation and the investor disclosures for the terminated Phase 2 Elevage trial of azeliragon do not match. [1][2] While the registry states that vTv Therapeutics terminated the trial "for business reasons," the company's Form 8-K filed with the SEC told investors that the study was discontinued because it "did not meet its primary objective." [1][2] Although clinical results were posted to the registry on 2022-01-21, no results publication was found in PubMed or Europe PMC. [1][3]
 
 ## Timeline
-Trial NCT03980730 started on 2019-06-27 and reached primary completion on 2020-12-01. vTv Therapeutics disclosed the end of enrollment in an 8-K on 2020-11-05, and later reported the trial's failure and discontinuation in an 8-K on 2021-02-24. Results were due on 2021-12-01 and posted on 2022-01-21, and no publications in the linked PubMed records report the trial results.
+For trial NCT03980730, the study started on 2019-06-27, reached primary completion on 2020-12-01, had results due on 2021-12-01, and results were posted on 2022-01-21, with an SEC Form 8-K reporting on 2021-02-24 that the trial did not meet its primary objective, and no results publication found in PubMed or Europe PMC.
 
 ## Evidence
-- The clinical trials registry lists the status of trial NCT03980730 as terminated with 43 patients enrolled. [1]
-- The registry lists the reason for termination as for business reasons. [1]
-- The 8-K filed on November 5, 2020, says the company decided to conclude enrollment in the study at the end of September. [3]
-- The 8-K filed on February 24, 2021, says the Elevage study did not meet its primary objective and the company discontinued development of azeliragon for Alzheimer's disease. [2]
-- Trial NCT03980730 started on 2019-06-27, reached primary completion on 2020-12-01, and completed on 2021-01-29. [1]
-- The registry says the results were due on 2021-12-01 and were posted on 2022-01-21, making them 51 days late. [1]
-- The Drugs@FDA database contains no applications or approvals for azeliragon. [4]
-- PubMed lists five reviews mentioning the trial or drug between 2025 and 2026, but none of these articles report the specific trial results or explain the termination. [5][6][7][8][9]
+- The registry lists NCT03980730 as a Phase 2 trial of azeliragon for mild Alzheimer's disease with an enrollment of 43 patients and an official status of terminated. [1]
+- The trial started on 2019-06-27, reached primary completion on 2020-12-01, and reached completion on 2021-01-29. [1]
+- The exact reason given under 'why_stopped' in the registry for NCT03980730 is 'for business reasons'. [1]
+- Results were posted to ClinicalTrials.gov on 2022-01-21, which was 51 days after the results due date of 2021-12-01. [1]
+- An SEC Form 8-K filed by vTv Therapeutics on 2021-02-24 stated that the Phase 2 Elevage study of azeliragon did not meet its primary objective and that the company discontinued development of the drug for Alzheimer's disease. [2]
+- In earlier SEC Form 8-K filings from November 2020, the company had announced its decision to conclude enrollment and finalize topline results for the study by December 2020. [4][5]
+- A search of PubMed and Europe PMC returned no results publication found for NCT03980730, though five articles merely mention the trial or drug. [3]
+- Drugs@FDA records show that azeliragon has no approved applications. [6]
 
 ## Where the stories differ
-- There is a discrepancy between the registry and investor communications regarding why the research stopped. [1][2]
-- The registry says the trial was terminated for business reasons, which is classified as business or strategic. [1]
-- The 8-K says the trial did not meet its primary objective and development was discontinued, which represents an efficacy or scientific failure. [2]
+- There is a discrepancy between the registry record, which attributes the termination to 'business reasons,' and the Form 8-K filed on 2021-02-24, which attributes the discontinuation to the Elevage study not meeting its primary objective. [1][2]
+- This trial is identified in the discrepancies database as a hand-checked case with a discrepancy between its registry status and investor disclosures. [7][8]
 
 ## What the data can't tell us
-- We cannot tell the real reason for termination beyond the stated text in the registry or the investor filings.
-- A discrepancy between these sources is not proof of intent to deceive or mislead.
-- The results due date is an approximation of the FDAAA deadline, which only applies to applicable clinical trials, so this delay is not proof that the sponsor broke the law.
-- Results published in conference abstracts, non-indexed journals, or company websites may have been missed.
-- We also cannot tell if the research stopped early because of the time budget.
+- We cannot tell the real, complete underlying reason for the trial's termination beyond the brief why_stopped text in the registry and the summary statements in investor disclosures.
+- The discrepancy between the registry's reasons and the investor filings is not proof of intent to mislead or any wrongdoing.
+- Although the registry results were posted after the calculated results due date, this date is only an approximation of the FDAAA deadline, which only applies to applicable clinical trials, and since that status is not fully public, this is never evidence that the sponsor broke the law.
+- It is possible that trial results published in conference abstracts, non-indexed journals, or company websites may have been missed by our searches.
+
+## Before you publish: the Skeptic's read
+Strength of the finding: strong. The main finding rests on the ClinicalTrials.gov registry entry for NCT03980730 and multiple SEC Form 8-K filings from vTv Therapeutics.
+
+Other explanations the records can't rule out:
+- The sponsor might view a trial's failure to meet its primary objective as a business reason for stopping the study.
+- A different corporate team at vTv Therapeutics may have written the brief registry explanation than the one that prepared the SEC filings.
+- The trial results for NCT03980730 may have been shared in conference presentations or on the company's own website which are not indexed in PubMed.
+
+Questions to put to the sponsor:
+- Why does the registry entry for NCT03980730 attribute the termination to business reasons when the SEC filings note that the trial failed to meet its primary objective?
+- Does vTv Therapeutics intend to publish the results of the Elevage trial of azeliragon in a peer-reviewed scientific journal?
+- Will vTv Therapeutics continue to evaluate azeliragon for other indications outside of Alzheimer's disease?
 
 ## Sources
 1. Study of Azeliragon in Patients With Mild Alzheimer's Disease and Impaired Glucose Tolerance. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT03980730
-2. SEC 8-K 0001564590-21-008154. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1641489/000156459021008154/vtvt-ex991_6.htm
-3. SEC 8-K 0001564590-20-051429. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1641489/000156459020051429/vtvt-ex991_6.htm
-4. Drugs@FDA search for azeliragon: no application. Drugs@FDA application. https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=BasicSearch.process&searchterm=azeliragon
-5. Conventional and Emerging Drug Targeting Sites in Alzheimer's Disease and the Role of Translational Informatics in its Diagnosis and Management.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/40207764/
-6. Revisiting the therapeutic landscape of tauopathies: assessing the current pipeline and clinical trials.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/40462159/
-7. Extracellular Matrix Signaling Cues: Biological Functions, Diseases, and Therapeutic Targets.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/40686923/
-8. Tau-Targeted Therapeutic Strategies: Mechanistic Targets, Clinical Pipelines, and Analysis of Failures.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/41090735/
-9. Deconstructing the RAGE signaling maze: the molecular key to opening a new dimension of ovarian anti-aging.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/42009954/
+2. vTv Therapeutics 8-K filed 2021-02-24. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1641489/000156459021008154/vtvt-ex991_6.htm
+3. No results publication found for NCT03980730 (5 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT03980730%5Bsi%5D
+4. vTv Therapeutics Inc. 8-K filed 2020-11-05. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1641489/000156459020051429/vtvt-ex991_6.htm
+5. vTv Therapeutics Inc. 8-K filed 2020-11-24. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1641489/000156459020055077/vtvt-ex991_6.htm
+6. Drugs@FDA search for azeliragon: no application. Drugs@FDA application. https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=BasicSearch.process&searchterm=azeliragon
+7. Discrepancies table: 1 trial labelled discrepancy for nct_id NCT03980730 (1 checked by hand). Ghost Trials snapshot statistic. https://github.com/rishika1099/Ghost-Trials-Autopsy#data
+8. Discrepancies table: 1 trial labelled discrepancy for sponsor vTv Therapeutics, nct_id NCT03980730 (1 checked by hand). Ghost Trials snapshot statistic. https://github.com/rishika1099/Ghost-Trials-Autopsy#data
 
-_Snapshot date: 2026-11-05. Research rounds: 1. citations_checked: 20, removed: 0._
-
-_83 s, 26 tool calls_
+_Snapshot date: 2026-11-05. Research rounds: 1. citations_checked: 19, removed: 0._
 
 </details>
 
@@ -196,50 +204,60 @@ It is worth noting that Sorrento did previously publish and publicize positive r
 </details>
 
 <details>
-<summary>Our agent (<code>runs/s2_never_posted_latest.md</code>, full trace in <code>runs/20261105-1206_s2_never_posted.json</code>), verbatim</summary>
+<summary>Our agent (<code>runs/s2_never_posted_latest.md</code>, full trace in <code>runs/20261110-0925_s2_never_posted.json</code>), verbatim</summary>
 
 ## Answer
-The clinical trial registry states that Sorrento Therapeutics terminated its Phase 2 COVI-MSC trial because slow enrollment prevented it from reaching its targets. [1] Clinical results have not been posted to ClinicalTrials.gov, even though they were due on August 29, 2023. [1] Furthermore, no primary results papers reporting clinical data for the 43 enrolled patients have been published in scientific literature. [2][3][4][5][6]
+The registry states that Sorrento Therapeutics terminated its Phase 2 COVI-MSC trial NCT04903327 because slow enrollment made it unable to reach enrollment targets. [1] No formal results have been posted to the registry, and no results publication has been found in PubMed or Europe PMC. [1][2] While the sponsor filed several SEC 8-K disclosures mentioning the COVI-MSC therapy, these filings do not state a reason for the trial's termination or report its clinical results. [3][4][5]
 
 ## Timeline
-The trial started on November 16, 2021, and achieved primary completion on August 29, 2022, after enrolling 43 patients. The trial reached final completion on November 23, 2022, with results due by August 29, 2023, but no results have been posted to the registry or published in scientific literature.
+NCT04903327: Start 2021-11-16; Primary completion 2022-08-29; Completion 2022-11-23; Last registry update 2023-01-09; SEC 8-K 2023-02-22; SEC 8-K 2023-03-20; SEC 8-K 2023-03-31; Results due (approx.) 2023-08-29; Results never posted.
 
 ## Evidence
-- The Phase 2 trial of COVI-MSC (NCT04903327) was terminated after enrolling 43 patients. [1]
-- The registry lists the reason for termination as being due to considerably slow enrollment and an inability to reach enrollment targets. [1]
-- The trial started on November 16, 2021, and achieved primary completion on August 29, 2022. [1]
-- No clinical results are posted on ClinicalTrials.gov for the trial. [1]
-- No Drugs@FDA application was found for the COVI-MSC therapeutic. [7]
-- Sorrento Therapeutics, Inc. is identified as the trial sponsor under SEC CIK 0000850261. [8]
-- SEC 8-K filings from February and March 2023 list COVI-MSC as a product under development in standard pipeline and trademark tables. [9][10][11]
-- Five identified scientific publications mention the trial, but all are review articles or text-mining references rather than primary results papers. [2][3][4][5][6]
+- Trial NCT04903327 began on 2021-11-16 and reached primary completion on 2022-08-29 with an enrollment of 43 patients. [1]
+- The trial reached completion on 2022-11-23 and has an overall status of terminated. [1]
+- No results have been posted on ClinicalTrials.gov, where results were due on 2023-08-29. [1]
+- No results publication was found in PubMed or Europe PMC. [2]
+- Five publications linked to the trial were found to only mention it as a review or systematic review without containing primary clinical results. [6][7][8][9][10]
+- Sorrento Therapeutics filed SEC 8-K disclosures on February 22, 2023, March 20, 2023, and March 31, 2023, that mention COVI-MSC only as a trademark or pipeline program. [3][4][5]
+- The drug COVI-MSC has never received FDA approval. [11]
 
 ## Where the stories differ
-- The registry states that the trial was terminated in late 2022 due to slow enrollment, whereas Sorrento Therapeutics' SEC filings from February and March 2023 continued to list COVI-MSC as an active product under development in standard pipeline and trademark lists. [1][9][10][11]
+- The SEC 8-K filing dated February 22, 2023, names only the drug COVI-MSC and may be about another trial of the drug. [3]
 
 ## What the data can't tell us
-- We cannot determine the real clinical or commercial reasons for terminating the study beyond the brief explanation provided in the registry.
-- The discrepancy between the registry status and the investor pipeline lists is not proof of an intent to mislead.
-- The calculated results due date of August 29, 2023, only approximates the federal deadline, which applies exclusively to applicable clinical trials, meaning the missing data is not proof that the sponsor broke the law.
-- We cannot rule out that results were published in conference abstracts, non-indexed journals, or on company websites that were not captured in our search.
-- Because of external API search limitations, we cannot tell if more detailed disclosures about the trial's cancellation were made in the company's full 10-K or 10-Q filings.
+- We cannot tell the real reason why the trial was terminated beyond the registry's stated explanation of slow enrollment.
+- The omission of trial progress in investor filings is not proof of any intent to mislead.
+- The results due date is an approximation of the FDAAA deadline, which only applies to applicable clinical trials, a status that is not fully public, so this is never evidence that the sponsor broke the law.
+- We cannot tell if results were published in conference abstracts, non-indexed journals, or company websites that may have been missed by our searches.
+- Trials outside of the snapshot scope were only looked up live, or not at all.
+
+## Before you publish: the Skeptic's read
+Strength of the finding: strong. The finding rests on the ClinicalTrials.gov registry record, three SEC 8-K filings, and searches of PubMed and Europe PMC.
+
+Other explanations the records can't rule out:
+- The results of NCT04903327 might have been presented at a scientific conference or on the company's website which are not indexed in PubMed or Europe PMC.
+- Sorrento Therapeutics may have determined that the trial is not an applicable clinical trial and therefore has no duty to post results on ClinicalTrials.gov.
+- The data collected from the 43 enrolled patients might be combined with other studies of COVI-MSC for future publication.
+
+Questions to put to the sponsor:
+- Will Sorrento Therapeutics post the clinical results of NCT04903327 on ClinicalTrials.gov, and if not, why not?
+- Are there any plans to publish the clinical data collected from the 43 patients who participated in the COVI-MSC trial?
+- Have any results or analyses from NCT04903327 been shared publicly at medical conferences or in other non-indexed venues?
 
 ## Sources
 1. Study of Intravenous COVI-MSC for Treatment of COVID-19-Induced Acute Respiratory Distress. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04903327
-2. Molecular Mechanisms of Multi-Organ Failure in COVID-19 and Potential of Stem Cell Therapy.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/34831101/
-3. Mesenchymal stem/stromal cell therapy for COVID-19 pneumonia: potential mechanisms, current clinical evidence, and future perspectives.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/35321737/
-4. Association between Mesenchymal Stem Cells and COVID-19 Therapy: Systematic Review and Current Trends.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/35782071/
-5. Immunomodulation of Mesenchymal Stem Cells in Acute Lung Injury: From Preclinical Animal Models to Treatment of Severe COVID-19.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/35897770/
-6. Immune-Cell-Based Therapy for COVID-19: Current Status.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/38005826/
-7. Drugs@FDA search for COVI-MSC: no application. Drugs@FDA application. https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=BasicSearch.process&searchterm=COVI-MSC
-8. Sorrento Therapeutics, Inc. (SEC CIK 0000850261). SEC company record. https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000850261
-9. SEC 8-K 0001104659-23-023902. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/850261/000110465923023902/tm237448d1_ex99-2.htm
-10. SEC 8-K 0001104659-23-034065. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/850261/000110465923034065/tm239933d1_ex99-1.htm
-11. SEC 8-K 0001104659-23-039478. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/850261/000110465923039478/tm2310928d1_ex99-1.htm
+2. No results publication found for NCT04903327 (5 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04903327%5Bsi%5D
+3. SEC 8-K 0001104659-23-023902. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/850261/000110465923023902/tm237448d1_ex99-2.htm
+4. SEC 8-K 0001104659-23-034065. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/850261/000110465923034065/tm239933d1_ex99-1.htm
+5. SEC 8-K 0001104659-23-039478. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/850261/000110465923039478/tm2310928d1_ex99-1.htm
+6. Molecular Mechanisms of Multi-Organ Failure in COVID-19 and Potential of Stem Cell Therapy.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/34831101/
+7. Mesenchymal stem/stromal cell therapy for COVID-19 pneumonia: potential mechanisms, current clinical evidence, and future perspectives.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/35321737/
+8. Association between Mesenchymal Stem Cells and COVID-19 Therapy: Systematic Review and Current Trends.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/35782071/
+9. Immunomodulation of Mesenchymal Stem Cells in Acute Lung Injury: From Preclinical Animal Models to Treatment of Severe COVID-19.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/35897770/
+10. Immune-Cell-Based Therapy for COVID-19: Current Status.. PubMed article. https://pubmed.ncbi.nlm.nih.gov/38005826/
+11. Drugs@FDA search for COVI-MSC: no application. Drugs@FDA application. https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=BasicSearch.process&searchterm=COVI-MSC
 
-_Snapshot date: 2026-11-05. Research rounds: 2. citations_checked: 25, removed: 0._
-
-_114 s, 31 tool calls_
+_Snapshot date: 2026-11-05. Research rounds: 3. citations_checked: 20, removed: 0._
 
 </details>
 
@@ -320,55 +338,55 @@ When Entero Therapeutics (First Wave) stopped or failed to progress these Phase 
 </details>
 
 <details>
-<summary>Our agent (<code>runs/s3_sponsor_latest.md</code>, full trace in <code>runs/20261107-2246_s3_sponsor.json</code>), verbatim</summary>
+<summary>Our agent (<code>runs/s3_sponsor_latest.md</code>, full trace in <code>runs/20261110-0925_s3_sponsor.json</code>), verbatim</summary>
 
 ## Answer
-Entero Therapeutics (formerly First Wave BioPharma) terminated three Phase 2 or Phase 1/2 clinical trials without posting results on ClinicalTrials.gov: NCT03521232, NCT04839575, and NCT04243551. [1][2][3] The reasons listed on the clinical trials registry for terminating these trials were related to COVID-19, specifically citing "Covid-19" for NCT03521232, "Covid-19 interruptions and enrollment challenges" for NCT04839575, and low enrollment related to COVID-19 for NCT04243551. [1][2][3] The sponsor's SEC 8-K filings mentioned the corresponding drug candidates but did not provide specific reasons for terminating these trials, and no results publications were found in PubMed. [4][5][6][7][8][9]
+Entero Therapeutics terminated three Phase 2 or Phase 1/Phase 2 trials, NCT03521232, NCT04839575, and NCT04243551, without posting results on ClinicalTrials.gov. [1][2][3] In the registry, the sponsor stated that these trials were stopped due to COVID-19 or related enrollment challenges. [1][2][3] No results publication was found in PubMed for any of these trials, and their retrieved SEC investor filings do not provide reasons for their termination. [4][5][6][7][8][9]
 
 ## Timeline
-For NCT03521232, the trial started on 2018-05-15, reached primary completion on 2022-09-19, and results were due on 2023-09-19 but have not been posted, while 8-K filings in late 2022 mentioned the drug but not the stopping reason, and no results publication was found. For NCT04839575, the trial started on 2021-04-06, reached primary completion on 2022-12-19, and results were due on 2023-12-19 but have not been posted, while 8-K filings in 2024 discussed the drug pipeline without explaining the termination, and no results publication was found. For NCT04243551, the trial started on 2019-11-01, reached primary completion on 2023-10-16, and results were due on 2024-10-15 but have not been posted, while 8-K filings in late 2023 and mid-2024 mentioned pipeline changes without explaining the termination, and no results publication was found.
+NCT03521232 started on 2018-05-15, reached primary completion on 2022-09-19, and was due for results by 2023-09-19, but results have never been posted, and its 2022-10-12 SEC filing did not provide a termination reason. NCT04839575 started on 2021-04-06, reached primary completion on 2022-12-19, and was due for results by 2023-12-19, but results have never been posted, and its 2024-07-11 SEC filing did not provide a termination reason. NCT04243551 started on 2019-11-01, reached primary completion on 2023-10-16, and was due for results by 2024-10-15, but results have never been posted, and its 2024-07-31 SEC filing did not provide a termination reason.
 
 ## Evidence
-- NCT03521232 was a Phase 1/2 trial that started on 2018-05-15, reached primary completion on 2022-09-19, and was terminated without results posted. [1]
-- The clinical trials registry lists the reason for stopping NCT03521232 as "Covid-19". [1]
-- NCT04839575 was a Phase 2 trial that started on 2021-04-06, reached primary completion on 2022-12-19, and was terminated without results posted. [2]
-- The clinical trials registry lists the reason for stopping NCT04839575 as "Covid-19 interruptions and enrollment challenges". [2]
-- NCT04243551 was a Phase 2 trial that started on 2019-11-01, reached primary completion on 2023-10-16, and was terminated without results posted. [3]
-- The clinical trials registry lists the reason for stopping NCT04243551 as "Due to low enrollment related to Covid." [3]
-- The sponsor filed 8-K forms discussing niclosamide in late 2022, but did not specify why NCT03521232 was stopped. [4][10][11]
-- The sponsor filed 8-K forms discussing latiglutenase in 2023 and 2024, but did not specify why NCT04839575 or NCT04243551 were stopped. [12][5][6][13]
-- No results publication for NCT03521232 was found in PubMed, though three articles only mention the trial. [7]
-- No results publication for NCT04839575 was found in PubMed, though four articles only mention the trial. [8]
-- No results publication for NCT04243551 was found in PubMed, though five articles only mention the trial. [9]
-
-## Where the stories differ
-- The clinical trials registry lists specific COVID-19 and enrollment-related reasons for terminating trials NCT03521232, NCT04839575, and NCT04243551, whereas the sponsor's SEC 8-K filings do not specify reasons for stopping these individual trials, only discussing general pipeline and corporate developments. [1][2][3][4][5][6]
+- Trial NCT03521232 is a Phase 1/Phase 2 trial of niclosamide that was terminated with 27 enrolled patients and lists the stopping reason as "Covid-19". [1]
+- Trial NCT04839575 is a Phase 2 trial of latiglutenase that was terminated with 13 enrolled patients and lists the stopping reason as "Covid-19 interruptions and enrollment challenges". [2]
+- Trial NCT04243551 is a Phase 2 trial of latiglutenase that was terminated with 83 enrolled patients and lists the stopping reason as "Due to low enrollment related to Covid.". [3]
+- No results have been posted to ClinicalTrials.gov for NCT03521232, NCT04839575, or NCT04243551. [1][2][3]
+- No results publication was found in PubMed for NCT03521232, NCT04839575, or NCT04243551, though some papers merely mention them. [4][5][6]
+- SEC Form 8-K filings from 2022 to 2024 mention programs involving niclosamide and latiglutenase but do not state reasons for terminating any of the three trials. [7][8][9]
 
 ## What the data can't tell us
-- We cannot determine the real underlying reasons for terminating these trials beyond the brief explanations stated in the registry.
-- The lack of detailed explanations in the investor disclosures does not prove any intent to mislead.
-- The results due date (primary completion plus 365 days) only approximates the FDAAA deadline, which only applies to applicable clinical trials, so this is not evidence that the sponsor broke the law.
-- Results published in conference abstracts, non-indexed journals, or directly on company websites may have been missed because we only searched PubMed and Europe PMC.
-- No 10-K or 10-Q filings were available in the snapshot database, so we cannot tell if more detailed trial termination disclosures were made in those reports.
+- We cannot tell the real reasons for termination beyond the brief explanations provided in the registry.
+- The lack of details in SEC filings or the absence of results publications is not proof of an intent to mislead.
+- Although results due dates are tracked, the estimated deadline of primary completion plus 365 days only approximates the FDAAA deadline, which applies only to applicable clinical trials, meaning this is not proof that the sponsor broke the law.
+- Results that might have been published in conference abstracts, non-indexed journals, or directly on company websites could have been missed by our searches.
+- Because the snapshot database lacks Form 10-K and 10-Q filings, we cannot tell if the sponsor disclosed further termination details in its annual or quarterly reports.
+- We cannot compare registry reasons with investor filings to identify discrepancies because the retrieved SEC filings do not discuss the reasons for stopping these trials.
+
+## Before you publish: the Skeptic's read
+Strength of the finding: strong. The finding rests on the official registry records for three trials, a search of PubMed, and several retrieved SEC filings.
+
+Other explanations the records can't rule out:
+- Clinical results for NCT03521232, NCT04839575, or NCT04243551 might have been shared at medical conferences or directly on the company website, which are sources our search does not cover.
+- The sponsor may have disclosed detailed explanations for terminating these trials in Form 10-K or Form 10-Q filings that were not included in the retrieved database snapshot.
+- Because NCT04839575 and NCT03521232 were terminated with only 13 and 27 patients enrolled, there may not have been enough evaluable clinical data to support a formal publication.
+
+Questions to put to the sponsor:
+- Does Entero Therapeutics plan to post clinical results for NCT03521232, NCT04839575, and NCT04243551 on ClinicalTrials.gov?
+- Were any clinical findings or data from the 83 patients enrolled in NCT04243551 published in conference proceedings or other medical literature?
+- Did the sponsor disclose more detailed reasons for stopping the niclosamide or latiglutenase trials in quarterly or annual financial reports?
 
 ## Sources
 1. A Study of Niclosamide Enemas in Subjects With Active Ulcerative Proctitis or Ulcerative Proctosigmoiditis. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT03521232
 2. Study of Latiglutenase in T1D/CD Patients. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04839575
 3. Prospective, Randomized, Double-Blind, Placebo-Controlled, Crossover Study in Symptomatic CD Patients. ClinicalTrials.gov registry record. https://clinicaltrials.gov/study/NCT04243551
-4. Entero Therapeutics 8-K filed 2022-10-12. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922107922/tm2228013d1_ex99-2.htm
-5. SEC filing 0001104659-24-084206. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465924084206/tm2420546d1_ex99-1.htm
-6. Entero Therapeutics 8-K filed 2023-12-18. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465923126593/tm2333106d1_ex99-1.htm
-7. No results publication found for NCT03521232 (3 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT03521232%5Bsi%5D
-8. No results publication found for NCT04839575 (4 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04839575%5Bsi%5D
-9. No results publication found for NCT04243551 (5 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04243551%5Bsi%5D
-10. SEC filing 0001104659-22-121003. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922121003/tm2231091d1_ex99-1.htm
-11. SEC filing 0001104659-22-122476. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922122476/tm2231455d2_ex99-1.htm
-12. Entero Therapeutics 8-K filed 2024-07-11. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465924079101/tm2419264d1_ex99-1.htm
-13. SEC filing 0001104659-23-129426. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465923129426/tm2333743d1_ex99-1.htm
+4. No results publication found for NCT03521232 (3 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT03521232%5Bsi%5D
+5. No results publication found for NCT04839575 (4 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04839575%5Bsi%5D
+6. No results publication found for NCT04243551 (5 article(s) only mention it). PubMed article. https://pubmed.ncbi.nlm.nih.gov/?term=NCT04243551%5Bsi%5D
+7. SEC 8-K 0001104659-22-107922. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465922107922/tm2228013d1_ex99-2.htm
+8. SEC 8-K 0001104659-24-079101. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465924079101/tm2419264d1_ex99-1.htm
+9. SEC 8-K 0001104659-24-084206. SEC EDGAR filing. https://www.sec.gov/Archives/edgar/data/1604191/000110465924084206/tm2420546d1_ex99-1.htm
 
-_Snapshot date: 2026-11-05. Research rounds: 2. citations_checked: 34, removed: 0._
-
-_84 s, 37 tool calls_
+_Snapshot date: 2026-11-05. Research rounds: 3. citations_checked: 24, removed: 0._
 
 </details>
 
@@ -569,7 +587,7 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
 
 ## Tests
 
-- `uv run pytest`: 335 tests (315 offline; 20 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
+- `uv run pytest`: 336 tests (316 offline; 20 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
   - Rubric proofs: the `/chat` shape and the `agent` field on every tool call (`test_shape.py`), researchers
     overlapping in time and starting from fresh message lists (`test_parallel.py`), the Lead's second round and
     round cap (`test_gap_loop.py`), clarification with no researcher calls (`test_clarify.py`), every `[n]`

@@ -18,6 +18,7 @@ from ghost import config, db
 from ghost.hooks import TraceHooks
 from ghost.pipeline import SETTINGS, model, prompt
 from ghost.state import RunState
+from ghost.style import no_dashes  # noqa: F401  (re-exported for callers)
 from ghost.tools import find_discrepancies, get_enum_values, query_trials_sql
 
 ANALYST_MAX_TURNS = 8
@@ -48,15 +49,6 @@ def schema_text() -> str:
 analyst = Agent(name="analyst", instructions=prompt("analyst") + "\n\nThe snapshot's tables (you do not need read_mappings):\n" + schema_text(),
                 model=model(config.LEAD_MODEL), model_settings=SETTINGS,
                 tools=[get_enum_values, query_trials_sql, find_discrepancies], output_type=AnalystAnswer)
-
-
-DASH_RANGE = re.compile(r"(\d)\s*[\u2013\u2014]\s*(\d)")
-
-
-def no_dashes(text: str) -> str:
-    """The project's style rule, enforced on model output: no en or em dashes."""
-    text = DASH_RANGE.sub(r"\1 to \2", text or "")
-    return re.sub(r"\s*[\u2013\u2014]\s*", ", ", text)
 
 
 async def run_analyst(state: RunState) -> AnalystAnswer:

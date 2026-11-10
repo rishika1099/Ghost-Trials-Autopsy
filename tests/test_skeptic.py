@@ -93,3 +93,16 @@ def test_skeptic_live():
     screened, _ = pipeline.screen_skeptic(state, notes)
     assert notes.strength in ("strong", "moderate", "weak")
     assert 1 <= len(screened.questions) <= 4 and screened.alternatives
+
+
+def test_report_has_no_dashes(stub_pipeline, monkeypatch):
+    """The Writer is told never to use dashes; the renderer makes sure."""
+    async def dashed_writer(state, findings):
+        return WriterReport(answer=[Claim(text="It stopped—the registry says business reasons.", citations=["ctgov:NCT01234567"])],
+                            evidence=[], differences=[], cant_tell=["Results may exist elsewhere – conferences."],
+                            timeline_text="Ran 2017–2018.")
+
+    monkeypatch.setattr(pipeline, "run_writer", dashed_writer)
+    result = asyncio.run(pipeline.investigate("Why did NCT01234567 stop?"))
+    text = result["markdown"] + str(result["report"])
+    assert "—" not in text and "–" not in text and "2017 to 2018" in text

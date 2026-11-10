@@ -6,7 +6,7 @@ URL="${1:-$(python3 -c 'import json; print(json.load(open("submission.json"))["d
 URL="${URL%/}"
 echo "health: $URL/health"
 curl -fsS --max-time 30 "$URL/health"; echo
-QUERY="${QUERY:-Why was trial NCT02008682 stopped, were its results posted, and what did the sponsor tell investors?}"
+QUERY="${QUERY:-Sorrento Therapeutics terminated its phase 2 COVI-MSC trial NCT04903327. Why did it stop, and were the results ever posted or published?}"  # README sample s2
 echo "chat: $QUERY"
 START=$(date +%s)
 BODY=$(curl -fsS --max-time 300 -X POST "$URL/chat" -H 'Content-Type: application/json' \
