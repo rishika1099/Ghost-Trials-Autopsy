@@ -3,15 +3,15 @@
   "findings": {
     "findings": [
       {
-        "claim": "No results publication found for Sorrento Therapeutics trial NCT04903327 (COVI-MSC).",
+        "claim": "No results publication found for trial NCT04903327.",
         "evidence_ids": [
           "pubmed:none:nct04903327"
         ],
         "confidence": "high",
-        "notes": "No results publication found in snapshot or PubMed. Five articles were found that only mention the trial (mention_only), consisting of reviews and background papers."
+        "notes": "No results publication found in snapshot or pubmed_si."
       },
       {
-        "claim": "Five articles mention trial NCT04903327 in Europe PMC/PubMed: PMID 34831101 (Cells, 2021-10-25), PMID 35321737 (Stem cell research & therapy, 2022-03-24), PMID 35782071 (BioMed research international, 2022-06-22), PMID 35897770 (International journal of molecular sciences, 2022-07-25), and PMID 38005826 (Viruses, 2023-10-25). All have link_strength mention_only.",
+        "claim": "Five articles mention trial NCT04903327 as a mention_only (reviews or background papers).",
         "evidence_ids": [
           "pubmed:34831101",
           "pubmed:35321737",
@@ -20,7 +20,7 @@
           "pubmed:38005826"
         ],
         "confidence": "high",
-        "notes": "These are reviews or background articles mentioning the trial ID, not results publications."
+        "notes": "All listed articles are reviews or mention the trial in passing; none are results papers."
       }
     ],
     "gaps": []
@@ -34,6 +34,13 @@
         "drug_name": "COVI-MSC"
       },
       "result": "5 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct04903327 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
+    },
+    {
+      "name": "get_abstract",
+      "args": {
+        "pmid": "34831101"
+      },
+      "result": "PMID 34831101: Molecular Mechanisms of Multi-Organ Failure in COVID-19 and Potential of Stem Cell Therapy."
     }
   ]
 }

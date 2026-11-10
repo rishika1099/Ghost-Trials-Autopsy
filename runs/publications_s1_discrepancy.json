@@ -8,10 +8,10 @@
           "pubmed:none:nct03980730"
         ],
         "confidence": "high",
-        "notes": "Snapshot and PubMed search returned no results_candidate articles. Five articles were found that mention the trial, but all have link_strength mention_only (e.g., reviews or background papers)."
+        "notes": "No results publication found in snapshot or PubMed search; 5 articles were found that only mention the trial (link_strength mention_only)."
       },
       {
-        "claim": "Five articles mention trial NCT03980730 (PMIDs 40207764, 40462159, 40686923, 41090735, 42009954), but none are results publications.",
+        "claim": "Five articles mention trial NCT03980730 (PMID 40207764 in Current neuropharmacology, PMID 40462159 in Alzheimer's research & therapy, PMID 40686923 in MedComm, PMID 41090735 in Cells, and PMID 42009954 in Experimental & molecular medicine), but all have link_strength mention_only and are reviews or unrelated papers.",
         "evidence_ids": [
           "pubmed:40207764",
           "pubmed:40462159",
@@ -20,7 +20,7 @@
           "pubmed:42009954"
         ],
         "confidence": "high",
-        "notes": "Abstract inspection of PMID 40207764 confirmed it is a review on conventional and emerging drug targeting sites in Alzheimer's disease."
+        "notes": "These articles only name the trial in text and do not report its results."
       }
     ],
     "gaps": []
@@ -34,13 +34,6 @@
         "nct_id": "NCT03980730"
       },
       "result": "5 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct03980730 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
-    },
-    {
-      "name": "get_abstract",
-      "args": {
-        "pmid": "40207764"
-      },
-      "result": "PMID 40207764: Conventional and Emerging Drug Targeting Sites in Alzheimer's Disease and the Role of Translational Informatics in its D"
     }
   ]
 }
