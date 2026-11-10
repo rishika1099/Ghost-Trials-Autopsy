@@ -1,0 +1,401 @@
+[
+  {
+    "trial": {
+      "nct_id": "NCT05212818",
+      "sponsor": "Techfields Inc",
+      "drug": "TF0023"
+    },
+    "result": {
+      "nct_id": "NCT05212818",
+      "searched": [
+        "snapshot",
+        "pubmed_si",
+        "europepmc"
+      ],
+      "results_candidates": 0,
+      "publications": [],
+      "evidence_id": "pubmed:none:nct05212818",
+      "note": "No results publication found in snapshot, pubmed_si, europepmc. Cite pubmed:none:nct05212818 for that. Results may exist elsewhere (conference abstracts, company sites)."
+    }
+  },
+  {
+    "trial": {
+      "nct_id": "NCT03992196",
+      "sponsor": "UCB Biopharma SRL",
+      "drug": "Rotigotine 1 mg/24 h"
+    },
+    "result": {
+      "nct_id": "NCT03992196",
+      "searched": [
+        "snapshot",
+        "pubmed_si",
+        "europepmc"
+      ],
+      "results_candidates": 0,
+      "publications": [
+        {
+          "nct_id": "NCT03992196",
+          "pmid": "21179615",
+          "title": "The use of rotigotine in the treatment of restless legs syndrome.",
+          "journal": "Ther Adv Neurol Disord",
+          "pub_date": "2010-07-01",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/21179615/",
+          "evidence_id": "pubmed:21179615"
+        }
+      ],
+      "evidence_id": "pubmed:none:nct03992196",
+      "note": "No results publication found in snapshot, pubmed_si, europepmc. Cite pubmed:none:nct03992196 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exist elsewhere (conference abstracts, company sites)."
+    }
+  },
+  {
+    "trial": {
+      "nct_id": "NCT06022224",
+      "sponsor": "ImmunityBio, Inc.",
+      "drug": "hAd5-S-Fusion+N-ETSD"
+    },
+    "result": {
+      "nct_id": "NCT06022224",
+      "searched": [
+        "snapshot",
+        "pubmed_si",
+        "europepmc"
+      ],
+      "results_candidates": 0,
+      "publications": [
+        {
+          "nct_id": "NCT06022224",
+          "pmid": "33408775",
+          "title": "The 2020 race towards SARS-CoV-2 specific vaccines.",
+          "journal": "Theranostics",
+          "pub_date": "2021-01-01",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/33408775/",
+          "evidence_id": "pubmed:33408775"
+        },
+        {
+          "nct_id": "NCT06022224",
+          "pmid": "33476760",
+          "title": "Pharmacological strategies to prevent SARS-CoV-2 infection and treat the early phases of COVID-19.",
+          "journal": "Int J Infect Dis",
+          "pub_date": "2021-01-18",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/33476760/",
+          "evidence_id": "pubmed:33476760"
+        },
+        {
+          "nct_id": "NCT06022224",
+          "pmid": "34202429",
+          "title": "Intranasal Vaccination Strategy to Control the COVID-19 Pandemic from a Veterinary Medicine Perspective.",
+          "journal": "Animals (Basel)",
+          "pub_date": "2021-06-24",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/34202429/",
+          "evidence_id": "pubmed:34202429"
+        },
+        {
+          "nct_id": "NCT06022224",
+          "pmid": "34354082",
+          "title": "Adenoviral vector vaccine platforms in the SARS-CoV-2 pandemic.",
+          "journal": "NPJ Vaccines",
+          "pub_date": "2021-08-05",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/34354082/",
+          "evidence_id": "pubmed:34354082"
+        },
+        {
+          "nct_id": "NCT06022224",
+          "pmid": "34497383",
+          "title": "T cell-oriented strategies for controlling the COVID-19 pandemic.",
+          "journal": "Nat Rev Immunol",
+          "pub_date": "2021-11-01",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/34497383/",
+          "evidence_id": "pubmed:34497383"
+        },
+        {
+          "nct_id": "NCT06022224",
+          "pmid": "35215973",
+          "title": "Fighting Fire with Fire: Immunogenicity of Viral Vectored Vaccines against COVID-19.",
+          "journal": "Viruses",
+          "pub_date": "2022-02-12",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/35215973/",
+          "evidence_id": "pubmed:35215973"
+        },
+        {
+          "nct_id": "NCT06022224",
+          "pmid": "36438851",
+          "title": "Mucosal delivery of nanovaccine strategy against COVID-19 and its variants.",
+          "journal": "Acta Pharm Sin B",
+          "pub_date": "2022-11-21",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/36438851/",
+          "evidence_id": "pubmed:36438851"
+        },
+        {
+          "nct_id": "NCT06022224",
+          "pmid": "39066432",
+          "title": "SARS-CoV-2 Vaccines: The Advantage of Mucosal Vaccine Delivery and Local Immunity.",
+          "journal": "Vaccines (Basel)",
+          "pub_date": "2024-07-18",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/39066432/",
+          "evidence_id": "pubmed:39066432"
+        }
+      ],
+      "evidence_id": "pubmed:none:nct06022224",
+      "note": "No results publication found in snapshot, pubmed_si, europepmc. Cite pubmed:none:nct06022224 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exist elsewhere (conference abstracts, company sites)."
+    }
+  },
+  {
+    "trial": {
+      "nct_id": "NCT02483884",
+      "sponsor": "Lantheus Biosciences Ltd.",
+      "drug": "[68Ga]RM2"
+    },
+    "result": {
+      "nct_id": "NCT02483884",
+      "searched": [
+        "snapshot",
+        "pubmed_si",
+        "europepmc"
+      ],
+      "results_candidates": 0,
+      "publications": [
+        {
+          "nct_id": "NCT02483884",
+          "pmid": "36215569",
+          "title": "Comparison of <sup>68</sup>Ga-PSMA-617 PET/CT and <sup>68</sup>Ga-RM2 PET/CT in Patients with Localized Prostate Cancer Who Are Candidates for Radical Prostatectomy: A Prospective, Single-Arm, Single-Center, Phase II Study.",
+          "journal": "J Nucl Med",
+          "pub_date": "2022-09-02",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/36215569/",
+          "evidence_id": "pubmed:36215569"
+        },
+        {
+          "nct_id": "NCT02483884",
+          "pmid": "36396456",
+          "title": "A Pilot Study of <sup>68</sup>Ga-PSMA11 and <sup>68</sup>Ga-RM2 PET/MRI for Biopsy Guidance in Patients with Suspected Prostate Cancer.",
+          "journal": "J Nucl Med",
+          "pub_date": "2022-11-17",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/36396456/",
+          "evidence_id": "pubmed:36396456"
+        },
+        {
+          "nct_id": "NCT02483884",
+          "pmid": "38442298",
+          "title": "Gastrin-releasing peptide receptor (GRPR) as a novel biomarker and therapeutic target in prostate cancer.",
+          "journal": "Ann Med",
+          "pub_date": "2024-03-05",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/38442298/",
+          "evidence_id": "pubmed:38442298"
+        },
+        {
+          "nct_id": "NCT02483884",
+          "pmid": "39490335",
+          "title": "Update on PSMA-based Prostate Cancer Imaging.",
+          "journal": "Semin Nucl Med",
+          "pub_date": "2024-10-28",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/39490335/",
+          "evidence_id": "pubmed:39490335"
+        },
+        {
+          "nct_id": "NCT02483884",
+          "pmid": "40863874",
+          "title": "Emerging PET Imaging Agents and Targeted Radioligand Therapy: A Review of Clinical Applications and Trials.",
+          "journal": "Tomography",
+          "pub_date": "2025-07-28",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/40863874/",
+          "evidence_id": "pubmed:40863874"
+        },
+        {
+          "nct_id": "NCT02483884",
+          "pmid": "41226028",
+          "title": "Prostate Cancer Imaging Beyond PSMA: Applications of GRPR, AR, and Amino Acid Tracers.",
+          "journal": "Diagnostics (Basel)",
+          "pub_date": "2025-10-28",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/41226028/",
+          "evidence_id": "pubmed:41226028"
+        },
+        {
+          "nct_id": "NCT02483884",
+          "pmid": "42449638",
+          "title": "PSMA PET in Lymph Node Staging of Prostate Cancer: From Diagnostic Accuracy to Clinical Decision-Making.",
+          "journal": "Cancers (Basel)",
+          "pub_date": "2026-06-27",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/42449638/",
+          "evidence_id": "pubmed:42449638"
+        },
+        {
+          "nct_id": "NCT02483884",
+          "pmid": "42520170",
+          "title": "GRPR-Targeted Radionuclide Conjugates: A Molecular Evolution Perspective.",
+          "journal": "Chem Biodivers",
+          "pub_date": "2026-07-01",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/42520170/",
+          "evidence_id": "pubmed:42520170"
+        }
+      ],
+      "evidence_id": "pubmed:none:nct02483884",
+      "note": "No results publication found in snapshot, pubmed_si, europepmc. Cite pubmed:none:nct02483884 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exist elsewhere (conference abstracts, company sites)."
+    }
+  },
+  {
+    "trial": {
+      "nct_id": "NCT03145831",
+      "sponsor": "Versartis Inc.",
+      "drug": "Somavaratan"
+    },
+    "result": {
+      "nct_id": "NCT03145831",
+      "searched": [
+        "snapshot",
+        "pubmed_si",
+        "europepmc"
+      ],
+      "results_candidates": 0,
+      "publications": [
+        {
+          "nct_id": "NCT03145831",
+          "pmid": "26672637",
+          "title": "A Randomized Safety and Efficacy Study of Somavaratan (VRS-317), a Long-Acting rhGH, in Pediatric Growth Hormone Deficiency.",
+          "journal": "J Clin Endocrinol Metab",
+          "pub_date": "2015-12-16",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/26672637/",
+          "evidence_id": "pubmed:26672637"
+        },
+        {
+          "nct_id": "NCT03145831",
+          "pmid": "28947559",
+          "title": "The rationale and design of TransCon Growth Hormone for the treatment of growth hormone deficiency.",
+          "journal": "Endocr Connect",
+          "pub_date": "2017-09-25",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/28947559/",
+          "evidence_id": "pubmed:28947559"
+        },
+        {
+          "nct_id": "NCT03145831",
+          "pmid": "30378794",
+          "title": "Long-Acting Growth Hormone Preparations in the Treatment of Children.",
+          "journal": "Pediatr Endocrinol Rev",
+          "pub_date": "2018-09-01",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/30378794/",
+          "evidence_id": "pubmed:30378794"
+        },
+        {
+          "nct_id": "NCT03145831",
+          "pmid": "31939485",
+          "title": "Perspectives on long-acting growth hormone therapy in children and adults.",
+          "journal": "Arch Endocrinol Metab",
+          "pub_date": "2019-11-01",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/31939485/",
+          "evidence_id": "pubmed:31939485"
+        },
+        {
+          "nct_id": "NCT03145831",
+          "pmid": "31676901",
+          "title": "Long-Acting Growth Hormone Preparations - Current Status and Future Considerations.",
+          "journal": "J Clin Endocrinol Metab",
+          "pub_date": "2020-06-01",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/31676901/",
+          "evidence_id": "pubmed:31676901"
+        },
+        {
+          "nct_id": "NCT03145831",
+          "pmid": "33716988",
+          "title": "Usefulness and Potential Pitfalls of Long-Acting Growth Hormone Analogs.",
+          "journal": "Front Endocrinol (Lausanne)",
+          "pub_date": "2021-02-24",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/33716988/",
+          "evidence_id": "pubmed:33716988"
+        },
+        {
+          "nct_id": "NCT03145831",
+          "pmid": "37550410",
+          "title": "New drugs and stock market: a machine learning framework for predicting pharma market reaction to clinical trial announcements.",
+          "journal": "Sci Rep",
+          "pub_date": "2023-08-07",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/37550410/",
+          "evidence_id": "pubmed:37550410"
+        },
+        {
+          "nct_id": "NCT03145831",
+          "pmid": "42238247",
+          "title": "Treatment with long-acting growth hormone: effectiveness and safety.",
+          "journal": "Front Endocrinol (Lausanne)",
+          "pub_date": "2026-05-19",
+          "found_by": "europepmc",
+          "link_type": "europepmc_drug_name",
+          "link_strength": "mention_only",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/42238247/",
+          "evidence_id": "pubmed:42238247"
+        }
+      ],
+      "evidence_id": "pubmed:none:nct03145831",
+      "note": "No results publication found in snapshot, pubmed_si, europepmc. Cite pubmed:none:nct03145831 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exist elsewhere (conference abstracts, company sites)."
+    }
+  }
+]

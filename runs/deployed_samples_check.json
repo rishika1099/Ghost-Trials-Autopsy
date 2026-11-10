@@ -1,0 +1,102 @@
+{
+ "url": "https://ghost-trials-autopsy-895402809785.us-central1.run.app",
+ "date": "2026-11-10 09:39",
+ "results": [
+  {
+   "id": "s1_discrepancy",
+   "seconds": 87,
+   "shape_ok": true,
+   "tool_calls": 40,
+   "agents": [
+    "checker",
+    "lead",
+    "researcher:disclosures",
+    "researcher:publications",
+    "researcher:trials",
+    "skeptic",
+    "writer"
+   ],
+   "dashes": false,
+   "start": "## Answer\nThe trial registry reason and the disclosures vTv Therapeutics gave to investors do not match. [1][2][3] The registry states that the Phase 2 Elevage study of azeliragon (NCT03980730) was terminated \"for business reasons\". [1] However, the sponsor disclosed to investors in SEC filings that"
+  },
+  {
+   "id": "s2_never_posted",
+   "seconds": 151,
+   "shape_ok": true,
+   "tool_calls": 46,
+   "agents": [
+    "checker",
+    "lead",
+    "researcher:disclosures",
+    "researcher:publications",
+    "researcher:trials",
+    "skeptic",
+    "writer"
+   ],
+   "dashes": false,
+   "start": "## Answer\nSorrento Therapeutics terminated the phase 2 COVI-MSC trial NCT04903327 due to considerably slow enrollment and an inability to reach enrollment targets. [1] No clinical results for the trial have been posted to ClinicalTrials.gov. [1] No results publication has been found in PubMed, altho"
+  },
+  {
+   "id": "s3_sponsor",
+   "seconds": 177,
+   "shape_ok": true,
+   "tool_calls": 61,
+   "agents": [
+    "checker",
+    "lead",
+    "researcher:disclosures",
+    "researcher:publications",
+    "researcher:trials",
+    "skeptic",
+    "writer"
+   ],
+   "dashes": false,
+   "start": "## Answer\nEntero Therapeutics stopped five Phase 1/2 or Phase 2 clinical trials early without posting results on ClinicalTrials.gov. [1][2][3][4][5] For the withdrawn trials NCT04542434 and NCT04436458, the registry states that the asset was acquired by another company who opened its own IND and tha"
+  },
+  {
+   "id": "s4_stories_differ",
+   "seconds": 109,
+   "shape_ok": true,
+   "tool_calls": 40,
+   "agents": [
+    "checker",
+    "lead",
+    "researcher:disclosures",
+    "researcher:publications",
+    "researcher:trials",
+    "skeptic",
+    "writer"
+   ],
+   "dashes": false,
+   "start": "## Answer\nThe five hand-checked stopped trials in the snapshot, NCT03980730, NCT05528861, NCT02227784, NCT02452528, and NCT04802837, all have 8-K filings detailing clinical, efficacy, or safety reasons for discontinuation that differ from the business-related or strategic explanations provided in th"
+  },
+  {
+   "id": "vague",
+   "seconds": 70,
+   "shape_ok": true,
+   "tool_calls": 4,
+   "agents": [
+    "lead"
+   ],
+   "dashes": false,
+   "start": "Which aspect of stopped industry Alzheimer's trials would you like to investigate?\n\nTry one of these:\n- What were the official reasons listed in the clinical trials registry for phase 2 and 3 Alzheimer's trials that stopped early between 2015 and 2023 (such as Biogen's NCT02477800 or Sanofi's NCT026"
+  },
+  {
+   "id": "cant_answer",
+   "seconds": 166,
+   "shape_ok": true,
+   "tool_calls": 44,
+   "agents": [
+    "checker",
+    "lead",
+    "researcher:disclosures",
+    "researcher:publications",
+    "researcher:trials",
+    "skeptic",
+    "writer"
+   ],
+   "dashes": false,
+   "start": "## Answer\nThese public records cannot show whether anyone broke the law; they show only what was reported and when. Whether Sorrento Therapeutics has an explanation for not posting clinical trial results cannot be determined from the records. [1][2] The registry says that Sorrento Therapeutics termi"
+  }
+ ]
+}

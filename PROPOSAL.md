@@ -11,36 +11,41 @@ Due **Wed Nov 11, 11:59pm**. Team: Rishika (rishika1099), Shreya (shreyashetty2)
 - The user names a drug, sponsor, condition or NCT ID. A vague question ("Why do trials fail?") gets a clarifying question with concrete options instead of research.
 - The **Lead** plans and sends briefs to three **Researchers** at once, each in a fresh context: trials (registry and FDA), disclosures (SEC filings) and publications (PubMed and Europe PMC).
 - The Lead reads their findings, lists gaps ("sponsor matched to a CIK but no 8-K in the window") and sends researchers back for just those, up to 3 rounds and a 240 s budget.
-- The **Writer** reports using only stored evidence: answer, timeline, evidence, where the stories differ, and what the data can't tell us. The **Citation Checker** then checks every cited sentence against its record and fixes or removes what isn't supported.
+- The **Writer** reports using only stored evidence: answer, timeline, evidence, where the stories differ, and what the data can't tell us. The **Citation Checker** then checks every cited sentence against its record and fixes or removes what isn't supported. The **Skeptic** reads the checked report like an editor: how strong the finding is, what else could explain it, and what to ask the sponsor.
+- The **ghost ledger** gives instant, no-AI views of the whole snapshot (who goes silent, a sponsor report card, every registry vs. 8-K discrepancy), and a **Ledger Analyst** agent answers whole-snapshot questions with SQL.
 - Underneath is an offline snapshot nobody else has: 16,473 industry phase 2 and 3 trials (2015 to 2023) joined to sponsor 8-K filings and PubMed articles.
 
 ## Features
 | Feature | Status |
 |---|---|
 | Snapshot: trials, derived results timing, stop-reason categories, publications | done (16,473 trials, 25,615 publication links) |
-| Snapshot: sponsor to SEC CIK, 8-K filings near each stop | built, empty until `SEC_USER_AGENT` is set |
-| Lead: clarify / refuse / research gate, plan, gap review, round cap, time budget | done, tuning on real runs |
+| Snapshot: sponsor to SEC CIK, 8-K filings near each stop | done (591 sponsors matched, 2,053 filings) |
+| Lead: clarify / refuse / research gate, plan, gap review, round cap, time budget | done |
 | Researchers in parallel, fresh contexts, three lane configs | done |
-| Writer with evidence-id citations, numbered by code | done, tuning |
-| Citation Checker (evidence-id check, then a model check) | done, tuning |
+| Writer with evidence-id citations, numbered by code | done |
+| Citation Checker (evidence-id check, deterministic rules, then a model check) | done |
+| Skeptic: strength of the finding, other explanations, questions for the sponsor | done (PR 32) |
 | Discrepancy finder: registry reason vs. 8-K language | done (PR 14: `discrepancies` table, 43 trials labelled, 7 hand-checked) |
 | `/chat` in the Project 1 shape, with an `agent` field on every tool call | done |
-| Frontend: live trace with parallel timing bars, trial timeline, clickable citations, "can't tell us" box | first pass done |
+| Frontend: live trace with parallel timing bars, trial timeline, clickable citations, "can't tell us" box | done (PR 13) |
+| Ghost ledger: who goes silent, sponsor report card, stories that differ, shareable links | done (PR 31) |
+| Ask the ledger: Ledger Analyst agent, SQL rerun by the app, numbers checked | done (PR 32) |
 | Offline tests (`uv run pytest`) and live tests (`LIVE=1`) | done |
 | Inspect evals: the Lead's gate, and full runs against gold SQL answers | done (gate 28/30, facts 10/10; `evals/RESULTS.md`) |
-| Deploy to Cloud Run on Kshamaa's GCP project | to do |
-| README with sample queries and no-tools baselines | in progress |
+| Deploy to Cloud Run on Kshamaa's GCP project, continuous deploy from `main` | done |
+| README with sample queries and no-tools baselines | done |
 
 ## Who owns what
 Everyone owns **one data lane** (the course asks for one data source per team member), **one agent shape**, and **one piece that ties the project together**. Work on a branch per task (`shreya/sec-filings`) and open a PR into `main`.
 
 ### Everyone: get set up first (by Nov 5)
-- [ ] Install uv (`brew install uv`) and the gcloud CLI; `gcloud auth application-default login`
-- [ ] Clone the repo, `cp .env.example .env`, `uv run app.py`, open http://localhost:8000
-- [ ] Click the example chips: the vague one should ask a clarifying question; the others show the Lead, three Researchers with timing bars, the Writer and the Checker in the trace
-- [ ] `uv run pytest` passes
-- [ ] Read `CLAUDE.md` (plan and rubric) and `NOTES.md` (how the three starters were combined)
-- [ ] Once Kshamaa shares the GCP project ID, set `VERTEX_PROJECT=<id>` in `.env`
+Each teammate's own laptop setup, kept here as instructions for anyone running the project:
+- Install uv (`brew install uv`) and the gcloud CLI; `gcloud auth application-default login`
+- Clone the repo, `cp .env.example .env`, `uv run app.py`, open http://localhost:8000
+- Click the example chips: the vague one should ask a clarifying question; the others show the Lead, three Researchers with timing bars, the Writer and the Checker in the trace
+- `uv run pytest` passes
+- Read `CLAUDE.md` (plan and rubric) and `NOTES.md` (how the three starters were combined)
+- Once Kshamaa shares the GCP project ID, set `VERTEX_PROJECT=<id>` in `.env`
 
 The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need to rebuild it to start.
 
@@ -62,7 +67,7 @@ The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need t
 
 ### Shreya: disclosures + the Citation Checker
 **Data lane B: SEC EDGAR** (`find_sponsor_cik`, `search_sec_filings`, `get_filing_excerpt`; `prompts/lane_disclosures.md`). PR 14: 591 sponsors matched to a CIK, 2,053 `filings` rows, 770 stopped trials with an 8-K.
-- [ ] Agree on a team contact string and put it in `.env` as `SEC_USER_AGENT="Ghost Trials Autopsy name@columbia.edu"` (never in the repo)
+- [x] Agree on a team contact string and put it in `.env` as `SEC_USER_AGENT="Ghost Trials Autopsy name@columbia.edu"` (never in the repo). On Cloud Run it is the Secret Manager secret `sec-user-agent` (set 2026-11-07, `NOTES.md`)
 - [x] Rebuild: `uv run python scripts/build_snapshot.py` (other sources are cached, so only the SEC steps are new)
 - [x] Check 20 sponsor matches (`ghost/names.py`, threshold 92) and 10 rows of `filings`: right company, right trial, relevant `snippet`
 - [x] Run the disclosures researcher on the three samples in `samples.json`; it should quote 8-K language exactly (6/6 quotes exact, `runs/disclosures_*.json`)
@@ -81,27 +86,27 @@ The snapshot (`data/autopsy.duckdb`) is already in the repo, so you don't need t
 **Data lane C: PubMed and Europe PMC** (`find_publications`, `get_abstract`; `prompts/lane_publications.md`)
 - [x] Spot-check 20 links per `link_type` (results candidates 13 to 15 of 20 for the three formal link types, 1 of 20 for `europepmc_mention`; `NOTES.md`)
 - [x] Decide whether `europepmc_mention` counts as "published": it does not. `link_strength` on every article, stats 21.4% instead of 81.8%, Writer and timeline follow it (`NOTES.md`, `tests/test_publications_tools.py`)
-- [ ] Check the live fallback in `find_publications` on 5 trials with nothing in the snapshot (`uv run python scripts/check_publications_live.py`)
-- [ ] Run the publications researcher on the three samples; it should say "no results publication found" plainly (`uv run python scripts/run_publications.py`, checks it automatically)
+- [x] Check the live fallback in `find_publications` on 5 trials with nothing in the snapshot (`uv run python scripts/check_publications_live.py`). 2026-11-10: all 5 searched PubMed and Europe PMC live; each got a citable "No results publication found" record, with the 1 to 8 articles that only mention it marked mention_only (`runs/publications_live_check.json`)
+- [x] Run the publications researcher on the three samples; it should say "no results publication found" plainly (`uv run python scripts/run_publications.py`, checks it automatically). 2026-11-10: s1, s2 and s3 each 0 problems; every trial without a results paper cites its `pubmed:none:` record (`runs/publications_s*.json`)
 
 **Agent shape: the Writer** (`prompts/writer.md`, `ghost/report.py`) **and the page** (`index.html`)
-- [ ] On 3 real reports: is the Answer direct, one fact per Evidence claim, "What the data can't tell us" specific (not boilerplate)? Reviewed the 2026-11-05 runs, 6 problems fixed (`NOTES.md`); rerun to confirm
-- [ ] Timeline events right on the 3 samples (start, stop, results due, posted or never, 8-K, publication). Registry dates right; review-only "Publication" markers removed; rerun to confirm
+- [x] On 3 real reports: is the Answer direct, one fact per Evidence claim, "What the data can't tell us" specific (not boilerplate)? Reviewed the 2026-11-05 runs, 6 problems fixed (`NOTES.md`). Reran 2026-11-10 (`runs/20261110-0925_s*.json`, 121 to 140 s, 0 citations removed): each Answer opens with the direct claim; the limits are specific (s3 names the missing 10-K and 10-Q filings). Two small things left: s2 lists a drug-only 8-K lead under "Where the stories differ", and s1 cites the discrepancies table as well as the filing
+- [x] Timeline events right on the 3 samples (start, stop, results due, posted or never, 8-K, publication). Registry dates right; review-only "Publication" markers removed. Reran 2026-11-10: all 44 events in the 5 trial timelines match the snapshot (registry dates, results due, never-posted markers, 8-K accession and date); no review is drawn as a publication
 - [x] Phone width (375 px), light and dark mode, timeline labels don't overlap, `[n]` opens its source (PR 13)
 - [x] Make it feel like ours (peer review scores originality): hand-drawn lab notebook design (PR 13)
 
 **Ties it together: GCP on her course credits**
-- [ ] Share the project ID; give Rishika and Shreya **Vertex AI User** (and **Cloud Run Developer** to whoever helps deploy)
-- [ ] Cloud Run > Connect repository > Developer Connect > this repo, build with the `Dockerfile` (course guide "Deploying to Cloud Run from GitHub")
-- [ ] Request timeout 600 s, memory 2 GiB, min instances 1 during grading; `SEC_USER_AGENT` in Secret Manager, `VERTEX_PROJECT` as an env var
-- [ ] `/health` returns 200; `bash tests/test_deploy.sh <url>` passes; URL in `submission.json`
+- [x] Share the project ID; give Rishika and Shreya **Vertex AI User** (and **Cloud Run Developer** to whoever helps deploy). Project `ieor-agentic-ai-292704`
+- [x] Cloud Run > Connect repository > Developer Connect > this repo, build with the `Dockerfile` (course guide "Deploying to Cloud Run from GitHub"). Cloud Build trigger `deploy-on-main` runs `cloudbuild.yaml` on every push to `main`; it deployed PRs 30 to 33 on 2026-11-10
+- [x] Request timeout 600 s, memory 2 GiB, min instances 1 during grading; `SEC_USER_AGENT` in Secret Manager, `VERTEX_PROJECT` as an env var
+- [x] `/health` returns 200; `bash tests/test_deploy.sh <url>` passes; URL in `submission.json`. 2026-11-10 after the PR 33 deploy: PASS, the Sorrento sample answered in 111 s
 
 ### Everyone: README and submission (Nov 10 to 11)
-- [ ] README: each person writes up the sample query closest to their lane: query, hand-checked expected answer, exact source, the no-tools answer (`baseline/`) and our agent's answer (`runs/`) pasted verbatim
-- [ ] README: one vague-question example, one "can't answer" example, architecture, deployed URL with a curl example, limitations
-- [ ] Sample queries tested on the deployed URL, each under 5 minutes
-- [ ] `uv run pytest`, `LIVE=1 uv run pytest`, `bash tests/test_deploy.sh` pass; no em dashes anywhere
-- [ ] Every rubric row in `NOTES.md` ticked with evidence
+- [x] README: each person writes up the sample query closest to their lane: query, hand-checked expected answer, exact source, the no-tools answer (`baseline/`) and our agent's answer (`runs/`) pasted verbatim (agent answers refreshed 2026-11-10, PR 33)
+- [x] README: one vague-question example, one "can't answer" example, architecture, deployed URL with a curl example, limitations
+- [x] Sample queries tested on the deployed URL, each under 5 minutes. 2026-11-10: all six from `samples.json` sent at once; 70 to 177 s each, Project 1 shape, every tool call has an `agent`, no dashes; the vague one got a clarification with only Lead calls (`runs/deployed_samples_check.json`)
+- [x] `uv run pytest`, `LIVE=1 uv run pytest`, `bash tests/test_deploy.sh` pass; no em dashes anywhere. 2026-11-10: `LIVE=1` run 335 passed, 1 skipped (the live SEC step test, which needs `SEC_USER_AGENT` in a local `.env`; the deployed service has it and its 8-K lookups worked in all four research samples). The only dashes left are in verbatim sources (the no-tools answers in `baseline/` and an 8-K quote in `evals/`) and in the tests and code that remove them
+- [x] Every rubric row in `NOTES.md` ticked with evidence
 - [ ] One person submits the repo URL on Courseworks by Nov 11, 11:59pm
 
 ## Timeline
