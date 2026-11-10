@@ -52,6 +52,15 @@ def fake_skeptic_notes() -> SkepticNotes:
 
 
 @pytest.fixture(autouse=True)
+def reset_rate_limits():
+    """Every test starts with no requests counted against the test client."""
+    import app as web
+    web._hits.clear()
+    yield
+    web._hits.clear()
+
+
+@pytest.fixture(autouse=True)
 def stub_skeptic(monkeypatch):
     """The Skeptic is a model call at the end of every report. Offline tests get a fixed one."""
     async def skeptic(state, report):

@@ -444,7 +444,7 @@ async def skeptic_review(state: RunState, report: WriterReport) -> dict | None:
         state.notes.append(f"The Skeptic did not finish ({type(e).__name__}); the report stands as checked.")
         state.emit({"type": "agent", "agent": "skeptic", "status": "end", "t": round(state.elapsed(), 2), "skipped": True})
         return None
-    from ghost.analyst import no_dashes  # local: analyst imports this module
+    from ghost.style import no_dashes
     notes = notes.model_copy(update={"strength_reason": no_dashes(notes.strength_reason),
                                      "alternatives": [no_dashes(a) for a in notes.alternatives],
                                      "questions": [no_dashes(q) for q in notes.questions]})

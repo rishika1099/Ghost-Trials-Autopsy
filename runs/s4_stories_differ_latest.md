@@ -30,7 +30,7 @@ For NCT03980730, the registry says the trial started on 2019-06-27, reached prim
 ## What the data can't tell us
 - The available data cannot tell us the deeper commercial or clinical motivations for stopping these trials beyond the written text in the registry and investor reports.
 - Any discrepancy between ClinicalTrials.gov and SEC filings is not definitive proof of intent by the sponsor to mislead investors or the public.
-- While some trials posted results late relative to their results due date, this date only approximates the FDAAA deadline, which applies exclusively to 'applicable clinical trials'—a status that is not fully public, meaning this is not evidence that a sponsor broke the law.
+- While some trials posted results late relative to their results due date, this date only approximates the FDAAA deadline, which applies exclusively to 'applicable clinical trials', a status that is not fully public, meaning this is not evidence that a sponsor broke the law.
 - We also cannot be certain that results were never published, as publications in conference abstracts, non-indexed journals, or company websites may be missed by our searches in PubMed and Europe PMC.
 - Finally, because private sponsors do not file reports with the SEC, similar potential discrepancies for privately funded trials in the snapshot cannot be identified or evaluated.
 
