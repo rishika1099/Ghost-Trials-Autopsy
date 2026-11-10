@@ -1,6 +1,6 @@
 # Eval results
 
-Run on 2026-11-05 and rerun on 2026-11-08 (same scores) with Gemini on Vertex (Lead, Writer and Checker `gemini-3.5-flash`, Researchers `gemini-3.5-flash-lite`, judge `gemini-3.5-flash`).
+Run on 2026-11-05 and rerun on 2026-11-08 and 2026-11-09 (same scores) with Gemini on Vertex (Lead, Writer and Checker `gemini-3.5-flash`, Researchers `gemini-3.5-flash-lite`, judge `gemini-3.5-flash`).
 Margins are the rough ±1/sqrt(n) bound; Inspect's stderr is shown too. Small n, so read these as a sanity check, not a benchmark.
 
 | Eval | n | Score | ±1/sqrt(n) | stderr | How to rerun |
@@ -10,7 +10,10 @@ Margins are the rough ±1/sqrt(n) bound; Inspect's stderr is shown too. Small n,
 | Facts: report cites sources / has "can't tell us" | 10 | 10/10, 10/10 | ±0.32 | | same run |
 | Citation Checker, rules only | 10 planted + 10 controls | 9/10 caught, 0/10 false positives | ±0.32 | | `uv run python evals/planted_claims.py` |
 | Citation Checker, rules + model | 10 planted + 10 controls | 10/10 caught, 0/10 false positives | ±0.32 | | `uv run python evals/planted_claims.py --model` |
-| Disclosures researcher quotes (s1, s2, s3) | 6 quotes (2026-11-05), 4 quotes (2026-11-08) | 6/6 and 4/4 word for word in the cited record | | | `uv run python scripts/run_disclosures.py` |
+| Disclosures researcher quotes (s1, s2, s3) | 6 quotes (2026-11-05), 4 quotes (2026-11-08 and 2026-11-09) | 6/6, 4/4 and 4/4 word for word in the cited record | | | `uv run python scripts/run_disclosures.py` |
+| Trials researcher alone, 10 briefs (2026-11-09) | 49 findings | 0 problems (ids exist, dates and quotes in the record, withdrawn never called late) | | | `uv run python scripts/run_trials.py` |
+| Publications researcher alone, s1 to s3 (2026-11-09) | 9 findings | 0 problems (no paper cited as results when it only mentions the trial) | | | `uv run python scripts/run_publications.py` |
+| Each agent step alone against Gemini (2026-11-09) | 13 tests | 13/13 | | | `LIVE=1 uv run pytest tests/test_steps_live.py` |
 
 ## Notes
 

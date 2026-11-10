@@ -1,0 +1,98 @@
+{
+  "brief": "Publications for Entero Therapeutics (formerly First Wave BioPharma and AzurRx BioPharma) stopped phase 2 trials: NCT04858425 (niclosamide), NCT04839575 and NCT04243551 (latiglutenase), NCT04542434 and NCT04436458. For each, was a paper reporting its results published?",
+  "findings": {
+    "findings": [
+      {
+        "claim": "No results publication found for NCT04542434 (niclosamide); 3 articles mention the trial.",
+        "evidence_ids": [
+          "pubmed:none:nct04542434"
+        ],
+        "confidence": "high",
+        "notes": "Snapshot and live PubMed/Europe PMC searched; only mention_only items found."
+      },
+      {
+        "claim": "No results publication found for NCT04858425 (niclosamide); 3 articles mention the trial.",
+        "evidence_ids": [
+          "pubmed:none:nct04858425"
+        ],
+        "confidence": "high",
+        "notes": "Snapshot and live PubMed/Europe PMC searched; only mention_only items found."
+      },
+      {
+        "claim": "No results publication found for NCT04436458 (niclosamide); 5 articles mention the trial.",
+        "evidence_ids": [
+          "pubmed:none:nct04436458"
+        ],
+        "confidence": "high",
+        "notes": "Snapshot and live PubMed/Europe PMC searched; only mention_only items found."
+      },
+      {
+        "claim": "No results publication found for NCT04839575 (latiglutenase); 4 articles mention the trial.",
+        "evidence_ids": [
+          "pubmed:none:nct04839575"
+        ],
+        "confidence": "high",
+        "notes": "Snapshot and live PubMed/Europe PMC searched; only mention_only items found."
+      },
+      {
+        "claim": "No results publication found for NCT04243551 (latiglutenase); 5 articles mention the trial.",
+        "evidence_ids": [
+          "pubmed:none:nct04243551"
+        ],
+        "confidence": "high",
+        "notes": "Snapshot and live PubMed/Europe PMC searched; only mention_only items found."
+      }
+    ],
+    "gaps": []
+  },
+  "problems": [],
+  "tool_calls": [
+    {
+      "name": "query_trials_sql",
+      "args": {
+        "sql": "SELECT nct_id, interventions, drug_names FROM trials WHERE nct_id IN ('NCT04858425', 'NCT04839575', 'NCT04243551', 'NCT04542434', 'NCT04436458')"
+      },
+      "result": "5 rows, 5 evidence ids"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04839575",
+        "drug_name": "latiglutenase"
+      },
+      "result": "4 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct04839575 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "niclosamide",
+        "nct_id": "NCT04858425"
+      },
+      "result": "3 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct04858425 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04542434",
+        "drug_name": "niclosamide"
+      },
+      "result": "3 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct04542434 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04436458",
+        "drug_name": "niclosamide"
+      },
+      "result": "5 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct04436458 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
+    },
+    {
+      "name": "find_publications",
+      "args": {
+        "nct_id": "NCT04243551",
+        "drug_name": "latiglutenase"
+      },
+      "result": "5 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct04243551 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
+    }
+  ]
+}

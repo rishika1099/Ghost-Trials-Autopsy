@@ -722,6 +722,8 @@ def get_abstract(ctx: RunContextWrapper[RunState], pmid: str) -> str:
         pmid: PubMed ID, e.g. '34567890'.
     """
     pmid = re.sub(r"\D", "", pmid)
+    if not pmid:
+        return _error("pmid must be a PubMed ID, e.g. '34567890'.")
     try:
         xml = http.get(f"{EUTILS}/efetch.fcgi", {"db": "pubmed", "id": pmid, "retmode": "xml"}, as_json=False)
         article = ET.fromstring(xml).find(".//PubmedArticle")

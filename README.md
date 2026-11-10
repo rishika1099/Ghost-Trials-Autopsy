@@ -532,12 +532,20 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
 
 ## Tests
 
-- `uv run pytest`: offline suite (129 tests). Among them: the `/chat` shape and the `agent` field on every
-  tool call (`test_shape.py`), researchers overlapping in time and starting from fresh message lists
-  (`test_parallel.py`), the Lead's second round and round cap (`test_gap_loop.py`), clarification with no
-  researcher calls (`test_clarify.py`), every `[n]` mapping to a stored source (`test_citations.py`), the
-  qualified answer to a legal question (`test_cant_answer.py`), the SQL guardrails (`test_sql_guard.py`), retries, time limits and the cache (`test_robustness.py`), and the timeline check and limits section (`test_report_gaps.py`).
-  `LIVE=1 uv run pytest` also calls Gemini.
+- `uv run pytest`: 303 tests (285 offline; 18 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
+  - Rubric proofs: the `/chat` shape and the `agent` field on every tool call (`test_shape.py`), researchers
+    overlapping in time and starting from fresh message lists (`test_parallel.py`), the Lead's second round and
+    round cap (`test_gap_loop.py`), clarification with no researcher calls (`test_clarify.py`), every `[n]`
+    mapping to a stored source (`test_citations.py`), and the qualified answer to a legal question (`test_cant_answer.py`).
+  - Each agent step on its own against Gemini (`test_steps_live.py`): the Lead's gate on research, clarify and
+    refuse questions; each Researcher lane on a real trial, citing only ids its tools returned; the Writer filling
+    every section; and the Checker rejecting a planted wrong fact.
+  - Corner cases: the SQL guard and the read-only, no-file, no-network connection (`test_sql_guard.py`,
+    `test_sql_sandbox.py`); each citation rule (`test_citecheck_rules.py`); every tool's bad input, and live APIs
+    that fail (`test_tool_inputs.py`); a crashed researcher, a failed review, too many gaps, empty or huge
+    questions, and a report with every claim removed (`test_pipeline_edges.py`); bad request bodies, the
+    clarification follow-up and the live stream (`test_api_edges.py`); retries, time limits and the cache
+    (`test_robustness.py`); and submission rules such as pinned dependencies and no em dashes (`test_repo_hygiene.py`).
 - `tests/test_deploy.sh`: curls the deployed `/health` and one sample query, and fails if it takes over 300 s.
 
 ## Evals

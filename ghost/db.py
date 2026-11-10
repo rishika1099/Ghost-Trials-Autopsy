@@ -76,6 +76,9 @@ def run_select(sql: str, limit: int = MAX_ROWS) -> dict:
 
 
 def trial_record(nct_id: str) -> dict | None:
+    # The id goes into the SQL text, so accept only a real NCT id (callers check too).
+    if not isinstance(nct_id, str) or not re.fullmatch(r"NCT\d{8}", nct_id):
+        return None
     result = run_select(f"""
         SELECT t.*, d.results_due_date, d.results_posted, d.days_late, d.stopped, d.why_stopped_category, d.why_stopped_method
         FROM trials t JOIN trial_derived d USING (nct_id) WHERE t.nct_id = '{nct_id}'""", limit=1)

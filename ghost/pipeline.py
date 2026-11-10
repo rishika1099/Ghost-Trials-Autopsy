@@ -309,7 +309,7 @@ async def check_citations(state: RunState, report: WriterReport) -> tuple[Writer
         kept = []
         for claim in claims:
             valid = [e for e in dict.fromkeys(claim.citations) if e in state.store]
-            unknown += len(claim.citations) - len(valid)
+            unknown += sum(1 for e in claim.citations if e not in state.store)  # a repeated id is not unknown
             if valid:
                 kept.append(Claim(text=claim.text, citations=valid))
             else:
@@ -416,12 +416,33 @@ def fallback_report(findings: list[dict]) -> WriterReport:
 
 # --- The whole request ---
 
+MAX_QUESTION_CHARS = 4000
+EXAMPLE_QUESTIONS = [
+    "Why did NCT04903327 stop, and were its results ever posted or published?",
+    "Did Entero Therapeutics stop any phase 2 trials without posting results?",
+    "Where does a sponsor's registry reason for stopping a trial differ from what it told investors?",
+]
+
+
+def question_problem(question: str) -> str | None:
+    """Why a question can't be researched as sent (empty, or far too long), or None."""
+    if not question or not question.strip():
+        return "Ask about a drug, a sponsor, a condition or an NCT ID, and what you want to know about its stopped trials."
+    if len(question) > MAX_QUESTION_CHARS:
+        return f"That message is {len(question):,} characters. Please ask in under {MAX_QUESTION_CHARS:,}: name the drug, sponsor, condition or NCT ID."
+    return None
+
 
 async def investigate(question: str, emit=lambda event: None, budget_s: float | None = None) -> dict:
     """Answer one question. Returns {markdown, kind, report, sources, timeline, checker, trace, tool_calls}."""
     from ghost.report import clarification_markdown, render  # local: report imports this module's models
 
     state = RunState(question=question, emit=emit)
+    problem = question_problem(question)
+    if problem:
+        # Nothing worth a model call: answer in the same shape, with what the tool can do.
+        return {"kind": "refuse", "markdown": f"{problem}\n\nTry one of these:\n" + "\n".join(f"- {o}" for o in EXAMPLE_QUESTIONS),
+                "options": EXAMPLE_QUESTIONS, "tool_calls": [], "trace": trace(state), "report": None, "sources": [], "timeline": []}
     if budget_s:
         state.budget_s = budget_s
     emit({"type": "agent", "agent": "lead", "status": "start", "t": 0})

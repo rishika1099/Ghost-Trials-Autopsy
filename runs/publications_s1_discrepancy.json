@@ -1,0 +1,46 @@
+{
+  "brief": "Publications for vTv Therapeutics trial NCT03980730 (Elevage, azeliragon in mild Alzheimer's disease with impaired glucose tolerance, phase 2, terminated 'for business reasons'; primary completion 2020-12-01). Was a paper reporting this trial's results ever published? Give PMID, journal and date if so.",
+  "findings": {
+    "findings": [
+      {
+        "claim": "No results publication was found for trial NCT03980730.",
+        "evidence_ids": [
+          "pubmed:none:nct03980730"
+        ],
+        "confidence": "high",
+        "notes": "Snapshot and PubMed search returned no results_candidate articles. Five articles were found that mention the trial, but all have link_strength mention_only (e.g., reviews or background papers)."
+      },
+      {
+        "claim": "Five articles mention trial NCT03980730 (PMIDs 40207764, 40462159, 40686923, 41090735, 42009954), but none are results publications.",
+        "evidence_ids": [
+          "pubmed:40207764",
+          "pubmed:40462159",
+          "pubmed:40686923",
+          "pubmed:41090735",
+          "pubmed:42009954"
+        ],
+        "confidence": "high",
+        "notes": "Abstract inspection of PMID 40207764 confirmed it is a review on conventional and emerging drug targeting sites in Alzheimer's disease."
+      }
+    ],
+    "gaps": []
+  },
+  "problems": [],
+  "tool_calls": [
+    {
+      "name": "find_publications",
+      "args": {
+        "drug_name": "azeliragon",
+        "nct_id": "NCT03980730"
+      },
+      "result": "5 publications (No results publication found in snapshot, pubmed_si. Cite pubmed:none:nct03980730 for that. The articles listed only mention the trial or predate it (reviews, background papers): do not call them its results. Results may exi"
+    },
+    {
+      "name": "get_abstract",
+      "args": {
+        "pmid": "40207764"
+      },
+      "result": "PMID 40207764: Conventional and Emerging Drug Targeting Sites in Alzheimer's Disease and the Role of Translational Informatics in its D"
+    }
+  ]
+}
