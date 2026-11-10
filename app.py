@@ -20,8 +20,7 @@ from functools import lru_cache
 from pathlib import Path
 
 import uvicorn
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
@@ -45,44 +44,6 @@ def remember_clarification(session_id: str, question: str) -> None:
     while len(pending_clarifications) >= CLARIFY_MAX:
         del pending_clarifications[next(iter(pending_clarifications))]  # oldest first
     pending_clarifications[session_id] = (question, now)
-
-
-# Each investigation spends model credits, and the site is public. A few per visitor per window is plenty for
-# grading and peer review; past that, the visitor is asked to wait. Per instance, in memory.
-RATE_LIMIT = int(os.environ.get("RATE_LIMIT", 12))  # investigations (/chat, /run) per visitor per window
-ASK_RATE_LIMIT = int(os.environ.get("ASK_RATE_LIMIT", 30))  # /api/ask questions per visitor per window
-RATE_WINDOW_S = float(os.environ.get("RATE_WINDOW_S", 600))
-_hits: dict[tuple[str, str], list[float]] = {}
-
-
-def visitor(request: Request) -> str:
-    # Cloud Run puts the caller's address first in X-Forwarded-For.
-    forwarded = request.headers.get("x-forwarded-for", "")
-    return forwarded.split(",")[0].strip() or (request.client.host if request.client else "unknown")
-
-
-def rate_limited(request: Request, bucket: str, limit: int) -> float | None:
-    """None if this call is allowed (and counts it), else the seconds until the visitor may try again."""
-    if limit <= 0:
-        return None
-    now = time.monotonic()
-    key = (bucket, visitor(request))
-    recent = [t for t in _hits.get(key, []) if now - t < RATE_WINDOW_S]
-    if len(recent) >= limit:
-        _hits[key] = recent
-        return round(RATE_WINDOW_S - (now - recent[0]))
-    recent.append(now)
-    _hits[key] = recent
-    if len(_hits) > 5000:  # forget visitors with no recent calls
-        for k in [k for k, v in _hits.items() if not v or now - v[-1] >= RATE_WINDOW_S]:
-            del _hits[k]
-    return None
-
-
-def limit_message(wait_s: float, limit: int) -> str:
-    return (f"This site allows {limit} requests per visitor every {int(RATE_WINDOW_S // 60)} minutes, because each one spends "
-            f"model credits. Please try again in about {max(1, round(wait_s / 60))} minutes. The ghost ledger's instant views "
-            f"(no AI) still work in the meantime.")
 
 
 class ChatRequest(BaseModel):
@@ -171,20 +132,13 @@ class AskRequest(BaseModel):
 
 
 @app.post("/api/ask")
-async def api_ask(body: AskRequest, request: Request):
-    wait = rate_limited(request, "ask", ASK_RATE_LIMIT)
-    if wait is not None:
-        return JSONResponse({"ok": False, "answer": limit_message(wait, ASK_RATE_LIMIT), "rate_limited": True}, status_code=429)
-    return await analyst.ask(body.question)
+async def api_ask(request: AskRequest):
+    return await analyst.ask(request.question)
 
 
 @app.post("/chat", response_model=ChatResponse)
-async def chat(request: ChatRequest, http: Request):
+async def chat(request: ChatRequest):
     session_id = request.session_id or str(uuid.uuid4())
-    wait = rate_limited(http, "research", RATE_LIMIT)
-    if wait is not None:  # same response shape, with a 429 status
-        body = ChatResponse(response=limit_message(wait, RATE_LIMIT), session_id=session_id, tool_calls=[])
-        return JSONResponse(body.model_dump(), status_code=429)
     question = with_clarification(session_id, request.message)
     try:
         result = await investigate(question)
@@ -198,17 +152,9 @@ async def chat(request: ChatRequest, http: Request):
 
 
 @app.get("/run")
-async def run(http: Request, question: str, session_id: str | None = None):
+async def run(question: str, session_id: str | None = None):
     """Research one question and stream what happens as Server-Sent Events."""
     session_id = session_id or str(uuid.uuid4())
-    wait = rate_limited(http, "research", RATE_LIMIT)
-    if wait is not None:
-        message = json.dumps({"type": "error", "message": limit_message(wait, RATE_LIMIT)})
-
-        async def limited():
-            yield f"data: {message}\n\n"
-
-        return StreamingResponse(limited(), media_type="text/event-stream")
     question = with_clarification(session_id, question)
     run_id = str(uuid.uuid4())
     queue: asyncio.Queue = asyncio.Queue()

@@ -587,7 +587,7 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
 
 ## Tests
 
-- `uv run pytest`: 342 tests (322 offline; 20 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
+- `uv run pytest`: 336 tests (316 offline; 20 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
   - Rubric proofs: the `/chat` shape and the `agent` field on every tool call (`test_shape.py`), researchers
     overlapping in time and starting from fresh message lists (`test_parallel.py`), the Lead's second round and
     round cap (`test_gap_loop.py`), clarification with no researcher calls (`test_clarify.py`), every `[n]`
@@ -605,8 +605,6 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
     the data can't tell us" and the sources, a failure or a short budget never costs the report, and no dashes.
     The Ledger Analyst (`test_analyst.py`): the table comes from rerunning its SQL, a non-SELECT is never run, an
     invented number is flagged, out-of-scope questions get no table, and a slow run is an answer, not an error.
-  - The rate limit (`test_rate_limit.py`): a visitor past the limit gets a 429 in the `/chat` shape and runs no
-    research, visitors are counted separately, and the instant views are never limited.
   - The Explore section (`test_explore.py`): its numbers match the agents' `get_snapshot_stats`, the breakdowns
     add up, sample s2 shows as silent on Sorrento's report card, the five hand-checked discrepancies lead the
     wall, and sponsor names are bound parameters, never SQL text.
@@ -632,7 +630,6 @@ Cloud Run (`ghost-trials-autopsy`, us-central1) with continuous deploy from this
 listens on `$PORT`), pushes the image to Artifact Registry and deploys it.
 
 Settings that matter for this app:
-- **Rate limit.** Each visitor (by IP) gets 12 investigations (`/chat` and `/run` together) and 30 Ask-the-ledger questions per 10 minutes, because each one spends model credits. Past that, `/chat` answers 429 in the same response shape with a try-again message. The instant ledger views and `/health` are never limited. Set with `RATE_LIMIT`, `ASK_RATE_LIMIT` and `RATE_WINDOW_S`; 0 turns a limit off.
 - **Request timeout: 600 s.** Graders wait up to 5 minutes; our own budget is 240 s.
 - **Memory: 2 GiB.** The DuckDB snapshot is opened read-only inside the container.
 - The service account needs **Vertex AI User** to call Gemini, so there is no API key. `SEC_USER_AGENT` comes from the Secret Manager secret `sec-user-agent` and is never committed. `min-instances=1` during grading, so there are no cold starts.
