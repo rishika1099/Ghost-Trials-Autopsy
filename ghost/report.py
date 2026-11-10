@@ -141,7 +141,7 @@ def default_cant_tell(state: RunState) -> list[str]:
     return lines
 
 
-def render(state: RunState, report, checker: dict) -> dict:
+def render(state: RunState, report, checker: dict, skeptic: dict | None = None) -> dict:
     sections = {"answer": report.answer, "evidence": report.evidence, "differences": report.differences}
     order, numbers = _number_sources(sections)
     sources = []
@@ -167,6 +167,14 @@ def render(state: RunState, report, checker: dict) -> dict:
     cant = [c for c in report.cant_tell if not _mentions_run_limits(c)] + [n for n in state.notes if "budget" in n]
     cant = cant or default_cant_tell(state)
     lines += ["## What the data can't tell us"] + [f"- {c}" for c in cant] + [""]
+    if skeptic:
+        lines += ["## Before you publish: the Skeptic's read",
+                  f"Strength of the finding: {skeptic['strength']}." + (f" {skeptic['strength_reason']}" if skeptic.get("strength_reason") else "")]
+        if skeptic.get("alternatives"):
+            lines += ["", "Other explanations the records can't rule out:"] + [f"- {a}" for a in skeptic["alternatives"]]
+        if skeptic.get("questions"):
+            lines += ["", "Questions to put to the sponsor:"] + [f"- {q}" for q in skeptic["questions"]]
+        lines += [""]
     lines += ["## Sources"] + [f"{s['n']}. {s['title']}. {s['source_type']}. {s['url']}" for s in sources]
     lines += ["", f"_Snapshot date: {db.snapshot_date() or 'unknown'}. Research rounds: {state.rounds}. "
               f"citations_checked: {checker['citations_checked']}, removed: {checker['removed']}._"]
@@ -174,7 +182,7 @@ def render(state: RunState, report, checker: dict) -> dict:
         "markdown": "\n".join(lines),
         "report": {"answer": answer, "evidence": [_cite(c, numbers) for c in report.evidence],
                    "differences": [_cite(c, numbers) for c in report.differences], "cant_tell": cant,
-                   "timeline_text": timeline_text},
+                   "timeline_text": timeline_text, "skeptic": skeptic},
         "sources": sources,
         "timeline": timeline,
     }

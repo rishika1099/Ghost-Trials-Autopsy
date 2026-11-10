@@ -86,7 +86,8 @@ def architecture():
             "To research, it dispatches three Researchers at once, each in a fresh context: trials, disclosures and "
             "publications. Each reads the DuckDB snapshot and calls its live APIs. Findings and gaps go back to the Lead, "
             "which can run up to three rounds. The Writer drafts a cited report from the evidence store, and the Citation "
-            "Checker fixes or removes unsupported sentences before the report goes back to the browser.")
+            "Checker fixes or removes unsupported sentences. The Skeptic then reads the checked report like an editor: how strong "
+            "the finding is, ordinary explanations the records can't rule out, and questions for the sponsor.")
     s.zone(576, 32, 208, 276, "ASYNCIO.GATHER · FRESH CONTEXTS")
 
     # Arrows first, so boxes sit on top.
@@ -119,6 +120,10 @@ def architecture():
     s.label("DRAFT", cx=364, y=366)
     s.path([(264, 352), (264, 196)])
     s.label("CITED REPORT", x=272, y=264)
+    # Checker to Skeptic, Skeptic's notes back to the app.
+    s.path([(196, 384), (152, 384)])
+    s.path([(88, 352), (88, 260), (232, 260), (232, 204)], dashed=True)
+    s.label("EDITOR'S READ", x=96, y=300)
 
     s.node(24, 140, 128, 64, "BROWSER", "index.html", "trace · timeline", stroke=MUTED)
     s.node(196, 140, 132, 64, "FASTAPI", "app.py", "/chat · /run")
@@ -132,6 +137,7 @@ def architecture():
     s.node(592, 356, 176, 64, "DUCKDB", "Snapshot", "data/autopsy.duckdb", fill=PAPER2, stroke=MUTED)
     s.node(392, 352, 144, 64, "WRITER", "Cited report", "evidence ids only")
     s.node(196, 352, 140, 64, "CHECKER", "Citation check", "rules + model")
+    s.node(24, 352, 128, 64, "SKEPTIC", "Before publish", "doubts · questions")
     s.legend(448, (("box", ACCENT_TINT, ACCENT, "FOCAL: THE LEAD"), ("box", SURFACE, INK, "AGENT / SERVICE"),
                    ("box", PAPER2, MUTED, "SNAPSHOT"), ("box", SURFACE, LINK, "EXTERNAL API"),
                    ("dash", None, MUTED, "RETURN / READ-ONLY")))

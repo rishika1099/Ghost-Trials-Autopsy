@@ -8,6 +8,7 @@ GET  /run      the same research, streamed as Server-Sent Events for the page's 
 GET  /health   200 and the snapshot date.
 GET  /api/ledger (with the sponsor leaderboard), /api/differ, /api/sponsors?q=, /api/sponsor?name=
                instant views of the snapshot for the page's Explore section (SQL only, no model calls).
+POST /api/ask  "Ask the ledger": one analyst agent answers a whole-snapshot question with SQL; the app reruns its query.
 """
 
 import asyncio
@@ -23,7 +24,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
-from ghost import db, explore
+from ghost import analyst, db, explore
 from ghost.pipeline import investigate
 
 HERE = Path(__file__).parent
@@ -124,6 +125,15 @@ def api_sponsor(name: str):
     if card is None:
         raise HTTPException(404, f"No sponsor in the snapshot matches {name[:80]!r}.")
     return card
+
+
+class AskRequest(BaseModel):
+    question: str
+
+
+@app.post("/api/ask")
+async def api_ask(request: AskRequest):
+    return await analyst.ask(request.question)
 
 
 @app.post("/chat", response_model=ChatResponse)

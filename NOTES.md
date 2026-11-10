@@ -30,7 +30,7 @@ Working notes for the team: how the three course starters were combined, where w
 | Unique dataset or problem | done | joined trials + 8-K + publications snapshot (`data/autopsy.duckdb`); sign-up sheet entry |
 | Data the model doesn't know | done | `baseline/` vs `runs/` in README: for NCT04903327 the no-tools model gives the wrong registry reason and blames a bankruptcy that came after the trial ended; for vTv it says the stories match (they don't); for Entero it names none of the three trials, and its three NCT IDs belong to other sponsors (Radboud, Pfizer, a Turkish university) |
 | Admits what the data can't answer | done | "What the data can't tell us" in every report (`ghost/report.py`); `tests/test_cant_answer.py` |
-| 3+ agent shapes | done | lead, researcher (3 lane configs), writer, checker in `ghost/pipeline.py` |
+| 3+ agent shapes | done | lead, researcher (3 lane configs), writer, checker and skeptic in `ghost/pipeline.py`; plus the ledger analyst (`ghost/analyst.py`) behind the Explore section's Ask tab |
 | Parallel fan-out in fresh contexts | done | `tests/test_parallel.py`; timing bars in the trace panel |
 | Lead goes back for more, with a cap | done | `tests/test_gap_loop.py`; round count in the trace |
 | Vague input asks for clarification | done | `tests/test_clarify.py`; README example |
@@ -68,3 +68,8 @@ Read `runs/s1_discrepancy_latest.md`, `s2_never_posted_latest.md` and `s3_sponso
 | "not published in scientific literature" overstated what we searched | s2 | `writer.md`: "no results publication found in PubMed or Europe PMC" |
 
 Evidence claims were one fact each and `cant_tell` was otherwise specific to each question. To confirm on real runs: `uv run python scripts/run_publications.py` (lane checks) and `uv run python scripts/run_samples.py`.
+
+## Added after the first deploy
+
+- The Skeptic is a fifth agent shape. Its tool call appears in `/chat` `tool_calls` with `agent: "skeptic"`, a new value for the existing `agent` field; the response shape itself is unchanged. Its section of the report adds no citations, so every `[n]` still maps to a source.
+- The Ledger Analyst runs only behind `POST /api/ask` (the Explore section), never inside `/chat`.

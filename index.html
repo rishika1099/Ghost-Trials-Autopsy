@@ -310,6 +310,23 @@ button.chip { cursor: pointer; }
 .said { border-left: 3px solid var(--blue); padding: 0 0 0 10px; font: 15px/1.5 "Shantell Sans", cursive; word-break: break-word; }
 .said.inv { border-color: var(--red); }
 .said small { display: block; font: 12px "Shantell Sans", sans-serif; color: var(--pencil); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+.skeptic { margin: 30px 0 6px; border: 2px dashed var(--blue); padding: 16px 18px 10px; position: relative; background: var(--card); }
+#report .skeptic h3 { color: var(--blue); background: none; margin-top: 0; }
+.skeptic .strength { display: inline-block; margin: 0 0 6px; }
+.skeptic p { margin: 4px 0 10px; font: 15.5px/1.5 "Shantell Sans", cursive; }
+.skeptic b.lbl2 { display: block; font: 700 15.5px "Shantell Sans", cursive; margin: 10px 0 2px; }
+.skeptic ul { margin: 0 0 6px; padding-left: 20px; }
+.skeptic li { font: 15px/1.5 "Shantell Sans", cursive; padding: 2px 0; }
+.asktab .bar textarea { font-size: 18px; height: 44px; min-height: 44px; }
+.ask-out { margin-top: 14px; }
+.ask-out .answer { margin: 6px 0 10px; }
+.tablewrap { overflow-x: auto; max-width: 100%; margin: 10px 0; border: 1px solid var(--rule); }
+.tablewrap table { border-collapse: collapse; width: 100%; font: 13px/1.4 "Nunito", system-ui, sans-serif; }
+.tablewrap th, .tablewrap td { padding: 5px 8px; border-bottom: 1px dashed var(--rule); text-align: left; vertical-align: top; }
+.tablewrap th { font: 700 13px "Shantell Sans", sans-serif; background: var(--paper); position: sticky; top: 0; }
+.tablewrap td.num { text-align: right; font-family: "DM Mono", monospace; }
+details.sql pre { white-space: pre-wrap; word-break: break-word; font: 12px/1.5 "DM Mono", monospace; background: var(--paper); padding: 10px; margin: 6px 0 0; }
+details.sql summary { cursor: pointer; font: 700 14px "Shantell Sans", cursive; color: var(--blue); }
 .report-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 @media (max-width: 640px) { .tile { transform: none !important; } }
 @media (prefers-reduced-motion: reduce) { .tile { transform: none !important; } }
@@ -399,7 +416,7 @@ button.chip { cursor: pointer; }
       <ul class="steps" id="agents"></ul>
       <div class="gantt" id="gantt"></div>
       <div id="checkstats"></div>
-      <div id="calls"><p class="empty-log">Every agent and every tool call is logged here as it happens: the Lead, three researchers working at once, the Writer and the Citation Checker.</p></div>
+      <div id="calls"><p class="empty-log">Every agent and every tool call is logged here as it happens: the Lead, three researchers working at once, the Writer, the Citation Checker and the Skeptic.</p></div>
       <svg class="dd blue" style="width:52px;height:52px;margin:14px 6px 0 auto;transform:rotate(-8deg)" aria-hidden="true"><use href="#d-flask" filter="url(#rough)"/><use href="#d-flask" class="ghost" filter="url(#rough2)" transform="translate(.8 .6)"/></svg>
     </aside>
   </main>
@@ -413,6 +430,7 @@ button.chip { cursor: pointer; }
         <button role="tab" id="t-ledger" aria-controls="tab-ledger" aria-selected="true" data-tab="ledger">Who goes silent</button>
         <button role="tab" id="t-sponsor" aria-controls="tab-sponsor" aria-selected="false" data-tab="sponsor">Sponsor report card</button>
         <button role="tab" id="t-differ" aria-controls="tab-differ" aria-selected="false" data-tab="differ">Stories that differ</button>
+        <button role="tab" id="t-ask" aria-controls="tab-ask" aria-selected="false" data-tab="ask">Ask the ledger (AI)</button>
       </div>
       <div id="tab-ledger" role="tabpanel" aria-labelledby="t-ledger"><p class="waiting">Counting the ghosts...</p></div>
       <div id="tab-sponsor" role="tabpanel" aria-labelledby="t-sponsor" hidden>
@@ -420,6 +438,12 @@ button.chip { cursor: pointer; }
         <div id="scard"><p class="waiting">Type a company name for its record: how many trials it stopped, how many went silent, how it compares with every other sponsor, and whether its investor filings told a different story.</p></div>
       </div>
       <div id="tab-differ" role="tabpanel" aria-labelledby="t-differ" hidden><p class="waiting">Loading...</p></div>
+      <div id="tab-ask" role="tabpanel" aria-labelledby="t-ask" class="asktab" hidden>
+        <p class="sub" style="font-size:14.5px;color:var(--ink2)">A question about the whole snapshot, in plain English. An analyst agent reads the table descriptions, writes the SQL and runs it, usually in under half a minute. The table below is the app rerunning that exact query, not the model's copy, and every number in the answer is checked against it.</p>
+        <form id="aform"><div class="bar"><textarea id="aq" placeholder="e.g. which conditions have the most silent trials?" aria-label="Question for the ledger"></textarea><button id="ago" type="submit">Ask</button></div></form>
+        <div class="suggest" id="asuggest" style="margin-top:12px"></div>
+        <div id="aout" class="ask-out"></div>
+      </div>
     </div>
   </section>
 </div>
@@ -439,7 +463,7 @@ const EXAMPLES = [
   {k: "Stories differ", icon: "mag", who: "whole snapshot · 8-K vs registry", q: "Which stopped trials in the snapshot have an 8-K that gives a different reason than the registry? Start with the ones checked by hand."},
   {k: "Too vague", icon: "cloud", who: "Alzheimer's", q: "Why do Alzheimer's trials fail?", vague: true}
 ];
-const AGENT_NAMES = {lead: "Lead", writer: "Writer", checker: "Citation Checker"};
+const AGENT_NAMES = {lead: "Lead", writer: "Writer", checker: "Citation Checker", skeptic: "Skeptic"};
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
 let sessionId = null, source = null, timer = null, started = 0, state, lastQuestion = "";
@@ -518,9 +542,11 @@ function handle(e) {
       let extra = e.status === "start" ? "working" : "done";
       if (e.agent === "lead" && e.decision) extra = e.decision;
       if (e.agent === "checker" && e.status === "end") extra = `${e.removed} of ${e.citations_checked} cut`;
+      if (e.agent === "skeptic" && e.status === "end") extra = e.skipped ? "skipped" : `finding: ${e.strength}`;
       setStep(e.agent, AGENT_NAMES[e.agent] || e.agent, e.status === "start" ? "run" : "ok", extra);
       if (e.agent === "writer" && e.status === "start") waiting("The <b>Writer</b> is drafting the case file from the evidence the researchers collected.");
       if (e.agent === "checker" && e.status === "start") waiting("The <b>Citation Checker</b> is checking every cited sentence against its source record.");
+      if (e.agent === "skeptic" && e.status === "start") waiting("The <b>Skeptic</b> is reading the checked report like an editor: how strong is it, what else could explain it, and what should we ask the sponsor?");
     }
   } else if (e.type === "round") {
     $("round").textContent = `round ${e.round} of 3`;
@@ -551,7 +577,7 @@ function drawGantt() {
 function drawCalls() {
   const groups = {};
   for (const c of state.calls) (groups[c.agent] ||= []).push(c);
-  const order = ["lead", "researcher:trials", "researcher:disclosures", "researcher:publications", "writer", "checker"];
+  const order = ["lead", "researcher:trials", "researcher:disclosures", "researcher:publications", "writer", "checker", "skeptic"];
   const keys = Object.keys(groups).sort((a, b) => order.indexOf(a) - order.indexOf(b));
   const check = state.calls.find(c => c.name === "check_citations");
   $("checkstats").innerHTML = check ? `<div class="checked">${esc(check.result.split(" (")[0])}</div>` : "";
@@ -629,11 +655,18 @@ function drawReport(e) {
     <h3>Evidence</h3>${r.evidence.length ? list(r.evidence) : `<p class="prose">No claim survived the citation check.</p>`}
     ${r.differences.length ? `<h3>Where the stories differ</h3><div class="differ">${list(r.differences)}</div>` : ""}
     <div class="sticky"><h3>What the records can't tell us</h3><ul>${r.cant_tell.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>
+    ${r.skeptic ? `<div class="skeptic"><h3>Before you publish: the Skeptic's read</h3>
+      <span class="stamp strength ${r.skeptic.strength === "strong" ? "" : "red"}">finding: ${esc(r.skeptic.strength)}</span>
+      ${r.skeptic.strength_reason ? `<p>${esc(r.skeptic.strength_reason)}</p>` : ""}
+      ${r.skeptic.alternatives.length ? `<b class="lbl2">Other explanations the records can't rule out</b><ul>${r.skeptic.alternatives.map(a => `<li>${esc(a)}</li>`).join("")}</ul>` : ""}
+      ${r.skeptic.questions.length ? `<b class="lbl2">Questions to put to the sponsor</b><ul>${r.skeptic.questions.map(q => `<li>${esc(q)}</li>`).join("")}</ul>
+        <button class="pill-btn blue" id="copyq" style="margin:6px 0 4px">Copy the questions</button>` : ""}</div>` : ""}
     <h3>Sources</h3><div class="sources"><ol>${e.sources.map(s => `<li id="src-${s.n}"><span class="sn">${s.n}</span><div>
       <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a><span class="st">${esc(s.source_type)} · <span class="mono">${esc(s.evidence_id)}</span></span></div></li>`).join("")}</ol></div>
     <div class="foot">${e.trace.rounds} research round${e.trace.rounds === 1 ? "" : "s"} · ${e.checker.citations_checked} citations checked, ${e.checker.removed} claims cut · ${e.trace.elapsed_s} s</div>
     <div class="report-actions"><button class="pill-btn blue" id="share">Copy a link to this case</button><button class="pill-btn blue" id="dl">Download the case notes (.md)</button></div>`;
   const question = lastQuestion;
+  if ($("copyq")) $("copyq").onclick = () => copyText(r.skeptic.questions.map(q => "- " + q).join("\n"), $("copyq"));
   $("share").onclick = () => copyText(shareUrl({q: question}), $("share"));
   $("dl").onclick = () => {
     const md = `# Ghost Trials Autopsy case notes\n\nQuestion: ${question}\n\n${e.markdown || ""}\n\nSnapshot ${$("snap").textContent || ""}\n${location.origin}\n`;
@@ -671,7 +704,7 @@ let ledgerData = null, differData = null, differFilter = "all";
 
 function showTab(name) {
   document.querySelectorAll(".tabs [role=tab]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === name)));
-  for (const t of ["ledger", "sponsor", "differ"]) $("tab-" + t).hidden = t !== name;
+  for (const t of ["ledger", "sponsor", "differ", "ask"]) $("tab-" + t).hidden = t !== name;
   if (name === "differ" && !differData) loadDiffer();
 }
 document.querySelector(".tabs").addEventListener("click", (ev) => { const b = ev.target.closest("[data-tab]"); if (b) showTab(b.dataset.tab); });
@@ -818,6 +851,47 @@ function drawDiffer() {
     </article>`).join("")}</div>`;
   $("tab-differ").querySelectorAll("[data-filter]").forEach(b => b.onclick = () => { differFilter = b.dataset.filter; drawDiffer(); });
   $("tab-differ").querySelectorAll("[data-q]").forEach(b => b.onclick = () => runCase(b.dataset.q));
+}
+
+// Ask the ledger: one analyst agent writes SQL; the app reruns it and checks the numbers.
+const ASK_EXAMPLES = ["Which conditions have the most silent trials?", "Which sponsors with at least 10 stopped trials posted results least often?",
+  "How many trials stopped for safety reasons each year?", "Do phase 3 trials go silent less often than phase 2 trials?"];
+$("asuggest").innerHTML = ASK_EXAMPLES.map((q, i) => `<button class="chip" data-a="${i}">${esc(q)}</button>`).join("");
+$("asuggest").addEventListener("click", (ev) => { const b = ev.target.closest("[data-a]"); if (b) { $("aq").value = ASK_EXAMPLES[b.dataset.a]; $("aq").dispatchEvent(new Event("input")); askLedger(); } });
+$("aform").addEventListener("submit", (ev) => { ev.preventDefault(); askLedger(); });
+$("aq").addEventListener("input", () => { const q = $("aq"); q.style.height = "auto"; q.style.height = q.scrollHeight + 2 + "px"; });
+$("aq").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); askLedger(); } });
+
+async function askLedger() {
+  const question = $("aq").value.trim(); if (!question) return;
+  $("ago").disabled = true;
+  const t0 = performance.now();
+  const tick = setInterval(() => $("aout").innerHTML = `<p class="waiting">The <b>analyst</b> is reading the table descriptions and writing SQL... ${((performance.now() - t0) / 1000).toFixed(0)} s</p>`, 500);
+  try {
+    const r = await fetch("/api/ask", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({question})}).then(x => x.json());
+    clearInterval(tick); drawAsk(r);
+  } catch (e) { clearInterval(tick); $("aout").innerHTML = `<div class="err">The analyst didn't answer. Try again.</div>`; }
+  $("ago").disabled = false;
+}
+
+function drawAsk(r) {
+  const isNum = (v) => typeof v === "number";
+  const table = r.rows && r.rows.length ? `<div class="tablewrap"><table><thead><tr>${r.columns.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead>
+    <tbody>${r.rows.map(row => `<tr>${r.columns.map(c => `<td class="${isNum(row[c]) ? "num" : ""}">${esc(isNum(row[c]) ? row[c].toLocaleString() : row[c])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>` : "";
+  let chart = "";
+  if (r.chart === "bar") {
+    const max = Math.max(...r.rows.map(x => x[r.value_column]), 1);
+    chart = hbars(r.rows.slice(0, 15).map(x => ({label: String(x[r.label_column]).slice(0, 40), value: x[r.value_column], text: Number(x[r.value_column]).toLocaleString()})), max, 0);
+  }
+  const calls = (r.tool_calls || []).map(c => c.name).join(" → ");
+  $("aout").innerHTML = `
+    <p class="answer">${esc(r.answer)}</p>
+    ${r.unverified && r.unverified.length ? `<p class="caveat">Not in the result table, so check before using: ${r.unverified.map(esc).join(", ")}. (It may be a sum or come from an earlier query.)</p>`
+      : (r.rows && r.rows.length ? `<p class="sub">Every number in the answer is in the table below.</p>` : "")}
+    ${chart}${table}${r.truncated ? `<p class="sub">First 50 rows shown.</p>` : ""}
+    ${r.caveat ? `<div class="sticky" style="margin-top:18px"><ul><li>${esc(r.caveat)}</li></ul></div>` : ""}
+    ${r.sql ? `<details class="sql"><summary>The SQL it wrote</summary><pre>${esc(r.sql)}</pre></details>` : ""}
+    <p class="foot">${r.elapsed_s != null ? `${r.elapsed_s} s` : ""}${calls ? ` · analyst agent: ${esc(calls)}` : ""}</p>`;
 }
 
 // Shared links

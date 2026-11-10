@@ -18,7 +18,7 @@ from agents.usage import Usage  # noqa: E402
 from openai.types.responses import ResponseOutputMessage, ResponseOutputText  # noqa: E402
 
 from ghost import pipeline  # noqa: E402
-from ghost.pipeline import Brief, Claim, CheckerVerdicts, Finding, Findings, LeadPlan, LeadReview, WriterReport  # noqa: E402
+from ghost.pipeline import Brief, Claim, CheckerVerdicts, Finding, Findings, LeadPlan, LeadReview, SkepticNotes, WriterReport  # noqa: E402
 
 LIVE = os.environ.get("LIVE") == "1"
 live = pytest.mark.skipif(not LIVE, reason="calls Gemini; run with LIVE=1")
@@ -40,6 +40,24 @@ class FakeModel(Model):
 
     def stream_response(self, *args, **kwargs):
         raise NotImplementedError
+
+
+REAL_RUN_SKEPTIC = pipeline.run_skeptic  # live tests call the real one
+
+
+def fake_skeptic_notes() -> SkepticNotes:
+    return SkepticNotes(strength="moderate", strength_reason="It rests on the registry entry alone.",
+                        alternatives=["Results may have been shared at a conference, which we don't search."],
+                        questions=["Will the results of NCT01234567 be posted on ClinicalTrials.gov?"])
+
+
+@pytest.fixture(autouse=True)
+def stub_skeptic(monkeypatch):
+    """The Skeptic is a model call at the end of every report. Offline tests get a fixed one."""
+    async def skeptic(state, report):
+        return fake_skeptic_notes()
+
+    monkeypatch.setattr(pipeline, "run_skeptic", skeptic)
 
 
 def research_plan(lanes=("trials", "disclosures", "publications")) -> LeadPlan:
