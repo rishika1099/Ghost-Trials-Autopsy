@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 488" width="960" height="488" role="img" aria-labelledby="gt-arch-title gt-arch-desc">
 <title id="gt-arch-title">Ghost Trials Autopsy architecture</title>
-<desc id="gt-arch-desc">The browser sends a question to FastAPI on Cloud Run. The Lead decides whether to clarify, refuse or research. To research, it dispatches three Researchers at once, each in a fresh context: trials, disclosures and publications. Each reads the DuckDB snapshot and calls its live APIs. Findings and gaps go back to the Lead, which can run up to three rounds. The Writer drafts a cited report from the evidence store, and the Citation Checker fixes or removes unsupported sentences. The Skeptic then reads the checked report like an editor: how strong the finding is, ordinary explanations the records can't rule out, and questions for the sponsor.</desc>
+<desc id="gt-arch-desc">The browser sends a question to FastAPI on Cloud Run. The Lead decides whether to clarify, refuse or research. To research, it dispatches three Researchers at once, each in a fresh context: trials, disclosures and publications. Each reads the DuckDB snapshot and calls its live APIs. Findings and gaps go back to the Lead, which can run up to three rounds. The Writer drafts a cited report from the evidence store, and the Citation Checker fixes or removes unsupported sentences. The Skeptic then reads the checked report like an editor: how strong the finding is, ordinary explanations the records can't rule out, and questions for the sponsor. Separately, the Ledger Analyst answers whole-snapshot questions from the ghost ledger (/api/ask) with read-only SQL.</desc>
 <defs>
 <marker id="gt-arch-arrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6f6a62"/></marker>
 <marker id="gt-arch-arrow-link" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3f6c8c"/></marker>
@@ -49,6 +49,9 @@
 <path d="M88,352 L88,260 L232,260 L232,204" fill="none" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-arch-arrow)"/>
 <rect x="96" y="300" width="80" height="12" rx="2" fill="#f4f0e8"/>
 <text x="136" y="309" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">EDITOR'S READ</text>
+<path d="M816,388 L768,388" fill="none" stroke="#6f6a62" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#gt-arch-arrow)"/>
+<rect x="780" y="370" width="24" height="12" rx="2" fill="#f4f0e8"/>
+<text x="792" y="379" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.06em" text-anchor="middle">SQL</text>
 <rect x="24" y="140" width="128" height="64" rx="6" fill="#fffdf9" stroke="#6f6a62" stroke-width="1"/>
 <rect x="36" y="150" width="45" height="12" rx="2" fill="none" stroke="#6f6a62" stroke-width="0.8"/>
 <text x="40" y="159" fill="#6f6a62" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">BROWSER</text>
@@ -58,7 +61,7 @@
 <rect x="208" y="150" width="45" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
 <text x="212" y="159" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">FASTAPI</text>
 <text x="208" y="178" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">app.py</text>
-<text x="208" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">/chat · /run</text>
+<text x="208" y="192" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">/chat · /run · /api</text>
 <rect x="392" y="140" width="144" height="64" rx="6" fill="#f6e7e0" stroke="#b5543a" stroke-width="1"/>
 <rect x="404" y="150" width="29" height="12" rx="2" fill="none" stroke="#b5543a" stroke-width="0.8"/>
 <text x="408" y="159" fill="#b5543a" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">LEAD</text>
@@ -114,6 +117,11 @@
 <text x="40" y="371" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">SKEPTIC</text>
 <text x="36" y="390" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Before publish</text>
 <text x="36" y="404" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">doubts · questions</text>
+<rect x="816" y="356" width="120" height="64" rx="6" fill="#fffdf9" stroke="#1e1c19" stroke-width="1"/>
+<rect x="828" y="366" width="45" height="12" rx="2" fill="none" stroke="#1e1c19" stroke-width="0.8"/>
+<text x="832" y="375" fill="#1e1c19" font-size="7" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.14em">ANALYST</text>
+<text x="828" y="394" fill="#1e1c19" font-size="12" font-weight="600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">Ledger Analyst</text>
+<text x="828" y="408" fill="#6f6a62" font-size="9" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">/api/ask · SQL</text>
 <line x1="24" y1="448" x2="936" y2="448" stroke="rgba(30,28,25,0.12)" stroke-width="0.8"/>
 <rect x="24" y="464" width="16" height="10" rx="2" fill="#f6e7e0" stroke="#b5543a" stroke-width="1"/>
 <text x="48" y="472" fill="#6f6a62" font-size="8" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" letter-spacing="0.08em">FOCAL: THE LEAD</text>
