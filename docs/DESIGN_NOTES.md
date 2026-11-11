@@ -1,6 +1,6 @@
-# NOTES
+# Design Notes
 
-Working notes for the team: how the three course starters were combined, where we departed from them, and the rubric checklist with evidence.
+How the three course starters were combined, where and why the design departs from them, the rubric checklist with evidence, and the data-quality reviews behind key decisions.
 
 ## How the three starters were combined
 
@@ -56,7 +56,7 @@ Effect on `get_snapshot_stats`: `pct_stopped_with_publication` drops from 81.8% 
 
 ## Writer review on the three samples
 
-Read `runs/s1_discrepancy_latest.md`, `s2_never_posted_latest.md` and `s3_sponsor_latest.md` (2026-11-05 runs) and their timeline JSON on 2026-11-07. Registry dates, results due and results posted were right in all three (s1: due 2021-12-01, posted 2022-01-21, 51 days late, matches `trial_derived`). Problems found and what changed:
+Read the 2026-11-05 runs of the three sample queries (now in `runs/history/`) and their timeline JSON on 2026-11-07. Registry dates, results due and results posted were right in all three (s1: due 2021-12-01, posted 2022-01-21, 51 days late, matches `trial_derived`). Problems found and what changed:
 
 | Problem | Where | Fix |
 |---|---|---|
@@ -69,7 +69,7 @@ Read `runs/s1_discrepancy_latest.md`, `s2_never_posted_latest.md` and `s3_sponso
 
 Evidence claims were one fact each and `cant_tell` was otherwise specific to each question. To confirm on real runs: `uv run python scripts/run_publications.py` (lane checks) and `uv run python scripts/run_samples.py`.
 
-## Added after the first deploy
+## Later additions
 
 - The Skeptic is a fifth agent shape. Its tool call appears in `/chat` `tool_calls` with `agent: "skeptic"`, a new value for the existing `agent` field; the response shape itself is unchanged. Its section of the report adds no citations, so every `[n]` still maps to a source.
 - The Ledger Analyst runs only behind `POST /api/ask` (the Explore section), never inside `/chat`.

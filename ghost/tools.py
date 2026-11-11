@@ -609,7 +609,7 @@ def _pubmed_summaries(pmids: list[str]) -> dict[str, dict]:
             for pmid in result.get("uids", [])}
 
 
-# Spot check of 20 random links per link_type (NOTES.md, "Publication links"): ctgov_result 14/20 report the
+# Spot check of 20 random links per link_type (docs/DESIGN_NOTES.md, "Publication links"): ctgov_result 14/20 report the
 # trial (4 were background papers published before the trial started), pubmed_si 13/20, ctgov_derived 15/20,
 # europepmc_mention 1/20 (18 were reviews or unrelated papers that only name the NCT ID). So only the first
 # three count as a possible results paper, and only when published on or after the trial's start date.

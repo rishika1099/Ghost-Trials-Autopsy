@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-READER_FACING = ["README.md", "NOTES.md", "index.html", *sorted(str(p.relative_to(ROOT)) for p in (ROOT / "prompts").glob("*.md"))]
+READER_FACING = ["README.md", "docs/DESIGN_NOTES.md", "docs/CONTRIBUTIONS.md", "index.html", *sorted(str(p.relative_to(ROOT)) for p in (ROOT / "prompts").glob("*.md"))]
 
 
 def test_required_files_at_the_root():

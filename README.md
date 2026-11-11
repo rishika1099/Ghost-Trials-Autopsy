@@ -26,7 +26,7 @@ clarifying options instead of research.
 No time to wait? The **ghost ledger** at the bottom of the page shows instant, no-AI views of the whole snapshot:
 who goes silent, a report card for any sponsor, and every trial whose 8-K and registry tell different stories.
 
-IEOR 4570 Project 2, Deep Research path. Team: Rishika (rm4318), Shreya (svs2148), Kshamaa (ks4423).
+IEOR 4570 Project 2, Deep Research path. Team: Rishika Mamidibathula (rm4318), Shreya (svs2148) and Kshamaa (ks4423); who built what is in [docs/CONTRIBUTIONS.md](docs/CONTRIBUTIONS.md).
 
 **Live app:** https://ghost-trials-autopsy-895402809785.us-central1.run.app
 
@@ -465,7 +465,7 @@ A question that is entirely out of scope ("Is drug X safe for me?") gets a short
 
 `POST /chat` takes `{message, session_id}` and returns `{response, session_id, tool_calls}`, the Project 1
 shape. Every tool call from every agent is in `tool_calls` with an `agent` field (`lead`,
-`researcher:trials`, `researcher:disclosures`, `researcher:publications`, `writer`, `checker`), its arguments
+`researcher:trials`, `researcher:disclosures`, `researcher:publications`, `writer`, `checker`, `skeptic`), its arguments
 and a short result summary.
 
 ```bash
@@ -587,7 +587,7 @@ The snapshot is in the repo, so nothing has to be rebuilt to run it.
 
 ## Tests
 
-- `uv run pytest`: 336 tests (316 offline; 20 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
+- `uv run pytest`: 337 tests (317 offline; 20 call Gemini and run only with `LIVE=1 uv run pytest`). Among them:
   - Rubric proofs: the `/chat` shape and the `agent` field on every tool call (`test_shape.py`), researchers
     overlapping in time and starting from fresh message lists (`test_parallel.py`), the Lead's second round and
     round cap (`test_gap_loop.py`), clarification with no researcher calls (`test_clarify.py`), every `[n]`
@@ -637,20 +637,24 @@ Settings that matter for this app:
 ## Project layout
 
 ```
-app.py              FastAPI: POST /chat (Project 1 shape), GET /run (live stream), GET /health, GET /api/* (Explore)
-index.html          the frontend: header, example chips, agent trace, trial timelines, citations, Explore section
-ghost/explore.py    the Explore section's SQL: ledger, sponsor report card, leaderboard, stories that differ
-ghost/pipeline.py   Lead, Researchers, Writer, Checker, and the round loop
-ghost/tools.py      the agents' tools, one section per lane
-ghost/classify.py   why_stopped categories: keyword rules, then one LLM pass
-ghost/http.py       timeouts, retries, per-host rate limits, disk cache
-ghost/db.py         read-only DuckDB access and the SQL guardrails
-prompts/            one system prompt per agent shape, plus one per lane
-scripts/            build_snapshot.py, baseline.py, run_samples.py, per-lane runners
-data/               autopsy.duckdb snapshot and mappings.json (table and column meanings)
-runs/, baseline/    agent outputs and no-tools answers for the sample queries
-evals/, tests/      Inspect evals; pytest suite and test_deploy.sh
-docs/               architecture and snapshot diagrams (python3 docs/make_diagrams.py)
-cloudbuild.yaml     continuous deploy
-PROPOSAL.md         plan and who owns what; NOTES.md: decisions and rubric evidence
+app.py                  FastAPI: POST /chat (Project 1 shape), GET /run (live stream), GET /health, /api/* (Explore)
+index.html              the frontend: header, example chips, agent trace, trial timelines, citations, Explore
+ghost/pipeline.py       Lead, Researchers, Writer, Checker, Skeptic, and the round loop
+ghost/tools.py          the agents' tools, one section per lane
+ghost/analyst.py        the Ledger Analyst behind "Ask the ledger"
+ghost/explore.py        the Explore section's SQL: ledger, sponsor report card, leaderboard, stories that differ
+ghost/report.py         renders the checked report and its timeline JSON
+ghost/citecheck.py      the Citation Checker's deterministic rules
+ghost/classify.py       why_stopped categories: keyword rules, then one LLM pass
+ghost/http.py           timeouts, retries, per-host rate limits, disk cache
+ghost/db.py             read-only DuckDB access and the SQL guardrails
+prompts/                one system prompt per agent shape, plus one per lane
+scripts/                build_snapshot.py, baseline.py, run_samples.py, per-lane runners
+data/                   autopsy.duckdb snapshot and mappings.json (table and column meanings)
+runs/, baseline/        agent outputs and no-tools answers for the sample queries (runs/README.md)
+evals/, tests/          Inspect evals; pytest suite and test_deploy.sh
+docs/                   architecture and snapshot diagrams (python3 docs/make_diagrams.py)
+docs/CONTRIBUTIONS.md   who built what, and how it was verified
+docs/DESIGN_NOTES.md    design decisions, departures from the starters, rubric evidence
+Dockerfile, cloudbuild.yaml   container image and continuous deploy
 ```
