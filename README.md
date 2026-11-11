@@ -1,36 +1,60 @@
 # Ghost Trials Autopsy
 
-**What happened to the trials that stopped early?**
+**A deep research agent that explains what happened to clinical trials that stopped early, and checks whether the story told to the public matches the story told to investors.**
 
-Ghost Trials Autopsy is a deep research agent for clinical trials that ended before they were supposed to.
-Ask about a drug, a sponsor, a condition or a trial ID (NCT number), and a team of agents answers four questions:
-
-1. **Why did the trial stop?** The registry status and the reason the sponsor gave (ClinicalTrials.gov).
-2. **Were the results ever reported?** Results posted on ClinicalTrials.gov, a journal paper, and how late (PubMed, Europe PMC).
-3. **What did the sponsor tell investors?** SEC 8-K filings near the stop date (SEC EDGAR).
-4. **Do those stories match?** Registry reason vs. investor language vs. publication record.
-
-**Who it's for:** health reporters, patient advocates and research-integrity people. A reporter covering a
-mid-size biotech can ask "Did this company stop any trials without reporting results, and what did it tell
-investors?" and get a cited answer in about two minutes.
-
-**Why it matters:** people took risks in trials whose results were never shared, other researchers can't learn
-from those failures, and the reason a company gave investors may not match what it told the registry.
-
-**How to use it:** type a question or click an example chip. The trace panel shows the Lead planning, the
-three Researchers working in parallel (with timing bars), then the Writer, the Citation Checker and the Skeptic, who flags what else could explain the finding and drafts questions for the sponsor. The report
-has a timeline per trial (start, stop, results due, results posted or a red "never posted" marker, 8-K and
-publication dates), citations you can click, and a "What the data can't tell us" box. A vague question gets
-clarifying options instead of research.
-
-No time to wait? The **ghost ledger** at the bottom of the page shows instant, no-AI views of the whole snapshot:
-who goes silent, a report card for any sponsor, and every trial whose 8-K and registry tell different stories.
-
-IEOR 4570 Project 2, Deep Research path. Team: Rishika Mamidibathula (rm4318), Shreya (svs2148) and Kshamaa (ks4423); who built what is in [docs/CONTRIBUTIONS.md](docs/CONTRIBUTIONS.md).
-
-**Live app:** https://ghost-trials-autopsy-895402809785.us-central1.run.app
+**[Open the live app](https://ghost-trials-autopsy-895402809785.us-central1.run.app)** &nbsp;|&nbsp; [Results](#results-agent-vs-the-same-model-without-tools) &nbsp;|&nbsp; [How it works](#how-the-agents-work) &nbsp;|&nbsp; [Data](#data) &nbsp;|&nbsp; [Team](docs/CONTRIBUTIONS.md)
 
 ![Ghost Trials Autopsy architecture: the browser sends a question to FastAPI on Cloud Run; the Lead decides to clarify, refuse or research; three Researchers run in parallel in fresh contexts against the DuckDB snapshot and live APIs; findings and gaps return to the Lead for up to three rounds; the Writer drafts a cited report and the Citation Checker fixes or removes unsupported sentences](docs/architecture.svg)
+
+## Overview
+
+| | |
+|---|---|
+| **Audience** | Health reporters, patient advocates and research-integrity teams |
+| **Problem** | Thousands of industry trials stop early. Many never share results, and the reason given to the public registry can differ from what the company tells investors. Checking this means reading three government databases by hand, one trial at a time. |
+| **Solution** | Ask about a drug, sponsor, condition or trial ID. A team of AI agents searches the registry, SEC filings and the medical literature in parallel, then returns a cited report in about two minutes. |
+| **Questions answered** | Why did the trial stop? Were the results ever reported? What did the sponsor tell investors? Do those stories match? |
+| **Data** | 16,473 industry phase 2 and 3 trials (2015 to 2023) joined to 2,053 SEC 8-K filings and 25,615 publication links, plus live lookups ([details](#data)) |
+| **Trust** | Every sentence is cited and checked against its source record. Every report states what the data cannot tell us. |
+| **Deployment** | Google Cloud Run, continuously deployed from this repository |
+
+## Key findings from the data
+
+Model-free numbers from the snapshot, shown live in the app's **ghost ledger**:
+
+- **759 of 2,905** stopped trials that enrolled patients went *silent*: no results on ClinicalTrials.gov and no linked results paper. **62,849 people** took part in those trials.
+- **How a trial ends predicts whether we hear about it.** Trials stopped because the drug did not work went silent 15% of the time. Trials stopped for low enrollment (32%) or "other" reasons (35%) went silent about twice as often.
+- **43 stopped trials** have an SEC 8-K that points a different way than the registry. Five were verified by hand, including vTv Therapeutics' Elevage trial: "business reasons" in the registry, "did not meet its primary objective" in the 8-K.
+- Stopped trials post results about as often as completed ones (69.1% vs. 68.3%), so silence is concentrated in particular reasons and sponsors, not in stopping itself.
+
+## Results: agent vs. the same model without tools
+
+The same Gemini model, asked the same questions with no tools and no system prompt, gets the central fact wrong in every case. Full answers, hand-checked expected answers and exact sources are under [Sample queries](#sample-queries).
+
+| Case | Ghost Trials Autopsy | Same model, no tools |
+|---|---|---|
+| **vTv Therapeutics, Elevage** (NCT03980730) | Registry says "business reasons"; the 8-K says the trial "did not meet its primary objective". Flags the discrepancy. | Says the registry blamed COVID-19 and concludes the two stories match. |
+| **Sorrento, COVI-MSC** (NCT04903327) | Stopped for slow enrollment. Results never posted (1,164 days past the approximate due date). No results paper. | Gives the wrong registry reason and blames a bankruptcy that came after the trial ended. |
+| **Entero Therapeutics** (sponsor) | Names all three stopped trials without results and the registry reason for each. | Names none of them. The three trial IDs it gives belong to other sponsors. |
+
+## How to use it
+
+1. Open the [live app](https://ghost-trials-autopsy-895402809785.us-central1.run.app) and type a question, or click an example.
+2. Watch the trace: the Lead plans, three Researchers work in parallel (with timing bars), then the Writer, the Citation Checker and the Skeptic.
+3. Read the report: a direct answer, a timeline per trial (start, stop, results due, posted or a red "never posted" marker, 8-K and publication dates), clickable citations, a "What the data can't tell us" box, and the Skeptic's questions for the sponsor.
+4. For instant answers about the whole dataset, scroll to the **ghost ledger**: who goes silent, a report card for any sponsor, and every trial whose 8-K and registry differ.
+
+A vague question gets clarifying options instead of research. Medical-advice questions get a short refusal that says what the tool can do.
+
+## Contents
+
+- [Sample queries](#sample-queries), with expected answers, sources, and both answers verbatim
+- [How the agents work](#how-the-agents-work) and [Tools](#tools)
+- [Data](#data), [Asking the snapshot in SQL](#asking-the-snapshot-in-sql-text2sql) and [Explore the snapshot instantly](#explore-the-snapshot-instantly-no-ai)
+- [What it can't tell you](#what-it-cant-tell-you)
+- [Run locally](#run-locally), [Tests](#tests), [Evals](#evals), [Deploy](#deploy) and [Project layout](#project-layout)
+
+IEOR 4570 Project 2, Deep Research path. Team: Rishika Mamidibathula (rm4318), Shreya (svs2148) and Kshamaa (ks4423). Who built what is in [docs/CONTRIBUTIONS.md](docs/CONTRIBUTIONS.md).
 
 ## Sample queries
 
