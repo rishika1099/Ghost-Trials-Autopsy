@@ -13,3 +13,7 @@ __pycache__/
 logs/
 runs/*.log
 .claude/
+
+# Local AI assistant instructions (not part of the project)
+CLAUDE.md
+AGENTS.md
