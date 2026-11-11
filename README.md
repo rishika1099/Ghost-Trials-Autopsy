@@ -4,7 +4,7 @@
 
 **[Open the live app](https://ghost-trials-autopsy-895402809785.us-central1.run.app)** &nbsp;|&nbsp; [Results](#results-agent-vs-the-same-model-without-tools) &nbsp;|&nbsp; [How it works](#how-the-agents-work) &nbsp;|&nbsp; [Data](#data) &nbsp;|&nbsp; [Team](docs/CONTRIBUTIONS.md)
 
-![Ghost Trials Autopsy architecture: the browser sends a question to FastAPI on Cloud Run; the Lead decides to clarify, refuse or research; three Researchers run in parallel in fresh contexts against the DuckDB snapshot and live APIs; findings and gaps return to the Lead for up to three rounds; the Writer drafts a cited report and the Citation Checker fixes or removes unsupported sentences](docs/architecture.svg)
+![Ghost Trials Autopsy architecture: the browser sends a question to FastAPI on Cloud Run; the Lead decides to clarify, refuse or research; three Researchers run in parallel in fresh contexts against the DuckDB snapshot and live APIs; findings and gaps return to the Lead for up to three rounds; the Writer drafts a cited report, the Citation Checker fixes or removes unsupported sentences, and the Skeptic adds an editor's read; separately, the Ledger Analyst answers whole-snapshot questions with read-only SQL](docs/architecture.svg)
 
 ## Overview
 

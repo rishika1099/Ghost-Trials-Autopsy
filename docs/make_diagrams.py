@@ -87,7 +87,8 @@ def architecture():
             "publications. Each reads the DuckDB snapshot and calls its live APIs. Findings and gaps go back to the Lead, "
             "which can run up to three rounds. The Writer drafts a cited report from the evidence store, and the Citation "
             "Checker fixes or removes unsupported sentences. The Skeptic then reads the checked report like an editor: how strong "
-            "the finding is, ordinary explanations the records can't rule out, and questions for the sponsor.")
+            "the finding is, ordinary explanations the records can't rule out, and questions for the sponsor. Separately, the "
+            "Ledger Analyst answers whole-snapshot questions from the ghost ledger (/api/ask) with read-only SQL.")
     s.zone(576, 32, 208, 276, "ASYNCIO.GATHER · FRESH CONTEXTS")
 
     # Arrows first, so boxes sit on top.
@@ -124,9 +125,12 @@ def architecture():
     s.path([(196, 384), (152, 384)])
     s.path([(88, 352), (88, 260), (232, 260), (232, 204)], dashed=True)
     s.label("EDITOR'S READ", x=96, y=300)
+    # Ledger Analyst reads the snapshot with SQL.
+    s.path([(816, 388), (768, 388)], dashed=True)
+    s.label("SQL", cx=792, y=370)
 
     s.node(24, 140, 128, 64, "BROWSER", "index.html", "trace · timeline", stroke=MUTED)
-    s.node(196, 140, 132, 64, "FASTAPI", "app.py", "/chat · /run")
+    s.node(196, 140, 132, 64, "FASTAPI", "app.py", "/chat · /run · /api")
     s.node(392, 140, 144, 64, "LEAD", "Gate + plan", "gate · plan · gaps", fill=ACCENT_TINT, stroke=ACCENT)
     s.node(592, 52, 176, 64, "RESEARCHER", "Trials", "≤8 turns · CT.gov + SQL")
     s.node(592, 140, 176, 64, "RESEARCHER", "Disclosures", "≤8 turns · SEC tools")
@@ -138,6 +142,7 @@ def architecture():
     s.node(392, 352, 144, 64, "WRITER", "Cited report", "evidence ids only")
     s.node(196, 352, 140, 64, "CHECKER", "Citation check", "rules + model")
     s.node(24, 352, 128, 64, "SKEPTIC", "Before publish", "doubts · questions")
+    s.node(816, 356, 120, 64, "ANALYST", "Ledger Analyst", "/api/ask · SQL")
     s.legend(448, (("box", ACCENT_TINT, ACCENT, "FOCAL: THE LEAD"), ("box", SURFACE, INK, "AGENT / SERVICE"),
                    ("box", PAPER2, MUTED, "SNAPSHOT"), ("box", SURFACE, LINK, "EXTERNAL API"),
                    ("dash", None, MUTED, "RETURN / READ-ONLY")))
