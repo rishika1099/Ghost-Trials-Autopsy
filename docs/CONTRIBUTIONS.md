@@ -1,15 +1,12 @@
 # Team and Contributions
 
-Ghost Trials Autopsy was built by a team of three for IEOR 4570 Project 2 (Deep Research path). The course asks
-for one data source per team member, so each person owned one data lane, one agent shape, and one piece of
-work that ties the project together. All work landed through pull requests into `main`, and every merge
-deploys to Cloud Run automatically.
+Each team member owned a research data lane. The table also credits the agents, interface, evaluation and deployment work across those lanes.
 
-| Member | UNI | Data lane | Agent shape | Cross-cutting work |
+| Member | UNI | Data lane | Agents | Cross-cutting work |
 |---|---|---|---|---|
-| Rishika Mamidibathula | rm4318 | A: ClinicalTrials.gov and openFDA Drugs@FDA | Lead | Sample runs, evaluation, submission |
-| Shreya | svs2148 | B: SEC EDGAR | Citation Checker | Discrepancy finder |
-| Kshamaa | ks4423 | C: PubMed and Europe PMC | Writer and frontend | Google Cloud deployment |
+| Rishika Mamidibathula | rm4318 | A: ClinicalTrials.gov and openFDA Drugs@FDA | Lead, Skeptic, Ledger Analyst | Frontend and Explore views, testing, Cloud Build configuration, sample runs, evaluation reruns, submission |
+| Shreya | svs2148 | B: SEC EDGAR | Citation Checker | Discrepancy finder, evaluation datasets and scoring |
+| Kshamaa | ks4423 | C: PubMed and Europe PMC | Writer | Google Cloud deployment |
 
 ## Problem
 
@@ -34,7 +31,7 @@ have time to do for a whole sponsor.
 - Underneath is an offline snapshot built for this project: 16,473 industry phase 2 and 3 trials (2015 to
   2023) joined to 2,053 sponsor 8-K filings and 25,615 publication links.
 
-## Rishika: trials lane and the Lead
+## Rishika: trials, research agents and the frontend
 
 **Data lane A** (`get_trial_live`, `get_fda_approvals`, `query_trials_sql`, `get_snapshot_stats`; `prompts/lane_trials.md`)
 
@@ -54,6 +51,23 @@ have time to do for a whole sponsor.
 - Tuned the gate and gap review on real runs. The Sorrento and Entero samples each run three research rounds.
 - Gate eval: 28 of 30 correct (`evals/RESULTS.md`).
 
+**Skeptic and Ledger Analyst**
+
+- Built the Skeptic to review the checked report for evidence strength, alternative explanations and follow-up questions.
+- Built the Ledger Analyst to answer questions about the full snapshot using SQL. Added prompts and tests for both agents. [Agent implementation](https://github.com/rishika1099/Ghost-Trials-Autopsy/commit/c0b9a35)
+
+**Testing and deployment**
+
+- Expanded coverage for edge cases and individual research steps, reran the evaluations and verified the deployed service.
+- Checked all 44 timeline events in the final sample reports against the snapshot.
+- Authored the Cloud Build configuration used by the deployment trigger. [Build configuration](https://github.com/rishika1099/Ghost-Trials-Autopsy/commit/ed7e30b)
+
+**Frontend** (`index.html`)
+
+- Built the Explore section with the ghost ledger, sponsor report cards, discrepancy browsing and shareable cases. [Explore implementation](https://github.com/rishika1099/Ghost-Trials-Autopsy/commit/c1ecd18)
+- Designed the hand-drawn lab notebook interface: live agent trace with parallel timing bars, trial timelines,
+  clickable citations, the "What the data can't tell us" box, light and dark themes, and a phone-width layout. [Frontend redesign](https://github.com/rishika1099/Ghost-Trials-Autopsy/pull/13)
+
 ## Shreya: disclosures lane, the Citation Checker and the discrepancy finder
 
 **Data lane B** (`find_sponsor_cik`, `get_trial_filings`, `search_sec_filings`, `get_filing_excerpt`; `prompts/lane_disclosures.md`)
@@ -71,12 +85,17 @@ have time to do for a whole sponsor.
 - On 10 planted errors against real records, rules alone caught 9 and rules plus the model caught 10, with
   0 of 10 correct controls changed (`evals/planted_claims.py`).
 
+**Evaluation**
+
+- Prepared the 30 gate questions and 30 snapshot questions with SQL targets, ran the planted-error checks and recorded the scores in [the evaluation results](../evals/RESULTS.md).
+
 **The discrepancy finder**
 
 - Built the `discrepancies` table: 43 stopped trials whose 8-K points a different way than the registry, 5 of them checked by hand.
+- Added the "Stories differ" example to the frontend.
 - Chose and verified the README's discrepancy sample, vTv NCT03980730: the registry says "business reasons", the 8-K says the trial "did not meet its primary objective".
 
-## Kshamaa: publications lane, the Writer, the frontend and deployment
+## Kshamaa: publications lane, the Writer and deployment
 
 **Data lane C** (`find_publications`, `get_abstract`; `prompts/lane_publications.md`)
 
@@ -88,17 +107,14 @@ have time to do for a whole sponsor.
   (`scripts/check_publications_live.py`, `runs/publications_live_check.json`).
 - The publications researcher states plainly when no results paper was found, with 0 problems on the samples (`scripts/run_publications.py`).
 
-**The Writer** (`prompts/writer.md`, `ghost/report.py`) **and the page** (`index.html`)
+**The Writer** (`prompts/writer.md`, `ghost/report.py`)
 
 - Reviewed real reports for a direct answer, one fact per evidence claim, and limits specific to the question, then fixed six problems the review found (`docs/DESIGN_NOTES.md`).
-- All 44 timeline events across the sample reports match the snapshot.
-- Designed the hand-drawn lab notebook interface: live agent trace with parallel timing bars, trial timelines,
-  clickable citations, the "What the data can't tell us" box, light and dark themes, and a phone-width layout.
 
 **Google Cloud deployment**
 
 - Hosted the project on her course credits (`ieor-agentic-ai-292704`) and granted Vertex AI access to the team.
-- Set up continuous deploy: the Cloud Build trigger `deploy-on-main` runs `cloudbuild.yaml` on every push to `main`.
+- The Cloud Run service and the `deploy-on-main` Cloud Build trigger run in that project, deploying every push to `main`.
 - Cloud Run settings: 600 s request timeout, 2 GiB memory, one minimum instance during grading, and the SEC
   contact string from Secret Manager.
 

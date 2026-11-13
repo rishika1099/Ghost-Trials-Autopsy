@@ -54,7 +54,15 @@ A vague question gets clarifying options instead of research. Medical-advice que
 - [What it can't tell you](#what-it-cant-tell-you)
 - [Run locally](#run-locally), [Tests](#tests), [Evals](#evals), [Deploy](#deploy) and [Project layout](#project-layout)
 
-IEOR 4570 Project 2, Deep Research path. Team: Rishika Mamidibathula (rm4318), Shreya (svs2148) and Kshamaa (ks4423). Who built what is in [docs/CONTRIBUTIONS.md](docs/CONTRIBUTIONS.md).
+## Team
+
+| Member | Contributions |
+|---|---|
+| Rishika Mamidibathula (rm4318) | Trials and FDA data, Lead, Skeptic, Ledger Analyst, notebook frontend and Explore views, test coverage and Cloud Build configuration |
+| Shreya (svs2148) | SEC disclosures, Citation Checker, discrepancy finder, evaluation datasets and scoring |
+| Kshamaa (ks4423) | Publications, Writer, report verification and Google Cloud project setup |
+
+See the [contribution details](docs/CONTRIBUTIONS.md) for implementation and verification work.
 
 ## Sample queries
 
