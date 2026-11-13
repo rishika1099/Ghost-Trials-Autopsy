@@ -59,12 +59,12 @@ have time to do for a whole sponsor.
 **Testing and deployment**
 
 - Expanded coverage for edge cases and individual research steps, reran the evaluations and verified the deployed service.
+- Checked all 44 timeline events in the final sample reports against the snapshot.
 - Authored the Cloud Build configuration used by the deployment trigger. [Build configuration](https://github.com/rishika1099/Ghost-Trials-Autopsy/commit/ed7e30b)
 
 **Frontend** (`index.html`)
 
 - Built the Explore section with the ghost ledger, sponsor report cards, discrepancy browsing and shareable cases. [Explore implementation](https://github.com/rishika1099/Ghost-Trials-Autopsy/commit/c1ecd18)
-
 - Designed the hand-drawn lab notebook interface: live agent trace with parallel timing bars, trial timelines,
   clickable citations, the "What the data can't tell us" box, light and dark themes, and a phone-width layout. [Frontend redesign](https://github.com/rishika1099/Ghost-Trials-Autopsy/pull/13)
 
@@ -91,9 +91,8 @@ have time to do for a whole sponsor.
 
 **The discrepancy finder**
 
-- Added the "Stories differ" example to the frontend.
-
 - Built the `discrepancies` table: 43 stopped trials whose 8-K points a different way than the registry, 5 of them checked by hand.
+- Added the "Stories differ" example to the frontend.
 - Chose and verified the README's discrepancy sample, vTv NCT03980730: the registry says "business reasons", the 8-K says the trial "did not meet its primary objective".
 
 ## Kshamaa: publications lane, the Writer and deployment
@@ -111,12 +110,11 @@ have time to do for a whole sponsor.
 **The Writer** (`prompts/writer.md`, `ghost/report.py`)
 
 - Reviewed real reports for a direct answer, one fact per evidence claim, and limits specific to the question, then fixed six problems the review found (`docs/DESIGN_NOTES.md`).
-- All 44 timeline events across the sample reports match the snapshot.
 
 **Google Cloud deployment**
 
 - Hosted the project on her course credits (`ieor-agentic-ai-292704`) and granted Vertex AI access to the team.
-- Set up continuous deploy: the Cloud Build trigger `deploy-on-main` runs `cloudbuild.yaml` on every push to `main`.
+- The Cloud Run service and the `deploy-on-main` Cloud Build trigger run in that project, deploying every push to `main`.
 - Cloud Run settings: 600 s request timeout, 2 GiB memory, one minimum instance during grading, and the SEC
   contact string from Secret Manager.
 
